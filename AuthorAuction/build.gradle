@@ -24,6 +24,9 @@ dependencies {
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
+	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+	implementation group: 'org.json', name: 'json', version: '20231013'
 }
 
 tasks.named('test') {
