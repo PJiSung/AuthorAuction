@@ -1,0 +1,17 @@
+package com.kh.auction.member.dao;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.kh.auction.user.vo.Member;
+
+@Mapper
+public interface MemberDAO {
+
+	int insertMember(Member m);
+
+	int checkId(String memId);
+
+	int checkNickName(String memNickName);
+
+	Member login(Member m);
+}

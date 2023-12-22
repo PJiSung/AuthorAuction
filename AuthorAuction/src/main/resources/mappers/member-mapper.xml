@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.auction.member.model.dao.MemberDAO">
+	
+	<select id="checkId" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEM_ID = #{memId}
+	</select>
+	
+	<select id="checkNickName" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEM_NICKNAME = #{memNickName}
+	</select>
+
+	<insert id="insertMember">
+		INSERT INTO MEMBER
+		VALUES (#{memId}, #{memPwd}, #{memName}, #{memNickName}, DEFAULT, #{memAddress}, #{memPhone}, #{memEmail}, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="login">
+		SELECT *
+		FROM MEMBER
+		WHERE MEM_ID = #{memId} AND MEM_STATUS = 'Y'
+	</select>
+	
+</mapper>
