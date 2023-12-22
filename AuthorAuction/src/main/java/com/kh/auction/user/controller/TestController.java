@@ -1,4 +1,4 @@
-package com.kh.auction.controller;
+package com.kh.auction.user.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
