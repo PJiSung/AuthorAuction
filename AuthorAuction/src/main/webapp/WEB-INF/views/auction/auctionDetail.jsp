@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="../../common/header.jsp"/>
+	<jsp:include page="../common/header.jsp"/>
     </div>
     <div id="content-allOver-cover" style="width: 70%; margin:auto; margin-top: 2%; display: flex;">
         <div id="forHeight">
@@ -68,7 +68,7 @@
             </div>
         </div>
     </div>
-	<jsp:include page="../../common/footer.jsp"/>
+	<jsp:include page="../common/footer.jsp"/>
 
     <script>
         window.onload = function(){
