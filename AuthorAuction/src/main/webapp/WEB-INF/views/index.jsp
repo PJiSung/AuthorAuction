@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@
 <link rel="stylesheet" href="main/css/style.css">
 <c:set value="${ pageContext.servletContext.contextPath }" var="contextPath" scope="application" />
 <title>AUTHOR AUCTION</title>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
   <!-- [S]personal-rglq12YMbj -->

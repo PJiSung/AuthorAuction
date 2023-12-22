@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
     <div id="containerCover" style="width: 70%; margin: auto; margin-top: 1%;">
         <div style=" background-color: pink;">
             <div id="searchLine">
-                <span><span>전체 경매</span><span>24</span> 개</span>
+                <span><span>전체 경매</span><span>${ total }</span> 개</span>
                 <div style="float: right; width: 80%; text-align: right;">
                     <span style="margin: 0 1.5% 0 1.5%;">예전 등록순</span> 
                     <span style="margin: 0 1.5% 0 1.5%;">최근 등록순</span> 
@@ -21,14 +23,14 @@
                         <option value="artist">작가명</option>
                         <option value="work">작품명</option>
                     </select>
-                    <input type="text" style="height: 100%;"><button onclick="location.href='go.rs'">검색</button>
+                    <input type="text" style="height: 100%;"><button>검색</button>
                 </div>
             </div>
 
             <div id="mainContentCover" style="border: 1px black solid;">
                 <div id="mainContent" style="margin-top: 1%;">
                     <div id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center;">
-                        <img src="flower1.PNG" style="width: 100%; height: 100%;">
+                        <img src="치즈 냥이.jpg" style="width: 100%; height: 100%;">
                         <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
                         <input type="hidden" value="boardNo" id="check">
                     </div>

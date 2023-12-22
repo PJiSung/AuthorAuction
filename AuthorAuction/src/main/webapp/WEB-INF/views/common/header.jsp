@@ -24,7 +24,7 @@
         <h1 class="header-title">
           <a href="javascript:void(0)">
              <h5>AAUCTION</h5>
-           <!-- <img src="resources/images/" alt="로고"> -->
+           <!-- <img src="main/images/" alt="로고"> -->
           </a>
         </h1>
       </div>
@@ -115,13 +115,13 @@
           <a href=""><span class="header-gnblink">LOGIN</span></a>
           <!-- <a href=""><span class="header-gnblink">LOGOUT</span></a>  -->
           <div class="dropdown btn-user header-utils-btn">
-            <img src="resources/icons/ico_user_black.svg" class="dropbtn" alt="유저 아이콘">
+            <img src="main/icons/ico_user_black.svg" class="dropbtn" alt="유저 아이콘">
             <div class="dropdown-content-user">
                <table>
                   <tr>
                      <td class="profile">
                         <div class="profilePic">
-                           <img src="resources/mainPic/profilePic.jpg" alt="프로필 사진" class="profileImg">
+                           <img src="main/mainPic/profilePic.jpg" alt="프로필 사진" class="profileImg">
                         </div>
                      </td>
                      <td style="line-height: 20px; cursor: pointer;" onclick="location.href='';">
@@ -149,15 +149,15 @@
              </div>
           </div>
           <a href="javascipt:void(0);" class="btn-cart header-utils-btn">
-            <img src="resources/icons/ico_cart_black.svg" alt="쇼핑 아이콘">
+            <img src="main/icons/ico_cart_black.svg" alt="쇼핑 아이콘">
             <span class="cartCount">1</span>
           </a>
           <div class="dropdown btn-search header-utils-btn">
-            <img src="resources/icons/ico_seach_black.svg" class="dropbtn" alt="검색 아이콘">
+            <img src="main/icons/ico_seach_black.svg" class="dropbtn" alt="검색 아이콘">
             <div class="dropdown-content-keyword">
               <form id="search-form">
                   <input type="text" id="search-input" placeholder="작품명 또는 작가명">
-                  <button><img alt="검색 버튼" src="resources/icons/ico_seach_black.svg"></button>
+                  <button><img alt="검색 버튼" src="main/icons/ico_seach_black.svg"></button>
               </form>
               <div id="search-results">
               	<div class="searchDiv">
@@ -165,7 +165,7 @@
                     <tr>
                        <td style="width: 17%;">
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/news1.jpg">
+                             <img alt="검색 사진" src="main/mainPic/news1.jpg">
                           </div>
                        </td>
                        <td style="width: 53%;">
@@ -178,7 +178,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/auction4.png">
+                             <img alt="검색 사진" src="main/mainPic/auction4.png">
                           </div>
                        </td>
                        <td>
@@ -191,7 +191,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/news3.jpeg">
+                             <img alt="검색 사진" src="main/mainPic/news3.jpeg">
                           </div>
                        </td>
                        <td>
@@ -204,7 +204,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/product2.png">
+                             <img alt="검색 사진" src="main/mainPic/product2.png">
                           </div>
                        </td>
                        <td>
@@ -217,7 +217,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/product4.png">
+                             <img alt="검색 사진" src="main/mainPic/product4.png">
                           </div>
                        </td>
                        <td>
@@ -230,7 +230,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/product1.png">
+                             <img alt="검색 사진" src="main/mainPic/product1.png">
                           </div>
                        </td>
                        <td>
@@ -276,13 +276,13 @@
           </div>
           </div>
           <button class="btn-allmenu header-utils-btn">
-            <img src="resources/icons/ico_menu_black.svg" alt="PC메뉴">
+            <img src="main/icons/ico_menu_black.svg" alt="PC메뉴">
           </button>
           <button class="btn-momenu header-utils-btn">
-            <img src="resources/icons/ico_menu_black.svg" alt="모바일메뉴">
+            <img src="main/icons/ico_menu_black.svg" alt="모바일메뉴">
           </button>
           <button class="btn-moclose header-utils-btn">
-            <img src="resources/icons/ico_close_black.svg" alt="닫기">
+            <img src="main/icons/ico_close_black.svg" alt="닫기">
           </button>
         </div>
       </div>
@@ -292,7 +292,7 @@
         <div class="fullmenu-head">
           <h4 class="fullmenu-title">
             <a href="javascript:void(0)">
-              <img src="resources/images/" alt="로고">
+              <img src="main/images/" alt="로고">
             </a>
           </h4>
           <ul class="fullmenu-member">
@@ -376,7 +376,7 @@
         </ul>
       </div>
       <button class="fullmenu-close">
-        <img src="resources/icons/ico_close_white.svg" alt="닫기">
+        <img src="main/icons/ico_close_white.svg" alt="닫기">
       </button>
     </div>
   </div>
