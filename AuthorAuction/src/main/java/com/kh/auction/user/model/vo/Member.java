@@ -1,4 +1,4 @@
-package com.kh.auction.user.vo;
+package com.kh.auction.user.model.vo;
 
 public class Member {
 	private String memId;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.member.service.MemberService;
-import com.kh.auction.user.vo.Member;
+import com.kh.auction.user.model.vo.Member;
 
 import jakarta.servlet.http.HttpSession;
 

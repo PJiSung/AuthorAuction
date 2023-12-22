@@ -2,7 +2,7 @@ package com.kh.auction.member.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.kh.auction.user.vo.Member;
+import com.kh.auction.user.model.vo.Member;
 
 @Mapper
 public interface MemberDAO {

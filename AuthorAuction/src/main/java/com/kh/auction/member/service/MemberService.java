@@ -1,6 +1,6 @@
 package com.kh.auction.member.service;
 
-import com.kh.auction.user.vo.Member;
+import com.kh.auction.user.model.vo.Member;
 
 public interface MemberService {
 
