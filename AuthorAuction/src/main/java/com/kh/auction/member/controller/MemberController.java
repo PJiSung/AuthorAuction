@@ -1,4 +1,4 @@
-package com.kh.auction.controller;
+package com.kh.auction.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -67,7 +67,6 @@ public class MemberController {
 
 	@PostMapping("insertMember")
 	public String insertMember(@ModelAttribute Member m) {
-		System.out.println(m);
 		m.setMemPhone("010-1111-2222");
 		m.setMemPwd(bcrypt.encode(m.getMemPwd()));
 		int result = mService.insertMemeber(m);
