@@ -48,7 +48,7 @@ public class MemberController {
 
 	@GetMapping("enroll")
 	public String enroll() {
-		return "member/enroll";
+		return "member/authentication";
 	}
 	
 	@GetMapping("checkId")
@@ -67,11 +67,11 @@ public class MemberController {
 
 	@PostMapping("insertMember")
 	public String insertMember(@ModelAttribute Member m) {
-		m.setMemPhone("010-1111-2222");
+		m.setMemPhone("01011112222");
 		m.setMemPwd(bcrypt.encode(m.getMemPwd()));
 		int result = mService.insertMemeber(m);
 		if (result > 0) {
-			return "member/login";
+			return "member/enrollComplete";
 		} else {
 			return "member/login";//수정
 		}
