@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.auction.user.dao.AuctionDAO">
-	<select id="getCountAuctionNum" resultType="_int">
+	<select id="getCountAuctionNum" resultType="Auction">
 		<![CDATA[
-		select count(*)
+		select *
 		from Auction
+		where sysdate >= TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
+        		sysdate <= TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS')
 		]]>
 	</select>
+	
+	<select id="getAuctionDetail">
+	select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+			to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
+			con_year, con_hope, con_etc, att_rename
+	from auction
+    join (select *
+    		from consigment 
+    			join attachment on (con_no = att_bno) 
+    		where att_category = 1) on (auc_no = con_no)
+		where auc_no = #{aucNo}
+	</select>
+	
 </mapper>

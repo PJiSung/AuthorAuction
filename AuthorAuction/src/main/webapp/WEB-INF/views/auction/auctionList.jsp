@@ -29,22 +29,22 @@
 
             <div id="mainContentCover" style="border: 1px black solid;">
                 <div id="mainContent" style="margin-top: 1%;">
-                    <div id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center;">
+                    <div class="auction" id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center;">
                         <img src="치즈 냥이.jpg" style="width: 100%; height: 100%;">
                         <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
-                        <input type="hidden" value="boardNo" id="check">
+                        <input type="hidden" value="113" id="check">
                     </div>
-                    <div id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
+                    <div class="auction" id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
                         <img src="flower1.PNG" style="width: 100%; height: 100%;">
                         <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
                         <input type="hidden" value="boardNo" id="check">
                     </div>
-                    <div id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
+                    <div class="auction" id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
                         <img src="flower1.PNG" style="width: 100%; height: 100%;">
                         <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
                         <input type="hidden" value="boardNo" id="check">
                     </div>
-                    <div id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
+                    <div class="auction" id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
                         <img src="flower1.PNG" style="width: 100%; height: 100%;">
                         <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
                         <input type="hidden" value="boardNo" id="check">
@@ -59,7 +59,14 @@
     <jsp:include page="../common/footer.jsp"/>
     <script>
         window.onload = () =>{
-            console.log(document.getElementById('check').value);
+            const auction = document.getElementsByClassName("auction");
+            
+            for(const inputValue of auction){
+            	inputValue.addEventListener('click',function(){
+            		const aucNo = this.children[6].value;
+            		location.href='auctionDetail.ac?aucNo=' + aucNo + "&page=" + ${ pi.currentPage};
+            	})
+            }
         }
     </script>
 </body>
