@@ -118,7 +118,7 @@
       </div>
       <div class="header-right">
         <div class="header-utils">
-          <a href=""><span class="header-gnblink">LOGIN</span></a>
+          <a href="loginView"><span class="header-gnblink">LOGIN</span></a>
           <!-- <a href=""><span class="header-gnblink">LOGOUT</span></a>  -->
           <div class="dropdown btn-user header-utils-btn">
             <img src="main/icons/ico_user_black.svg" class="dropbtn" alt="유저 아이콘">
