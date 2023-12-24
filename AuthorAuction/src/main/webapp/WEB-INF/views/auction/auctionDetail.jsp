@@ -72,18 +72,14 @@
 
 	<script>
         window.onload = function(){
-            const a = document.getElementById('content-right');
-            const b = document.getElementById('content-right').offsetTop;
-            console.log(b);
-
-            window.addEventListener('scroll',function(){
-                if(window.scrollY < b){
-                    a.setAttribute('position', 'relative');
-                }else{
-                    a.setAttribute('position', 'fixed');
-                    a.setAttribute('top', '0');
-                }  
-            })
+        	
+        	if(${id} != null){
+				console.log(1);        		
+        	}else{
+        		console.log(2);
+        	}
+        	
+        	
             const time = new Date();
             
             console.log(time);
