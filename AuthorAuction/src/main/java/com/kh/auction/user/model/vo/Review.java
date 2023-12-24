@@ -15,8 +15,9 @@ public class Review {
 	private String memFileName;
 	
 	public Review() {}
+
 	public Review(int revNo, String revContent, int revCount, int revLike, Date revCreateDate, Date revModifyDate,
-			String revStatus, String revWriter) {
+			String revStatus, String memId) {
 		super();
 		this.revNo = revNo;
 		this.revContent = revContent;
@@ -25,7 +26,7 @@ public class Review {
 		this.revCreateDate = revCreateDate;
 		this.revModifyDate = revModifyDate;
 		this.revStatus = revStatus;
-		this.revWriter = revWriter;
+		this.memId = memId;
 	}
 
 	public int getRevNo() {
@@ -84,12 +85,12 @@ public class Review {
 		this.revStatus = revStatus;
 	}
 
-	public String getRevWriter() {
-		return revWriter;
+	public String getMemId() {
+		return memId;
 	}
 
-	public void setRevWriter(String revWriter) {
-		this.revWriter = revWriter;
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 
 	public String getMemNickName() {
@@ -112,8 +113,8 @@ public class Review {
 	public String toString() {
 		return "Review [revNo=" + revNo + ", revContent=" + revContent + ", revCount=" + revCount + ", revLike="
 				+ revLike + ", revCreateDate=" + revCreateDate + ", revModifyDate=" + revModifyDate + ", revStatus="
-				+ revStatus + ", revWriter=" + revWriter + ", memNickName=" + memNickName + ", memFileName="
-				+ memFileName + "]";
+				+ revStatus + ", memId=" + memId + ", memNickName=" + memNickName + ", memFileName=" + memFileName
+				+ "]";
 	}
-	
+
 }
