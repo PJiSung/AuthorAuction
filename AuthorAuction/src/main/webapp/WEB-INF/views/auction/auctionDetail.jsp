@@ -19,7 +19,7 @@
             <div id="contentRightCover" style="width:49%; display: inline-block; border: 1px black solid;">
                 <div id="content-right"style="width: 100%; height:100%">
                     <div style="text-align: right; margin: 1% 1% 5%;">
-                        <span>남은 경매 시간</span> <span id="remainingTime">7일 18시간 59분 59초</span>
+                        <span>남은 경매 시간</span> <span id="remainingTime"></span>
                     </div>
                     <div style="margin: 5% 0 5% 2%;">
                         <span>LOT NUMBER ${ auction.aucNo }</span>
@@ -59,7 +59,7 @@
                     <span style="border: 1px black solid; margin-left: 2.8%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block;">낙찰 수수료</span>
                     <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block">경매 호가표</span>
                     <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block">관심 목록 추가</span>
-                    <div style="width: 96.5%; border: 1px black solid; text-align: center; margin-top: 2%; height: 6.5%; margin-left: 3.4%; padding-top: 3%; padding-bottom: 3%;">입찰하기</div>
+                    <div id="checkId" style="width: 96.5%; border: 1px black solid; text-align: center; margin-top: 2%; height: 6.5%; margin-left: 3.4%; padding-top: 3%; padding-bottom: 3%;"></div>
                 </div>
             </div>
             <div id="picturePlace" style="width: 45%; background: pink;">
@@ -72,19 +72,55 @@
 
 	<script>
         window.onload = function(){
-        	
+        	const check = document.getElementById("checkId");
+        	let remainingTime = document.getElementById("remainingTime");
         	if(${id} != null){
-				console.log(1);        		
+				check.innerText = "입찰하기";
+				check.addEventListener('click',function(){
+        			console.log(1);
+        		})
         	}else{
-        		console.log(2);
+        		check.innerText = "로그인 후 입찰 가능합니다";
+        		check.addEventListener('click',function(){
+        			location.href="loginView";
+        		})
         	}
         	
-        	
-            const time = new Date();
+            const dateObject = new Date('${ auction.aucFinishDate }');
             
-            console.log(time);
+            let date = new Date();
+            
+            let remainTime = (dateObject - date);
+            
+			let seconds = Math.floor(remainTime / 1000);
+			let minutes = Math.floor(seconds / 60);
+			let hours = Math.floor(minutes / 60);
+			let days = Math.floor(hours / 24);
+
+			hours %= 24;
+			minutes %= 60;
+			seconds %= 60;
+			
+			remainingTime.innerText = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+			
+			setInterval(() => {
+				let date = new Date();
+				let remainTime = (dateObject - date);
+	            
+				let seconds = Math.floor(remainTime / 1000);
+				let minutes = Math.floor(seconds / 60);
+				let hours = Math.floor(minutes / 60);
+				let days = Math.floor(hours / 24);
+
+				hours %= 24;
+				minutes %= 60;
+				seconds %= 60;
+				
+				remainingTime.innerText='';
+				remainingTime.innerText = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+				}, 1000);
+			
             }
-        
     </script>
 </body>
 </html>

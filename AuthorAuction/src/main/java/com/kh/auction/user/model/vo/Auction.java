@@ -10,14 +10,16 @@ public class Auction {
 	private String conProduct;
 	private int conWidth;
 	private int conHeight;
-	private String conYear;
+	private int conYear;
 	private int conHope;
 	private String conEtc;
 	private String attRename;
 	
+	public Auction() {}
+
 	public Auction(int aucNo, int aucStartPrice, Integer aucFinishPrice, String aucStartDate, String aucFinishDate,
-			String conAuthor, String conProduct, int conWidth, int conHeight, String conYear, int conHope,
-			String conEtc, String attRename) {
+			String conAuthor, String conProduct, int conWidth, int conHeight, int conYear, int conHope, String conEtc,
+			String attRename) {
 		super();
 		this.aucNo = aucNo;
 		this.aucStartPrice = aucStartPrice;
@@ -106,11 +108,11 @@ public class Auction {
 		this.conHeight = conHeight;
 	}
 
-	public String getConYear() {
+	public int getConYear() {
 		return conYear;
 	}
 
-	public void setConYear(String conYear) {
+	public void setConYear(int conYear) {
 		this.conYear = conYear;
 	}
 

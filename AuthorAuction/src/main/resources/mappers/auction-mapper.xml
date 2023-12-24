@@ -16,7 +16,7 @@
 			con_year, con_hope, con_etc, att_rename
 	from auction
     join (select *
-    		from consigment 
+    		from consignment 
     			join attachment on (con_no = att_bno) 
     		where att_category = 1) on (auc_no = con_no)
 		where auc_no = #{aucNo}
