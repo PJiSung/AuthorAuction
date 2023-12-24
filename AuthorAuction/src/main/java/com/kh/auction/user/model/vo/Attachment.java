@@ -6,11 +6,11 @@ public class Attachment {
 	private String attRename;
 	private String attStatus;
 	private int attFno;
-	private String attCategory;
+	private int attCategory;
 	private int attBno;
 	
 	public Attachment() {}
-	public Attachment(int attNo, String attRename, String attStatus, int attFno, String attCategory, int attBno) {
+	public Attachment(int attNo, String attRename, String attStatus, int attFno, int attCategory, int attBno) {
 		super();
 		this.attNo = attNo;
 		this.attRename = attRename;
@@ -52,11 +52,11 @@ public class Attachment {
 		this.attFno = attFno;
 	}
 
-	public String getAttCategory() {
+	public int getAttCategory() {
 		return attCategory;
 	}
 
-	public void setAttCategory(String attCategory) {
+	public void setAttCategory(int attCategory) {
 		this.attCategory = attCategory;
 	}
 
