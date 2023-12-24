@@ -9,21 +9,20 @@ public class Reply {
 	private Date repCreateDate;
 	private Date repModifyDate;
 	private String repStatus;
-	private String repWriter;
+	private String memId;
 	private String memNickName;
 	private String memFileName;
 	
 	public Reply() {}
 
-	public Reply(int repNo, String repContent, Date repCreateDate, Date repModifyDate, String repStatus,
-			String repWriter) {
+	public Reply(int repNo, String repContent, Date repCreateDate, Date repModifyDate, String repStatus, String memId) {
 		super();
 		this.repNo = repNo;
 		this.repContent = repContent;
 		this.repCreateDate = repCreateDate;
 		this.repModifyDate = repModifyDate;
 		this.repStatus = repStatus;
-		this.repWriter = repWriter;
+		this.memId = memId;
 	}
 
 	public int getRepNo() {
@@ -66,12 +65,12 @@ public class Reply {
 		this.repStatus = repStatus;
 	}
 
-	public String getRepWriter() {
-		return repWriter;
+	public String getMemId() {
+		return memId;
 	}
 
-	public void setRepWriter(String repWriter) {
-		this.repWriter = repWriter;
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 
 	public String getMemNickName() {
@@ -93,7 +92,7 @@ public class Reply {
 	@Override
 	public String toString() {
 		return "Reply [repNo=" + repNo + ", repContent=" + repContent + ", repCreateDate=" + repCreateDate
-				+ ", repModifyDate=" + repModifyDate + ", repStatus=" + repStatus + ", repWriter=" + repWriter
+				+ ", repModifyDate=" + repModifyDate + ", repStatus=" + repStatus + ", memId=" + memId
 				+ ", memNickName=" + memNickName + ", memFileName=" + memFileName + "]";
 	}
 	
