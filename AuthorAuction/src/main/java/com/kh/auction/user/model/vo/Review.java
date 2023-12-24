@@ -10,7 +10,7 @@ public class Review {
 	private Date revCreateDate;
 	private Date revModifyDate;
 	private String revStatus;
-	private String revWriter;
+	private String memId;
 	private String memNickName;
 	private String memFileName;
 	
