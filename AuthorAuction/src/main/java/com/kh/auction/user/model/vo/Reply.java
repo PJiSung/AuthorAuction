@@ -16,7 +16,7 @@ public class Reply {
 	public Reply() {}
 
 	public Reply(int repNo, String repContent, Date repCreateDate, Date repModifyDate, String repStatus,
-			String repWriter, String memNickName, String memFileName) {
+			String repWriter) {
 		super();
 		this.repNo = repNo;
 		this.repContent = repContent;
@@ -24,8 +24,6 @@ public class Reply {
 		this.repModifyDate = repModifyDate;
 		this.repStatus = repStatus;
 		this.repWriter = repWriter;
-		this.memNickName = memNickName;
-		this.memFileName = memFileName;
 	}
 
 	public int getRepNo() {
