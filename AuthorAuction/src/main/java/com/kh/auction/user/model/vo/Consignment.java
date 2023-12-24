@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Consignment {
 
 	private int conNo;
-	private String conWriter;
+	private String memId;
 	private String conAuthor;
 	private String conProduct;
 	private int conWidth;
