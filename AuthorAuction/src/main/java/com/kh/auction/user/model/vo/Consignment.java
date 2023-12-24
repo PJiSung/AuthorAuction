@@ -85,9 +85,16 @@ public class Consignment {
 	public void setConCreateDate(Date conCreateDate) {
 		this.conCreateDate = conCreateDate;
 	}
-	
+	public String getConWriter() {
+		return conWriter;
+	}
+
+	public void setConWriter(String conWriter) {
+		this.conWriter = conWriter;
+	}
+
 	public Consignment(int conNo, String conAuthor, String conProduct, int conWidth, int conHeight, int conYear,
-			int conHope, String conEtc, String conDelStatus, String conAdmStatus, Date conCreateDate) {
+			int conHope, String conEtc, String conDelStatus, String conAdmStatus, Date conCreateDate, String conWriter) {
 		super();
 		this.conNo = conNo;
 		this.conAuthor = conAuthor;
@@ -100,15 +107,17 @@ public class Consignment {
 		this.conDelStatus = conDelStatus;
 		this.conAdmStatus = conAdmStatus;
 		this.conCreateDate = conCreateDate;
+		this.conWriter = conWriter;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Consignment [conNo=" + conNo + ", conAuthor=" + conAuthor + ", conProduct=" + conProduct + ", conWidth="
-				+ conWidth + ", conHeight=" + conHeight + ", conYear=" + conYear + ", conHope=" + conHope + ", conEtc="
-				+ conEtc + ", conDelStatus=" + conDelStatus + ", conAdmStatus=" + conAdmStatus + ", conCreateDate="
-				+ conCreateDate + "]";
+		return "Consignment [conNo=" + conNo + ", conWriter=" + conWriter + ", conAuthor=" + conAuthor + ", conProduct="
+				+ conProduct + ", conWidth=" + conWidth + ", conHeight=" + conHeight + ", conYear=" + conYear
+				+ ", conHope=" + conHope + ", conEtc=" + conEtc + ", conDelStatus=" + conDelStatus + ", conAdmStatus="
+				+ conAdmStatus + ", conCreateDate=" + conCreateDate + "]";
 	}
+	
 	
 	
 }
