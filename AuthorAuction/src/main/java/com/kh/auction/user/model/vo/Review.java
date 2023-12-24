@@ -16,7 +16,7 @@ public class Review {
 	
 	public Review() {}
 	public Review(int revNo, String revContent, int revCount, int revLike, Date revCreateDate, Date revModifyDate,
-			String revStatus, String revWriter, String memNickName, String memFileName) {
+			String revStatus, String revWriter) {
 		super();
 		this.revNo = revNo;
 		this.revContent = revContent;
@@ -26,8 +26,6 @@ public class Review {
 		this.revModifyDate = revModifyDate;
 		this.revStatus = revStatus;
 		this.revWriter = revWriter;
-		this.memNickName = memNickName;
-		this.memFileName = memFileName;
 	}
 
 	public int getRevNo() {
