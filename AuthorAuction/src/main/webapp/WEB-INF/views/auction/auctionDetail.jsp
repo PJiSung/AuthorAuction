@@ -36,14 +36,11 @@
 	  text-decoration: none;
 	  cursor: pointer;
 	}
-	th{
+	
+	.trLine{
 		border-bottom: 1px gray solid;
-		border-top: 1px gray solid;
 	}
 	
-	td{
-		border-bottom: 1px gray solid;
-	}
 </style>
 </head>
 <body>
@@ -85,7 +82,7 @@
                 <hr style="margin-left: 2%; width: 98%;">
                 <span>
                     <span style="text-align: left; display: inline-block; margin-left: 2%;">현재 입찰가</span>
-                    <span style=" float: right; margin-right: 2%;">${ auction.aucFinishPrice }</span>
+                    <span style=" float: right; margin-right: 2%;" id="nowPrice"></span>
                 </span>
                 <br clear="all">
                 <hr style="margin-left: 2%; width: 98%;">
@@ -97,7 +94,7 @@
                 <hr style="margin-left: 2%; width: 98%;">
                 <span id="fee" style="border: 1px black solid; margin-left: 2.8%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block;">낙찰 수수료</span>
                 <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block">경매 호가표</span>
-                <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block">관심 목록 추가</span>
+                <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block" id="likeBtn">관심 목록 추가</span>
                 <div id="checkId" style="width: 96.5%; border: 1px black solid; text-align: center; margin-top: 2%; height: 6.5%; margin-left: 3.4%; padding-top: 3%; padding-bottom: 3%;"></div>
             </div>
         </div>
@@ -110,55 +107,55 @@
         <!-- 낙찰 수수료 모달창 -->
     <div id="modal">
   		<div class="modal-content" style="width:30%;">
-    		<h2 style="text-align: center;">낙찰 수수료 안내</h2>
-		    <table style="margin:auto; border-collapse: collapse;">
-		    	<tr>
+    		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">낙찰 수수료 안내</h2>
+		    <table style="margin:auto; border-collapse: collapse; text-align: center; width:80%;">
+		    	<tr class="trLine">
 		    		<th style="width:65%; margin-left: 30%">현재가 구간(원)</th>
 		    		<th style="width:35%">호가 단위(원)</th>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>30만 미만</td>
 		    		<td>20,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>30만 이상 ~ 100만 미만</td>
 		    		<td>50,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>100만 이상 ~ 300만 미만</td>
 		    		<td>100,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>300만 이상 ~ 500만 미만</td>
 		    		<td>200,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>500만 이상 ~ 1,000만 미만</td>
 		    		<td>500,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>1,000만 이상 ~ 3,000만 미만</td>
 		    		<td>1,000,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>3,000만 이상 ~ 5,000만 미만</td>
 		    		<td>2,000,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>5,000만 이상 ~ 2억 미만</td>
 		    		<td>5,000,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>2억 이상 ~ 5억 미만</td>
 		    		<td>10,000,000</td>
 		    	</tr>
-		    	<tr>
+		    	<tr class="trLine">
 		    		<td>5억 이상</td>
 		    		<td>20,000,000</td>
 		    	</tr>
 		    </table>
-		    <div style="text-align: right;">
-		    	<button id="close-modal">닫기</button>
+		    <div style="text-align: right; margin-top:2%; margin-right:5%;">
+		    	<button id="close-modal" style="width:10%;">닫기</button>
 		    </div>
 		</div>
 	</div>
@@ -173,7 +170,9 @@
         window.onload = function(){
         	const fee = document.getElementById("fee");
         	const feeModal = document.getElementById("modal");
-        	const closeModal = document.getElementById("close-modal"); 
+        	const closeModal = document.getElementById("close-modal");
+        	const nowPrice = document.getElementById("nowPrice");
+        	const likeBtn = document.getElementById("likeBtn");
         	fee.addEventListener('click',function(){
         		feeModal.style.display='block';
         	})
@@ -237,7 +236,21 @@
 					check.removeEventListener('click',bidding);
 				}
 				}, 1000);
-            }
+			
+			if(${ empty auction.aucFinishPrice }){
+				nowPrice.innerText = "현재 입찰 없음";
+			}else{
+				nowPrice.innerText = '${ auction.aucFinishPrice }';
+			}
+			
+			if(${ empty session.loginUser}){
+				likeBtn.addEventListener('click',function(){
+					if(confirm("로그인을 하셔야 관심 목록에 추가하실 수 있습니다. \n로그인 하시겠습니까?")){
+						/* location.href='loginView'; */
+					}
+				})
+			}
+		}
     </script>
 </body>
 </html>
