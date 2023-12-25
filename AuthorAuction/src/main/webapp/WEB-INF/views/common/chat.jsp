@@ -43,7 +43,10 @@
 	color: #FFE400;
 	text-align: left;
 }
-
+.chating .exit {
+	text-align: center;
+	color:white;
+}
 input {
 	width: 330px;
 	height: 25px;
@@ -58,7 +61,7 @@ input {
 		
 	}
 	function wsOpen() {
-		//웹소켓 전송시 현재 방의 번호를 넘겨서 보낸다.
+		document.getElementById("sendBtn").disabled = true;
 		ws = new WebSocket("ws://" + location.host + "/chating/" + $("#roomNumber").val() + "/isAdmin/" + isAdmin);
 		wsEvt();
 	}
@@ -67,15 +70,14 @@ input {
 			
 		}
 		ws.onclose = function(data){
-			document.getElementById("roomNumber").value = parseInt(document.getElementById("roomNumber").value)+1;
-			wsOpen();
+			
 		}
 		ws.onmessage = function(data) {
-			//메시지를 받으면 동작
 			var msg = data.data;
+			console.log(msg);
 			if (msg != null && msg.trim() != '') {
 				var d = JSON.parse(msg);
-				console.log(isAdmin);
+				console.log(msg);
 				if (d.type == "getId") {
 					var si = d.sessionId != null ? d.sessionId : "";
 					if (si != '') {
@@ -83,21 +85,30 @@ input {
 					}
 				} else if (d.type == "message") {
 					if (d.sessionId == $("#sessionId").val()) {
-						$("#chating").append(
-								"<p class='me'>나 :" + d.msg + "</p>");
+						$("#chating").append("<p class='me'>나 :" + d.msg + "</p>");
 					} else {
-						$("#chating").append(
-								"<p class='others'>" + d.userName + " :"
-										+ d.msg + "</p>");
+						$("#chating").append("<p class='others'>" + d.userName + " :" + d.msg + "</p>");
 					}
 				} else if (d.type == "notification" && isAdmin == "Y"){
 					alert(d.message);
 				} else if (d.type == "sessionCount" && isAdmin == "N"){ //채팅방에 고객만 있을때
 					if(d.sessionCount == 0){
-						alert("상담사를 배정중입니다. 잠시만 기다려주세요.")
+						let text = "상담사를 배정중입니다. 잠시만 기다려주세요."
+						$("#chating").append("<p class='exit'>"+text+"</p>");
 					}else{
-						alert("상담사 배정완료");
+						document.getElementById("sendBtn").disabled = false;
+						document.getElementById("chating").innerText = "";
 					}
+				} else if (d.type == "exit"){
+					$("#chating").append("<p class='exit'>"+d.msg+"</p>");
+					document.getElementById("sendBtn").disabled = true;
+				} else if (d.type == "newRoom") {
+					var si = d.sessionId != null ? d.sessionId : "";
+					if (si != '') {
+						$("#sessionId").val(si);
+					}
+					document.getElementById("roomNumber").value = parseInt(document.getElementById("roomNumber").value)+1;
+					wsOpen();
 				} else {
 					console.warn("unknown type!")
 				}
@@ -112,39 +123,48 @@ input {
 	}
 
 	function send() {
-		var option = {
-			type : "message",
-			roomNumber : $("#roomNumber").val(),
-			sessionId : $("#sessionId").val(),
-			userName : $("#userName").val(),
-			msg : $("#chatting").val()
-		}
+		if(document.getElementById("chatting").value.trim() != ""){
+			var option = {
+				type : "message",
+				roomNumber : $("#roomNumber").val(),
+				sessionId : $("#sessionId").val(),
+				userName : $("#userName").val(),
+				msg : $("#chatting").val(),
+				isAdmin : isAdmin
+			}
 			ws.send(JSON.stringify(option));
 			$('#chatting').val("");
+		}
 	}
 	
 	const openChat = () =>{
-		$("#container").toggle();
-		document.getElementById("openChatting").style.display="none";
-		wsOpen();
+		let login = "${loginUser}";
+		if(login == ""){
+			alert("로그인후에 진행해주세요");
+		}else{
+			$("#container").toggle();
+			document.getElementById("openChatting").style.display="none";
+			wsOpen();
+		}
 	}
 	
 	const closeChat = () =>{
 		$(".container").toggle();
 		document.getElementById("openChatting").style.display="block";
 		document.getElementById("roomNumber").value = 1;
+		document.getElementById("chating").innerText = "";
 		if (ws) {
 			ws.onclose = null;
-	        ws.close();
-	    }
+		    ws.close();
+		}
 	}
 </script>
 <body>
 <input type="button" value="채팅" onclick="openChat()" id="openChatting">
 	<div id="container" class="container">
-		<input type="text" name="userName" id="userName" value="${loginUser.memId}">
-		<input type="text" id="sessionId" value="">
-		<input type="text" id="roomNumber" value="${roomNumber}">
+		<input type="hidden" name="userName" id="userName" value="${loginUser.memId}">
+		<input type="hidden" id="sessionId" value="">
+		<input type="hidden" id="roomNumber" value="${roomNumber}">
 
 		<div id="chating" class="chating"></div>
 

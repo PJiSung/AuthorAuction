@@ -42,7 +42,7 @@ public class MemberController {
 			}
 		}else {
 			model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
-			return "member/login";
+			return "redirect:loginView";
 		}
 	}
 
@@ -75,6 +75,11 @@ public class MemberController {
 		} else {
 			return "member/login";//수정
 		}
+	}
+	
+	@GetMapping("findIdView")
+	public String findId() {
+		return "member/findId";
 	}
 	
 }

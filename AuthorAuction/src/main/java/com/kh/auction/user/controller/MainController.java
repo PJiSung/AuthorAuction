@@ -24,6 +24,7 @@ public class MainController {
 		m.setMemId(id);
 		Member loginUser = mService.login(m);
 		session.setAttribute("loginUser", loginUser);
+		System.out.println("로그인완료");
 		return "index";
 	}
 	
