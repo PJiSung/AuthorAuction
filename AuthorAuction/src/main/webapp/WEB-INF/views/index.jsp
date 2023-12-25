@@ -37,10 +37,10 @@
       <div class="header-center">
         <ul class="header-member">
           <li>
-            <a href="javascript:void(0)">로그인</a>
+            <a href="loginView">로그인</a>
           </li>
           <li>
-            <a href="javascript:void(0)">회원가입</a>
+            <a href="authenticationView">회원가입</a>
           </li>
         </ul>
         <ul class="header-gnblist">
@@ -303,10 +303,10 @@
           </h4>
           <ul class="fullmenu-member">
             <li>
-              <a href="javascript:void(0)">로그인</a>
+              <a href="loginView">로그인</a>
             </li>
             <li>
-              <a href="javascript:void(0)">회원가입</a>
+              <a href="authenticationView">회원가입</a>
             </li>
           </ul>
         </div>

@@ -15,7 +15,7 @@
 <meta property="og:description" content="웹사이트입니다">
 <meta property="og:image" content="https://웹사이트/images/opengraph.png">
 <meta property="og:url" content="https://웹사이트">
-<title>회원가입4 | 3</title>
+<title>가입완료</title>
 <link rel="stylesheet" href="member/css/setting.css">
 <link rel="stylesheet" href="member/css/plugin.css">
 <link rel="stylesheet" href="member/css/template.css">
@@ -40,7 +40,7 @@
 							<p>가입완료</p></li>
 					</ul>
 					<div class="con-figure">
-						<img class="con-img" src="../resources/icons/icon_sign.svg"
+						<img class="con-img" src="member/icons/icon_sign.svg"
 							alt="signup">
 					</div>
 					<div class="textset">
@@ -48,12 +48,12 @@
 							<span> 환영합니다 !</span> <span>회원으로 가입이 완료되었습니다.</span>
 						</h2>
 						<p class="textset-desc">
-							모든 회원가입 절차가 완료되었습니다. <br> 볼룸시티의 다양한 서비스와 혜택을 이용하실 수 있습니다. <br>
+							모든 회원가입 절차가 완료되었습니다. <br> 어서옥션의 다양한 서비스와 혜택을 이용하실 수 있습니다. <br>
 							로그인 후 이용이 가능합니다.
 						</p>
 					</div>
 					<div class="btn-box">
-						<a class="btnset2 btnset-lg btnset-rect" href="javascript:void(0)">메인으로
+						<a class="btnset2 btnset-lg btnset-rect" href="/">메인으로
 							이동</a>
 					</div>
 				</div>

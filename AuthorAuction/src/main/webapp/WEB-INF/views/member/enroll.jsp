@@ -160,6 +160,7 @@
 					</ul>
 					<div class="form-wrap">
 						<form action="insertMember" method="post" id="enrollForm">
+						<input type="hidden" name="memPhone" value="${phone}">
 						<input type="hidden" name="memAddress">
 						<input type="hidden" name="memEmail">
 							<div class="form-body">

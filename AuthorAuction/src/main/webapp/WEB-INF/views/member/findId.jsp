@@ -15,7 +15,7 @@
 <meta property="og:description" content="웹사이트입니다">
 <meta property="og:image" content="https://웹사이트/images/opengraph.png">
 <meta property="og:url" content="https://웹사이트">
-<title>로그인</title>
+<title>아이디찾기</title>
 <link rel="stylesheet" href="member/css/setting.css">
 <link rel="stylesheet" href="member/css/plugin.css">
 <link rel="stylesheet" href="member/css/template.css">
@@ -33,7 +33,7 @@ window.onload = () =>{
 	category();
 }
 const submitBtn = () =>{
-	document.getElementById('findIdForm').submit();
+	//document.getElementById('findIdForm').submit();
 }
 const checkRadio = () =>{
 	let spans = document.querySelectorAll(".radio-group span");
@@ -44,9 +44,11 @@ const checkRadio = () =>{
 			if(radio.value == "email"){
 				document.getElementsByClassName("category")[0].style.display = "block";
 				document.getElementsByClassName("category")[1].style.display = "none";
+				document.getElementById("findIdForm").action = "findIdbyEmail";
 			}else{
 				document.getElementsByClassName("category")[0].style.display = "none";				
-				document.getElementsByClassName("category")[1].style.display = "block";				
+				document.getElementsByClassName("category")[1].style.display = "block";
+				document.getElementById("findIdForm").action = "findIdbyPhone";
 			}
 		});
 	}
@@ -58,13 +60,16 @@ const category = () =>{
 			if(radios[i].value == "email"){
 				document.getElementsByClassName("category")[0].style.display = "block";
 				document.getElementsByClassName("category")[1].style.display = "none";
+				document.getElementById("findIdForm").action = "findIdbyEmail";
 			}else{
 				document.getElementsByClassName("category")[0].style.display = "none";				
-				document.getElementsByClassName("category")[1].style.display = "block";				
+				document.getElementsByClassName("category")[1].style.display = "block";
+				document.getElementById("findIdForm").action = "findIdbyPhone";
 			}
 		});
 	}
 }
+
 </script>
 <body>
 	<main class="th-layout-main ">
@@ -93,7 +98,7 @@ const category = () =>{
 				          
 				        </fieldset>
 				        
-						<form action="login" method="post" id="findIdForm">
+						<form action="findIdbyEmail" method="post" id="findIdForm">
 							<div class="category">
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
@@ -118,12 +123,19 @@ const category = () =>{
 							
 							<div class="btn-box">
 								<a class="btnset2 btnset-lg btnset-rect"
-									onclick="submitBtn()">FIND ID</a>
+									onclick="submitBtn()">사용금지</a>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
+		</div>
+		
+		<div id="myModal" class="modal">
+		  <div class="modal-content">
+		    <span class="close" onclick="closeModal()">&times;</span>
+		    <p>모달 내용을 여기에 추가합니다.</p>
+		  </div>
 		</div>
 		<!-- [E]bloomcity-N10 -->
 	</main>

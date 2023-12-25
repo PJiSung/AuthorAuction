@@ -31,5 +31,10 @@ public class MemberServiceImpl implements MemberService{
 	public Member login(Member m) {
 		return mDao.login(m);
 	}
+
+	@Override
+	public int findIdbyPhone(Member m) {
+		return mDao.findIdbyPhone(m);
+	}
 	
 }

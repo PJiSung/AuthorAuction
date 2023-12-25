@@ -5,13 +5,13 @@
 	<select id="checkId" resultType="_int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE MEM_ID = #{memId}
+		WHERE MEM_ID = #{memId} AND MEM_STATUS = 'Y'
 	</select>
 	 
 	<select id="checkNickName" resultType="_int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE MEM_NICKNAME = #{memNickName}
+		WHERE MEM_NICKNAME = #{memNickName} AND MEM_STATUS = 'Y'
 	</select>
 
 	<insert id="insertMember">
@@ -23,6 +23,12 @@
 		SELECT *
 		FROM MEMBER
 		WHERE MEM_ID = #{memId} AND MEM_STATUS = 'Y'
+	</select>
+	
+	<select id="findIdbyPhone">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEM_NAME = #{memName} AND MEM_PHONE = #{memPhone} AND MEM_STATUS = 'Y'
 	</select>
 	
 </mapper>

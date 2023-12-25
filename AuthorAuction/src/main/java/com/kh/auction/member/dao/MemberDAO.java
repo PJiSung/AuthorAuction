@@ -14,4 +14,6 @@ public interface MemberDAO {
 	int checkNickName(String memNickName);
 
 	Member login(Member m);
+
+	int findIdbyPhone(Member m);
 }
