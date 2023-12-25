@@ -8,6 +8,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -25,7 +26,7 @@ public class AuctionController {
 	@Autowired
 	private AuctionService aService;
 	
-	@RequestMapping("auctionList.ac")
+	@GetMapping("auctionList.ac")
 	public String moveToAuctionList(@RequestParam(value="page", defaultValue="1") int page, Model model) {
 		int currentPage = page;
 		
@@ -42,35 +43,28 @@ public class AuctionController {
 		return "/auction/auctionList";
 	}
 	
-	
-	
-	@RequestMapping("auctionDetail.ac")
+	@GetMapping("auctionDetail.ac")
 	public String moveToAuctionDetail(@RequestParam("page") int page, @RequestParam("aucNo") int aucNo, Model model) { 
 	//경매 번호를 가지고 세부내용을 들고옴
 		Auction auction = aService.getAuctionDetail(aucNo);
 		
-		String id = null;
 		
 		Member m = ((Member)model.getAttribute("loginUser"));
-		if(m != null) {
-			id = m.getMemId();
-		}
 		
 		String finishDate = auction.getAucFinishDate();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		Date date = null;
+		
 		try {
 			date = sdf.parse(finishDate);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			} 
 	  
-		
 		model.addAttribute("finishDate", date);
 		model.addAttribute("auction",auction);
 		model.addAttribute("page", page);
-		model.addAttribute("id", id);
 		 
 		 return "/auction/auctionDetail";
 	 }
