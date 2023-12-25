@@ -6,5 +6,5 @@
 		INSERT INTO INQUIRY
 		VALUES(SEQ_INQ.NEXTVAL, #{inqFileName}, SYSDATE, #{memId})
 	</insert>
-	
+	     
 </mapper>

@@ -5,7 +5,6 @@ import java.sql.Date;
 public class Consignment {
 
 	private int conNo;
-	private String conWriter;
 	private String conAuthor;
 	private String conProduct;
 	private int conWidth;
@@ -16,6 +15,7 @@ public class Consignment {
 	private String conDelStatus;
 	private String conAdmStatus;
 	private Date conCreateDate;
+	private String memId;
 	
 	public Consignment() {}
 	
@@ -85,9 +85,16 @@ public class Consignment {
 	public void setConCreateDate(Date conCreateDate) {
 		this.conCreateDate = conCreateDate;
 	}
-	
+	public String getmemId() {
+		return memId;
+	}
+
+	public void setmemId(String memId) {
+		this.memId = memId;
+	}
+
 	public Consignment(int conNo, String conAuthor, String conProduct, int conWidth, int conHeight, int conYear,
-			int conHope, String conEtc, String conDelStatus, String conAdmStatus, Date conCreateDate) {
+			int conHope, String conEtc, String conDelStatus, String conAdmStatus, Date conCreateDate, String memId) {
 		super();
 		this.conNo = conNo;
 		this.conAuthor = conAuthor;
@@ -100,15 +107,17 @@ public class Consignment {
 		this.conDelStatus = conDelStatus;
 		this.conAdmStatus = conAdmStatus;
 		this.conCreateDate = conCreateDate;
+		this.memId = memId;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Consignment [conNo=" + conNo + ", conAuthor=" + conAuthor + ", conProduct=" + conProduct + ", conWidth="
-				+ conWidth + ", conHeight=" + conHeight + ", conYear=" + conYear + ", conHope=" + conHope + ", conEtc="
-				+ conEtc + ", conDelStatus=" + conDelStatus + ", conAdmStatus=" + conAdmStatus + ", conCreateDate="
-				+ conCreateDate + "]";
+		return "Consignment [conNo=" + conNo + ", memId=" + memId + ", conAuthor=" + conAuthor + ", conProduct="
+				+ conProduct + ", conWidth=" + conWidth + ", conHeight=" + conHeight + ", conYear=" + conYear
+				+ ", conHope=" + conHope + ", conEtc=" + conEtc + ", conDelStatus=" + conDelStatus + ", conAdmStatus="
+				+ conAdmStatus + ", conCreateDate=" + conCreateDate + "]";
 	}
+	
 	
 	
 }

@@ -7,7 +7,7 @@
 		FROM MEMBER
 		WHERE MEM_ID = #{memId}
 	</select>
-	
+	 
 	<select id="checkNickName" resultType="_int">
 		SELECT COUNT(*)
 		FROM MEMBER
