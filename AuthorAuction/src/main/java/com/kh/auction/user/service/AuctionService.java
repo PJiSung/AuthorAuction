@@ -1,6 +1,7 @@
 package com.kh.auction.user.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.auction.user.model.vo.Auction;
 
@@ -11,5 +12,8 @@ public interface AuctionService {
 
 	//경매 번호로 해당 경매정보 가지고 옴
 	Auction getAuctionDetail(int aucNo);
+
+	//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
+	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm);
 
 }
