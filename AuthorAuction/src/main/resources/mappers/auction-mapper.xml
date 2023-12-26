@@ -10,7 +10,7 @@
 		]]>
 	</select>
 	
-	<select id="getAuctionDetail">
+	<select id="getAuctionDetail" resultType="Auction">
 	select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
 			to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
 			con_year, con_hope, con_etc, att_rename

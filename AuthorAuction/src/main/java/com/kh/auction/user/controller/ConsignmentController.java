@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
 import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
@@ -181,10 +185,17 @@ public class ConsignmentController {
 			} else {
 				throw new Exception("첨부파일 게시글 상세조회 실패");
 			}
+<<<<<<< HEAD
 		} else {
 			// 첨부 파일이 없는 경우 상세조회 페이지로 이동X
 			throw new Exception("첨부파일이 없는 게시글");
 		}
+=======
+	    } else {
+	    	// 첨부 파일이 없는 경우 상세조회 페이지로 이동X
+	    	throw new Exception("첨부파일이 없는 게시글");
+	    }
+>>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
 	}
 	
 }	
