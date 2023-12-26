@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.service.ConsignmentService;
-import com.kh.auction.user.exception.Exception;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -43,28 +43,33 @@ public class ConsignmentController {
 	// 위탁문의 등록
 	@PostMapping("conInsert.co")
 	public String insertConsignment(@ModelAttribute Consignment c,
-									@RequestParam("file") ArrayList<MultipartFile> files, HttpSession session, Member m) {
+									@RequestParam(value="file", required=false) ArrayList<MultipartFile> files, HttpSession session, Member m) {
 		
 		// 현재 세션에 저장된 사용자 정보에서 회원 ID를 가져와서 위탁 정보 객체설정
-		String id = ((Member)session.getAttribute("loginUser")).getMemId();
-		c.setmemId(id);
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(loginUser != null) {
+			String id = loginUser.getMemId();
+			c.setmemId(id);
+		}
 		
 		// 첨부 파일 리스트를 담을 ArrayList를 생성
 		ArrayList<Attachment> list = new ArrayList<>();
 	
 		// 업로드된 파일들에 대한 처리
-		for(int i = 0; i < files.size(); i++) {
-			MultipartFile upload = files.get(i);
-			
-			if(!upload.getOriginalFilename().equals("")) {
-				// 파일을 저장하고 저장된 파일정보 가져옴
-				String rename = saveFile(upload);
-				if(rename != null) {
-					Attachment a = new Attachment();
-					a.setAttRename(rename);
-					a.setAttCategory(2); 	// 위탁문의 게시판(2)
-					
-					list.add(a);
+		if(files != null) {
+			for(int i = 0; i < files.size(); i++) {
+				MultipartFile upload = files.get(i);
+				
+				if(!upload.getOriginalFilename().equals("")) {
+					// 파일을 저장하고 저장된 파일정보 가져옴
+					String rename = saveFile(upload);
+					if(rename != null) {
+						Attachment a = new Attachment();
+						a.setAttRename(rename);
+						a.setAttCategory(2); 	// 위탁문의 게시판(2)
+						
+						list.add(a);
+					}
 				}
 			}
 		}
@@ -80,7 +85,7 @@ public class ConsignmentController {
 		int result1 = cService.insertConsignment(c);	// 정보 저장 리스트
 	
 		System.out.println(c.getConNo());
-		
+		System.out.println(c);
 		// 첨부 파일이 없는 경우
 		if(!list.isEmpty()) {
 			for(Attachment a : list) {
@@ -98,7 +103,7 @@ public class ConsignmentController {
 				throw new Exception("첨부파일 게시글 등록 실패");
 			}
 		} else {
-			if(result1 > 0) {							//	>>>>>>>>>>>> 무조건 첨부가 있어야 하는데 왜 result2>0이 아니야?
+			if(result1 > 0) {							
 				return "redirect:conInfo.co";			// 일단 등록 성공하면 위탁안내 페이지로 이동
 			} else {
 				throw new Exception("첨부파일 게시글 등록 실패");

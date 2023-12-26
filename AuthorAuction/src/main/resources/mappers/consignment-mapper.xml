@@ -5,7 +5,7 @@
 		<selectKey order="BEFORE" resultType="_int" keyProperty="conNo">
 			select CON_SEQ.nextval from dual
 		</selectKey>
-		insert into consignment
+		insert into CONSIGNMENT
 		values (#{conNo}, #{conAuthor}, #{conProduct}, #{conWidth}, #{conHeight}, #{conYear}, #{conHope}, #{conEtc}, 
 				default, default, sysdate, #{memId})
 	</insert>
@@ -14,7 +14,7 @@
 		insert all
 		<foreach collection="list" item="item">
 			into attachment
-			values(att_new, #{item.attRename}, default, #{item.attFno}, #{item.attCategory}, #{item.attBno})
+			values(ATT_NEW, #{item.attRename}, default, #{item.attFno}, #{item.attCategory}, #{item.attBno})
 		</foreach>
 		select * from dual
 	</insert>
