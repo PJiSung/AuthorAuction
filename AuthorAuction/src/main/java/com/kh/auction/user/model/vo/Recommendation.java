@@ -119,7 +119,7 @@ public class Recommendation {
 				+ recAttachment + ", recRepDate=" + recRepDate + ", recCreateDate=" + recCreateDate + ", memId=" + memId
 				+ "]";
 	}
-	
+	     
 	
 	
 }
