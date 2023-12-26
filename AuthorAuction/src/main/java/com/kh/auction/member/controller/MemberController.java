@@ -1,10 +1,13 @@
 package com.kh.auction.member.controller;
 
-
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kh.auction.member.service.MemberService;
 import com.kh.auction.user.model.vo.Member;
 
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -27,43 +31,48 @@ public class MemberController {
 
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
-	
+
+	@Autowired
+	private JavaMailSender mailSender;
+
 	@GetMapping("loginView")
 	public String loginView() {
 		return "member/login";
 	}
-	
+
 	@PostMapping("login")
 	public String login(Member m, HttpSession session, Model model) {
 		Member loginUser = mService.login(m);
-		if(loginUser != null) {
-			if(bcrypt.matches(m.getMemPwd(), loginUser.getMemPwd())) {	
+		if (loginUser != null) {
+			if (bcrypt.matches(m.getMemPwd(), loginUser.getMemPwd())) {
 				session.setAttribute("loginUser", loginUser);
-				return "redirect:/";							
+				return "redirect:/";
 			} else {
 				model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 				return "member/login";
 			}
-		}else {
+		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			return "redirect:loginView";
 		}
 	}
 
-	@GetMapping("authenticationView") //회원가입 초기화면 enroll XX
+	@GetMapping("authenticationView") // 회원가입 초기화면 enroll XX
 	public String authenticationView() {
 		return "member/authentication";
 	}
-	
+
 	@GetMapping("authentication")
 	@ResponseBody
-	public String authentication(@RequestParam("phone") String phone) {
+	public int authentication(@RequestParam("phone") String phone) {
 //		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
 //		Message message = new Message();
 //		message.setFrom("01068938300");
 //		message.setTo(phone);
 //		
-		String authNum = "528564";
+		Random r = new Random();
+		int authNum = r.nextInt(888888) + 111111;
+		authNum = 1;
 //		message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
 //
 //		try {
@@ -76,26 +85,26 @@ public class MemberController {
 //		}
 		return authNum;
 	}
-	
+
 	@GetMapping("agreement")
 	public String agreement(@RequestParam("phone") String phone, Model model) {
 		model.addAttribute("phone", phone);
 		return "member/agreement";
 	}
-	
+
 	@GetMapping("enroll")
 	public String enroll(@RequestParam("phone") String phone, Model model) {
 		model.addAttribute("phone", phone);
 		return "member/enroll";
 	}
-	
+
 	@GetMapping("checkId")
 	@ResponseBody
 	public int checkId(@RequestParam("memId") String memId) {
 		int count = mService.checkId(memId);
 		return count;
 	}
-	
+
 	@GetMapping("checkNickName")
 	@ResponseBody
 	public int checkNickName(@RequestParam("memNickName") String memNickName) {
@@ -106,42 +115,95 @@ public class MemberController {
 	@PostMapping("insertMember")
 	public String insertMember(@ModelAttribute Member m) {
 		byte[] decodedBytes = Base64.getDecoder().decode(m.getMemPhone());
-	    String phone = new String(decodedBytes, StandardCharsets.UTF_8);
+		String phone = new String(decodedBytes, StandardCharsets.UTF_8);
 		m.setMemPhone(phone);
 		m.setMemPwd(bcrypt.encode(m.getMemPwd()));
 		int result = mService.insertMemeber(m);
 		if (result > 0) {
 			return "member/enrollComplete";
 		} else {
-			return "member/login";//수정 실패창이동
+			return "member/login";// 수정 실패창이동
 		}
 	}
-	
+
 	@GetMapping("findIdView")
 	public String findIdView() {
 		return "member/findId";
 	}
-	
-	@PostMapping("findIdbyPhone")
-	public String findId(Member m) {
-		/*int result = mService.findIdbyPhone(m);
-		if(result > 0) {
-			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
-			Message message = new Message();
-			message.setFrom("01068938300");
-			message.setTo(m.getMemPhone());
-			message.setText("인증번호입니다");
 
-			try {
-			  messageService.send(message);
-			} catch (NurigoMessageNotReceivedException exception) {
-			  System.out.println(exception.getFailedMessageList());
-			  System.out.println(exception.getMessage());
-			} catch (Exception exception) {
-			  System.out.println(exception.getMessage());
-			}
-		}*/
-		return "member/findId";
+	@GetMapping("findIdbyPhone")
+	@ResponseBody
+	public int findIdbyPhone(@RequestParam("arr[]") String[] arr) {
+		int authNum = 0;
+		Member m = new Member();
+		m.setMemName(arr[0]);
+		m.setMemPhone(arr[1]);
+		Member mem = mService.findIdbyPhone(m);
+		if (mem != null) {
+//			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
+//			Message message = new Message();
+//			message.setFrom("01068938300");
+//			message.setTo(m.getMemPhone());
+//			
+//			Random r = new Random();
+//		    authNum = r.nextInt(888888) + 111111;
+//		    message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
+//
+//			try {
+//			  messageService.send(message);
+//			} catch (NurigoMessageNotReceivedException exception) {
+//			  System.out.println(exception.getFailedMessageList());
+//			  System.out.println(exception.getMessage());
+//			} catch (Exception exception) {
+//			  System.out.println(exception.getMessage());
+//			}
+		}
+		authNum = 1;
+		return authNum;
 	}
-	
+
+	@PostMapping("findIdbyEmail")
+	public String findIdbyEmail(Member m) {
+
+		return "";
+	}
+
+	@GetMapping("showId")
+	public String showId(Member m, Model model) {
+		Member mem = mService.findIdbyPhone(m);
+		model.addAttribute("m", mem);
+		return "member/showId";
+	}
+
+	@GetMapping("findIdbyEmail")
+	@ResponseBody
+	public int findIdbyEmail(@RequestParam("arr[]") String[] arr) {
+		Random r = new Random();
+		int checkNum = 0;
+		Member m = new Member();
+		m.setMemName(arr[0]);
+		m.setMemEmail(arr[1]);
+		Member mem = mService.findIdbyPhone(m);
+		System.out.println(mem);
+		if(mem != null) {
+			checkNum = r.nextInt(888888) + 111111;
+			String subject = "인증 코드";
+			String content = "<h1>Author Auction</h1><br>고객님의 인증 코드는 다음과 같습니다.<br><h1>" + checkNum +"</h1>";
+			String from = "gah_yn@naver.com";
+			String to = arr[1];
+			//String to = "starcr222@naver.com";
+			try {
+				MimeMessage mail = mailSender.createMimeMessage();
+				MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+				mailHelper.setFrom(from); 
+				mailHelper.setTo(to);
+				mailHelper.setSubject(subject); 
+				mailHelper.setText(content, true);
+				mailSender.send(mail);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return checkNum;
+	}
 }

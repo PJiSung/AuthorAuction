@@ -56,7 +56,7 @@ const submitBtn = () =>{
 							<ul class="contents-list d-flex justify-content-center">
 								<li class="contents-item"><a href="authenticationView"
 									class="contents-link">회원가입</a></li>
-								<li class="contents-item"><a href="javascript:void(0)"
+								<li class="contents-item"><a href="findIdView"
 									class="contents-link">아이디 찾기</a></li>
 								<li class="contents-item"><a href="javascript:void(0)"
 									class="contents-link">비밀번호 찾기</a></li>

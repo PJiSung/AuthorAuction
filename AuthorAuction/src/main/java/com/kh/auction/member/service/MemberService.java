@@ -12,6 +12,6 @@ public interface MemberService {
 
 	Member login(Member m);
 
-	int findIdbyPhone(Member m);
+	Member findIdbyPhone(Member m);
 
 }

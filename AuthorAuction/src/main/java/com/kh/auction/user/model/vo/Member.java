@@ -1,5 +1,7 @@
 package com.kh.auction.user.model.vo;
 
+import java.sql.Date;
+
 public class Member {
 	private String memId;
 	private String memPwd;
@@ -12,7 +14,7 @@ public class Member {
 	private String memIsAdmin;
 	private String memStatus;
 	private String memBalance;
-	private String memDate;
+	private Date memDate;
 	private String memRating;
 	public String getMemId() {
 		return memId;
@@ -80,22 +82,22 @@ public class Member {
 	public void setMemBalance(String memBalance) {
 		this.memBalance = memBalance;
 	}
-	public String getMemDate() {
-		return memDate;
-	}
-	public void setMemDate(String memDate) {
-		this.memDate = memDate;
-	}
 	public String getMemRating() {
 		return memRating;
 	}
 	public void setMemRating(String memRating) {
 		this.memRating = memRating;
 	}
-	public Member() {}
+	public Date getMemDate() {
+		return memDate;
+	}
+	public void setMemDate(Date memDate) {
+		this.memDate = memDate;
+	}
+	
 	public Member(String memId, String memPwd, String memName, String memNickName, String memFileName,
 			String memAddress, String memPhone, String memEmail, String memIsAdmin, String memStatus, String memBalance,
-			String memDate, String memRating) {
+			Date memDate, String memRating) {
 		super();
 		this.memId = memId;
 		this.memPwd = memPwd;
@@ -111,6 +113,7 @@ public class Member {
 		this.memDate = memDate;
 		this.memRating = memRating;
 	}
+	public Member() {}
 	@Override
 	public String toString() {
 		return "Member [memId=" + memId + ", memPwd=" + memPwd + ", memName=" + memName + ", memNickName=" + memNickName
@@ -118,7 +121,4 @@ public class Member {
 				+ ", memEmail=" + memEmail + ", memIsAdmin=" + memIsAdmin + ", memStatus=" + memStatus + ", memBalance="
 				+ memBalance + ", memDate=" + memDate + ", memRating=" + memRating + "]";
 	}
-	
-	
-	
 }
