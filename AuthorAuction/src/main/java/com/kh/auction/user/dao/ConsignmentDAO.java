@@ -15,7 +15,7 @@ public interface ConsignmentDAO {
 	int insertAttm(ArrayList<Attachment> list);
 
 	Consignment selectConsignment(int conNo, String id);
-
+         
 	ArrayList<Attachment> selectAttmConsignmentList(Integer conNo);
 
 

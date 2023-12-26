@@ -8,7 +8,7 @@ import com.kh.auction.user.model.vo.Consignment;
 public interface ConsignmentService {
 
 	int insertConsignment(Consignment c);
-
+          
 	int insertAttm(ArrayList<Attachment> list);
 
 	Consignment selectConsignment(int conNo, String id);

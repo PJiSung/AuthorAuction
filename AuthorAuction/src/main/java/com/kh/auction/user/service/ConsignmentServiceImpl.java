@@ -18,7 +18,7 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	@Override
 	public int insertConsignment(Consignment c) {
 		return cDAO.insertConsignment(c);
-	}
+	}          
 
 	@Override
 	public int insertAttm(ArrayList<Attachment> list) {

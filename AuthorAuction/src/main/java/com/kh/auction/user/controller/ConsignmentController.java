@@ -28,7 +28,7 @@ public class ConsignmentController {
 	
 	@Autowired
 	private ConsignmentService cService;
-	
+	          
 	// 위탁안내 페이지로 이동
 	@GetMapping("conInfo.co")
 	public String moveToConsignmentInfo() {

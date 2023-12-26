@@ -111,7 +111,7 @@ public class Recommendation {
 		this.recCreateDate = recCreateDate;
 		this.memId = memId;
 	}
-
+          
 	@Override
 	public String toString() {
 		return "Recommendation [recNo=" + recNo + ", recTitle=" + recTitle + ", recContent=" + recContent
