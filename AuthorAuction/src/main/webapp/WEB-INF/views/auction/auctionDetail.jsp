@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +78,7 @@
                 <hr style="margin-left: 2%; width: 98%;">
                 <span>
                     <span style="text-align: left; display: inline-block; margin-left: 2%;">경매 시작가</span>
-                    <span style=" float: right; margin-right: 2%;">${ auction.aucStartPrice }</span>
+                    <span style=" float: right; margin-right: 2%;"><fmt:formatNumber value="${ auction.aucStartPrice }" pattern="#,##0" /> 포인트</span>
                 </span>
                 <br clear="all">
                 <hr style="margin-left: 2%; width: 98%;">
@@ -110,8 +112,8 @@
     		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">낙찰 수수료 안내</h2>
 		    <table style="margin:auto; border-collapse: collapse; text-align: center; width:80%;">
 		    	<tr class="trLine">
-		    		<th style="width:65%; margin-left: 30%">현재가 구간(원)</th>
-		    		<th style="width:35%">호가 단위(원)</th>
+		    		<th style="width:65%; margin-left: 30%">현재가 구간(포인트)</th>
+		    		<th style="width:35%">호가 단위(포인트)</th>
 		    	</tr>
 		    	<tr class="trLine">
 		    		<td>30만 미만</td>
@@ -164,8 +166,30 @@
     <div id="bidModal">
   		<div class="modal-content" style="width:30%;">
     		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">입찰</h2>
+    		<div>
+    			<div>
+    				<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">현재 입찰가</div>
+    				<div style="width:48%; text-align: center; display:inline-block;" id="modalNowPrice"></div>
+    			</div>
+    			<div>
+	    			<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">최소 입찰가</div>
+	    			<div style="width:48%; text-align: center; display:inline-block;" id="minPrice"></div>
+    			</div>
+    			<div style="margin-bottom:5%;">
+	    			<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">보유 포인트</div>
+	    			<div style="width:48%; text-align: center; display:inline-block;"><fmt:formatNumber value="${ loginUser.memBalance }" pattern="#,##0" /> 포인트</div>
+    			</div>
+    			
+    			<div style="margin-top:5%;margin-bottom:2%;">
+    				<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">입찰 포인트</div>
+    				<input type="text" value="" id="myInputPoint" style="margin-left:4%; width:30%; text-align: center;"> 포인트
+    				<div id="moneyCheck" style="text-align: center; margin-top:3%; color:red;"></div>
+    				<div style="text-align: center; margin-top:2%;"><button style="background: gray; color:white;">포인트 충전</button></div><!--  온클릭 로케이션 -->
+    			</div>
+    		</div>
     		<div style="text-align: right; margin-top:2%; margin-right:5%;">
-        		<button id="closeBidModal" style="width:10%;">닫기</button>
+        		<div id="closeBidModal" style="width:48%; display:inline-block; text-align: center;">닫기</div>
+        		<div id="insertBid" style="width:48%; display:inline-block; text-align: center;">입찰</div>
         	</div>
         </div>
 	</div>
@@ -181,8 +205,15 @@
         	const nowPrice = document.getElementById("nowPrice");
         	const likeBtn = document.getElementById("likeBtn");
         	
+        	const modalNowPrice = document.getElementById("modalNowPrice");
+        	const minPrice = document.getElementById("minPrice");
+        	
         	const bidModal = document.getElementById("bidModal");
         	const closeBidModal = document.getElementById("closeBidModal");
+        	
+        	const myInputPoint = document.getElementById("myInputPoint");
+        	
+        	const moneyCheck = document.getElementById("moneyCheck");
         	
         	fee.addEventListener('click',function(){
         		feeModal.style.display='block';
@@ -244,7 +275,7 @@
 				
 				remainingTime.innerText = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
 				
-				if(remainingTime.innerText == '6일 2시간 55분 59초'){
+				if(remainingTime.innerText == '0일 0시간 0분 0초'){
 					clearInterval(timer);
 					remainingTime.innerText = '경매 종료';
 					check.innerText = '경매 종료'
@@ -254,8 +285,13 @@
 			
 			if(${ empty auction.aucFinishPrice }){
 				nowPrice.innerText = "현재 입찰 없음";
+				modalNowPrice.innerText = "현재 입찰 없음";
+				minPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucStartPrice }" pattern="#,##0" /> 포인트';
+				myInputPoint.value= '${ auction.aucStartPrice }';
+				
 			}else{
-				nowPrice.innerText = '${ auction.aucFinishPrice }';
+				nowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }" pattern="#,##0" /> 포인트';
+				modalNowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }" pattern="#,##0" /> 포인트';
 			}
 			
 			if(${ empty loginUser}){
@@ -265,6 +301,9 @@
 					}
 				})
 			}
+			
+			moneyCheck.innerText='보유하신 포인트가 부족하여 입찰하실 수 없습니다'; //이부분 보유포인트보다 작을때 나오게 하기
+			
 		}
     </script>
 </body>
