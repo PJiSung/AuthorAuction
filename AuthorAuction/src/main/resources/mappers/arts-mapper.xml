@@ -43,7 +43,6 @@
 		<result column="WIS_AMOUNT" property="wisAmount"/>
 	</resultMap>
 	
-	
 	<select id="selectArts" resultMap="promap">
 	
 		SELECT *
