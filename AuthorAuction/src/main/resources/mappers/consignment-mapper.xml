@@ -22,27 +22,10 @@
 	
 	
 	
+
 	
+
+
 	
-	
-		<select id="selectBoard" resultType="Board">
-		select *
-		from board
-			join member on(board_writer = id)
-		where board_status = 'Y' and board_id = #{bid}
-	</select>
-	
-		<select id="selectAttmBoardList" resultType="Attachment">
-		select *
-		from attachment
-		where attm_status='Y' 
-		<if test="bId == null">
-			and attm_level = 0
-		</if>
-		<if test="bId != null">
-			and ref_board_id = #{bId}
-		</if>
-		order by attm_id
-	</select>
 	
 </mapper>
