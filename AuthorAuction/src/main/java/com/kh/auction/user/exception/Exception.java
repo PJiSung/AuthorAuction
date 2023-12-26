@@ -1,7 +1,7 @@
 package com.kh.auction.user.exception;
 
-public class BoardException extends RuntimeException {
+public class Exception extends RuntimeException {
 	
-	public BoardException() {}   
-	public BoardException(String msg) {super(msg);}
+	public Exception() {}   
+	public Exception(String msg) {super(msg);}
 }

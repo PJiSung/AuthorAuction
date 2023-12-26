@@ -70,19 +70,4 @@ public class AuctionController {
 		 return "/auction/auctionDetail";
 	 }
 	
-	@GetMapping("adminInquiry.adac")
-	public String moveToAdminInquiry(@RequestParam(value="page", defaultValue="1") int page, Model model) {
-		int currentPage = page;
-		
-		//관리자 조회 페이지 접근시 기본적으로 진행중인 경매만 보이도록 설정
-		ArrayList<Auction> auctionList = aService.getAllAuction();
-		PageInfo pi = Pagination.getPageInfo(currentPage, auctionList.size(), 10);
-		
-		model.addAttribute("pi", pi);
-		model.addAttribute("aList", auctionList);
-		model.addAttribute("total", auctionList.size());
-		
-		return "/auction/adminInquiry";
-	}
-	 
 }

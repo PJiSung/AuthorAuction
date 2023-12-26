@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.auction.user.model.exception.BoardException;
+
+import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
@@ -106,13 +107,13 @@ public class ConsignmentController {
 				for(Attachment a : list) {
 					deleteFile(a.getAttRename());
 				}
-				throw new BoardException("첨부파일 게시글 등록 실패");
+				throw new Exception("첨부파일 게시글 등록 실패");
 			}
 		} else {
 			if(result1 > 0) {							//	>>>>>>>>>>>> 무조건 첨부가 있어야 하는데 왜 result2>0이 아니야?
 				return "redirect:conInfo.co";			// 일단 등록 성공하면 위탁안내 페이지로 이동
 			} else {
-				throw new BoardException("첨부파일 게시글 등록 실패");
+				throw new Exception("첨부파일 게시글 등록 실패");
 			}
 		}
 	}
@@ -185,11 +186,11 @@ public class ConsignmentController {
 				
 				return "consignment/conDetail";
 			} else {
-				throw new BoardException("첨부파일 게시글 상세조회 실패");
+				throw new Exception("첨부파일 게시글 상세조회 실패");
 			}
 	    } else {
 	    	// 첨부 파일이 없는 경우 상세조회 페이지로 이동X
-	    	throw new BoardException("첨부파일이 없는 게시글");
+	    	throw new Exception("첨부파일이 없는 게시글");
 	    }
 	}
 	
