@@ -15,21 +15,48 @@
 <meta property="og:description" content="웹사이트입니다">
 <meta property="og:image" content="https://웹사이트/images/opengraph.png">
 <meta property="og:url" content="https://웹사이트">
-<title>아이디찾기</title>
+<title>비밀번호 변경</title>
 <link rel="stylesheet" href="member/css/setting.css">
 <link rel="stylesheet" href="member/css/plugin.css">
 <link rel="stylesheet" href="member/css/template.css">
 <link rel="stylesheet" href="member/css/common.css">
 <link rel="stylesheet" href="member/css/style.css">
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<style>
-	.id{
-		float: left;
+<script>
+window.onload = () =>{
+	checkRePwd();
+}
+
+document.addEventListener("keypress", function(e) {
+	if (e.keyCode == 13) {
+		document.querySelector(".btn-box a").click();
 	}
-	.date{
-		float: right;
+});
+ 
+checkPwd = false;
+const checkRePwd = () =>{
+	let rePwd = document.getElementById("reNewPw");
+	rePwd.addEventListener("change", function(){
+    	let memPwd = document.getElementById("newPw");
+    	if(memPwd.value == this.value){
+    		this.style.borderBottomColor = '#8FFF8F';
+    		checkPwd = true;
+    	}else{
+    		this.style.borderBottomColor = 'red';
+    		checkPwd = false;
+    	}
+	});
+}
+
+const submitBtn = () =>{
+	let memPwd = document.getElementById("newPw");
+	if(checkPwd == true){
+		alert("비밀번호 변경이 완료되었습니다.")
+		document.getElementById("updatePwForm").submit();
+	}else{
+		alert("비밀번호를 확인해 주세요.");
 	}
-</style>
+}
+</script>
 </head>
 <body>
 	<main class="th-layout-main ">
@@ -38,19 +65,26 @@
 			<div class="content-container">
 				<div class="form-wrap">
 					<div class="form-header">
-						<h3 class="form-tit">FIND ID</h3>
+						<h3 class="form-tit">CHANGE PW</h3>
 					</div>
 					<div class="form-body">
-						<p>고객님의 정보와 일치하는 아이디입니다.</p>
+				        <form action="updatePw" method="post" id="updatePwForm">
+				        	<input type="hidden" name="memId" value="${id}">
 							<div class="category">
 								<div class="inputset inputset-line inputset-lg">
-									<h2><span class="id">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${m.memId}</span><span class="date">가입 : ${m.memDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h2>
+									<input type="password" class="inputset-input form-control"
+										placeholder="새 비밀번호" aria-label="Pwd" name="memPwd" id="newPw">
+								</div>
+								<div class="inputset inputset-line inputset-lg">
+									<input type="password" class="inputset-input form-control"
+										placeholder="새 비밀번호 확인" aria-label="reNewPw" id="reNewPw">
 								</div>
 							</div>
-							<br>
 							<div class="btn-box">
-								<a class="btnset2 btnset-lg btnset-rect" href="loginView">로그인</a>
+								<a class="btnset2 btnset-lg btnset-rect" href="javascript:void(0)"
+									onclick="submitBtn()">확인</a>
 							</div>
+						</form>
 					</div>
 				</div>
 			</div>

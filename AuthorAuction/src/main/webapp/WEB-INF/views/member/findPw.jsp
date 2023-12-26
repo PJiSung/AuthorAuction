@@ -15,7 +15,7 @@
 <meta property="og:description" content="웹사이트입니다">
 <meta property="og:image" content="https://웹사이트/images/opengraph.png">
 <meta property="og:url" content="https://웹사이트">
-<title>아이디찾기</title>
+<title>비밀번호 찾기</title>
 <link rel="stylesheet" href="member/css/setting.css">
 <link rel="stylesheet" href="member/css/plugin.css">
 <link rel="stylesheet" href="member/css/template.css">
@@ -40,7 +40,7 @@ document.addEventListener("keypress", function(e) {
 		document.querySelector(".btn-box a").click();
 	}
 });
-
+ 
 const resetFn = () =>{
 	let aBtn = document.querySelector(".btn-box a");
 	let inputs = document.querySelectorAll("input[type=text]");
@@ -93,21 +93,22 @@ const category = () =>{
     	let divStatus = document.querySelectorAll(".category")[0].style.display;
     	if(divStatus == "block"){
     		let arr = [];
-        	let name = document.getElementById("name1");
+        	let id = document.getElementById("id1");
         	let email = document.getElementById("email");
-        	arr[0] = name.value;
+        	arr[0] = id.value;
         	arr[1] = email.value;
-        	if(name.value != "" && email.value != ""){
+        	if(id.value != "" && email.value != ""){
         		let aBtn = document.querySelector(".btn-box a");
         		alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
         		document.querySelector('#authDiv1').style.display = 'block';
         		aBtn.innerText = "확인";
 	    	    $.ajax({
 	    	        type : 'get',
-	    	        url : 'findIdbyEmail',
+	    	        url : 'findPwbyEmail',
 	    	        data: {'arr':arr},
 	    	        success : function (data) {
 	    	        	if(data != 0){
+	    	        		console.log(data);
         					authNum = data;
         					aBtn.onclick = checkNum1;
         				}else{
@@ -118,17 +119,17 @@ const category = () =>{
         	}
     	}else{
     		let arr = [];
-        	let name = document.getElementById("name2");
+        	let id = document.getElementById("id2");
         	let phone = document.getElementById("phone");
-        	arr[0] = name.value;
+        	arr[0] = id.value;
         	arr[1] = phone.value;
-        	if(name.value != "" && phone.value != ""){
+        	if(id.value != "" && phone.value != ""){
         		let aBtn = document.querySelector(".btn-box a");
         		alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
         		document.querySelector('#authDiv2').style.display = 'block';
         		aBtn.innerText = "확인";
         		$.ajax({
-        			url: "findIdbyPhone",
+        			url: "findPwbyPhone",
         			data: {'arr' : arr},
         			success: (data) =>{
         				if(data != 0){
@@ -146,10 +147,10 @@ const category = () =>{
     
     const checkNum1 = () =>{
     	let inputNum = document.getElementById("authNum1");
-        let name = document.getElementById("name1");
+        let id = document.getElementById("id1");
         let email = document.getElementById("email");
         if(authNum == inputNum.value){
-        	location.href = "showId?memName="+name.value+"&memEmail="+email.value;
+        	location.href = "updatePwView?memId="+id.value+"&memEmail="+email.value;
         }else{
         	alert("인증번호가 일치하지 않습니다");
         	inputNum.focus();
@@ -158,10 +159,10 @@ const category = () =>{
     
     const checkNum2 = () =>{
     	let inputNum = document.getElementById("authNum2");
-        let name = document.getElementById("name2");
+        let id = document.getElementById("id2");
         let phone = document.getElementById("phone");
         if(authNum == inputNum.value){
-        	location.href = "showId?memName="+name.value+"&memPhone="+phone.value;
+        	location.href = "updatePwView?memId="+id.value+"&memPhone="+phone.value;
         }else{
         	alert("인증번호가 일치하지 않습니다");
         	inputNum.focus();
@@ -177,7 +178,7 @@ const category = () =>{
 			<div class="content-container">
 				<div class="form-wrap">
 					<div class="form-header">
-						<h3 class="form-tit">FIND ID</h3>
+						<h3 class="form-tit">FIND PW</h3>
 					</div>
 					<div class="form-body">
 						 <fieldset class="fieldset">
@@ -200,7 +201,7 @@ const category = () =>{
 							<div class="category">
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
-										placeholder="이름" aria-label="Name" name="memName" id="name1">
+										placeholder="아이디" aria-label="Id" name="memId" id="id1">
 								</div>
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
@@ -214,7 +215,7 @@ const category = () =>{
 							<div class="category">
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
-										placeholder="이름" aria-label="Name" name="memName" id="name2">
+										placeholder="아이디" aria-label="Id" name="memId" id="id2">
 								</div>
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"

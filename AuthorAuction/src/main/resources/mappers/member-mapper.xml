@@ -25,10 +25,16 @@
 		WHERE MEM_ID = #{memId} AND MEM_STATUS = 'Y'
 	</select>
 	
-	<select id="findIdbyPhone">
+	<select id="findMyInfo">
 		SELECT *
 		FROM MEMBER
-		WHERE MEM_NAME = #{memName} AND MEM_STATUS = 'Y'
+		WHERE MEM_STATUS = 'Y'
+		<if test="memId != null">
+			AND MEM_ID = #{memId}
+		</if>
+		<if test="memName != null">
+			AND MEM_NAME = #{memName}
+		</if>
 		<if test="memPhone != null">
 			AND MEM_PHONE = #{memPhone} 
 		</if>
@@ -36,5 +42,11 @@
 			AND MEM_EMAIL = #{memEmail}
 		</if>
 	</select>
+	
+	<update id="updatePwd">
+		UPDATE MEMBER
+		SET MEM_PWD = #{memPwd} 
+		WHERE MEM_ID = #{memId}
+	</update>
 	
 </mapper>

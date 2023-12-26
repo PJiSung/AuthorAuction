@@ -67,6 +67,12 @@
 }
 </style>
 <script>
+document.addEventListener("keypress", function(e) {
+	if (e.keyCode == 13) {
+		document.querySelector(".btn-box a").click();
+	}
+});
+
 const showModal = () =>{
 	let modal = document.getElementById('myModal');
 	modal.style.display = 'block';

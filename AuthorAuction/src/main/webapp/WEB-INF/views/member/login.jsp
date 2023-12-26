@@ -26,6 +26,12 @@
 const submitBtn = () =>{
 	document.getElementById('loginForm').submit();
 }
+
+document.addEventListener("keypress", function(e) {
+	if (e.keyCode == 13) {
+		document.querySelector(".btn-box a").click();
+	}
+});
 </script>
 <body>
 	<main class="th-layout-main ">

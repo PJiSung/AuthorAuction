@@ -1,7 +1,6 @@
 package com.kh.auction.member.controller;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
@@ -113,7 +112,7 @@ public class MemberController {
 	}
 
 	@PostMapping("insertMember")
-	public String insertMember(@ModelAttribute Member m) {
+	public String insertMember(@ModelAttribute Member m) throws Exception {
 		byte[] decodedBytes = Base64.getDecoder().decode(m.getMemPhone());
 		String phone = new String(decodedBytes, StandardCharsets.UTF_8);
 		m.setMemPhone(phone);
@@ -122,7 +121,7 @@ public class MemberController {
 		if (result > 0) {
 			return "member/enrollComplete";
 		} else {
-			return "member/login";// 수정 실패창이동
+			throw new Exception("회원가입 실패");
 		}
 	}
 
@@ -138,7 +137,7 @@ public class MemberController {
 		Member m = new Member();
 		m.setMemName(arr[0]);
 		m.setMemPhone(arr[1]);
-		Member mem = mService.findIdbyPhone(m);
+		Member mem = mService.findMyInfo(m);
 		if (mem != null) {
 //			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
 //			Message message = new Message();
@@ -162,30 +161,16 @@ public class MemberController {
 		return authNum;
 	}
 
-	@PostMapping("findIdbyEmail")
-	public String findIdbyEmail(Member m) {
-
-		return "";
-	}
-
-	@GetMapping("showId")
-	public String showId(Member m, Model model) {
-		Member mem = mService.findIdbyPhone(m);
-		model.addAttribute("m", mem);
-		return "member/showId";
-	}
-
 	@GetMapping("findIdbyEmail")
 	@ResponseBody
 	public int findIdbyEmail(@RequestParam("arr[]") String[] arr) {
-		Random r = new Random();
 		int checkNum = 0;
 		Member m = new Member();
 		m.setMemName(arr[0]);
 		m.setMemEmail(arr[1]);
-		Member mem = mService.findIdbyPhone(m);
-		System.out.println(mem);
+		Member mem = mService.findMyInfo(m);
 		if(mem != null) {
+			Random r = new Random();
 			checkNum = r.nextInt(888888) + 111111;
 			String subject = "인증 코드";
 			String content = "<h1>Author Auction</h1><br>고객님의 인증 코드는 다음과 같습니다.<br><h1>" + checkNum +"</h1>";
@@ -205,5 +190,98 @@ public class MemberController {
 			}
 		}
 		return checkNum;
+	}
+	
+	@GetMapping("showId")
+	public String showId(Member m, Model model) {
+		Member mem = mService.findMyInfo(m);
+		model.addAttribute("m", mem);
+		return "member/showId";
+	}
+	
+	@GetMapping("findPwView")
+	public String findPwView() {
+		return "member/findPw";
+	}
+	
+	@GetMapping("findPwbyPhone")
+	@ResponseBody
+	public int findPwbyPhone(@RequestParam("arr[]") String[] arr) {
+		int authNum = 0;
+		Member m = new Member();
+		m.setMemId(arr[0]);
+		m.setMemPhone(arr[1]);
+		Member mem = mService.findMyInfo(m);
+		if (mem != null) {
+//			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
+//			Message message = new Message();
+//			message.setFrom("01068938300");
+//			message.setTo(m.getMemPhone());
+//			
+//			Random r = new Random();
+//		    authNum = r.nextInt(888888) + 111111;
+//		    message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
+//
+//			try {
+//			  messageService.send(message);
+//			} catch (NurigoMessageNotReceivedException exception) {
+//			  System.out.println(exception.getFailedMessageList());
+//			  System.out.println(exception.getMessage());
+//			} catch (Exception exception) {
+//			  System.out.println(exception.getMessage());
+//			}
+		}
+		authNum = 1;
+		return authNum;
+	}
+
+	@GetMapping("findPwbyEmail")
+	@ResponseBody
+	public int findPwbyEmail(@RequestParam("arr[]") String[] arr) {
+		int checkNum = 0;
+		Member m = new Member();
+		m.setMemId(arr[0]);
+		m.setMemEmail(arr[1]);
+		Member mem = mService.findMyInfo(m);
+		if(mem != null) {
+			Random r = new Random();
+			checkNum = r.nextInt(888888) + 111111;
+			String subject = "인증 코드";
+			String content = "<h1>Author Auction</h1><br>고객님의 인증 코드는 다음과 같습니다.<br><h1>" + checkNum +"</h1>";
+			String from = "gah_yn@naver.com";
+			String to = arr[1];
+			try {
+				MimeMessage mail = mailSender.createMimeMessage();
+				MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+				mailHelper.setFrom(from); 
+				mailHelper.setTo(to);
+				mailHelper.setSubject(subject); 
+				mailHelper.setText(content, true);
+				mailSender.send(mail);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return checkNum;
+	}
+	
+	@GetMapping("updatePwView")
+	public String updatePwView(Member m, Model model) {
+		Member mem = mService.findMyInfo(m);
+		if(mem != null) {
+			model.addAttribute("id", mem.getMemId());
+		}
+		return "member/updatePw";
+	}
+	
+	@PostMapping("updatePw")
+	public String updatePwView(Member m) throws Exception {
+		m.setMemPwd(bcrypt.encode(m.getMemPwd()));
+		int result = mService.updatePwd(m);
+		if(result > 0) {
+			return "redirect:loginView";
+		} else {
+			throw new Exception("비밀번호 변경 실패");
+		}
 	}
 }

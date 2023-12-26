@@ -33,8 +33,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member findIdbyPhone(Member m) {
-		return mDao.findIdbyPhone(m);
+	public Member findMyInfo(Member m) {
+		return mDao.findMyInfo(m);
+	}
+
+	@Override
+	public int updatePwd(Member m) {
+		return mDao.updatePwd(m);
 	}
 	
 }

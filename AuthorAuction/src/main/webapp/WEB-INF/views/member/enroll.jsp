@@ -26,122 +26,126 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-		window.onload = () =>{
-			selectEmail();
-			checkId();
-			checkNickName();
-			checkRePwd();
-		}
+window.onload = () =>{
+	selectEmail();
+	checkId();
+	checkNickName();
+	checkRePwd();
+}
 
-	    function sample6_execDaumPostcode() {
-	        new daum.Postcode({
-	            oncomplete: function(data) {
-	                var addr = '';
-	                var extraAddr = '';
+document.addEventListener("keypress", function(e) {
+	if (e.keyCode == 13) {
+		document.querySelector(".btn-box a").click();
+	}
+});
+
+function sample6_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var addr = '';
+            var extraAddr = '';
+
+            if (data.userSelectedType === 'R') {
+                addr = data.roadAddress;
+            } else {
+                addr = data.jibunAddress;
+            }
+
+            if(data.userSelectedType === 'R'){
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                document.getElementById("sample6_extraAddress").value = extraAddr;
+            
+            } else {
+                document.getElementById("sample6_extraAddress").value = '';
+            }
+
+            document.getElementById('sample6_postcode').value = data.zonecode;
+            document.getElementById("sample6_address").value = addr;
+            document.getElementById("sample6_detailAddress").focus();
+        }
+    }).open();
+} 
+   
+const submitBtn = () =>{
+	let address = "";
+	let email = "";
+	address += document.getElementById("sample6_postcode").value+"@";
+	address += document.getElementById("sample6_address").value+"@";
+	address += document.getElementById("sample6_detailAddress").value+"@";
+	address += document.getElementById("sample6_extraAddress").value;
+	document.getElementsByName("memAddress")[0].value = address;
+  	
+  	email += document.getElementById("frontEmail").value+"@";
+  	email += document.getElementById("backEmail").value;
+	document.getElementsByName("memEmail")[0].value = email;	    	
+  	document.getElementById('enrollForm').submit();
+}
+   
+const selectEmail = () =>{
+	let btns = document.getElementsByClassName("selectset-link btn");
+	for (let i = 0; i < btns.length; i++) {
+		btns[i].addEventListener("click", function () {
+			let spanElement = this.querySelector("span");
+			document.getElementById("backEmail").value = spanElement.innerText;
+	    });
+	}
+}
+   
+const checkId = () =>{
+	document.getElementsByName('memId')[0].addEventListener('change', function(){
+		$.ajax({
+ 		url: 'checkId',
+ 		data: {memId:this.value.trim()},
+ 		success: (data) =>{
+ 			if(data == 0){
+ 				this.style.borderBottomColor = '#8FFF8F';
+ 			} else {
+ 				this.style.borderBottomColor = 'red';
+ 			}
+ 		},
+ 		error: data => console.log(data)
+ 		});
+	});
+}
+   
+const checkNickName = () =>{
+	document.getElementsByName('memNickName')[0].addEventListener('change', function(){
+		$.ajax({
+ 		url: 'checkNickName',
+ 		data: {memNickName:this.value.trim()},
+ 		success: (data) =>{
+ 			if(data == 0){
+ 				this.style.borderBottomColor = '#8FFF8F';
+ 			} else {
+ 				this.style.borderBottomColor = 'red';
+ 			}
+ 		},
+ 		error: data => console.log(data)
+ 		});
+	});
+}
+   
+const checkRePwd = () =>{
+	let rePwd = document.getElementById("reMemPwd");
+	rePwd.addEventListener("change", function(){
+	 	let memPwd = document.getElementsByName("memPwd")[0].value;
+	 	if(memPwd == this.value){
+	 		this.style.borderBottomColor = '#8FFF8F';
+	 	}else{
+	 		this.style.borderBottomColor = 'red';
+	 	}
+	});
+}
 	
-	                if (data.userSelectedType === 'R') {
-	                    addr = data.roadAddress;
-	                } else {
-	                    addr = data.jibunAddress;
-	                }
-	
-	                if(data.userSelectedType === 'R'){
-	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	                        extraAddr += data.bname;
-	                    }
-	                    if(data.buildingName !== '' && data.apartment === 'Y'){
-	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	                    }
-	                    if(extraAddr !== ''){
-	                        extraAddr = ' (' + extraAddr + ')';
-	                    }
-	                    document.getElementById("sample6_extraAddress").value = extraAddr;
-	                
-	                } else {
-	                    document.getElementById("sample6_extraAddress").value = '';
-	                }
-	
-	                document.getElementById('sample6_postcode').value = data.zonecode;
-	                document.getElementById("sample6_address").value = addr;
-	                document.getElementById("sample6_detailAddress").focus();
-	            }
-	        }).open();
-	    } 
-	    
-	    const submitBtn = () =>{
-	    	let address = "";
-	    	let email = "";
-	    	address += document.getElementById("sample6_postcode").value+"@";
-	    	address += document.getElementById("sample6_address").value+"@";
-	    	address += document.getElementById("sample6_detailAddress").value+"@";
-	    	address += document.getElementById("sample6_extraAddress").value;
-	    	document.getElementsByName("memAddress")[0].value = address;
-	    	
-	    	email += document.getElementById("frontEmail").value+"@";
-	    	email += document.getElementById("backEmail").value;
-			document.getElementsByName("memEmail")[0].value = email;	    	
-	    	document.getElementById('enrollForm').submit();
-	    }
-	    
-	    const selectEmail = () =>{
-	    	let btns = document.getElementsByClassName("selectset-link btn");
-		    for (let i = 0; i < btns.length; i++) {
-		    	btns[i].addEventListener("click", function () {
-		    		let spanElement = this.querySelector("span");
-		    		document.getElementById("backEmail").value = spanElement.innerText;
-		        });
-		    }
-	    }
-	    
-	    const checkId = () =>{
-	    	document.getElementsByName('memId')[0].addEventListener('change', function(){
-	    		$.ajax({
-		    		url: 'checkId',
-		    		data: {memId:this.value.trim()},
-		    		success: (data) =>{
-		    			if(data == 0){
-		    				this.style.borderBottomColor = '#8FFF8F';
-		    			} else {
-		    				this.style.borderBottomColor = 'red';
-		    			}
-		    		},
-		    		error: data => console.log(data)
-		    	});
-	    	});
-	    }
-	    
-	    const checkNickName = () =>{
-	    	document.getElementsByName('memNickName')[0].addEventListener('change', function(){
-	    		$.ajax({
-		    		url: 'checkNickName',
-		    		data: {memNickName:this.value.trim()},
-		    		success: (data) =>{
-		    			if(data == 0){
-		    				this.style.borderBottomColor = '#8FFF8F';
-		    			} else {
-		    				this.style.borderBottomColor = 'red';
-		    			}
-		    		},
-		    		error: data => console.log(data)
-		    	});
-	    	});
-	    }
-	    
-	    const checkRePwd = () =>{
-	    	let rePwd = document.getElementById("reMemPwd");
-	    	rePwd.addEventListener("change", function(){
-		    	let memPwd = document.getElementsByName("memPwd")[0].value;
-		    	if(memPwd == this.value){
-		    		this.style.borderBottomColor = '#8FFF8F';
-		    	}else{
-		    		this.style.borderBottomColor = 'red';
-		    	}
-	    	});
-	    	
-	    	
-	    }
-		
-	</script>
+</script>
 <body>
 	<main class="th-layout-main">
 		<!-- [S]bloomcity-N14 -->
