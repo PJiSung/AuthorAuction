@@ -478,7 +478,7 @@
                   <button class="contents-btn btn-like-fill">
                     <img src="sunwoo/icons/ico_like_black_fill.svg" alt="하트 채워진 아이콘">
                   </button>
-                  <button class="contents-btn" onclick = "share()">
+                  <button class="contents-btn" onclick = "share('on')">
                     <img src="sunwoo/icons/ico_share_black.svg" alt="공유 아이콘">
                   </button>
                 </div>
@@ -593,31 +593,55 @@
   
   
   
- <div class="sns_share">
+ <div class="sns_share" style = "position: fixed;
+	z-index: 1;
+	padding-top: 50vh;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);">
+	
+	<div style = "width: 500px;
+	height: 200px;
+	padding: 30px 30px;
+	margin: 0 auto;
+	border: 1px solid #777;
+	background-color: #fff;">
+	
+ 	<span style = "float: right;
+	font-weight: bold;
+	color: #777;
+	font-size: 25px;
+	cursor: pointer;" onclick = "share('off')">&times;</span>
+	
 	<button class="sns_share_btn" onclick="">SNS공유</button>
+		<input id = "snsaddress" type = "text" readonly style = "width: 50%;">
 	<div>
+	
       <!-- Kakao -->
       <button type="button"class="sns_btn">
         <a id="kakao-link-btn" href="javascript:shareKakao()">
-          <img src="/images/kakao.png" alt="카카오톡 공유하기">
+          <img src="sunwoo/icons/icon-kakao.png" alt="카카오톡 공유하기">
         </a>
       </button>
       
       <!-- NAVER -->
       <button type="button" class="sns_btn" onclick="shareNaver()">
-        <img src="/images/naver.png" alt="네이버 공유하기">
+        <img src="sunwoo/icons/naver.png" alt="네이버 공유하기">
       </button>
       
       <!-- Facebook -->
       <!-- facebook은 공유하려는 페이지에 meta og 설정 -->
       <button type="button" class="sns_btn" onclick="shareFacebook()">
-        <img src="/images/facebook.png" alt="페이스북 공유하기">
+        <img src="sunwoo/icons/icon-facebook.png" alt="페이스북 공유하기">
       </button>
       
       <!-- Twitter -->
       <!-- script 작성 시 -->
       <button type="button" class="sns_btn" onclick="shareTwitter()">
-        <img src="/images/twitter.png" alt="트위터 공유하기">
+        <img src="sunwoo/icons/icon-twitter.png" alt="트위터 공유하기">
       </button>
       
       <!-- a태그에 작성 시 -->
@@ -641,6 +665,7 @@
       </button>
 
 	</div>
+	</div>
 </div>
   
   
@@ -659,6 +684,7 @@
   	//주문가능수량 스크립트
   	
   	const amount = document.getElementById('amount').innerText;
+  	document.getElementById('snsaddress').value = window.location.href;
 
   	function checkamount(){
   		var num = document.getElementsByClassName('contents-amount-num')[0].innerText;
@@ -708,13 +734,12 @@
   	
   	document.getElementsByClassName('sns_share')[0].style.display = "none";
   	
-  	function share(){
+  	function share(condition){
   		
-  		if(document.getElementsByClassName('sns_share')[0].style.display == "none"){
+  		if(condition == 'on'){
   			document.getElementsByClassName('sns_share')[0].style.display = "block";
   			
   		}else{
-  			
   			document.getElementsByClassName('sns_share')[0].style.display = "none";
   		};
   		
