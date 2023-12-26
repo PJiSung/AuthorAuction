@@ -160,7 +160,6 @@
 		</div>
 	</div>
         
-<<<<<<< HEAD
     <!-- 입찰 모달 -->
     <div id="bidModal">
   		<div class="modal-content" style="width:30%;">
@@ -170,11 +169,6 @@
         	</div>
         </div>
 	</div>
-=======
-    
-        
-        
->>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
         
 	<jsp:include page="../common/footer.jsp"/>
 
