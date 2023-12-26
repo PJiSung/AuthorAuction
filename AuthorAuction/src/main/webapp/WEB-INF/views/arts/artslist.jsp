@@ -45,24 +45,24 @@
 <body>
 
 
-<!-- [S]personal-rglq12YMbj -->
+  <!-- [S]personal-rglq12YMbj -->
   <div class="personal-rglq12YMbj" data-bid="uIlq13xFtx" id="">
     <div class="header-container container-lg">
       <div class="header-left">
         <h1 class="header-title">
           <a href="javascript:void(0)">
              <h5>AAUCTION</h5>
-           <!-- <img src="rosaimages/" alt="로고"> -->
+           <!-- <img src="images/" alt="로고"> -->
           </a>
         </h1>
       </div>
       <div class="header-center">
         <ul class="header-member">
           <li>
-            <a href="javascript:void(0)">로그인</a>
+            <a href="loginView">로그인</a>
           </li>
           <li>
-            <a href="javascript:void(0)">회원가입</a>
+            <a href="authenticationView">회원가입</a>
           </li>
         </ul>
         <ul class="header-gnblist">
@@ -72,7 +72,7 @@
             </a>
             <ul class="header-sublist">
               <li class="header-subitem">
-                <a class="header-sublink" href="${contextPath}/home.jsp">
+                <a class="header-sublink" href="auctionList.ac">
                   <span>온라인 경매</span>
                 </a>
               </li>
@@ -98,12 +98,12 @@
           <li class="header-gnbitem">
           </li>
           <li class="header-gnbitem">
-            <a class="header-gnblink" href="javascript:void(0)">
+            <a class="header-gnblink" href="myOrderList.jsp"">
               <span>RECOMMEND</span>
             </a>
             <ul class="header-sublist">
               <li class="header-subitem">
-                <a class="header-sublink" href="javascript:void(0)">
+                <a class="header-sublink" href="myReviewList.jsp">
                   <span>1:1 추천</span>
                 </a>
               </li>
@@ -115,7 +115,7 @@
             </ul>
           </li>
           <li class="header-gnbitem">
-            <a class="header-gnblink" href="javascript:void(0)">
+            <a class="header-gnblink" href="manaOrderList.jsp">
               <span>HOW TO</span>
             </a>
             <ul class="header-sublist">
@@ -130,7 +130,7 @@
                 </a>
               </li>
               <li class="header-subitem">
-                <a class="header-sublink" href="javascript:void(0)">
+                <a class="header-sublink" href="conInfo.co">
                   <span>위탁 안내</span>
                 </a>
               </li>
@@ -140,16 +140,16 @@
       </div>
       <div class="header-right">
         <div class="header-utils">
-          <a href=""><span class="header-gnblink">LOGIN</span></a>
+          <a href="loginView"><span class="header-gnblink">LOGIN</span></a>
           <!-- <a href=""><span class="header-gnblink">LOGOUT</span></a>  -->
           <div class="dropdown btn-user header-utils-btn">
-            <img src="sunwoo/rosaicons/ico_user_black.svg" class="dropbtn" alt="유저 아이콘">
+            <img src="main/icons/ico_user_black.svg" class="dropbtn" alt="유저 아이콘">
             <div class="dropdown-content-user">
                <table>
                   <tr>
                      <td class="profile">
                         <div class="profilePic">
-                           <img src="resources/mainPic/profilePic.jpg" alt="프로필 사진" class="profileImg">
+                           <img src="main/mainPic/profilePic.jpg" alt="프로필 사진" class="profileImg">
                         </div>
                      </td>
                      <td style="line-height: 20px; cursor: pointer;" onclick="location.href='';">
@@ -177,15 +177,15 @@
              </div>
           </div>
           <a href="javascipt:void(0);" class="btn-cart header-utils-btn">
-            <img src="sunwoo/rosaicons/ico_cart_black.svg" alt="쇼핑 아이콘">
+            <img src="main/icons/ico_cart_black.svg" alt="쇼핑 아이콘">
             <span class="cartCount">1</span>
           </a>
           <div class="dropdown btn-search header-utils-btn">
-            <img src="sunwoo/rosaicons/ico_seach_black.svg" class="dropbtn" alt="검색 아이콘">
+            <img src="main/icons/ico_seach_black.svg" class="dropbtn" alt="검색 아이콘">
             <div class="dropdown-content-keyword">
               <form id="search-form">
                   <input type="text" id="search-input" placeholder="작품명 또는 작가명">
-                  <button><img alt="검색 버튼" src="sunwoo/rosaicons/ico_seach_black.svg"></button>
+                  <button><img alt="검색 버튼" src="main/icons/ico_seach_black.svg"></button>
               </form>
               <div id="search-results">
               	<div class="searchDiv">
@@ -193,7 +193,7 @@
                     <tr>
                        <td style="width: 17%;">
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/news1.jpg">
+                             <img alt="검색 사진" src="main/mainPic/news1.jpg">
                           </div>
                        </td>
                        <td style="width: 53%;">
@@ -206,7 +206,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/auction4.png">
+                             <img alt="검색 사진" src="main/mainPic/auction4.png">
                           </div>
                        </td>
                        <td>
@@ -219,7 +219,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/news3.jpeg">
+                             <img alt="검색 사진" src="main/mainPic/news3.jpeg">
                           </div>
                        </td>
                        <td>
@@ -232,7 +232,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/product2.png">
+                             <img alt="검색 사진" src="main/mainPic/product2.png">
                           </div>
                        </td>
                        <td>
@@ -245,7 +245,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/product4.png">
+                             <img alt="검색 사진" src="main/mainPic/product4.png">
                           </div>
                        </td>
                        <td>
@@ -258,7 +258,7 @@
                     <tr>
                        <td>
                           <div class="searchImg">
-                             <img alt="검색 사진" src="resources/mainPic/product1.png">
+                             <img alt="검색 사진" src="main/mainPic/product1.png">
                           </div>
                        </td>
                        <td>
@@ -304,13 +304,13 @@
           </div>
           </div>
           <button class="btn-allmenu header-utils-btn">
-            <img src="sunwoo/rosaicons/ico_menu_black.svg" alt="PC메뉴">
+            <img src="main/icons/ico_menu_black.svg" alt="PC메뉴">
           </button>
           <button class="btn-momenu header-utils-btn">
-            <img src="sunwoo/rosaicons/ico_menu_black.svg" alt="모바일메뉴">
+            <img src="main/icons/ico_menu_black.svg" alt="모바일메뉴">
           </button>
           <button class="btn-moclose header-utils-btn">
-            <img src="sunwoo/rosaicons/ico_close_black.svg" alt="닫기">
+            <img src="main/icons/ico_close_black.svg" alt="닫기">
           </button>
         </div>
       </div>
@@ -320,15 +320,15 @@
         <div class="fullmenu-head">
           <h4 class="fullmenu-title">
             <a href="javascript:void(0)">
-              <img src="rosaimages/" alt="로고">
+              <img src="main/images/" alt="로고">
             </a>
           </h4>
           <ul class="fullmenu-member">
             <li>
-              <a href="javascript:void(0)">로그인</a>
+              <a href="loginView">로그인</a>
             </li>
             <li>
-              <a href="javascript:void(0)">회원가입</a>
+              <a href="authenticationView">회원가입</a>
             </li>
           </ul>
         </div>
@@ -404,10 +404,11 @@
         </ul>
       </div>
       <button class="fullmenu-close">
-        <img src="sunwoo/rosaicons/ico_close_white.svg" alt="닫기">
+        <img src="main/icons/ico_close_white.svg" alt="닫기">
       </button>
     </div>
   </div>
+  <!-- [E]header -->
 
  	<script src="sunwoo/rosajs/setting.js"></script>
 	<script src="sunwoo/rosajs/plugin.js"></script>
@@ -805,7 +806,7 @@
                 </div>
                 <div class="pagiset-list">
                   <c:forEach var = "page" begin = "${pi.startPage}" end ="${pi.endPage}">
-                  <a class= "${pi.currentPage  == page} ? pagiset-link active-fill : pagiset-link"  href="${loc}?page=${page}">${page}</a>
+                  <a class= "${pi.currentPage == page} ? pagiset-link active-fill : pagiset-link"  href="${loc}?page=${page}">${page}</a>
                   </c:forEach>
                 </div>
                 <div class="pagiset-ctrl">
