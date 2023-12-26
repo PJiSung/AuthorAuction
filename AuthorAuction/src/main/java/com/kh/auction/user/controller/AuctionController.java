@@ -26,7 +26,7 @@ public class AuctionController {
 	@Autowired
 	private AuctionService aService;
 	
-	@GetMapping("auctionList.ac")
+	@GetMapping("auctionList.ac") 
 	public String moveToAuctionList(@RequestParam(value="page", defaultValue="1") int page, Model model) {
 		int currentPage = page;
 		
