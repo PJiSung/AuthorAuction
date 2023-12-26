@@ -52,22 +52,24 @@ public class AuctionController {
 		
 		Member m = ((Member)model.getAttribute("loginUser"));
 		
-		String finishDate = auction.getAucFinishDate();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-		Date date = null;
-		
-		try {
-			date = sdf.parse(finishDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			} 
-	  
-		model.addAttribute("finishDate", date);
+		/*
+		 * String finishDate = auction.getAucFinishDate(); SimpleDateFormat sdf = new
+		 * SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 * 
+		 * Date date = null;
+		 * 
+		 * try { date = sdf.parse(finishDate); } catch (ParseException e) {
+		 * e.printStackTrace(); }
+		 * 
+		 * model.addAttribute("finishDate", date);
+		 */
 		model.addAttribute("auction",auction);
 		model.addAttribute("page", page);
 		 
-		 return "/auction/auctionDetail";
+		
+		System.out.println(auction);
+		
+		return "/auction/auctionDetail";
 	 }
 	
 }

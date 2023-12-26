@@ -11,7 +11,7 @@
 		    join (select *
 		    		from consignment 
 		    			join attachment on (con_no = att_bno) 
-		    		where att_category = 1) on (auc_no = con_no)
+		    		where att_category = 2) on (auc_no = con_no)
 		where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
         		TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS')
 		]]>
@@ -25,7 +25,7 @@
 		    join (select *
 		    		from consignment 
 		    			join attachment on (con_no = att_bno) 
-		    		where att_category = 1) on (auc_no = con_no)
+		    		where att_category = 2) on (auc_no = con_no)
 		where auc_no = #{aucNo}
 	</select>
 	
@@ -40,7 +40,7 @@
 		    join (select *
 		    		from consignment 
 		    			join attachment on (con_no = att_bno) 
-		    		where att_category = 1) on (auc_no = con_no)
+		    		where att_category = 2) on (auc_no = con_no)
 		<if test="auctionStatus != null">
 		<choose>
 			<when test="auctionStatus == 'ongoing'">
@@ -57,26 +57,6 @@
 					</when>
 					<otherwise></otherwise>
 				</choose>
-				<if test="aucSS != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucSE != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucFS != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucFE != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
 			</when>
 			
 			<!--  -->
@@ -94,7 +74,7 @@
 					</when>
 					<otherwise></otherwise>
 				</choose>
-				<if test="aucSS != ''">
+				<!-- <if test="aucSS != ''">
 					<![CDATA[
 						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
 					]]>
@@ -113,7 +93,7 @@
 					<![CDATA[
 						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
 					]]>
-				</if>
+				</if> -->
 			</when>
 			
 			<!--  -->
@@ -131,7 +111,29 @@
 					</when>
 					<otherwise></otherwise>
 				</choose>
-				<if test="aucSS != ''">
+				<!-- <if test="aucSS != ''">
+					<![CDATA[
+						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+					]]>
+				</if>
+				<if test="aucSE != ''">
+					<![CDATA[
+						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+					]]>
+				</if>
+				<if test="aucFS != ''">
+					<![CDATA[
+						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+					]]>
+				</if>
+				<if test="aucFE != ''">
+					<![CDATA[
+						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+					]]>
+				</if> -->
+			</when>
+		</choose>
+		<if test="aucSS != ''">
 					<![CDATA[
 						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
 					]]>
@@ -151,9 +153,6 @@
 						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
 					]]>
 				</if>
-			</when>
-			
-		</choose>
 		</if>
 		
 		
