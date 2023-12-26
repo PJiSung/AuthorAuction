@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-	#modal {
+	#feeModal, #bidModal {
 	  position: fixed;
 	  z-index: 1;
 	  left: 0;
@@ -105,7 +105,7 @@
     </div>
         
         <!-- 낙찰 수수료 모달창 -->
-    <div id="modal">
+    <div id="feeModal">
   		<div class="modal-content" style="width:30%;">
     		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">낙찰 수수료 안내</h2>
 		    <table style="margin:auto; border-collapse: collapse; text-align: center; width:80%;">
@@ -155,39 +155,60 @@
 		    	</tr>
 		    </table>
 		    <div style="text-align: right; margin-top:2%; margin-right:5%;">
-		    	<button id="close-modal" style="width:10%;">닫기</button>
+		    	<button id="closeFeeModal" style="width:10%;">닫기</button>
 		    </div>
 		</div>
 	</div>
         
+<<<<<<< HEAD
+    <!-- 입찰 모달 -->
+    <div id="bidModal">
+  		<div class="modal-content" style="width:30%;">
+    		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">입찰</h2>
+    		<div style="text-align: right; margin-top:2%; margin-right:5%;">
+        		<button id="closeBidModal" style="width:10%;">닫기</button>
+        	</div>
+        </div>
+	</div>
+=======
     
         
         
+>>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
         
 	<jsp:include page="../common/footer.jsp"/>
 
 	<script>
         window.onload = function(){
         	const fee = document.getElementById("fee");
-        	const feeModal = document.getElementById("modal");
-        	const closeModal = document.getElementById("close-modal");
+        	const feeModal = document.getElementById("feeModal");
+        	const closeFeeModal = document.getElementById("closeFeeModal");
+        	
         	const nowPrice = document.getElementById("nowPrice");
         	const likeBtn = document.getElementById("likeBtn");
+        	
+        	const bidModal = document.getElementById("bidModal");
+        	const closeBidModal = document.getElementById("closeBidModal");
+        	
         	fee.addEventListener('click',function(){
         		feeModal.style.display='block';
         	})
-        	closeModal.addEventListener('click',function(){
+        	closeFeeModal.addEventListener('click',function(){
         		feeModal.style.display='none';
+        	})
+        	
+        	closeBidModal.addEventListener('click',function(){
+        		bidModal.style.display="none";
         	})
         	
         	const check = document.getElementById("checkId");
         	let remainingTime = document.getElementById("remainingTime");
         	
         	function bidding(){
-        		console.log(1);
+        		bidModal.style.display="block";
         	}
         	
-        	if(${ !empty session.loginUser }){
+        	if(${ !empty loginUser }){
 				check.innerText = "입찰하기";
 				check.addEventListener('click', bidding);
         	}else{
@@ -243,10 +264,10 @@
 				nowPrice.innerText = '${ auction.aucFinishPrice }';
 			}
 			
-			if(${ empty session.loginUser}){
+			if(${ empty loginUser}){
 				likeBtn.addEventListener('click',function(){
 					if(confirm("로그인을 하셔야 관심 목록에 추가하실 수 있습니다. \n로그인 하시겠습니까?")){
-						/* location.href='loginView'; */
+						location.href='loginView';
 					}
 				})
 			}
