@@ -13,9 +13,10 @@ public class Recommendation {
 	private String recAttachment;
 	private Date recRepDate;
 	private Date recCreateDate;
+	private String memId;
 	
 	public Recommendation() {}
-	
+
 	public int getRecNo() {
 		return recNo;
 	}
@@ -88,8 +89,16 @@ public class Recommendation {
 		this.recCreateDate = recCreateDate;
 	}
 
+	public String getMemId() {
+		return memId;
+	}
+
+	public void setMemId(String memId) {
+		this.memId = memId;
+	}
+
 	public Recommendation(int recNo, String recTitle, String recContent, String recStyle, String recStatus,
-			String recReply, String recAttachment, Date recRepDate, Date recCreateDate) {
+			String recReply, String recAttachment, Date recRepDate, Date recCreateDate, String memId) {
 		super();
 		this.recNo = recNo;
 		this.recTitle = recTitle;
@@ -100,14 +109,17 @@ public class Recommendation {
 		this.recAttachment = recAttachment;
 		this.recRepDate = recRepDate;
 		this.recCreateDate = recCreateDate;
+		this.memId = memId;
 	}
 
 	@Override
 	public String toString() {
 		return "Recommendation [recNo=" + recNo + ", recTitle=" + recTitle + ", recContent=" + recContent
 				+ ", recStyle=" + recStyle + ", recStatus=" + recStatus + ", recReply=" + recReply + ", recAttachment="
-				+ recAttachment + ", recRepDate=" + recRepDate + ", recCreateDate=" + recCreateDate + "]";
+				+ recAttachment + ", recRepDate=" + recRepDate + ", recCreateDate=" + recCreateDate + ", memId=" + memId
+				+ "]";
 	}
-
+	
+	
 	
 }
