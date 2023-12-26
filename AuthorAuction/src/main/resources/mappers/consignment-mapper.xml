@@ -19,8 +19,18 @@
 		select * from dual
 	</insert>
 	
+	<select id="selectConsignment" resultType="Consignment">
+		select *
+		from consignment
+			 join member using(memId)
+		where CON_DEL_STATUS = 'Y' and CON_NO = #{conNo}
+	</select>
 	
-	
+	<select id="selectAttmConsignmentList">
+		select *
+		from attachment
+		where ATT_STATUS = 'Y'
+	</select>
 	
 
 	

@@ -185,7 +185,7 @@
         <div style="margin-left: 102rem;">
           <a class="btnset btnset-lg" value="상담문의" type="button" href="conEnroll.co" style="width: 20rem; margin: auto;">상담문의</a>
           <a class="btnset btnset-lg" value="마이페이지" type="button" href="conEnroll.co" style="width: 20rem; margin: auto;">마이페이지</a>
-          <a class="btnset btnset-lg" value="상세내역" type="button" href="conEnroll.co" style="width: 20rem; margin: auto;">상세내역</a>
+          <a class="btnset btnset-lg" value="상세내역" type="button" style="width: 20rem; margin: auto;" onclick="selectConsignment()">상세내역</a>		
         </div>
         <br><br><br>
       </div>
@@ -193,14 +193,20 @@
   </main>
 <jsp:include page="../common/footer.jsp"/>
 
+	<script>
+		var conNo;
+		function selectConsignment() {
+		    location.href = 'selectConsignment.co?conNo=' + 1 + "&page=" + 1;
+		}
+	</script>
 
 
-  <!-- [E]basic-N4 -->
-  <script src="consignment/js/setting.js"></script>
-  <script src="consignment/js/plugin.js"></script>
-  <script src="consignment/js/template.js"></script>
-  <script src="consignment/js/common.js"></script>
-  <script src="consignment/js/script.js"></script>
-  
+	<!-- [E]basic-N4 -->
+	<script src="consignment/js/setting.js"></script>
+	<script src="consignment/js/plugin.js"></script>
+	<script src="consignment/js/template.js"></script>
+	<script src="consignment/js/common.js"></script>
+	<script src="consignment/js/script.js"></script>
+
 </body>
 </html>

@@ -24,202 +24,118 @@
  </head>
 
 <body>
-<jsp:include page="../common/header.jsp"/>
-  <main class="th-layout-main ">
-    <!-- [S]hooms-N58 -->
-    <div class="hooms-N58" data-bid="WGlQcEQ7wp" id="">
-      <div class="contents-container container-md">
-        <div class="tabset tabset-solid">
-        </div>
-      </div>
-    </div>
-    <!-- [E]hooms-N58 -->
-    <!-- [S]hooms-N39 -->
-    <div class="hooms-N39" data-bid="uqLqcFv4LT" id=""">
-      <div class="contents-inner">
-        <div class="contents-container container-md">
-          <div class="textset textset-h2">
-            <a class="textset-tit" style="font-size: 40px;">위탁 문의 등록</a>
-          </div>
-          <div class="dhead">
-            <div>
-              <h2>위탁인 정보</h2>
-            </div>
-            <div class="contents-form-middle">
-              <div class="inputset inputset-lg inputset-label">
-                <label>
-                  <span>
-                    <h6 class="inputset-tit"> 위탁자 이름 </h6>
-                  </span>
-                  <span>
-                    <input type="text" class="inputset-input form-control" placeholder="주소를 입력해주세요." aria-label="내용" required="">
-                  </span>
-                </label>
-                <label>
-                  <h6 class="inputset-tit"> 주소 </h6>
-                  <input type="text" class="inputset-input form-control" placeholder="주소를 입력해주세요." aria-label="내용" required="">
-                </label>
-              </div>
-              <div class="inputset inputset-lg inputset-label">
-                <label>
-                  <h6 class="inputset-tit"> 연락처 </h6>
-                  <input type="tel" class="inputset-input form-control" placeholder="-를 제외한 숫자를 입력해주세요." aria-label="내용" required="">
-                </label>
-                <label>
-                  <h6 class="inputset-tit"> 이메일 </h6>
-                  <input type="text" class="inputset-input form-control" placeholder="이메일을 입력해주세요." aria-label="내용" required="">
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="dbody">
-            <div class="inputset inputset-lg inputset-label">
-              <label>
-                <div>
-                  <h2> 위탁작품 정보 </h2>
-                </div>
-                <div class="body">
-                  <label style="margin-left: 15rem;">
-                    <a style="display:inline-block; width: 15%; text-align: center;">작가명</a>
-                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-                    <br><br>
-                    <a style="display:inline-block; width: 15%; text-align: center;">작품명</a>
-                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-                    <br><br>
-                    <a style="display:inline-block; width: 15%; text-align: center;">작품의 재료</a>
-                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-                    <br><br>
-                    <a style=" display:inline-block; width: 15%; text-align: center;">작품의 크기(cm)</a>
-                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 34rem; display:inline-block"> X <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 34rem; display:inline-block">
-                    <br><br>
-                    <a style="display:inline-block; width: 15%; text-align: center;">제작연도</a>
-                    <input type=" text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-                    <br><br>
-                    <a style="display: inline-block; width: 15%; text-align: center;">구입가(KRW)</a>
-                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-                    <br><br>
-                    <a style=" display: inline-block; width: 15%; text-align: center;">희망가</a>
-                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display: inline-block">
-                    <br><br>
-                    <div>
-                      <label style="display: inline-block; width: 15%; text-align: center;">출처 / 기타</label>
-                      <textarea class="inputset-textarea" required="" style="display: inline-block; width: 60%; vertical-align: middle; resize: none;"></textarea>
-                    </div>
-                  </label>
-                </div>
-              </label>
-            </div>
-          </div>
-          <div>
-            <h2>작품 이미지</h2>
-          </div>
-          <div class="dfoot" style="margin-bottom: 2rem;">
-            <div class="inputset inputset-lg inputset-label">
-              <label style="margin-left: 14rem;">
-                <div>
-                  <div class="fileset fileset-lg fileset-label">
-                    <label>
-                      <div class="fileset-body">
-                        <div class="fileset-group">
-                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 1</a>
-                          <input type="file" class="fileset-input" style="width: 83%;">
-                          <button class="fileset-cancel"></button>
-                        </div>
-                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-                      </div>
-                    </label>
-                  </div>
-                  <br>
-                  <div class="fileset fileset-lg fileset-label">
-                    <label>
-                      <div class="fileset-body">
-                        <div class="fileset-group">
-                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 2</a>
-                          <input type="file" class="fileset-input" style="width: 83%;">
-                          <button class="fileset-cancel"></button>
-                        </div>
-                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-                      </div>
-                    </label>
-                  </div>
-                  <br>
-                  <div class="fileset fileset-lg fileset-label">
-                    <label>
-                      <div class="fileset-body">
-                        <div class="fileset-group">
-                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 3</a>
-                          <input type="file" class="fileset-input" style="width: 83%;">
-                          <button class="fileset-cancel"></button>
-                        </div>
-                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-                      </div>
-                    </label>
-                  </div>
-                  <br>
-                  <div class="fileset fileset-lg fileset-label">
-                    <label>
-                      <div class="fileset-body">
-                        <div class="fileset-group">
-                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 4</a>
-                          <input type="file" class="fileset-input" style="width: 83%;">
-                          <button class="fileset-cancel"></button>
-                        </div>
-                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-                      </div>
-                    </label>
-                  </div>
-                  <br>
-                  <div class="fileset fileset-lg fileset-label">
-                    <label>
-                      <div class="fileset-body">
-                        <div class="fileset-group">
-                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 5</a>
-                          <input type="file" class="fileset-input" style="width: 83%;">
-                          <button class="fileset-cancel"></button>
-                        </div>
-                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-                      </div>
-                    </label>
-                  </div>
-                  <br>
-                </div>
-                <div class="contents-sign">
-                  <button class="btnset modalset-btn">등록하기</button>
-                </div>
-                <div id="modalSet1" class="modalset">
-                  <div class="modal-header">
-                    <h6 class="modal-title">문의사항 등록</h6>
-                  </div>
-                  <div class="modal-body">
-                    <p> 입력하신 내용으로 문의사항을 등록합니다. <br> 계속 진행하시겠습니까? </p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btnset btnset-ghost modal-close">취소</button>
-                    <button type="button" class="btnset btnset-confirm">확인</button>
-                  </div>
-                </div>
-                <div id="modalSet2" class="modalset modalset2">
-                  <div class="modal-header">
-                    <h6 class="modal-title">등록 완료</h6>
-                  </div>
-                  <div class="modal-body">
-                    <p> 성공적으로 문의사항을 등록했습니다. <br> 빠른시간내로 답변을 드리도록 하겠습니다. </p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btnset btnset-confirm">확인</button>
-                  </div>
-                </div>
-                <div class="modalset-dim"></div>
-              </label><a style="display: inline-block; width: 15%; text-align: center;">
-              </a>
-            </div><a style="display: inline-block; width: 15%; text-align: center;">
-            </a>
-          </div><a style="display: inline-block; width: 15%; text-align: center;">
-          </a>
-        </div><a style="display: inline-block; width: 15%; text-align: center;">
-        </a>
-      </div>
-    </div>
+	// 위탁문의 등록 페이지로 
+	@GetMapping("conEnroll.co")
+	public String moveToConsignmentEnroll() {		// ()안에 받는게 없으니까 컨트롤러에서 conEnroll.co라고 해도 이동함
+		return "consignment/conEnroll";
+	}
+	// 위탁문의 등록
+	@PostMapping("conInsert.co")
+	public String insertConsignment(@ModelAttribute Consignment c,
+									@RequestParam("file") ArrayList<MultipartFile> files, HttpSession session, Member m) {
+		
+		// 현재 세션에 저장된 사용자 정보에서 회원 ID를 가져와서 위탁 정보 객체설정
+		String id = ((Member)session.getAttribute("loginUser")).getMemId();
+		c.setmemId(id);
+		
+		// 첨부 파일 리스트를 담을 ArrayList를 생성
+		ArrayList<Attachment> list = new ArrayList<>();
+	
+		// 업로드된 파일들에 대한 처리
+		for(int i = 0; i < files.size(); i++) {
+			MultipartFile upload = files.get(i);
+			
+			if(!upload.getOriginalFilename().equals("")) {
+				// 파일을 저장하고 저장된 파일정보 가져옴
+				String rename = saveFile(upload);
+				if(rename != null) {
+					Attachment a = new Attachment();
+					a.setAttRename(rename);
+					a.setAttCategory(2); 	// 위탁문의 게시판(2)
+					
+					list.add(a);
+				}
+			}
+		}
+			// 게시판 분류(attCategory) : 1(리뷰) / 2(위탁문의) / 3(그림추천)
+			// 그림추천(썸네일) 구분(fno) : 0(없), 1(있)
+			// 위탁문의 순서(fno) : 앞(1)/뒤(2)/서명(3)/구매서류(4)/상세사진(5)		
+		
+		for(int i = 0; i < list.size(); i++) {
+			Attachment a = list.get(i);
+			a.setAttFno(i + 1);
+		}	
+
+		int result1 = cService.insertConsignment(c);	// 정보 저장 리스트
+	
+		System.out.println(c.getConNo());
+		
+		// 첨부 파일이 없는 경우
+		if(!list.isEmpty()) {
+			for(Attachment a : list) {
+				System.out.println(c.getConNo());
+				a.setAttBno(c.getConNo());	
+			}
+			int result2 = cService.insertAttm(list);	// 사진 리스트
+			
+			if(result1 > 0 && result2 > 0) {			// 정보저장도 하고, 사진도 무조건 있어야 성공
+				return "redirect:conEnroll.co";
+			} else {
+				for(Attachment a : list) {
+					deleteFile(a.getAttRename());
+				}
+				throw new Exception("첨부파일 게시글 등록 실패");
+			}
+		} else {
+			if(result1 > 0) {							
+				return "redirect:conInfo.co";			// 일단 등록 성공하면 위탁안내 페이지로 이동
+			} else {
+				throw new Exception("첨부파일 게시글 등록 실패");
+			}
+		}
+	}
+
+	public String saveFile(MultipartFile upload) {
+		String root = "User:\\";
+		String savePath = root + "\\uploadFiles";
+		
+		File folder = new File(savePath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		// 저장 파일 rename
+		Date time = new Date(System.currentTimeMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		int ranNum = (int)(Math.random()*100000);		
+		
+		String originFileName = upload.getOriginalFilename();
+		String renameFileName = sdf.format(time) + ranNum + originFileName.substring(originFileName.lastIndexOf("."));
+		
+		// rename된 파일 저장소에 저장
+		String renamePath = folder + "\\" + renameFileName;	// 이름 변경	
+		try {
+			upload.transferTo(new File(renamePath));
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String rename = renameFileName;
+		
+		return rename;
+	}
+	
+	public void deleteFile(String fileName) {
+		String root = "Users:\\";
+		String savePath = root + "\\uploadFiles";
+		
+		File f = new File(savePath + "\\" + fileName);
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	
     <!-- [E]hooms-N39 -->
   </main>
 <jsp:include page="../common/footer.jsp"/>

@@ -1,4 +1,25 @@
-
+// 위탁 문의 등록
+window.onload = () =>{
+	const form = document.getElementById('attmForm');
+	document.getElementById('submitAttm').addEventListener('click', () =>{
+		const files = document.getElementsByName('file');
+		let isEmpty =  true;
+		for(const f of files){
+			if(f.value != ''){
+				isEmpty = false;
+			}
+		}
+		if(isEmpty){
+			$('#modalChoice').modal('show');
+		} else{
+			form.submit();
+		}
+	});
+	
+	document.getElementById('moveBoard').addEventListener('click', () =>{
+		form.submit();
+	})
+}
 
 
 

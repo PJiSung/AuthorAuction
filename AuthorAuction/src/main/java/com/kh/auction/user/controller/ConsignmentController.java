@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.auction.user.model.exception.BoardException;
+import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
@@ -37,7 +37,7 @@ public class ConsignmentController {
 	
 	// 위탁문의 등록 페이지로 
 	@GetMapping("conEnroll.co")
-	public String moveToConsignmentEnroll() {
+	public String moveToConsignmentEnroll() {		// ()안에 받는게 없으니까 컨트롤러에서 conEnroll.co라고 해도 이동함
 		return "consignment/conEnroll";
 	}
 	// 위탁문의 등록
@@ -75,17 +75,6 @@ public class ConsignmentController {
 		for(int i = 0; i < list.size(); i++) {
 			Attachment a = list.get(i);
 			a.setAttFno(i + 1);
-//			if(i == 0) {
-//				a.setAttFno(0);							
-//			} else if(i == 1) {
-//				a.setAttFno(1);
-//			} else if(i == 2) {
-//				a.setAttFno(2);
-//			} else if(i == 3) {
-//				a.setAttFno(3);
-//			} else if(i == 4) {
-//				a.setAttFno(4);
-//			}
 		}	
 
 		int result1 = cService.insertConsignment(c);	// 정보 저장 리스트
@@ -106,13 +95,13 @@ public class ConsignmentController {
 				for(Attachment a : list) {
 					deleteFile(a.getAttRename());
 				}
-				throw new BoardException("첨부파일 게시글 등록 실패");
+				throw new Exception("첨부파일 게시글 등록 실패");
 			}
 		} else {
-			if(result1 > 0) {							//	>>>>>>>>>>>> 무조건 첨부가 있어야 하는데 왜 result2>0이 아니야?
+			if(result1 > 0) {							
 				return "redirect:conInfo.co";			// 일단 등록 성공하면 위탁안내 페이지로 이동
 			} else {
-				throw new BoardException("첨부파일 게시글 등록 실패");
+				throw new Exception("첨부파일 게시글 등록 실패");
 			}
 		}
 	}
@@ -158,9 +147,14 @@ public class ConsignmentController {
 		}
 	}
 	
+	
+	
+	
+	
+	
 	// 상세조회
-	@GetMapping("selectConsignment.co")
-	public String selectConsignment(@RequestParam("conNo") int conNo, @RequestParam("page") int page,
+	@GetMapping("selectConsignment.co")				
+	public String selectConsignment(@RequestParam("conNo") int conNo, @RequestParam("page") int page,	// ()안에 받는게 있으니까 컨트롤러에서 url뒤에 ?userId=~!~!~!~ 이런식으로 붙여야함
 							HttpSession session, Model model) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -169,14 +163,14 @@ public class ConsignmentController {
 		if(loginUser != null) {
 			id = loginUser.getMemId();
 		}
-		
+			
 		// 게시글의 첨부파일 목록 조회
 		ArrayList<Attachment> list = cService.selectAttmConsignmentList(conNo);		
 		
 		// 첨부 파일이 있을 때만 게시글을 조회하고 상세조회 페이지로 이동
-	    if (!list.isEmpty()) {
-	        Consignment c = cService.selectConsignment(conNo, id);					// 게시글 정보 조회
-		
+		if (!list.isEmpty()) {
+			Consignment c = cService.selectConsignment(conNo, id);					// 게시글 정보 조회
+			
 			// 조회된 게시글이 null이 아닌 경우에만 모델에 추가하고 상세조회 페이지로 이동 
 			if(c != null) {		
 				model.addAttribute("c", c);
@@ -185,17 +179,16 @@ public class ConsignmentController {
 				
 				return "consignment/conDetail";
 			} else {
-				throw new BoardException("첨부파일 게시글 상세조회 실패");
+				throw new Exception("첨부파일 게시글 상세조회 실패");
 			}
-	    } else {
-	    	// 첨부 파일이 없는 경우 상세조회 페이지로 이동X
-	    	throw new BoardException("첨부파일이 없는 게시글");
-	    }
+		} else {
+			// 첨부 파일이 없는 경우 상세조회 페이지로 이동X
+			throw new Exception("첨부파일이 없는 게시글");
+		}
 	}
 	
+}	
 	
 	
 	
 	
-	
-}
