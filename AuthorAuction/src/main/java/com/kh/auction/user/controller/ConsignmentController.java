@@ -19,6 +19,7 @@ import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.service.ConsignmentService;
+import com.kh.auction.user.exception.Exception;
 
 import jakarta.servlet.http.HttpSession;
 
