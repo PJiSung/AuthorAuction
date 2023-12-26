@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -31,7 +30,9 @@ public class AuctionController {
 		int currentPage = page;
 		
 		//진행중인 경매의 모든 경매리스트를 가지고옴
-		ArrayList<Auction> auctionList = aService.getCountAuctionNum();
+		ArrayList<Auction> auctionList = aService.getAllAuction();
+		
+		System.out.println(auctionList);
 		
 		//가지고온 경매리스트의 갯수(size)가 총 갯수
 		PageInfo pi = Pagination.getPageInfo(currentPage, auctionList.size(), 12);
@@ -68,6 +69,20 @@ public class AuctionController {
 		 
 		 return "/auction/auctionDetail";
 	 }
-	 
 	
+	@GetMapping("adminInquiry.adac")
+	public String moveToAdminInquiry(@RequestParam(value="page", defaultValue="1") int page, Model model) {
+		int currentPage = page;
+		
+		//관리자 조회 페이지 접근시 기본적으로 진행중인 경매만 보이도록 설정
+		ArrayList<Auction> auctionList = aService.getAllAuction();
+		PageInfo pi = Pagination.getPageInfo(currentPage, auctionList.size(), 10);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("aList", auctionList);
+		model.addAttribute("total", auctionList.size());
+		
+		return "/auction/adminInquiry";
+	}
+	 
 }

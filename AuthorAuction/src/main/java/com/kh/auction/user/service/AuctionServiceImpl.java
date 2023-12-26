@@ -15,9 +15,9 @@ public class AuctionServiceImpl implements AuctionService{
 	private AuctionDAO aDAO;
 	
 	
-	@Override //진행중인 경매의 총 갯수를 가지고옴
-	public ArrayList<Auction> getCountAuctionNum() {
-		return aDAO.getCountAuctionNum();
+	@Override //진행중인 경매를 가지고옴
+	public ArrayList<Auction> getAllAuction() {
+		return aDAO.getAllAuction();
 	}
 
 
