@@ -363,7 +363,7 @@
   		var num = document.getElementsByClassName('contents-amount-num')[0].innerText;
 
   		if(num+2>amount){
-  			alert('주문 가능 수량을 초과했습니다');
+  			alert('주문가능 수량을 초과했습니다');
   			document.getElementsByClassName('contents-amount-num')[0].innerText = num-1;
   		}
   		
