@@ -10,6 +10,8 @@
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
+	<button onclick="location.href='adminInquiry.adac'">관리자</button>
+	
     <div id="containerCover" style="width: 70%; margin: auto; margin-top: 1%;">
         <div style=" background-color: pink;">
             <div id="searchLine">
