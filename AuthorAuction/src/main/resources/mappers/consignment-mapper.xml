@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.auction.user.dao.ConsignmentDAO">
+	<insert id="insertConsignment" useGeneratedKeys="true">								<!-- 게시글 등록 -->
+		<selectKey order="BEFORE" resultType="_int" keyProperty="conNo">
+			select CON_SEQ.nextval from dual
+		</selectKey>
+		insert into consignment
+		values (#{conNo}, #{conAuthor}, #{conProduct}, #{conWidth}, #{conHeight}, #{conYear}, #{conHope}, #{conEtc}, 
+				default, default, sysdate, #{memId})
+	</insert>
+	   
+	<insert id="insertAttm">															<!-- 첨부파일 등록 -->
+		insert all
+		<foreach collection="list" item="item">
+			into attachment
+			values(att_new, #{item.attRename}, default, #{item.attFno}, #{item.attCategory}, #{item.attBno})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+		<select id="selectBoard" resultType="Board">
+		select *
+		from board
+			join member on(board_writer = id)
+		where board_status = 'Y' and board_id = #{bid}
+	</select>
+	
+		<select id="selectAttmBoardList" resultType="Attachment">
+		select *
+		from attachment
+		where attm_status='Y' 
+		<if test="bId == null">
+			and attm_level = 0
+		</if>
+		<if test="bId != null">
+			and ref_board_id = #{bId}
+		</if>
+		order by attm_id
+	</select>
+	
+</mapper>
