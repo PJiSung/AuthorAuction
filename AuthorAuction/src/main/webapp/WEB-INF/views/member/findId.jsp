@@ -21,56 +21,143 @@
 <link rel="stylesheet" href="member/css/template.css">
 <link rel="stylesheet" href="member/css/common.css">
 <link rel="stylesheet" href="member/css/style.css">
-</head>
 <style>
-.category:nth-child(2){
+#authDiv1, #authDiv2{
 	display:none;
 }
 </style>
 <script>
 window.onload = () =>{
+	document.getElementsByClassName("category")[0].style.display = "block";
+	document.getElementsByClassName("category")[1].style.display = "none";
 	checkRadio();
 	category();
 }
-const submitBtn = () =>{
-	//document.getElementById('findIdForm').submit();
+const resetFn = () =>{
+	let aBtn = document.querySelector(".btn-box a");
+	let inputs = document.querySelectorAll("input[type=text]");
+	for(let i=0; i<inputs.length; i++){
+		inputs[i].value = "";
+	}
+	document.getElementById("authDiv1").style.display = "none";
+	document.getElementById("authDiv2").style.display = "none";
+	aBtn.innerText = "인증";
+	aBtn.onclick = submitBtn;
 }
+
 const checkRadio = () =>{
 	let spans = document.querySelectorAll(".radio-group span");
+	
 	for(let i=0; i<spans.length; i++){
 		spans[i].addEventListener("click", function(){
+			resetFn();
 			let radio = document.querySelectorAll("input[type=radio]")[i];
 			radio.checked = true;
 			if(radio.value == "email"){
 				document.getElementsByClassName("category")[0].style.display = "block";
 				document.getElementsByClassName("category")[1].style.display = "none";
-				document.getElementById("findIdForm").action = "findIdbyEmail";
 			}else{
 				document.getElementsByClassName("category")[0].style.display = "none";				
 				document.getElementsByClassName("category")[1].style.display = "block";
-				document.getElementById("findIdForm").action = "findIdbyPhone";
-			}
-		});
-	}
-}
-const category = () =>{
-	let radios = document.querySelectorAll("input[type=radio]");
-	for(let i=0; i<radios.length; i++){
-		radios[i].addEventListener("change", function(){
-			if(radios[i].value == "email"){
-				document.getElementsByClassName("category")[0].style.display = "block";
-				document.getElementsByClassName("category")[1].style.display = "none";
-				document.getElementById("findIdForm").action = "findIdbyEmail";
-			}else{
-				document.getElementsByClassName("category")[0].style.display = "none";				
-				document.getElementsByClassName("category")[1].style.display = "block";
-				document.getElementById("findIdForm").action = "findIdbyPhone";
 			}
 		});
 	}
 }
 
+const category = () =>{
+	let radios = document.querySelectorAll("input[type=radio]");
+	for(let i=0; i<radios.length; i++){
+		radios[i].addEventListener("change", function(){
+			resetFn();
+			if(radios[i].value == "email"){
+				document.getElementsByClassName("category")[0].style.display = "block";
+				document.getElementsByClassName("category")[1].style.display = "none";
+			}else{
+				document.getElementsByClassName("category")[0].style.display = "none";				
+				document.getElementsByClassName("category")[1].style.display = "block";
+			}
+		});
+	}
+}
+
+    authNum = 0;
+    const submitBtn = () =>{
+    	let divStatus = document.querySelectorAll(".category")[0].style.display;
+    	if(divStatus == "block"){
+    		let arr = [];
+        	let name = document.getElementById("name1");
+        	let email = document.getElementById("email");
+        	arr[0] = name.value;
+        	arr[1] = email.value;
+        	if(name.value != "" && email.value != ""){
+        		let aBtn = document.querySelector(".btn-box a");
+        		alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
+        		document.querySelector('#authDiv1').style.display = 'block';
+        		aBtn.innerText = "확인";
+        		aBtn.onclick = checkNum1;
+	    	    $.ajax({
+	    	        type : 'get',
+	    	        url : 'findIdbyEmail',
+	    	        data: {'arr':arr},
+	    	        success : function (data) {
+	    	        	if(data != 0){
+        					authNum = data;
+        				}
+	    	        }         
+	    		}); 
+        	}
+    	}else{
+    		let arr = [];
+        	let name = document.getElementById("name2");
+        	let phone = document.getElementById("phone");
+        	arr[0] = name.value;
+        	arr[1] = phone.value;
+        	if(name.value != "" && phone.value != ""){
+        		let aBtn = document.querySelector(".btn-box a");
+        		alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
+        		document.querySelector('#authDiv2').style.display = 'block';
+        		aBtn.innerText = "확인";
+        		aBtn.onclick = checkNum2;
+        		$.ajax({
+        			url: "findIdbyPhone",
+        			data: {'arr' : arr},
+        			success: (data) =>{
+        				if(data != 0){
+        					authNum = data;
+        				}
+        			},
+        			error : data => console.log
+        		});
+        	}
+    	}
+    }
+    
+    const checkNum1 = () =>{
+    	let inputNum = document.getElementById("authNum1");
+        let name = document.getElementById("name1");
+        let email = document.getElementById("email");
+        if(authNum == inputNum.value){
+        	location.href = "showId?memName="+name.value+"&memEmail="+email.value;
+        }else{
+        	alert("인증번호가 일치하지 않습니다");
+        	inputNum.focus();
+        }
+    }
+    
+    const checkNum2 = () =>{
+    	let inputNum = document.getElementById("authNum2");
+        let name = document.getElementById("name2");
+        let phone = document.getElementById("phone");
+        if(authNum == inputNum.value){
+        	location.href = "showId?memName="+name.value+"&memPhone="+phone.value;
+        }else{
+        	alert("인증번호가 일치하지 않습니다");
+        	inputNum.focus();
+        }
+    }
+    
 </script>
+</head>
 <body>
 	<main class="th-layout-main ">
 		<!-- [S]bloomcity-N10 -->
@@ -98,46 +185,43 @@ const category = () =>{
 				          
 				        </fieldset>
 				        
-						<form action="findIdbyEmail" method="post" id="findIdForm">
 							<div class="category">
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
-										placeholder="이름" aria-label="Name" name="memName">
+										placeholder="이름" aria-label="Name" name="memName" id="name1">
 								</div>
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
-										placeholder="이메일" aria-label="Email" name="memEmail">
+										placeholder="이메일" aria-label="Email" name="memEmail" id="email">
+								</div>
+								<div class="inputset inputset-line inputset-lg" id="authDiv1">
+									<input type="text" class="inputset-input form-control"
+										placeholder="인증번호" aria-label="AuthNumber" id="authNum1">
 								</div>
 							</div>
-							
 							<div class="category">
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
-										placeholder="이름" aria-label="Name" name="memName">
+										placeholder="이름" aria-label="Name" name="memName" id="name2">
 								</div>
 								<div class="inputset inputset-line inputset-lg">
-									<input type="password" class="inputset-input form-control"
-										placeholder="휴대폰 번호" aria-label="Password" name="memPhone">
+									<input type="text" class="inputset-input form-control"
+										placeholder="휴대폰 번호" aria-label="Phone" name="memPhone" id="phone">
+								</div>
+								<div class="inputset inputset-line inputset-lg" id="authDiv2">
+									<input type="text" class="inputset-input form-control"
+										placeholder="인증번호" aria-label="AuthNumber" id="authNum2">
 								</div>
 							</div>
-							
 							<div class="btn-box">
-								<a class="btnset2 btnset-lg btnset-rect"
-									onclick="submitBtn()">사용금지</a>
+								<a class="btnset2 btnset-lg btnset-rect" href="javascript:void(0)"
+									onclick="submitBtn()">인증</a>
 							</div>
-						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div id="myModal" class="modal">
-		  <div class="modal-content">
-		    <span class="close" onclick="closeModal()">&times;</span>
-		    <p>모달 내용을 여기에 추가합니다.</p>
-		  </div>
-		</div>
-		<!-- [E]bloomcity-N10 -->
 	</main>
 	<script src="member/js/setting.js"></script>
 	<script src="member/js/plugin.js"></script>

@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
-import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
@@ -29,7 +27,7 @@ public class ConsignmentController {
 	
 	@Autowired
 	private ConsignmentService cService;
-	          
+	
 	// 위탁안내 페이지로 이동
 	@GetMapping("conInfo.co")
 	public String moveToConsignmentInfo() {
@@ -76,17 +74,6 @@ public class ConsignmentController {
 		for(int i = 0; i < list.size(); i++) {
 			Attachment a = list.get(i);
 			a.setAttFno(i + 1);
-//			if(i == 0) {
-//				a.setAttFno(0);							
-//			} else if(i == 1) {
-//				a.setAttFno(1);
-//			} else if(i == 2) {
-//				a.setAttFno(2);
-//			} else if(i == 3) {
-//				a.setAttFno(3);
-//			} else if(i == 4) {
-//				a.setAttFno(4);
-//			}
 		}	
 
 		int result1 = cService.insertConsignment(c);	// 정보 저장 리스트

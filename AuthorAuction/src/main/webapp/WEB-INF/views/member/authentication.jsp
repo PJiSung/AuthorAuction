@@ -82,6 +82,7 @@ const submitBtn = () =>{
 	let name = document.getElementById("name");
 	let phone = document.getElementById("phone");
 	if(name.value != "" && phone.value != ""){
+		alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
 		document.querySelector('.inputset:nth-child(3)').style.display = 'block';
 		$.ajax({
 			url: "authentication",
@@ -97,6 +98,7 @@ const submitBtn = () =>{
 		});
 	}
 }
+
 const checkNum = () =>{
 	let inputNum = document.getElementById("authNum"); 
 	if(authNum == inputNum.value){
@@ -110,7 +112,6 @@ const checkNum = () =>{
 }
 
 const encodeBase64 = (data) =>{
-    // Base64로 데이터 인코딩
     return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data));
 }
 </script>

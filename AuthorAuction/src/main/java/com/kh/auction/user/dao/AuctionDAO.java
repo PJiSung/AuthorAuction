@@ -1,6 +1,7 @@
 package com.kh.auction.user.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +15,8 @@ public interface AuctionDAO {
 
 	//경매 번호로 경매 세부내용을 들고옴
 	Auction getAuctionDetail(int aucNo);
-	
+
+	//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
+	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm);
 	
 }

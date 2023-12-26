@@ -26,9 +26,15 @@
 	</select>
 	
 	<select id="findIdbyPhone">
-		SELECT COUNT(*)
+		SELECT *
 		FROM MEMBER
-		WHERE MEM_NAME = #{memName} AND MEM_PHONE = #{memPhone} AND MEM_STATUS = 'Y'
+		WHERE MEM_NAME = #{memName} AND MEM_STATUS = 'Y'
+		<if test="memPhone != null">
+			AND MEM_PHONE = #{memPhone} 
+		</if>
+		<if test="memEmail != null">
+			AND MEM_EMAIL = #{memEmail}
+		</if>
 	</select>
 	
 </mapper>

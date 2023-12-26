@@ -1,6 +1,7 @@
 package com.kh.auction.admin.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,11 +22,10 @@ public class AdminController {
 	
 	@GetMapping("adminInquiry.adac")
 	public String moveToAdminInquiry(@RequestParam(value="page", defaultValue="1") int page, Model model) {
-		int currentPage = page;
 		
 		//관리자 조회 페이지 접근시 기본적으로 진행중인 경매만 보이도록 설정
 		ArrayList<Auction> auctionList = aService.getAllAuction();
-		PageInfo pi = Pagination.getPageInfo(currentPage, auctionList.size(), 10);
+		PageInfo pi = Pagination.getPageInfo(page, auctionList.size(), 10);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("aList", auctionList);
@@ -33,4 +33,54 @@ public class AdminController {
 		
 		return "/auction/adminInquiry";
 	}
+	
+	@GetMapping("search.adac")
+	public String searchAuction(@RequestParam(value="searchType", required=false) String searchType, @RequestParam("content") String content,
+								@RequestParam(value="auctionStatus", required=false) String auctionStatus,
+								@RequestParam(value="aucSS", required=false) String aucSS,
+								@RequestParam(value="aucSE", required=false) String aucSE,
+								@RequestParam(value="aucFS", required=false) String aucFS,
+								@RequestParam(value="aucFE", required=false) String aucFE,
+								@RequestParam(value="page", defaultValue="1") int page, Model model) {
+		HashMap<String, String> hm = new HashMap<>();
+		
+		if(auctionStatus != null) {
+			hm.put("auctionStatus", auctionStatus);
+		}
+		
+		if(!aucSS.equals("")) {
+			hm.put("aucSS", aucSS + " 23:59:59");
+		}
+		
+		if(!aucSS.equals("")) {
+			hm.put("aucSE", aucSE + " 23:59:59");
+		}
+		
+		if(!aucSS.equals("")) {
+			hm.put("aucFS", aucFS + " 23:59:59");
+		}
+		
+		if(!aucSS.equals("")) {
+			hm.put("aucFE", aucFE + " 23:59:59");
+		}
+		
+		hm.put("searchType", searchType);
+		hm.put("content", content);
+		//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
+		ArrayList<Auction> aList = aService.getAdminSearchList(hm);
+		
+		PageInfo pi = Pagination.getPageInfo(page, aList.size(), 5);
+		
+		model.addAttribute("aList", aList);
+		model.addAttribute("auctionStatus", auctionStatus);
+		model.addAttribute("pi", pi);
+		
+		System.out.println(aList);
+		return "";
+		
+		
+		
+	}
+	
+	
 }
