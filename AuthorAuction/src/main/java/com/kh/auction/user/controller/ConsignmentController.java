@@ -1,0 +1,201 @@
+package com.kh.auction.user.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.kh.auction.user.model.exception.BoardException;
+import com.kh.auction.user.model.vo.Attachment;
+import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.service.ConsignmentService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class ConsignmentController {
+	
+	@Autowired
+	private ConsignmentService cService;
+	          
+	// 위탁안내 페이지로 이동
+	@GetMapping("conInfo.co")
+	public String moveToConsignmentInfo() {
+		return "consignment/conInfo";
+	}
+	
+	// 위탁문의 등록 페이지로 
+	@GetMapping("conEnroll.co")
+	public String moveToConsignmentEnroll() {
+		return "consignment/conEnroll";
+	}
+	// 위탁문의 등록
+	@PostMapping("conInsert.co")
+	public String insertConsignment(@ModelAttribute Consignment c,
+									@RequestParam("file") ArrayList<MultipartFile> files, HttpSession session, Member m) {
+		
+		// 현재 세션에 저장된 사용자 정보에서 회원 ID를 가져와서 위탁 정보 객체설정
+		String id = ((Member)session.getAttribute("loginUser")).getMemId();
+		c.setmemId(id);
+		
+		// 첨부 파일 리스트를 담을 ArrayList를 생성
+		ArrayList<Attachment> list = new ArrayList<>();
+	
+		// 업로드된 파일들에 대한 처리
+		for(int i = 0; i < files.size(); i++) {
+			MultipartFile upload = files.get(i);
+			
+			if(!upload.getOriginalFilename().equals("")) {
+				// 파일을 저장하고 저장된 파일정보 가져옴
+				String rename = saveFile(upload);
+				if(rename != null) {
+					Attachment a = new Attachment();
+					a.setAttRename(rename);
+					a.setAttCategory(2); 	// 위탁문의 게시판(2)
+					
+					list.add(a);
+				}
+			}
+		}
+			// 게시판 분류(attCategory) : 1(리뷰) / 2(위탁문의) / 3(그림추천)
+			// 그림추천(썸네일) 구분(fno) : 0(없), 1(있)
+			// 위탁문의 순서(fno) : 앞(1)/뒤(2)/서명(3)/구매서류(4)/상세사진(5)		
+		
+		for(int i = 0; i < list.size(); i++) {
+			Attachment a = list.get(i);
+			a.setAttFno(i + 1);
+//			if(i == 0) {
+//				a.setAttFno(0);							
+//			} else if(i == 1) {
+//				a.setAttFno(1);
+//			} else if(i == 2) {
+//				a.setAttFno(2);
+//			} else if(i == 3) {
+//				a.setAttFno(3);
+//			} else if(i == 4) {
+//				a.setAttFno(4);
+//			}
+		}	
+
+		int result1 = cService.insertConsignment(c);	// 정보 저장 리스트
+	
+		System.out.println(c.getConNo());
+		
+		// 첨부 파일이 없는 경우
+		if(!list.isEmpty()) {
+			for(Attachment a : list) {
+				System.out.println(c.getConNo());
+				a.setAttBno(c.getConNo());	
+			}
+			int result2 = cService.insertAttm(list);	// 사진 리스트
+			
+			if(result1 > 0 && result2 > 0) {			// 정보저장도 하고, 사진도 무조건 있어야 성공
+				return "redirect:conEnroll.co";
+			} else {
+				for(Attachment a : list) {
+					deleteFile(a.getAttRename());
+				}
+				throw new BoardException("첨부파일 게시글 등록 실패");
+			}
+		} else {
+			if(result1 > 0) {							//	>>>>>>>>>>>> 무조건 첨부가 있어야 하는데 왜 result2>0이 아니야?
+				return "redirect:conInfo.co";			// 일단 등록 성공하면 위탁안내 페이지로 이동
+			} else {
+				throw new BoardException("첨부파일 게시글 등록 실패");
+			}
+		}
+	}
+
+	public String saveFile(MultipartFile upload) {
+		String root = "User:\\";
+		String savePath = root + "\\uploadFiles";
+		
+		File folder = new File(savePath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		// 저장 파일 rename
+		Date time = new Date(System.currentTimeMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		int ranNum = (int)(Math.random()*100000);		
+		
+		String originFileName = upload.getOriginalFilename();
+		String renameFileName = sdf.format(time) + ranNum + originFileName.substring(originFileName.lastIndexOf("."));
+		
+		// rename된 파일 저장소에 저장
+		String renamePath = folder + "\\" + renameFileName;	// 이름 변경	
+		try {
+			upload.transferTo(new File(renamePath));
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String rename = renameFileName;
+		
+		return rename;
+	}
+	
+	public void deleteFile(String fileName) {
+		String root = "Users:\\";
+		String savePath = root + "\\uploadFiles";
+		
+		File f = new File(savePath + "\\" + fileName);
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	
+	// 상세조회
+	@GetMapping("selectConsignment.co")
+	public String selectConsignment(@RequestParam("conNo") int conNo, @RequestParam("page") int page,
+							HttpSession session, Model model) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String id = null;
+		
+		if(loginUser != null) {
+			id = loginUser.getMemId();
+		}
+		
+		// 게시글의 첨부파일 목록 조회
+		ArrayList<Attachment> list = cService.selectAttmConsignmentList(conNo);		
+		
+		// 첨부 파일이 있을 때만 게시글을 조회하고 상세조회 페이지로 이동
+	    if (!list.isEmpty()) {
+	        Consignment c = cService.selectConsignment(conNo, id);					// 게시글 정보 조회
+		
+			// 조회된 게시글이 null이 아닌 경우에만 모델에 추가하고 상세조회 페이지로 이동 
+			if(c != null) {		
+				model.addAttribute("c", c);
+				model.addAttribute("page", page);
+				model.addAttribute("list", list);
+				
+				return "consignment/conDetail";
+			} else {
+				throw new BoardException("첨부파일 게시글 상세조회 실패");
+			}
+	    } else {
+	    	// 첨부 파일이 없는 경우 상세조회 페이지로 이동X
+	    	throw new BoardException("첨부파일이 없는 게시글");
+	    }
+	}
+	
+	
+	
+	
+	
+	
+}
