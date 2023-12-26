@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace = "com.kh.auction.arts.dao.ArtsDAO">
+
+
+	<select id="getListCount" resultType = "_int">
+			select count(*)
+			from product
+		
+	</select>
+	
+	
+	<select id="selectArtslist" resultMap = "promap">
+		
+		SELECT *
+		FROM PRODUCT
+		order by pro_no desc
+	</select>
+	
+	<resultMap type="Product" id="promap">
+		<id column="PRO_NO" property="proNo"/>
+		<result column="PRO_NAME" property="proName"/>
+		<result column="PRO_WRITER" property="proWriter"/>
+		<result column="PRO_MATERIAL" property="proMaterial"/>
+		<result column="PRO_HEIGHT" property="proHeight"/>
+		<result column="PRO_WIDTH" property="proWidth"/>
+		<result column="PRO_DATE" property="proDate"/>
+		<result column="PRO_IMAGE" property="proImage"/>
+		<result column="PRO_PRICE" property="proPrice"/>
+		<result column="PRO_AMOUNT" property="proAmount"/>
+
+	</resultMap>
+	
+	
+	<select id="selectWishlist" resultMap = "wismap">
+		select *
+		from wishlist
+	</select>
+	
+	<resultMap type="Wishlist" id="wismap">
+		<id column="MEM_ID" property="memId"/>
+		<id column="PRO_NO" property="proNo"/>
+		<result column="WIS_AMOUNT" property="wisAmount"/>
+	</resultMap>
+	
+	
+	<select id="selectArts" resultMap="promap">
+	
+		SELECT *
+		FROM PRODUCT
+		where PRO_NO = #{proNo}
+		
+	</select>
+		
+	
+		
+		
+</mapper>
+
