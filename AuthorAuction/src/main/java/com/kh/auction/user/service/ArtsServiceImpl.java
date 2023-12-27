@@ -1,6 +1,7 @@
 package com.kh.auction.user.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,18 @@ public class ArtsServiceImpl implements ArtsService {
 	public int updatewishlist(Wishlist updatewis) {
 		
 		return aDAO.updatewishlist(updatewis);
+	}
+	
+	@Override
+	public int deletewis(Wishlist deletewis) {
+		
+		
+		return aDAO.deletewis(deletewis);
+	}
+	
+	@Override
+	public int deletewishlist(ArrayList<HashMap<String, Object>> list) {
+		
+		return aDAO.deletewishlist(list);
 	}
 }

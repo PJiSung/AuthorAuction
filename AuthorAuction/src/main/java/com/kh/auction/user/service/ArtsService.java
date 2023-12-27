@@ -1,6 +1,7 @@
 package com.kh.auction.user.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
@@ -17,6 +18,10 @@ public interface ArtsService {
 	Product selectArts(int proNo);
 
 	int updatewishlist(Wishlist updatewis);
+
+	int deletewis(Wishlist deletewis);
+
+	int deletewishlist(ArrayList<HashMap<String, Object>> list);
 
 
 

@@ -3,7 +3,7 @@ package com.kh.auction.user.model.vo;
 public class Wishlist {
 
 	
-	private int memId;
+	private String memId;
 	private int proNo;
 	private String proName;
 	private String proWriter;
@@ -14,7 +14,7 @@ public class Wishlist {
 	
 	public Wishlist() {}
 
-	public Wishlist(int memId, int proNo, String proName, String proWriter, String proImage, int proPrice,
+	public Wishlist(String memId, int proNo, String proName, String proWriter, String proImage, int proPrice,
 			int proAmount, int wisAmount) {
 		super();
 		this.memId = memId;
@@ -27,11 +27,11 @@ public class Wishlist {
 		this.wisAmount = wisAmount;
 	}
 
-	public int getMemId() {
+	public String getMemId() {
 		return memId;
 	}
 
-	public void setMemId(int memId) {
+	public void setMemId(String memId) {
 		this.memId = memId;
 	}
 

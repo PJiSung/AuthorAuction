@@ -65,7 +65,20 @@
 		set WIS_AMOUNT = #{wisAmount}
 		where MEM_ID = #{memId} and PRO_NO = #{proNo}
 	</update>
+	
+	
+	<delete id="deletewis">
+		delete from wishlist
+		where MEM_ID = #{memId} and PRO_NO = #{proNo}
+	
+	</delete>
 		
+		
+	<delete id="deletewishlist">
+	
+		
+	
+	</delete>
 		
 </mapper>
 

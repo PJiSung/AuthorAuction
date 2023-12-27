@@ -1,6 +1,7 @@
 package com.kh.auction.user.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -21,6 +22,10 @@ public interface ArtsDAO {
 	Product selectArts(int proNo);
 
 	int updatewishlist(Wishlist updatewis);
+
+	int deletewis(Wishlist deletewis);
+
+	int deletewishlist(ArrayList<HashMap<String, Object>> list);
 
 	
 }

@@ -481,7 +481,7 @@ ul,li,ol{
  	color: #333;">
 				<div style = "width: 5%; height: 100%; display:flex; align-items: center;justify-content: center; " ><input type = "checkbox" id = "allcheck" style = "cursor:pointer;"></div>
 				<div style = "width: 10%; height: 100%; display:flex; align-items: center;justify-content: center; " ><label for = "allcheck" style = "cursor:pointer;">전체선택</label></div>
-				<div style = " width: 10%; height: 100%; display:flex; align-items: center;justify-content: center; border-left: 1px solid #ccc; margin-left: 1%; padding-left: 1%;" ><label for = "selectedcheck" style = "cursor:pointer;">선택삭제</label></div>
+				<div style = " width: 10%; height: 100%; display:flex; align-items: center;justify-content: center; border-left: 1px solid #ccc; margin-left: 1%; padding-left: 1%;" ><label for = "selectedcheck" style = "cursor:pointer;" onclick = "deletewishlist();">선택삭제</label></div>
 		</div>
 			
 			
@@ -492,10 +492,11 @@ ul,li,ol{
 				<c:if test = "${empty wlist}">
 					<div style = "display:flex; align-items:center; justify-content:center; height: 50vh;"><h1>장바구니에 상품이 없습니다</h1></div>
 				</c:if>
+				
 				<c:if test = "${!empty wlist}">
 					<c:forEach items = "${wlist}" var = "w">
 						<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	
-							<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div>
+							<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox" class = "productcheck"><input type = "hidden" value = "${w.proNo}"></div>
 							<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div>
 							<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" >
 								<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proName}</div>
@@ -518,7 +519,7 @@ ul,li,ol{
 					    				
 		             	    </div>
 					   		<div class = "productprice"  style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all"><span style = "font-weight:bold; font-size: 17px;">${w.proPrice * w.wisAmount}</span><small>&nbsp;원</small></div>
-					   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div>
+					   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg" style = "cursor:pointer;" onclick = "location.href = 'deletewis.ar?memId=${loginid}&proNo=${w.proNo}'"></div>
 				  		</div>
 				  </c:forEach>
 				</c:if>
@@ -561,6 +562,66 @@ ul,li,ol{
   
   <script>
   
+  	//전체선택 스크립트
+ 		 var checkboxes = document.getElementsByClassName('productcheck');
+ 		 var allcheck	=	document.getElementById('allcheck');
+ 		 
+ 		allcheck.addEventListener('change',function(){
+ 			
+ 		for(checkbox of checkboxes){
+ 			
+ 			if(this.checked == true){
+ 			checkbox.checked = true;
+ 			}else{
+ 				checkbox.checked = false;
+ 			}
+ 		}
+ 		 
+ 	 });
+ 	 
+ 	 for(checkbox of checkboxes){
+ 		 
+ 		 checkbox.addEventListener('change', function(){
+ 			
+ 			 if(this.checked == false){
+ 				 allcheck.checked = false;
+ 			 }
+ 			 
+ 		 });
+ 		 
+ 	 }
+  
+  </script>
+  
+  
+  <script>
+  			//삭제 스크립트
+  			
+  	function deletewishlist(){
+  				
+  		 var products = document.getElementsByClassName('productcheck');		
+  	     var checkedpronos = [];
+  			for(product of products){
+  				
+  				if(product.checked == true){
+  					checkedpronos.push(product.nextElementSibling.value);
+  				}
+  			}
+  			location.href = "deletewishlist.ar?memId="+${loginid}+"&pronos="+checkedpronos;
+  		}
+  
+  
+  
+  
+  </script>
+  
+  
+  
+  
+  
+  
+  <script>
+  			//제품 수량 변경 스크립트
   function selectAmountChange(memId,proNo,wisAmount,proPrice,data){
 	  	
 		  $.ajax({
@@ -579,7 +640,6 @@ ul,li,ol{
 			        console.error(error);
 			    }
 			});
-		  
 	  
   }
   </script>
@@ -594,6 +654,10 @@ ul,li,ol{
   	}
   
   </script>  
+  
+  
+  
+  
   
   
   

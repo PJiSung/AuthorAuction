@@ -2,6 +2,7 @@ package com.kh.auction.user.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ public class ArtsController {
 		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
 		ArrayList<Wishlist> wlist = aService.selectWishlist(loginid);
 		
+		model.addAttribute("loginid", loginid);
 		model.addAttribute("wlist", wlist);
 		
 		return "arts/wishlist";
@@ -88,5 +90,34 @@ public class ArtsController {
 		int result = aService.updatewishlist(updatewis);
 		
 		return "수량을 변경하였습니다";
+	}
+	
+	@GetMapping("deletewis.ar")
+	public String deletewis(Wishlist deletewis) {
+		
+		int result = aService.deletewis(deletewis);
+		
+		return "redirect:wishlist.ar";
+		
+	}
+	
+	
+	@GetMapping("deletewishlist.ar")
+	public String deletewishlist(@RequestParam("memId") String memId, @RequestParam("pronos") int[] pronos) {
+		
+		
+		ArrayList<HashMap<String,Object>> list = null;
+		
+		
+		for(int proNo : pronos) {
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("memId", memId);
+			map.put("proNo", (Integer)proNo);
+			list.add(map);
+		}
+		
+		 int result = aService.deletewishlist(list);
+		 
+		return "redirect:wishlist.ar";
 	}
 }
