@@ -34,7 +34,7 @@
 	
 	<select id="selectWishlist" resultMap = "wismap">
 		select *
-		from wishlist
+		from wishlist join product using(pro_no)
 		where mem_id = #{loginid}
 	</select>
 	
@@ -43,6 +43,11 @@
 		<id column="MEM_ID" property="memId"/>
 		<id column="PRO_NO" property="proNo"/>
 		<result column="WIS_AMOUNT" property="wisAmount"/>
+		<result column="PRO_IMAGE" property="proImage"/>
+		<result column="PRO_PRICE" property="proPrice"/>
+		<result column="PRO_AMOUNT" property="proAmount"/>
+		<result column="PRO_NAME" property="proName"/>
+		<result column="PRO_WRITER" property="proWriter"/>
 	</resultMap>
 	
 	

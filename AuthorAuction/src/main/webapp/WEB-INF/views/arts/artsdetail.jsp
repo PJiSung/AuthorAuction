@@ -683,8 +683,8 @@
   <script>
   	//주문가능수량 스크립트
   	
-  	const amount = document.getElementById('amount').innerText;
-  	document.getElementById('snsaddress').value = window.location.href;
+  	var amount = document.getElementById('amount').innerText;
+  	
 
   	function checkamount(){
   		var num = document.getElementsByClassName('contents-amount-num')[0].innerText;
@@ -733,6 +733,7 @@
   	//게시물 공유 스크립트
   	
   	document.getElementsByClassName('sns_share')[0].style.display = "none";
+  	document.getElementById('snsaddress').value = window.location.href;
   	
   	function share(condition){
   		

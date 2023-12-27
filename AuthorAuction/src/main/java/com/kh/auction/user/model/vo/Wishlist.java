@@ -5,14 +5,25 @@ public class Wishlist {
 	
 	private int memId;
 	private int proNo;
+	private String proName;
+	private String proWriter;
+	private String proImage;
+	private int proPrice;
+	private int proAmount;
 	private int wisAmount;
 	
 	public Wishlist() {}
 
-	public Wishlist(int memId, int proNo, int wisAmount) {
+	public Wishlist(int memId, int proNo, String proName, String proWriter, String proImage, int proPrice,
+			int proAmount, int wisAmount) {
 		super();
 		this.memId = memId;
 		this.proNo = proNo;
+		this.proName = proName;
+		this.proWriter = proWriter;
+		this.proImage = proImage;
+		this.proPrice = proPrice;
+		this.proAmount = proAmount;
 		this.wisAmount = wisAmount;
 	}
 
@@ -32,6 +43,46 @@ public class Wishlist {
 		this.proNo = proNo;
 	}
 
+	public String getProName() {
+		return proName;
+	}
+
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+
+	public String getProWriter() {
+		return proWriter;
+	}
+
+	public void setProWriter(String proWriter) {
+		this.proWriter = proWriter;
+	}
+
+	public String getProImage() {
+		return proImage;
+	}
+
+	public void setProImage(String proImage) {
+		this.proImage = proImage;
+	}
+
+	public int getProPrice() {
+		return proPrice;
+	}
+
+	public void setProPrice(int proPrice) {
+		this.proPrice = proPrice;
+	}
+
+	public int getProAmount() {
+		return proAmount;
+	}
+
+	public void setProAmount(int proAmount) {
+		this.proAmount = proAmount;
+	}
+
 	public int getWisAmount() {
 		return wisAmount;
 	}
@@ -42,8 +93,11 @@ public class Wishlist {
 
 	@Override
 	public String toString() {
-		return "Wishlist [memId=" + memId + ", proNo=" + proNo + ", wisAmount=" + wisAmount + "]";
+		return "Wishlist [memId=" + memId + ", proNo=" + proNo + ", proName=" + proName + ", proWriter=" + proWriter
+				+ ", proImage=" + proImage + ", proPrice=" + proPrice + ", proAmount=" + proAmount + ", wisAmount="
+				+ wisAmount + "]";
 	}
+
 
 	
 	

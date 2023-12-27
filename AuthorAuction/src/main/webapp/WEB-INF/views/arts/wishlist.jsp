@@ -488,78 +488,86 @@ ul,li,ol{
 			
 		<div style = "border-top: 1px solid #bbb; border-bottom: 1px solid #ccc; width: 60vw; margin-top: 5vh; margin-left: 5vw;">
 		
+		
+		
+		
 				<c:if test = "${empty wlist}">
-					<div><h1>장바구니에 상품이 없습니다</h1></div>
+					<div style = "display:flex; align-items:center; justify-content:center; height: 50vh;"><h1>장바구니에 상품이 없습니다</h1></div>
 				</c:if>
-				
-				
+				<c:if test = "${!empty wlist}">
+					<c:forEach items = "${wlist}" var = "w">
 					<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	
 						<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div>
 						<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div>
 						<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" >
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >작품명</div>
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >작가</div>
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >상세보기</div>
+							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proName}</div>
+							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proWriter}</div>
+							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" ><a href = "artsDetail.ar?proNo=${w.proNo}">상세보기>></a></div>
 						</div>
 				    	<div class="contents-amount" style = "display: flex !important; justify-content: center !important; align-items: center !important; width: 15% !important; height: 100% !important;">
-	                    <button class="contents-btn btn-minus" type="button" onclick = "minusprice(this)">
-	                      <img src="sunwoo/icons/ico_minus_black.svg" alt="마이너스 아이콘">
-	                    </button>
-	                    <p class="contents-amount-num">1</p>
-	                    <button class="contents-btn btn-plus" type="button" onclick = "plusprice(this)">
-	                      <img src="sunwoo/icons/ico_plus_black.svg" alt="플러스 아이콘">
-	                    </button>
+			                    <button class="contents-btn btn-minus" type="button" onclick = "minusprice(this)">
+			                      <img src="sunwoo/icons/ico_minus_black.svg" alt="마이너스 아이콘">
+			                    </button>
+			                    <p class="contents-amount-num">1</p>
+			                    <button class="contents-btn btn-plus" type="button" onclick = "checkamount(); plusprice(this)">
+			                      <img src="sunwoo/icons/ico_plus_black.svg" alt="플러스 아이콘">
+			                    </button>
 	             	    </div>
-				   		<div class = "productprice"  style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all">123,240,000</div>
+				   		<div class = "productprice"  style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all"><span style = "font-weight:bold; font-size: 22px;">${w.proPrice}</span><small> 원</small></div>
 				   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div>
 			  		</div>
-			  		
-			  		
-			  		
-			  		
-			  		
-			  			<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	
+			  		<input type = "hidden" value = "${w.proAmount}" id = "proAmount">
+				  </c:forEach>
+				</c:if>
+				
 					
-						<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div>
-						<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div>
-						<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" >
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >작품명</div>
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >작가</div>
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >상세보기</div>
-						</div>
-				    	<div class="contents-amount" style = "display: flex !important; justify-content: center !important; align-items: center !important; width: 15% !important; height: 100% !important;">
-	                    <button class="contents-btn btn-minus" type="button" onclick = "minusprice(this)">
-	                      <img src="sunwoo/icons/ico_minus_black.svg" alt="마이너스 아이콘">
-	                    </button>
-	                    <p class="contents-amount-num">1</p>
-	                    <button class="contents-btn btn-plus" type="button" onclick = "plusprice(this)">
-	                      <img src="sunwoo/icons/ico_plus_black.svg" alt="플러스 아이콘">
-	                    </button>
-	             	    </div>
-				   		<div class = "productprice" style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center;">238,000</div>
-				   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div>
-			  		</div>
-			  			<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	
+			  		
+			  		
+			  		
+			  		
+			  		
+<!-- 			  		<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	 -->
 					
-						<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div>
-						<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div>
-						<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" >
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >작품명</div>
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >작가</div>
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >상세보기</div>
-						</div>
-				    	<div class="contents-amount" style = "display: flex !important; justify-content: center !important; align-items: center !important; width: 15% !important; height: 100% !important;">
-	                    <button class="contents-btn btn-minus" type="button" onclick = "minusprice(this)">
-	                      <img src="sunwoo/icons/ico_minus_black.svg" alt="마이너스 아이콘">
-	                    </button>
-	                    <p class="contents-amount-num">1</p>
-	                    <button class="contents-btn btn-plus" type="button" onclick = "plusprice(this)">
-	                      <img src="sunwoo/icons/ico_plus_black.svg" alt="플러스 아이콘">
-	                    </button>
-	             	    </div>
-				   		<div class = "productprice" style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all">1,039,930</div>
-				   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div>
-			  		</div>
+<!-- 						<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div> -->
+<!-- 						<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div> -->
+<!-- 						<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" > -->
+<!-- 							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >작품명</div> -->
+<!-- 							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >작가</div> -->
+<!-- 							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >상세보기</div> -->
+<!-- 						</div> -->
+<!-- 				    	<div class="contents-amount" style = "display: flex !important; justify-content: center !important; align-items: center !important; width: 15% !important; height: 100% !important;"> -->
+<!-- 	                    <button class="contents-btn btn-minus" type="button" onclick = "minusprice(this)"> -->
+<!-- 	                      <img src="sunwoo/icons/ico_minus_black.svg" alt="마이너스 아이콘"> -->
+<!-- 	                    </button> -->
+<!-- 	                    <p class="contents-amount-num">1</p> -->
+<!-- 	                    <button class="contents-btn btn-plus" type="button" onclick = "plusprice(this)"> -->
+<!-- 	                      <img src="sunwoo/icons/ico_plus_black.svg" alt="플러스 아이콘"> -->
+<!-- 	                    </button> -->
+<!-- 	             	    </div> -->
+<!-- 				   		<div class = "productprice" style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center;">238,000</div> -->
+<!-- 				   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div> -->
+<!-- 			  		</div> -->
+<!-- 			  		<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	 -->
+					
+<!-- 						<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div> -->
+<!-- 						<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div> -->
+<!-- 						<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" > -->
+<!-- 							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >작품명</div> -->
+<!-- 							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >작가</div> -->
+<!-- 							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center;" >상세보기</div> -->
+<!-- 						</div> -->
+<!-- 				    	<div class="contents-amount" style = "display: flex !important; justify-content: center !important; align-items: center !important; width: 15% !important; height: 100% !important;"> -->
+<!-- 	                    <button class="contents-btn btn-minus" type="button" onclick = "minusprice(this)"> -->
+<!-- 	                      <img src="sunwoo/icons/ico_minus_black.svg" alt="마이너스 아이콘"> -->
+<!-- 	                    </button> -->
+<!-- 	                    <p class="contents-amount-num">1</p> -->
+<!-- 	                    <button class="contents-btn btn-plus" type="button" onclick = "plusprice(this)"> -->
+<!-- 	                      <img src="sunwoo/icons/ico_plus_black.svg" alt="플러스 아이콘"> -->
+<!-- 	                    </button> -->
+<!-- 	             	    </div> -->
+<!-- 				   		<div class = "productprice" style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all">1,039,930</div> -->
+<!-- 				   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div> -->
+<!-- 			  		</div> -->
 			  		
 			  
 		</div>
@@ -595,46 +603,43 @@ ul,li,ol{
   
   
   
+  
+  
   <script>
-  	//가격 변하는 스크립트
-  	var pluses = document.getElementsByClassName('btn-plus');
-  	var minuses = document.getElementsByClassName('btn-minus');
-  	var productprices = document.getElementsByClassName('productprice');
+  	//주문가능수량 스크립트
   	
-  	
-  	function plusprice(bt){
-  		var pricestring = bt.parentNode.nextElementSibling.innerText;
-  		var prices =  pricestring.split(',');
-  		var jegob = 1;
-  		var total = 0;
-  		var quantity = parseInt(bt.previousElementSibling.innerText)+1;
-  			for(var i=prices.length-1; i>=0; i--){
-  				
-  					
-  					for(var j =0; j<=(prices.length-1)-i; j++){
-  						
-  						if(j!=0){
-  							jegob = jegob*1000;
-  						}
-  						
-  					}
-  						total = total + (parseInt(prices[i])*jegob);
-  						jegob = 1;
-  						
-  			}
-//   			console.log(quantity);
-  			total = total*quantity;
-  			
-  			console.log(total);
-//   			console.log(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-  			
-  			
-  			
-  	}
-  	function minusprice(){
-  		
+  	var amount = document.getElementById('proAmount').value;
+  	console.log(amount);
+
+  	function checkamount(){
+  		var num = document.getElementsByClassName('contents-amount-num')[0].innerText;
+
+  		if(num+2>amount){
+  			alert('최대 주문 가능 수량은 '+amount+'개 입니다');
+  			document.getElementsByClassName('contents-amount-num')[0].innerText = num-1;
+  		}
   		
   	}
+  
+  </script>
+  
+  
+  
+  
+  
+  <script>
+  		//주문 수량 변경 스크립트
+  		
+  		const originalprice = parseInt(document.getElementsByClassName('productprice')[0].children[0].innerText);
+  		
+  		document.getElementsByClassName('productprice')[0].children[0].innerText = originalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  		
+//   		document.getElementsByClassName('contents-price')[1].children[0].innerText= originalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  		
+  
+  
+  	
+  
   </script>
   
   
