@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -145,27 +146,54 @@ public class ConsignmentController {
 		}
 	}
 	
-	// 마이페이지 위탁문의 리스트
-	@GetMapping("list.co")
-	public String selectConsignmentList(@RequestParam(value="page", defaultValue="1") int page,
-										HttpServletRequest request, Model model) {
+//	// 마이페이지 위탁문의 리스트
+//	@GetMapping("list.co")
+//	public String selectConsignmentList(@RequestParam(value="page", defaultValue="1") int page,
+//										HttpServletRequest request, Model model) {
+//		
+//		int listCount = cService.getListCount(2);
+//		
+//		int currentPage = page;
+//		
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+//		ArrayList<Consignment> list = cService.selectConsignmentList(2, pi);
+//		
+//		if(list != null) {
+//			model.addAttribute("list", list);
+//			model.addAttribute("pi", pi);
+//			model.addAttribute("loc", request.getRequestURI());
+//			
+//			return "consignment/conMyPage";
+//		} else {
+//			throw new Exception("위탁문의 게시글 목록 조회 실패");
+//		}
+//	}
+	
+	// 마이페이지 검색
+	@PostMapping("list.co")
+	public String searchConsignment(@RequestParam("select")String select,
+									@RequestParam("keyword")String keyword, Model model, 
+									@RequestParam(value = "page", defaultValue = "1")int page) {
+									// keyword : 입력한 검색어 / select : select에서 가져오는 기준
 		
-		int listCount = cService.getListCount(1);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("select", select);	
+		map.put("keyword", keyword.trim()); 
+		
+		int listCount = cService.searchCount(map);
 		
 		int currentPage = page;
-		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
-		ArrayList<Consignment> list = cService.selectConsignmentList(1, pi);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);	// 리스트 갯수
+		ArrayList<Consignment> list = cService.searchList(map, pi);
 		
 		if(list != null) {
-			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
-			model.addAttribute("loc", request.getRequestURI());
+			model.addAttribute("list", list);
 			
-			return "consignment/conMyPage";
+			return "redirect:list.co";
 		} else {
-			throw new Exception("위탁문의 게시글 목록 조회 실패");
-		}
+			throw new Exception("게시글 검색 실패");
+		}	
 	}
 	
 	

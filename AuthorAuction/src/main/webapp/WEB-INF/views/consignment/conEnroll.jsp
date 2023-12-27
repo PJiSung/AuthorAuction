@@ -69,7 +69,7 @@
 	                </label>
 	                <label>
 	                  <h6 class="inputset-tit"> 이메일 </h6>
-	                  <input type="text" class="inputset-input form-control" value="${loginUser.memEmail}"name="memEmail" aria-label="내용" required="">
+	                  <input type="text" class="inputset-input form-control" value="${loginUser.memEmail}"name="memEmail" aria-label="내용" required="" readonly>
 	                </label>
 	              </div>
 	            </div>

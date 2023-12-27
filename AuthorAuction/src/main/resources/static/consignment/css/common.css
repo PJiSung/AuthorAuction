@@ -1,7 +1,7 @@
 @charset "utf-8"; 
 
 /* hooms-N48 [kTLqC36ddS] */
-.hooms-N48 .contents-inner { padding: 10rem 2.4rem; }
+.hooms-N48 .contents-inner { padding: 6rem 2.4rem; }
 .hooms-N48 .textset { padding: 0; margin-top: 0; }
 .hooms-N48 .textset .textset-tit { margin-bottom: 2.4rem; text-align: center; font-size: 30px; }
 @media (max-width: 992px) {
@@ -24,7 +24,7 @@
 .con_enddate { width: 15%; }
 .date a { margin-left: 5rem; margin-right: 2rem; }
 .inputText { width: 20rem; margin-right: 5rem; }
-.con_enroll { float: right; margin-bottom: 2rem; width: 10rem; height: 5rem; background: black; color: white; }
+.con_enroll { float: right; margin-bottom: 4rem; width: 10rem; height: 5rem; background: black; color: white; }
 
 /* hooms-N48 [no2CLZNtZF5] : 편집됨 */
 .admcancel { width: 10rem; height: 5rem; font-size: 20px; }

@@ -34,14 +34,38 @@
 		order by CON_NO desc
 	</select>
 	
+	<select id="searchCount" resultType="_int">											<!-- 조건 검색 -->
+		select count(*)
+		from consignment
+		<if test="'select' == '전체'">
+			where con_author like '%'|| #{keyword} ||'%' or con_product like '%'|| #{keyword} ||'%'
+		</if>
+		<if test="'select' == '작가명'">
+			where con_author like '%'|| #{keyword} ||'%'
+		</if>
+		<if test="'select' == '작품명'">
+			where con_product like '%'|| #{keyword} ||'%'
+		</if>
+	</select>
 	
+	<select id="searchList" resultType="Consignment">									<!-- 조건 검색 -->
+		select *
+		from consignment 
+		where CON_DEL_STATUS = 'Y'
+		<if test="'select' == '전체'">
+			 and con_author like '%'|| #{keyword} ||'%' or con_product like '%'|| #{keyword} ||'%'
+		</if>
+		<if test="'select' == '작가명'">
+			 and con_author like '%'|| #{keyword} ||'%'
+		</if>
+		<if test="'select' == '작품명'">
+			and con_product like '%'|| #{keyword} ||'%'
+		</if>
+		order by CON_CREATE_DATE desc
+	</select>
 	
-	
-	
-	
-	
-	
-	
+
+
 	
 	
 	<select id="selectConsignment" resultType="Consignment">							<!-- 상세조회 -->

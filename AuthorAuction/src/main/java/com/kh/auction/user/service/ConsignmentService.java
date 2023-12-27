@@ -1,6 +1,7 @@
 package com.kh.auction.user.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Attachment;
@@ -20,6 +21,10 @@ public interface ConsignmentService {
 	int getListCount(int i);
 	// 마이페이지 리스트
 	ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi);
+	// 마이페이지 검색
+	int searchCount(HashMap<String, String> map);
+	// 마이페이지 검색
+	ArrayList<Consignment> searchList(HashMap<String, String> map, PageInfo pi);
 
 
 }

@@ -1,7 +1,9 @@
 package com.kh.auction.user.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,20 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	@Override
 	public ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi) {
 		return cDAO.selectConsignmentList(i, pi);
+	}
+	// 마이페이지 검색
+	@Override
+	public int searchCount(HashMap<String, String> map) {
+		return cDAO.searchCount(map);
+	}
+	// 마이페이지 검색	
+	@Override
+	public ArrayList<Consignment> searchList(HashMap<String, String> map, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return cDAO.searchList(map, rowBounds);
 	}
 
 
