@@ -63,8 +63,8 @@ public class ArtsServiceImpl implements ArtsService {
 	}
 	
 	@Override
-	public int deletewishlist(ArrayList<HashMap<String, Object>> list) {
+	public int deletewishlist(HashMap<String, Object> map) {
 		
-		return aDAO.deletewishlist(list);
+		return aDAO.deletewishlist(map);
 	}
 }

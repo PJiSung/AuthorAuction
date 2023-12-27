@@ -103,20 +103,15 @@ public class ArtsController {
 	
 	
 	@GetMapping("deletewishlist.ar")
-	public String deletewishlist(@RequestParam("memId") String memId, @RequestParam("pronos") int[] pronos) {
+	public String deletewishlist(@RequestParam("memId") String memId, @RequestParam("pronos") Integer[] pronos) {
 		
 		
-		ArrayList<HashMap<String,Object>> list = null;
+		HashMap<String,Object> map = new HashMap<String,Object>();
 		
+		map.put("memId", memId);
+		map.put("pronos", pronos);
 		
-		for(int proNo : pronos) {
-			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("memId", memId);
-			map.put("proNo", (Integer)proNo);
-			list.add(map);
-		}
-		
-		 int result = aService.deletewishlist(list);
+		 int result = aService.deletewishlist(map);
 		 
 		return "redirect:wishlist.ar";
 	}

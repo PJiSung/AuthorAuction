@@ -75,9 +75,11 @@
 		
 		
 	<delete id="deletewishlist">
-	
-		
-	
+		delete from wishlist
+		where MEM_ID = #{memId} and PRO_NO IN 
+		 <foreach collection = "pronos" item = "proNo" open="(" separator="," close=")">
+		 	#{proNo}
+		</foreach>
 	</delete>
 		
 </mapper>

@@ -21,7 +21,7 @@ public interface ArtsService {
 
 	int deletewis(Wishlist deletewis);
 
-	int deletewishlist(ArrayList<HashMap<String, Object>> list);
+	int deletewishlist(HashMap<String, Object> map);
 
 
 
