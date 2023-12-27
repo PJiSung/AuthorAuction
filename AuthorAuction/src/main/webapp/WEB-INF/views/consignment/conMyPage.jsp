@@ -39,7 +39,7 @@
             
 			<div class="date-box">
  				<div class="date">
-	              	<form action="list.co" method="get" class="listForm">
+	              	<form action="list.co" method="post" class="listForm">
 						<span><a>조회 기간</a></span>
 						<span>
 						  <input type="date" class="con_startdate">

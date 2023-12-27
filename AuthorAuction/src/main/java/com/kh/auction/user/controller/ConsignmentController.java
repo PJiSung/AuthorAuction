@@ -146,28 +146,28 @@ public class ConsignmentController {
 		}
 	}
 	
-//	// 마이페이지 위탁문의 리스트
-//	@GetMapping("list.co")
-//	public String selectConsignmentList(@RequestParam(value="page", defaultValue="1") int page,
-//										HttpServletRequest request, Model model) {
-//		
-//		int listCount = cService.getListCount(2);
-//		
-//		int currentPage = page;
-//		
-//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-//		ArrayList<Consignment> list = cService.selectConsignmentList(2, pi);
-//		
-//		if(list != null) {
-//			model.addAttribute("list", list);
-//			model.addAttribute("pi", pi);
-//			model.addAttribute("loc", request.getRequestURI());
-//			
-//			return "consignment/conMyPage";
-//		} else {
-//			throw new Exception("위탁문의 게시글 목록 조회 실패");
-//		}
-//	}
+	// 마이페이지 위탁문의 리스트
+	@GetMapping("list.co")
+	public String selectConsignmentList(@RequestParam(value="page", defaultValue="1") int page,
+										HttpServletRequest request, Model model) {
+		
+		int listCount = cService.getListCount(2);
+		
+		int currentPage = page;
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Consignment> list = cService.selectConsignmentList(2, pi);
+		
+		if(list != null) {
+			model.addAttribute("list", list);
+			model.addAttribute("pi", pi);
+			model.addAttribute("loc", request.getRequestURI());
+			
+			return "consignment/conMyPage";
+		} else {
+			throw new Exception("위탁문의 게시글 목록 조회 실패");
+		}
+	}
 	
 	// 마이페이지 검색
 	@PostMapping("list.co")
@@ -190,7 +190,8 @@ public class ConsignmentController {
 			model.addAttribute("pi", pi);
 			model.addAttribute("list", list);
 			
-			return "redirect:list.co";
+			//return "redirect:list.co";
+			return "consignment/conMyPage";
 		} else {
 			throw new Exception("게시글 검색 실패");
 		}	
