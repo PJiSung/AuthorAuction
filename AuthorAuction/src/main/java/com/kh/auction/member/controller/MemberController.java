@@ -176,7 +176,7 @@ public class MemberController {
 			String content = "<h1>Author Auction</h1><br>고객님의 인증 코드는 다음과 같습니다.<br><h1>" + checkNum +"</h1>";
 			String from = "gah_yn@naver.com";
 			String to = arr[1];
-			//String to = "starcr222@naver.com";
+			
 			try {
 				MimeMessage mail = mailSender.createMimeMessage();
 				MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
@@ -283,5 +283,10 @@ public class MemberController {
 		} else {
 			throw new Exception("비밀번호 변경 실패");
 		}
+	}
+	
+	@GetMapping("myAddress")
+	public String myAddress() {
+		return "member/myAddress";
 	}
 }
