@@ -14,14 +14,12 @@
   <link rel="stylesheet" href="sunwoo/css/style.css">
 <!--   <link rel="stylesheet" href="css/wishlist.css"> -->
   
-  
-  	<link rel="stylesheet" href="sunwoo/rosacss/rosasetting.css">
- 	<link rel="stylesheet" href="sunwoo/rosacss/rosaplugin.css">
-	<link rel="stylesheet" href="sunwoo/rosacss/rosatemplate.css">
-	<link rel="stylesheet" href="sunwoo/rosacss/rosacommon.css">
-	<link rel="stylesheet" href="sunwoo/rosacss/rosamain.css">
-	<link rel="stylesheet" href="sunwoo/rosacss/rosastyle.css">
-	
+ <link rel="stylesheet" href="main/css/setting.css">
+<link rel="stylesheet" href="main/css/plugin.css">
+<link rel="stylesheet" href="main/css/template.css">
+<link rel="stylesheet" href="main/css/common.css">
+<link rel="stylesheet" href="main/css/main.css">
+<link rel="stylesheet" href="main/css/style.css">
 	
 <style>
 
@@ -450,11 +448,11 @@ input.check_btn:checked + label:before{
     </div>
   </div>
   <!-- [E]header -->
-  <script src="sunwoo/rosajs/setting.js"></script>
-  <script src="sunwoo/rosajs/plugin.js"></script>
-  <script src="sunwoo/rosajs/template.js"></script>
-  <script src="sunwoo/rosajs/common.js"></script>
-  <script src="sunwoo/rosajs/script.js"></script>
+   <script src="main/js/setting.js"></script>
+  <script src="main/js/plugin.js"></script>
+  <script src="main/js/template.js"></script>
+  <script src="main/js/common.js"></script>
+  <script src="main/js/script.js"></script>
 	
 
 
