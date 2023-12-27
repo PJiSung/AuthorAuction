@@ -1,5 +1,6 @@
 package com.kh.auction.member.service;
 
+import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
 
 public interface MemberService {
@@ -16,4 +17,5 @@ public interface MemberService {
 
 	int updatePwd(Member m);
 
+	int insertAddress(Address a);
 }

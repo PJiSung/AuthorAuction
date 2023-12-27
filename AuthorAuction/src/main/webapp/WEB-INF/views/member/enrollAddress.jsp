@@ -16,7 +16,7 @@
 <meta property="og:description" content="웹사이트입니다">
 <meta property="og:image" content="https://웹사이트/images/opengraph.png">
 <meta property="og:url" content="https://웹사이트">
-<title>회원가입</title>
+<title>배송지 등록</title>
 <link rel="stylesheet" href="member/css/setting.css">
 <link rel="stylesheet" href="member/css/plugin.css">
 <link rel="stylesheet" href="member/css/template.css">
@@ -82,21 +82,11 @@ function sample6_execDaumPostcode() {
 }
 
 const checkCbox = () =>{
-	let spans = document.querySelectorAll(".radio-group span");
-	
-	for(let i=0; i<spans.length; i++){
-		spans[i].addEventListener("click", function(){
-			resetFn();
-			let radio = document.querySelectorAll("input[type=radio]")[i];
-			radio.checked = true;
-			if(radio.value == "email"){
-				document.getElementsByClassName("category")[0].style.display = "block";
-				document.getElementsByClassName("category")[1].style.display = "none";
-			}else{
-				document.getElementsByClassName("category")[0].style.display = "none";				
-				document.getElementsByClassName("category")[1].style.display = "block";
-			}
-		});
+	let cbox = document.querySelector("input[type=checkbox]");
+	if(cbox.checked){
+		cbox.checked = false;
+	}else{
+		cbox.checked = true;
 	}
 }
 
@@ -111,11 +101,11 @@ const submitBtn = () =>{
 	
 	let checkDefault = document.querySelector("input[type=checkbox]:checked");
 	if(checkDefault == null){
-		document.getElementsByName("addAddress")[0].value = "N";
+		document.getElementsByName("addDefault")[0].value = "N";
 	}else{
-		document.getElementsByName("addAddress")[0].value = "Y";
+		document.getElementsByName("addDefault")[0].value = "Y";
 	}
-  	
+  	alert(document.getElementsByName("addDefault")[0].value);
   	document.getElementById('addressForm').submit();
 }
 </script>
@@ -134,6 +124,7 @@ const submitBtn = () =>{
 							</div>
 						</div>
 						<form action="insertAddress" method="post" id="addressForm">
+						<input type="hidden" name="memId" value="${ loginUser.memId }">
 						<input type="hidden" name="addAddress">
 						<input type="hidden" name="addDefault">
 							<div class="form-body">
@@ -189,7 +180,7 @@ const submitBtn = () =>{
 									<legend class="legend">연락처 *</legend>
 									<div class="input-group">
 										<div class="inputset col inputset-line">
-											<input type="text" class="inputset-input form-control" name="addphone"
+											<input type="text" class="inputset-input form-control" name="addPhone"
 												placeholder="휴대폰 번호" aria-label="휴대폰 번호" required="required">
 										</div>
 									</div>
@@ -198,7 +189,7 @@ const submitBtn = () =>{
 						            <div class="checkset">
 						              <input id="checkset-a-1-2" class="checkset-input input-fill" type="checkbox">
 						              <label class="checkset-label" for="checkset-a-1-2"></label>
-						              <span class="checkset-text">기본 배송지로 설정</span>
+						              <span class="checkset-text" onclick="checkCbox()">기본 배송지로 설정</span>
 						            </div>
 						          </fieldset>
 							 	  <div class="form-footer btn-box">

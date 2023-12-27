@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.auction.member.dao.MemberDAO;
+import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
 
 @Service
@@ -40,6 +41,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int updatePwd(Member m) {
 		return mDao.updatePwd(m);
+	}
+
+	@Override
+	public int insertAddress(Address a) {
+		return mDao.insertAddress(a);
 	}
 	
 }

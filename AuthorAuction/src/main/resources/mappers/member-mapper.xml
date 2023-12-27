@@ -48,5 +48,10 @@
 		SET MEM_PWD = #{memPwd} 
 		WHERE MEM_ID = #{memId}
 	</update>
+	 
+	<insert id="insertAddress">
+		INSERT INTO ADDRESS
+		VALUES(SEQ_ADD.NEXTVAL, #{addName}, #{addRecipient}, #{addAddress}, #{addPhone}, #{addDefault}, #{memId})
+	</insert>
 	
 </mapper>

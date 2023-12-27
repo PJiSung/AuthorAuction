@@ -22,7 +22,7 @@
     <div class="header-container container-lg">
       <div class="header-left">
         <h1 class="header-title">
-          <a href="javascript:void(0)">
+          <a href="/">
              <h5>AAUCTION</h5>
            <!-- <img src="main/images/" alt="로고"> -->
           </a>

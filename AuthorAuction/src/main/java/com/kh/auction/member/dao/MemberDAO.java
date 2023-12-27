@@ -2,6 +2,7 @@ package com.kh.auction.member.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
 
 @Mapper
@@ -18,4 +19,6 @@ public interface MemberDAO {
 	Member findMyInfo(Member m);
 
 	int updatePwd(Member m);
+
+	int insertAddress(Address a);
 }
