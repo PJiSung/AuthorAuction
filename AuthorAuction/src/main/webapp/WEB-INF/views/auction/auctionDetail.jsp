@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-	#feeModal, #bidModal {
+	#priceTag, #bidModal {
 	  position: fixed;
 	  z-index: 1;
 	  left: 0;
@@ -94,8 +94,8 @@
                 </span>
                 <br clear="all">
                 <hr style="margin-left: 2%; width: 98%;">
-                <span id="fee" style="border: 1px black solid; margin-left: 2.8%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block;">낙찰 수수료</span>
-                <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block">경매 호가표</span>
+                <span style="border: 1px black solid; margin-left: 2.8%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block;">낙찰 수수료</span>
+                <span id="priceTagBtn" style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block">경매 호가표</span>
                 <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block" id="likeBtn">관심 목록 추가</span>
                 <div id="checkId" style="width: 96.5%; border: 1px black solid; text-align: center; margin-top: 2%; height: 6.5%; margin-left: 3.4%; padding-top: 3%; padding-bottom: 3%;"></div>
             </div>
@@ -106,10 +106,10 @@
         </div>
     </div>
         
-        <!-- 낙찰 수수료 모달창 -->
-    <div id="feeModal">
+        <!-- 호가표 모달창 -->
+    <div id="priceTag">
   		<div class="modal-content" style="width:30%;">
-    		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">낙찰 수수료 안내</h2>
+    		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">호가표</h2>
 		    <table style="margin:auto; border-collapse: collapse; text-align: center; width:80%;">
 		    	<tr class="trLine">
 		    		<th style="width:65%; margin-left: 30%">현재가 구간(포인트)</th>
@@ -157,7 +157,7 @@
 		    	</tr>
 		    </table>
 		    <div style="text-align: right; margin-top:2%; margin-right:5%;">
-		    	<button id="closeFeeModal" style="width:10%;">닫기</button>
+		    	<button id="closePriceTag" style="width:10%;">닫기</button>
 		    </div>
 		</div>
 	</div>
@@ -198,45 +198,47 @@
 
 	<script>
         window.onload = function(){
-        	const fee = document.getElementById("fee");
-        	const feeModal = document.getElementById("feeModal");
-        	const closeFeeModal = document.getElementById("closeFeeModal");
-        	
+        	const priceTagBtn = document.getElementById("priceTagBtn");
+        	const priceTag = document.getElementById("priceTag");
+        	const closePriceTag = document.getElementById("closePriceTag");
         	const nowPrice = document.getElementById("nowPrice");
         	const likeBtn = document.getElementById("likeBtn");
-        	
         	const modalNowPrice = document.getElementById("modalNowPrice");
         	const minPrice = document.getElementById("minPrice");
-        	
         	const bidModal = document.getElementById("bidModal");
         	const closeBidModal = document.getElementById("closeBidModal");
-        	
         	const myInputPoint = document.getElementById("myInputPoint");
-        	
         	const moneyCheck = document.getElementById("moneyCheck");
-        	
         	const insertBid = document.getElementById("insertBid");
+        	const check = document.getElementById("checkId");
+        	let remainingTime = document.getElementById("remainingTime");
         	
-        	fee.addEventListener('click',function(){
-        		feeModal.style.display='block';
+        	
+        	/* 모달창 컨트롤 */
+        	priceTagBtn.addEventListener('click',function(){
+        		priceTag.style.display='block';
         	})
-        	closeFeeModal.addEventListener('click',function(){
-        		feeModal.style.display='none';
+        	closePriceTag.addEventListener('click',function(){
+        		priceTag.style.display='none';
         	})
         	
         	closeBidModal.addEventListener('click',function(){
         		bidModal.style.display="none";
+        		if(nowPrice.innerText == "현재 입찰 없음"){
+    				myInputPoint.value = '${ auction.aucStartPrice }';
+    			}else{
+    				myInputPoint.value = '${ auction.aucFinishPrice }';
+    			}
+        		moneyCheck.innerText = '';
         	})
         	
-        	
-        	
-        	const check = document.getElementById("checkId");
-        	let remainingTime = document.getElementById("remainingTime");
         	
         	function bidding(){
         		bidModal.style.display="block";
         	}
         	
+        	
+        	//로그인에 따른 입찰/로그인/관심목록 추가
         	if(${ !empty loginUser }){
 				check.innerText = "입찰하기";
 				check.addEventListener('click', bidding);
@@ -245,8 +247,15 @@
         		check.addEventListener('click',function(){
         			location.href="loginView";
         		})
+        		likeBtn.addEventListener('click',function(){
+    				if(confirm("로그인을 하셔야 관심 목록에 추가하실 수 있습니다. \n로그인 하시겠습니까?")){
+    					location.href='loginView';
+    				}
+    			})
         	}
         	
+        	
+        	//남은 경매시간 계속 갱신 및 경매 종료시 입찰 기능 삭제
             const dateObject = new Date('${ auction.aucFinishDate }');
             
             let date = new Date();
@@ -262,7 +271,13 @@
 			minutes %= 60;
 			seconds %= 60;
 			
-			remainingTime.innerText = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+			if(seconds.toString().indexOf('-') == -1){
+				remainingTime.innerText = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
+			}else{
+				remainingTime.innerText = '경매 종료';
+				check.innerText = '경매 종료'
+				check.removeEventListener('click',bidding);
+			}
 			
 			let timer = setInterval(() => {
 				let date = new Date();
@@ -279,66 +294,78 @@
 				
 				remainingTime.innerText = days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초";
 				
-				if(remainingTime.innerText == '0일 0시간 0분 0초'){
+				if(remainingTime.innerText == '0일 0시간 0분 0초' || seconds.toString().indexOf('-') != -1){
 					clearInterval(timer);
 					remainingTime.innerText = '경매 종료';
 					check.innerText = '경매 종료'
 					check.removeEventListener('click',bidding);
+					
+					/* if(${empty loginUser}){ // 없어도 되는지 확인
+						remainingTime.innerText = '경매 종료';
+						check.innerText = '경매 종료'
+						check.removeEventListener('click',bidding);
+					} */
 				}
 				}, 1000);
 			
+			
+			// 상태에 따른 입찰가 변경
 			if(${ empty auction.aucFinishPrice }){
 				nowPrice.innerText = "현재 입찰 없음";
 				modalNowPrice.innerText = "현재 입찰 없음";
-				minPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucStartPrice }" pattern="#,##0" /> 포인트';
+				minPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucStartPrice }"/> 포인트';
 				myInputPoint.value= '${ auction.aucStartPrice }';
-				
 			}else{
-				nowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }" pattern="#,##0" /> 포인트';
-				modalNowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }" pattern="#,##0" /> 포인트';
+				nowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }"/> 포인트';
+				modalNowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }"/> 포인트';
 			}
 			
-			if(${ empty loginUser}){
-				likeBtn.addEventListener('click',function(){
-					if(confirm("로그인을 하셔야 관심 목록에 추가하실 수 있습니다. \n로그인 하시겠습니까?")){
-						location.href='loginView';
+			
+			if(nowPrice.innerText == "현재 입찰 없음"){
+				myInputPoint.setAttribute("min", ${ auction.aucStartPrice })
+			}else{
+				myInputPoint.setAttribute("min", ${ auction.aucFinishPrice })
+			}
+			
+ 			console.log(parseInt(myInputPoint.value));
+ 			console.log(${ auction.aucStartPrice});
+ 			console.log(parseInt(minPrice.innerText));
+ 			console.log(parseInt(minPrice.innerHTML));
+ 			console.log(parseInt(minPrice.innerText.split(' ')[0]));
+ 			
+			
+			insertBid.addEventListener('click',function(){
+				if(parseInt(myInputPoint.value) > '${ loginUser.memBalance}'){
+					if(confirm('보유하신 포인트가 부족합니다, \n충전 페이지로 이동하시겠습니까?')){
+						alert("충전 url 입력")
+						/* location.href="#"; */
 					}
-				})
-			}
-			
-			myInputPoint.addEventListener('keyup',function(){
-				if(myInputPoint.value > '${ loginUser.memBalance}') {
-					moneyCheck.innerText = '보유하신 포인트가 부족하여 입찰하실 수 없습니다';
-					insertBid.addEventListener('click',function(){
-						if(confirm("보유하신 포인트가 부족합니다 \n 충전 ㄱ?")){
-							alert("충전페이지 url 내놔");
-						}else{
-							moneyCheck.innerText = '';
-						}
-					})
 				}else{
-					insertBid.addEventListener('click',function(){
-						if(confirm("입찰하시면 취소하실 수 없습니다 \n정말로 입찰하시겠습니까?")){
+					if(nowPrice.innerText == "현재 입찰 없음") {
+						if(parseInt(myInputPoint.value) < '${ auction.aucStartPrice}'){
+							alert('최소입찰가보다 작게 입찰할 수 없습니다');
+						}else if(confirm("입찰하시고 나면 취소하실 수 없습니다\n그래도 입찰시겠습니까?")){
 							$.ajax({
-								url:"insertBid.ac",
-								type:"post",
-								data:{bidMoney:myInputPoint.value,aucNo:${ auction.aucNo }},
+								url: 'insertBid.ac',
+								type: 'post',
+								data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
 								success: data =>{
 									if(data == 'success'){
-										bidModal.style.display="none";
-										window.reolad();
+										console.log(1);
 									}else{
-										bidModal.style.display="none";
-										alert('입찰하신 금액보다 더 높은 금액이 입찰되었습니다.')
+										alert("입찰하신 금액보다 더 큰 금액이 입찰되었습니다.")
 									}
 								},
 								error: data => console.log(data)
-								
 							})
 						}
-					})
+					}
 				}
 			})
+			
+			
+			
+			
 		}
     </script>
 </body>

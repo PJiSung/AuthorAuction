@@ -30,7 +30,7 @@ public class AuctionServiceImpl implements AuctionService{
 		return aDAO.getAdminSearchList(hm);
 	}
 
-	@Override //입찰 - ajax 이용한 입찰
+	@Override //입찰 - ajax 이용한 입찰 + insert all을 이용해서 입찰내역 및 경매의 내용 변경
 	public int insertBid(HashMap<String, Object> hm) {
 		return aDAO.insertBid(hm);
 	}

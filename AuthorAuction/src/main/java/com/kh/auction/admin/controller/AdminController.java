@@ -49,18 +49,18 @@ public class AdminController {
 		}
 		
 		if(!aucSS.equals("")) {
-			hm.put("aucSS", aucSS + " 23:59:59");
+			hm.put("aucSS", aucSS + " 00:00:00");
 		}
 		
-		if(!aucSS.equals("")) {
+		if(!aucSE.equals("")) {
 			hm.put("aucSE", aucSE + " 23:59:59");
 		}
 		
-		if(!aucSS.equals("")) {
-			hm.put("aucFS", aucFS + " 23:59:59");
+		if(!aucFS.equals("")) {
+			hm.put("aucFS", aucFS + " 00:00:00");
 		}
 		
-		if(!aucSS.equals("")) {
+		if(!aucFE.equals("")) {
 			hm.put("aucFE", aucFE + " 23:59:59");
 		}
 		

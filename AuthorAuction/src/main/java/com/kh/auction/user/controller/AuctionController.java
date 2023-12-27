@@ -72,7 +72,9 @@ public class AuctionController {
 	@ResponseBody
 	@PostMapping("insertBid.ac")
 	public String insertBid(@RequestParam("bidMoney") int bidMoney, @RequestParam("aucNo") int aucNo, Model model) {
-
+		
+		System.out.println(bidMoney);
+		System.out.println(aucNo);
 		
 		Member m = (Member)model.getAttribute("loginUser");
 		
@@ -81,8 +83,11 @@ public class AuctionController {
 		hm.put("aucNo", aucNo);
 		hm.put("id", m.getMemId());
 		
+		//insert all을 이용해서 입찰내역 및 경매의 내용 변경
 		int result = aService.insertBid(hm);
-		if(result > 1) {
+		
+		System.out.println(result);
+		if(result > 0) {
 			return "success";
 		}else {
 			return "fail";

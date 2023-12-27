@@ -29,10 +29,75 @@
 		where auc_no = #{aucNo}
 	</select>
 	
-	
-	
-	
 	<select id="getAdminSearchList">
+		select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
+				con_year, con_hope, con_etc, att_rename
+		from auction
+		    join (select *
+		    		from consignment 
+		    			join attachment on (con_no = att_bno) 
+		    		where att_category = 2) on (auc_no = con_no)
+		<if test="auctionStatus != null">
+			<choose>
+				<when test="auctionStatus == 'ongoing'">
+					<![CDATA[
+						where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
+	        				TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
+	        		]]>
+				</when>
+				<when test="auctionStatus == 'scheduled'">
+					<![CDATA[
+						where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') < TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS')
+	        		]]>
+	        	</when>
+	        	<when test="auctionStatus == 'end'">
+					<![CDATA[
+						where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') > TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
+	        		]]>
+	        	</when>
+	        	<otherwise></otherwise>
+			</choose>
+			<choose>
+				<when test="searchType == 'work'">
+					and con_product = '%' ||  #{content} || '%'
+				</when>
+				<when test="searchType == 'author'">
+					and con_author =  '%' ||  #{content} || '%'
+				</when>
+				<otherwise></otherwise>
+			</choose>
+			<if test="aucSS != ''">
+				<![CDATA[
+					and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+			</if>
+			<if test="aucSE != ''">
+				<![CDATA[
+					and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+			</if>
+			<if test="aucFS != ''">
+				<![CDATA[
+					and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+			</if>
+			<if test="aucFE != ''">
+				<![CDATA[
+					and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+			</if>
+		</if>
+	</select>
+	
+	<insert id="insertBid">
+		
+		
+	</insert>
+	
+	
+	
+	<!-- <select id="getAdminSearchList">
 		select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
 				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
 				con_year, con_hope, con_etc, att_rename
@@ -59,8 +124,6 @@
 				</choose>
 			</when>
 			
-			<!--  -->
-			
 			<when test="auctionStatus == 'scheduled'">
 				<![CDATA[
 					where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') < TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS')
@@ -74,29 +137,8 @@
 					</when>
 					<otherwise></otherwise>
 				</choose>
-				<!-- <if test="aucSS != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucSE != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucFS != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucFE != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if> -->
+				
 			</when>
-			
-			<!--  -->
 			
 			<when test="auctionStatus == 'end'">
 				<![CDATA[
@@ -111,26 +153,7 @@
 					</when>
 					<otherwise></otherwise>
 				</choose>
-				<!-- <if test="aucSS != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucSE != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucFS != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if>
-				<if test="aucFE != ''">
-					<![CDATA[
-						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
-					]]>
-				</if> -->
+				
 			</when>
 		</choose>
 		<if test="aucSS != ''">
@@ -154,18 +177,18 @@
 					]]>
 				</if>
 		</if>
-	</select>
+	</select> -->
 	
 	
 	<!-- exists로 값이 있는지 없는지 확인 그후 가장 높은값과 비교 -->
 	<!-- fetch first 1 row only는 정렬후 제일 윗 값 1개만 들고옴 -->
-	<insert id="insertBid" parameterType="java.util.Map">
-		<![CDATA[
+	<!-- 등록 하면서 제일 첫 입찰을 admin으로 강제 고정시켜서 처리 가능 -->
+	<!-- <insert id="insertBiddingDetail" parameterType="java.util.Map">
 			insert into bidding_detail(bid_no, bid_price, auc_no, mem_id)
 			select bdd_seq.nextval, #{bidMoney}, #{aucNo}, #{id}
 			from dual
 			where not exists(
-				select 1
+				select bid_price
 				from bidding_detail
 				where bid_price = #{bidMoney} and auc_no = #{aucNo}
 				) and #{bidMoney} > (select bid_price
@@ -174,6 +197,30 @@
 									 order by bid_price desc
                 					 fetch first 1 row only
 									 )
-		]]>
-	</insert>
+	</insert> -->
+	
+	
+	
+	
+	
+	<!--  -->
+	<!--  -->
+	<!--  -->
+	<!--  -->
+	<!--  -->
+	
+	
+	<!--  -->
+	<!--  -->
+	<!--  -->
+	<!--  -->
+	<!--  -->
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
