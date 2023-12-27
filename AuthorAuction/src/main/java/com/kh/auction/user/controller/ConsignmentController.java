@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.auction.admin.model.vo.PageInfo;
+import com.kh.auction.common.config.Pagination;
 import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.service.ConsignmentService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -143,7 +146,27 @@ public class ConsignmentController {
 	}
 	
 	// 마이페이지 위탁문의 리스트
-	
+	@GetMapping("list.co")
+	public String selectConsignmentList(@RequestParam(value="page", defaultValue="1") int page,
+										HttpServletRequest request, Model model) {
+		
+		int listCount = cService.getListCount(1);
+		
+		int currentPage = page;
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		ArrayList<Consignment> list = cService.selectConsignmentList(1, pi);
+		
+		if(list != null) {
+			model.addAttribute("list", list);
+			model.addAttribute("pi", pi);
+			model.addAttribute("loc", request.getRequestURI());
+			
+			return "consignment/conMyPage";
+		} else {
+			throw new Exception("위탁문의 게시글 목록 조회 실패");
+		}
+	}
 	
 	
 	
