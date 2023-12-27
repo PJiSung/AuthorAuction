@@ -1,4 +1,4 @@
-package com.kh.auction.arts.vo;
+package com.kh.auction.user.model.vo;
 
 public class Wishlist {
 

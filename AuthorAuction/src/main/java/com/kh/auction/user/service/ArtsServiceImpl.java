@@ -1,4 +1,4 @@
-package com.kh.auction.arts.service;
+package com.kh.auction.user.service;
 
 import java.util.ArrayList;
 
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.auction.admin.model.vo.PageInfo;
-import com.kh.auction.arts.dao.ArtsDAO;
-import com.kh.auction.arts.vo.Product;
-import com.kh.auction.arts.vo.Wishlist;
+import com.kh.auction.user.dao.ArtsDAO;
+import com.kh.auction.user.model.vo.Product;
+import com.kh.auction.user.model.vo.Wishlist;
 
 
 @Service
@@ -30,9 +30,9 @@ public class ArtsServiceImpl implements ArtsService {
 	}
 	
 	@Override
-	public ArrayList<Wishlist> selectWishlist(){
+	public ArrayList<Wishlist> selectWishlist(String loginid){
 		
-		return aDAO.selectWishlist();
+		return aDAO.selectWishlist(loginid);
 	}
 
 	@Override

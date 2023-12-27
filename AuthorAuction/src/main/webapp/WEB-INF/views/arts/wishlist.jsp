@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -448,7 +449,8 @@ ul,li,ol{
 
 
 
-
+	
+	
 
 
 
@@ -486,9 +488,12 @@ ul,li,ol{
 			
 		<div style = "border-top: 1px solid #bbb; border-bottom: 1px solid #ccc; width: 60vw; margin-top: 5vh; margin-left: 5vw;">
 		
+				<c:if test = "${empty wlist}">
+					<div><h1>장바구니에 상품이 없습니다</h1></div>
+				</c:if>
+				
 				
 					<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	
-					
 						<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div>
 						<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div>
 						<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" >
@@ -508,6 +513,9 @@ ul,li,ol{
 				   		<div class = "productprice"  style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all">123,240,000</div>
 				   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div>
 			  		</div>
+			  		
+			  		
+			  		
 			  		
 			  		
 			  			<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	

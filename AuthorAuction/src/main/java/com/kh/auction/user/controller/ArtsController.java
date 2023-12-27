@@ -1,4 +1,4 @@
-package com.kh.auction.arts.controller;
+package com.kh.auction.user.controller;
 
 
 import java.util.ArrayList;
@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.auction.admin.model.vo.PageInfo;
-import com.kh.auction.arts.service.ArtsService;
-import com.kh.auction.arts.vo.Product;
-import com.kh.auction.arts.vo.Wishlist;
 import com.kh.auction.common.config.Pagination;
+import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.model.vo.Product;
+import com.kh.auction.user.model.vo.Wishlist;
+import com.kh.auction.user.service.ArtsService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ArtsController {
@@ -25,10 +27,14 @@ public class ArtsController {
 	ArtsService aService;
 	
 	@GetMapping("wishlist.ar")
-	public String Artslist(Model model) {
+	public String Artslist(Model model,HttpSession session) {
 		
-		ArrayList<Wishlist> wlist = aService.selectWishlist();
-		System.out.println(wlist);
+		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
+		
+		ArrayList<Wishlist> wlist = aService.selectWishlist(loginid);
+		
+		model.addAttribute("wlist", wlist);
+		
 		return "arts/wishlist";
 		
 	}
