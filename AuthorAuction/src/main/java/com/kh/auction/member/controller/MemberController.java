@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.member.service.MemberService;
+import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
 
 import jakarta.mail.internet.MimeMessage;
@@ -45,14 +46,14 @@ public class MemberController {
 		if (loginUser != null) {
 			if (bcrypt.matches(m.getMemPwd(), loginUser.getMemPwd())) {
 				session.setAttribute("loginUser", loginUser);
-				return "redirect:/";
+				return "index";
 			} else {
 				model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
 				return "member/login";
 			}
 		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
-			return "redirect:loginView";
+			return "member/login";
 		}
 	}
 
@@ -117,8 +118,18 @@ public class MemberController {
 		String phone = new String(decodedBytes, StandardCharsets.UTF_8);
 		m.setMemPhone(phone);
 		m.setMemPwd(bcrypt.encode(m.getMemPwd()));
-		int result = mService.insertMemeber(m);
-		if (result > 0) {
+		int result1 = mService.insertMemeber(m);
+		
+		Address a = new Address();
+		a.setAddName("집");
+		a.setAddRecipient(m.getMemName());
+		a.setAddAddress(m.getMemAddress());
+		a.setAddPhone(m.getMemPhone());
+		a.setAddDefault("Y");
+		a.setMemId(m.getMemId());
+		int result2 = mService.insertAddress(a);
+		
+		if (result1 > 0 && result2 > 0) {
 			return "member/enrollComplete";
 		} else {
 			throw new Exception("회원가입 실패");
@@ -285,8 +296,25 @@ public class MemberController {
 		}
 	}
 	
-	@GetMapping("myAddress")
+	@GetMapping("enrollAddress")
 	public String myAddress() {
-		return "member/myAddress";
+		return "member/enrollAddress";
+	}
+	
+	@PostMapping("insertAddress")
+	public String insertAddress(Address a) throws Exception {
+		System.out.println(a);
+		int result = mService.insertAddress(a);
+		if(result > 0) {
+			return null;
+		} else {
+			throw new Exception("배송지 추가 실패");
+		}
+	}
+	
+	@GetMapping("myAddList")
+	public String addList() {
+		
+		return "member/myAddList";
 	}
 }

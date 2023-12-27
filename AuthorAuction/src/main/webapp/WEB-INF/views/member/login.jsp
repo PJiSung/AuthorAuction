@@ -64,11 +64,10 @@ document.addEventListener("keypress", function(e) {
 									class="contents-link">회원가입</a></li>
 								<li class="contents-item"><a href="findIdView"
 									class="contents-link">아이디 찾기</a></li>
-								<li class="contents-item"><a href="javascript:void(0)"
+								<li class="contents-item"><a href="findPwView"
 									class="contents-link">비밀번호 찾기</a></li>
 							</ul>
 						</form>
-						
 					</div>
 					
 					<div class="form-footer">

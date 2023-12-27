@@ -9,6 +9,12 @@ public class Address {
 	private String addDefault;
 	private String memId;
 	
+	public String getAddDefault() {
+		return addDefault;
+	}
+	public void setAddDefault(String addDefault) {
+		this.addDefault = addDefault;
+	}
 	public int getAddNo() {
 		return addNo;
 	}
