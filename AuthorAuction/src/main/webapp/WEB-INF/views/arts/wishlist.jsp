@@ -494,27 +494,32 @@ ul,li,ol{
 				</c:if>
 				<c:if test = "${!empty wlist}">
 					<c:forEach items = "${wlist}" var = "w">
-					<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	
-						<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div>
-						<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div>
-						<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" >
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proName}</div>
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proWriter}</div>
-							<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" ><a href = "artsDetail.ar?proNo=${w.proNo}">상세보기>></a></div>
-						</div>
-				    	<div class="contents-amount" style = "display: flex !important; justify-content: center !important; align-items: center !important; width: 15% !important; height: 100% !important;">
-			                    <button class="contents-btn btn-minus" type="button">
-			                      <img src="sunwoo/icons/ico_minus_black.svg" alt="마이너스 아이콘">
-			                    </button>
-			                    <p class="contents-amount-num">1</p>
-			                    <button class="contents-btn btn-plus" type="button" onclick = "checkamount(this);">
-			                      <img src="sunwoo/icons/ico_plus_black.svg" alt="플러스 아이콘">
-			                    </button>
-	             	    </div>
-				   		<div class = "productprice"  style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all"><span style = "font-weight:bold; font-size: 17px;">${w.proPrice}</span><small>&nbsp;원</small></div>
-				   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div>
-			  		</div>
-			  		<input type = "hidden" value = "${w.proAmount}" class = "proAmount">
+						<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	
+							<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox"></div>
+							<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div>
+							<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" >
+								<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proName}</div>
+								<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proWriter}</div>
+								<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" ><a href = "artsDetail.ar?proNo=${w.proNo}">상세보기>></a></div>
+							</div>
+					    	<div class="contents-amount" style = "display: flex !important; justify-content: center !important; align-items: center !important; width: 15% !important; height: 100% !important;">
+					    				<select name = "wisamount" style = "width: 80%; border: 1px solid black; height: 15%;" onchange="selectAmountChange(${w.memId},${w.proNo},this.value,${w.proPrice},this)">
+					    					<c:forEach var="i" begin = "1" end = "${w.proAmount}">
+					    						<c:choose>
+					    							 <c:when test="${i eq w.wisAmount}">
+					    							 	 <option value="${i}" style="text-align:center;" selected>${i}개</option>
+					    							 </c:when>
+					    							 <c:otherwise>
+					    								<option value = "${i}" style = "text-align:center;">${i}개</option>
+					    							</c:otherwise>
+					    						</c:choose>
+					    					</c:forEach>
+					    				</select>
+					    				
+		             	    </div>
+					   		<div class = "productprice"  style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all"><span style = "font-weight:bold; font-size: 17px;">${w.proPrice * w.wisAmount}</span><small>&nbsp;원</small></div>
+					   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg"></div>
+				  		</div>
 				  </c:forEach>
 				</c:if>
 				
@@ -542,7 +547,6 @@ ul,li,ol{
 	  	</div>
 	  </div>
 	
-	
   <script src="sunwoo/js/setting.js"></script>
   <script src="sunwoo/js/plugin.js"></script>
   <script src="sunwoo/js/template.js"></script>
@@ -551,66 +555,45 @@ ul,li,ol{
   
   
   
+  <script src = "sunwoo/jquery/jquery-3.7.1.min.js"></script>
+  
   
   
   <script>
-  	//주문수량 변경 스크립트
-
-  	function checkamount(btn){
+  
+  function selectAmountChange(memId,proNo,wisAmount,proPrice,data){
+	  	
+		  $.ajax({
+			    url: 'updatewishamount.ar',
+			    type: 'GET',
+			    data: {
+			    	memId: memId,
+			    	proNo: proNo,
+			    	wisAmount: wisAmount
+			    },
+			    success: function onData (msg) {
+			        alert(msg);
+			        data.parentElement.nextElementSibling.children[0].innerText = (wisAmount*proPrice).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+			    },
+			    error: function onError (error) {
+			        console.error(error);
+			    }
+			});
+		  
+	  
+  }
+  </script>
+  
+  
+  <script>
+  	//천단위 콤마 스크립트
+  	for(p of document.getElementsByClassName('productprice')){
   		
-  		const proAmount = btn.parentElement.parentElement.nextElementSibling.value;
-  		var num = btn.previousElementSibling.innerText;
-  		
-  		if(proAmount<num+1){
-  			btn.previousElementSibling.innerText = num-1;
-  			alert('최대 주문 가능 수량은 '+proAmount+'개 입니다');
-  		}
+  		p.children[0].innerText = p.children[0].innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   		
   	}
   
-  </script>
-  
-  
-  
-   <script>
-  		//물품 결제 금액 스크립트
-  		
-  		
-  		for( i in document.getElementsByClassName('productprice')){
-  			
-  			
-  			const originalprice = parseInt(document.getElementsByClassName('productprice')[i].children[0].innerText);
-  			
-  			document.getElementsByClassName('productprice')[i].children[0].innerText = originalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  			
-  			
-  			var totalprice;
-  			
-  			document.getElementsByClassName('productprice')[i].previousElementSibling.children[0].addEventListener('click',function(){
-  				
-				totalprice = originalprice*(parseInt(this.nextElementSibling.innerText)-1);;
-				
-				if(parseInt(this.nextElementSibling.innerText) != 1){
-				this.parentElement.nextElementSibling.children[0].innerText = totalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  					}
-  			});
-  			
-			document.getElementsByClassName('productprice')[i].previousElementSibling.children[2].addEventListener('click',function(){
-  				
-				totalprice = originalprice*(parseInt(this.previousElementSibling.innerText)+1);;
-  				
-				
-				this.parentElement.nextElementSibling.children[0].innerText = totalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-				
-				
-  			});
-  			
-  		}
-  		
-  
-  </script>
-  
-  
+  </script>  
   
   
   

@@ -60,7 +60,11 @@
 		
 	</select>
 		
-	
+	<update id="updatewishlist">
+		update wishlist
+		set WIS_AMOUNT = #{wisAmount}
+		where MEM_ID = #{memId} and PRO_NO = #{proNo}
+	</update>
 		
 		
 </mapper>

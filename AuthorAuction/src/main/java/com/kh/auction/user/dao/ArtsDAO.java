@@ -20,5 +20,7 @@ public interface ArtsDAO {
 
 	Product selectArts(int proNo);
 
+	int updatewishlist(Wishlist updatewis);
+
 	
 }

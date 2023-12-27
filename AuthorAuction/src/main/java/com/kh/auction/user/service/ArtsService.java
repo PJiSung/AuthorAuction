@@ -16,6 +16,8 @@ public interface ArtsService {
 
 	Product selectArts(int proNo);
 
+	int updatewishlist(Wishlist updatewis);
+
 
 
 }

@@ -47,4 +47,10 @@ public class ArtsServiceImpl implements ArtsService {
 		return aDAO.selectArts(proNo);
 		
 	}
+	
+	@Override
+	public int updatewishlist(Wishlist updatewis) {
+		
+		return aDAO.updatewishlist(updatewis);
+	}
 }

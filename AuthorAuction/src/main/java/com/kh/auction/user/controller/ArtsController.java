@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.common.config.Pagination;
@@ -79,5 +80,13 @@ public class ArtsController {
 		
 		
 		return "arts/payresult";
+	}
+	
+	@ResponseBody
+	@GetMapping("updatewishamount.ar")
+	public String updatewishlist(Wishlist updatewis) {
+		int result = aService.updatewishlist(updatewis);
+		
+		return "수량을 변경하였습니다";
 	}
 }
