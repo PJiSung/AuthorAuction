@@ -101,8 +101,8 @@
             </div>
         </div>
         <div id="picturePlace" style="width: 45%; background: pink;">
-            <img src="치즈 냥이.jpg" style="width: 130px; border: 1px black solid; height: 130px; display: inline-block;">
-            <img src="치즈 냥이.jpg" style="width: 130px; border: 1px black solid; height: 130px; display: inline-block;">
+            <img src="image/치즈 냥이.jpg" style="width: 130px; border: 1px black solid; height: 130px; display: inline-block;">
+            <img src="image/치즈 냥이.jpg" style="width: 130px; border: 1px black solid; height: 130px; display: inline-block;">
         </div>
     </div>
         
@@ -184,7 +184,7 @@
     				<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">입찰 포인트</div>
     				<input type="text" value="" id="myInputPoint" style="margin-left:4%; width:30%; text-align: center;"> 포인트
     				<div id="moneyCheck" style="text-align: center; margin-top:3%; color:red;"></div>
-    				<div style="text-align: center; margin-top:2%;"><button style="background: gray; color:white;">포인트 충전</button></div><!--  온클릭 로케이션 -->
+    				<div style="text-align: center; margin-top:2%;"><button style="background: gray; color:white;" onclick="alert('포인트 충전 url 내놔')">포인트 충전</button></div><!--  온클릭 로케이션 -->
     			</div>
     		</div>
     		<div style="text-align: right; margin-top:2%; margin-right:5%;">
@@ -215,6 +215,8 @@
         	
         	const moneyCheck = document.getElementById("moneyCheck");
         	
+        	const insertBid = document.getElementById("insertBid");
+        	
         	fee.addEventListener('click',function(){
         		feeModal.style.display='block';
         	})
@@ -225,6 +227,8 @@
         	closeBidModal.addEventListener('click',function(){
         		bidModal.style.display="none";
         	})
+        	
+        	
         	
         	const check = document.getElementById("checkId");
         	let remainingTime = document.getElementById("remainingTime");
@@ -302,7 +306,29 @@
 				})
 			}
 			
-			moneyCheck.innerText='보유하신 포인트가 부족하여 입찰하실 수 없습니다'; //이부분 보유포인트보다 작을때 나오게 하기
+			if(myInputPoint.value > ${ loginUser.memBalance}) {
+				moneyCheck.innerText='보유하신 포인트가 부족하여 입찰하실 수 없습니다';
+				insertBid.addEventListener('click',function(){
+					if(confirm("보유하신 포인트가 부족합니다 \n 충전 ㄱ?")){
+						alert("충전페이지 url 내놔");
+					}
+				})
+			}else{
+				insertBid.addEventListener('click',function(){
+					if(confirm("입찰하시면 취소하실 수 없습니다 \n정말로 입찰하시겠습니까?")){
+						$.ajax({
+							url:"insertBid.ac",
+							type:"post",
+							data:{bidMoney:myInputPoint.value},
+							success: data =>{
+								
+							},
+							error: data => console.log(data)
+							
+						})
+					}
+				})
+			}
 			
 		}
     </script>
