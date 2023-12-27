@@ -154,7 +154,26 @@
 					]]>
 				</if>
 		</if>
-		
-		
 	</select>
+	
+	
+	<!-- exists로 값이 있는지 없는지 확인 그후 가장 높은값과 비교 -->
+	<!-- fetch first 1 row only는 정렬후 제일 윗 값 1개만 들고옴 -->
+	<insert id="insertBid" parameterType="java.util.Map">
+		<![CDATA[
+			insert into bidding_detail(bid_no, bid_price, auc_no, mem_id)
+			select bdd_seq.nextval, #{bidMoney}, #{aucNo}, #{id}
+			from dual
+			where not exists(
+				select 1
+				from bidding_detail
+				where bid_price = #{bidMoney} and auc_no = #{aucNo}
+				) and #{bidMoney} > (select bid_price
+									 from bidding_detail
+									 where auc_no = #{aucNo}
+									 order by bid_price desc
+                					 fetch first 1 row only
+									 )
+		]]>
+	</insert>
 </mapper>

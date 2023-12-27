@@ -1155,7 +1155,7 @@
 
 .bloomcity-N14 .form-footer .btnset, .bloomcity-N14 .form-footer .btnset2
 	{
-	width: calc(50% - 0.4rem);
+	width: calc(50% - 0.3rem);
 }
 
 @media ( max-width : 1366px) {

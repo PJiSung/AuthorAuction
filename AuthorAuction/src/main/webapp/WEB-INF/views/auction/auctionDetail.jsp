@@ -306,7 +306,7 @@
 				})
 			}
 			
-			if(myInputPoint.value > ${ loginUser.memBalance}) {
+			if(myInputPoint.value > '${ loginUser.memBalance}') {
 				moneyCheck.innerText='보유하신 포인트가 부족하여 입찰하실 수 없습니다';
 				insertBid.addEventListener('click',function(){
 					if(confirm("보유하신 포인트가 부족합니다 \n 충전 ㄱ?")){
@@ -319,7 +319,7 @@
 						$.ajax({
 							url:"insertBid.ac",
 							type:"post",
-							data:{bidMoney:myInputPoint.value},
+							data:{bidMoney:myInputPoint.value,aucNo:${ auction.aucNo }},
 							success: data =>{
 								
 							},

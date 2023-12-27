@@ -30,6 +30,7 @@ dependencies {
 	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
 	implementation group: 'org.json', name: 'json', version: '20231013'
 	implementation 'net.nurigo:sdk:4.2.7'
+	implementation 'org.springframework.boot:spring-boot-devtools:3.2.0'
 }
 
 tasks.named('test') {

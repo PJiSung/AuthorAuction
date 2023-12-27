@@ -16,4 +16,7 @@ public interface AuctionService {
 	//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
 	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm);
 
+	//입찰 - ajax 이용한 입찰
+	int insertBid(HashMap<String, Object> hm);
+
 }

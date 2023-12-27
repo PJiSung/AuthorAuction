@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,14 +17,15 @@
   <meta property="og:image" content="https://웹사이트/images/opengraph.png">
   <meta property="og:url" content="https://웹사이트">
   <title>위탁 마이페이지 | 침대</title>
-  <link rel="stylesheet" href="../resources/css/setting.css">
-  <link rel="stylesheet" href="../resources/css/plugin.css">
-  <link rel="stylesheet" href="../resources/css/template.css">
-  <link rel="stylesheet" href="../resources/css/common.css">
-  <link rel="stylesheet" href="../resources/css/style.css">
+  <link rel="stylesheet" href="consignment/css/setting.css">
+  <link rel="stylesheet" href="consignment/css/plugin.css">
+  <link rel="stylesheet" href="consignment/css/template.css">
+  <link rel="stylesheet" href="consignment/css/common.css">
+  <link rel="stylesheet" href="consignment/css/style.css">
 </head>
 
 <body>
+<jsp:include page="../common/header.jsp"/>
   <main class="th-layout-main ">
     <!-- [S]hooms-N48 -->
     <div class="hooms-N48" data-bid="tr2cLyIIXB5">
@@ -74,27 +76,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>김로사</td>
-                  <td>로롱이</td>
-                  <td>30*45cm</td>
-                  <td>KRW 100,000</td>
-                  <td>N</td>
-                </tr>
-                <tr>
-                  <td>김로사</td>
-                  <td>김로롱</td>
-                  <td>50*67cm</td>
-                  <td>KRW 150,000</td>
-                  <td>Y</td>
-                </tr>
-                <tr>
-                  <td>김로사</td>
-                  <td>김로롱이</td>
-                  <td>80*60cm</td>
-                  <td>KRW 200,000</td>
-                  <td>Y</td>
-                </tr>
+              	<c:forEach items="${list}" var="c">
+	                <tr>
+	                  <td>${ c.conAuthor }</td>
+	                  <td>${ c.conProduct }</td>
+	                  <td>${ c.conWidth }*${ c.conHeight }cm</td>
+	                  <td>${ c.conHope }</td>
+	                  <td>${ c.conAdmStatus }</td>
+	                </tr>
+              	</c:forEach>  
               </tbody>
             </table>
           </div>
@@ -131,6 +121,8 @@
     </div>
     <!-- [E]hooms-N48 -->
   </main>
+<jsp:include page="../common/footer.jsp"/>  
+  
   <script src="../resources/js/setting.js"></script>
   <script src="../resources/js/plugin.js"></script>
   <script src="../resources/js/template.js"></script>

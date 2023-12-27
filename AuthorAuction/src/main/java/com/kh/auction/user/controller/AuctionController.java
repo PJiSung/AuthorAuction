@@ -1,14 +1,13 @@
 package com.kh.auction.user.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -31,8 +30,6 @@ public class AuctionController {
 		
 		//진행중인 경매의 모든 경매리스트를 가지고옴
 		ArrayList<Auction> auctionList = aService.getAllAuction();
-		
-		System.out.println(auctionList);
 		
 		//가지고온 경매리스트의 갯수(size)가 총 갯수
 		PageInfo pi = Pagination.getPageInfo(currentPage, auctionList.size(), 12);
@@ -65,11 +62,32 @@ public class AuctionController {
 		 */
 		model.addAttribute("auction",auction);
 		model.addAttribute("page", page);
-		 
-		
-		System.out.println(auction);
 		
 		return "/auction/auctionDetail";
-	 }
+	}
 	
+	
+	//입찰 - ajax 이용한 입찰
+	@PostMapping("insertBid.ac")
+	public String insertBid(@RequestParam("bidMoney") int bidMoney, @RequestParam("aucNo") int aucNo, Model model) {
+
+		
+		Member m = (Member)model.getAttribute("loginUser");
+		
+		System.out.println(m.getMemId());
+		System.out.println(aucNo);
+		System.out.println(bidMoney);
+		
+		
+		
+		
+		HashMap<String, Object> hm = new HashMap<>();
+		hm.put("bidMoney", bidMoney);
+		hm.put("aucNo", aucNo);
+		hm.put("id", m.getMemId());
+		
+		int result = aService.insertBid(hm);
+		System.out.println(result);
+		return null;
+	}
 }
