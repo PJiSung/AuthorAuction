@@ -13,7 +13,7 @@ public class Member {
 	private String memEmail;
 	private String memIsAdmin;
 	private String memStatus;
-	private String memBalance;
+	private int memBalance;
 	private Date memDate;
 	private String memRating;
 	public String getMemId() {

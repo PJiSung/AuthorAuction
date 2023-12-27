@@ -182,7 +182,7 @@
     			
     			<div style="margin-top:5%;margin-bottom:2%;">
     				<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">입찰 포인트</div>
-    				<input type="text" value="" id="myInputPoint" style="margin-left:4%; width:30%; text-align: center;"> 포인트
+    				<input type="number" value="" id="myInputPoint" style="margin-left:4%; width:30%; text-align: center;"> 포인트
     				<div id="moneyCheck" style="text-align: center; margin-top:3%; color:red;"></div>
     				<div style="text-align: center; margin-top:2%;"><button style="background: gray; color:white;" onclick="alert('포인트 충전 url 내놔')">포인트 충전</button></div><!--  온클릭 로케이션 -->
     			</div>
@@ -306,30 +306,39 @@
 				})
 			}
 			
-			if(myInputPoint.value > '${ loginUser.memBalance}') {
-				moneyCheck.innerText='보유하신 포인트가 부족하여 입찰하실 수 없습니다';
-				insertBid.addEventListener('click',function(){
-					if(confirm("보유하신 포인트가 부족합니다 \n 충전 ㄱ?")){
-						alert("충전페이지 url 내놔");
-					}
-				})
-			}else{
-				insertBid.addEventListener('click',function(){
-					if(confirm("입찰하시면 취소하실 수 없습니다 \n정말로 입찰하시겠습니까?")){
-						$.ajax({
-							url:"insertBid.ac",
-							type:"post",
-							data:{bidMoney:myInputPoint.value,aucNo:${ auction.aucNo }},
-							success: data =>{
+			myInputPoint.addEventListener('keyup',function(){
+				if(myInputPoint.value > '${ loginUser.memBalance}') {
+					moneyCheck.innerText = '보유하신 포인트가 부족하여 입찰하실 수 없습니다';
+					insertBid.addEventListener('click',function(){
+						if(confirm("보유하신 포인트가 부족합니다 \n 충전 ㄱ?")){
+							alert("충전페이지 url 내놔");
+						}else{
+							moneyCheck.innerText = '';
+						}
+					})
+				}else{
+					insertBid.addEventListener('click',function(){
+						if(confirm("입찰하시면 취소하실 수 없습니다 \n정말로 입찰하시겠습니까?")){
+							$.ajax({
+								url:"insertBid.ac",
+								type:"post",
+								data:{bidMoney:myInputPoint.value,aucNo:${ auction.aucNo }},
+								success: data =>{
+									if(data == 'success'){
+										bidModal.style.display="none";
+										window.reolad();
+									}else{
+										bidModal.style.display="none";
+										alert('입찰하신 금액보다 더 높은 금액이 입찰되었습니다.')
+									}
+								},
+								error: data => console.log(data)
 								
-							},
-							error: data => console.log(data)
-							
-						})
-					}
-				})
-			}
-			
+							})
+						}
+					})
+				}
+			})
 		}
     </script>
 </body>
