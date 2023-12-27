@@ -76,10 +76,10 @@ public class Member {
 	public void setMemStatus(String memStatus) {
 		this.memStatus = memStatus;
 	}
-	public String getMemBalance() {
+	public int getMemBalance() {
 		return memBalance;
 	}
-	public void setMemBalance(String memBalance) {
+	public void setMemBalance(int memBalance) {
 		this.memBalance = memBalance;
 	}
 	public String getMemRating() {
@@ -96,7 +96,7 @@ public class Member {
 	}
 	
 	public Member(String memId, String memPwd, String memName, String memNickName, String memFileName,
-			String memAddress, String memPhone, String memEmail, String memIsAdmin, String memStatus, String memBalance,
+			String memAddress, String memPhone, String memEmail, String memIsAdmin, String memStatus, int memBalance,
 			Date memDate, String memRating) {
 		super();
 		this.memId = memId;
