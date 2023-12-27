@@ -30,7 +30,6 @@ public class ArtsController {
 	public String Artslist(Model model,HttpSession session) {
 		
 		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
-		
 		ArrayList<Wishlist> wlist = aService.selectWishlist(loginid);
 		
 		model.addAttribute("wlist", wlist);
