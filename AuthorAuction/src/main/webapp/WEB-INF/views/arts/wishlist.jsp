@@ -504,7 +504,7 @@ ul,li,ol{
 								<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" ><a href = "artsDetail.ar?proNo=${w.proNo}">상세보기>></a></div>
 							</div>
 					    	<div class="contents-amount" style = "display: flex !important; justify-content: center !important; align-items: center !important; width: 15% !important; height: 100% !important;">
-					    				<select name = "wisamount" style = "width: 80%; border: 1px solid black; height: 15%;" onchange="selectAmountChange(${w.memId},${w.proNo},this.value,${w.proPrice},this)">
+					    				<select name = "wisamount" style = "width: 80%; border: 1px solid black; height: 15%;" onchange="selectAmountChange(${w.proNo},this.value,${w.proPrice},this)">
 					    					<c:forEach var="i" begin = "1" end = "${w.proAmount}">
 					    						<c:choose>
 					    							 <c:when test="${i eq w.wisAmount}">
@@ -622,13 +622,13 @@ ul,li,ol{
   
   <script>
   			//제품 수량 변경 스크립트
-  function selectAmountChange(memId,proNo,wisAmount,proPrice,data){
+  function selectAmountChange(proNo,wisAmount,proPrice,data){
 	  	
 		  $.ajax({
 			    url: 'updatewishamount.ar',
 			    type: 'GET',
 			    data: {
-			    	memId: memId,
+			    	memId: ${loginid},
 			    	proNo: proNo,
 			    	wisAmount: wisAmount
 			    },
