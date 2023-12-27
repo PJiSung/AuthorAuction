@@ -38,12 +38,12 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	// 마이페이지 리스트	
 	@Override
 	public int getListCount(int i) {
-		return 0;
+		return cDAO.getListCount(i);
 	}
 	// 마이페이지 리스트	
 	@Override
 	public ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi) {
-		return null;
+		return cDAO.selectConsignmentList(i, pi);
 	}
 
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 
@@ -17,6 +18,10 @@ public interface ConsignmentDAO {
 	Consignment selectConsignment(int conNo, String id);
          
 	ArrayList<Attachment> selectAttmConsignmentList(Integer conNo);
+
+	int getListCount(int i);
+
+	ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi);
 
 
 
