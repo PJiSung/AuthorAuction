@@ -44,7 +44,7 @@ public class ConsignmentController {
 	@PostMapping("conInsert.co")
 	public String insertConsignment(@ModelAttribute Consignment c,
 									@RequestParam(value="file", required=false) ArrayList<MultipartFile> files, HttpSession session, Member m) {
-		
+		c.setmemId("starcr222");
 		// 현재 세션에 저장된 사용자 정보에서 회원 ID를 가져와서 위탁 정보 객체설정
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		if(loginUser != null) {
@@ -54,7 +54,6 @@ public class ConsignmentController {
 		
 		// 첨부 파일 리스트를 담을 ArrayList를 생성
 		ArrayList<Attachment> list = new ArrayList<>();
-	
 		// 업로드된 파일들에 대한 처리
 		if(files != null) {
 			for(int i = 0; i < files.size(); i++) {
@@ -67,7 +66,7 @@ public class ConsignmentController {
 						Attachment a = new Attachment();
 						a.setAttRename(rename);
 						a.setAttCategory(2); 	// 위탁문의 게시판(2)
-						
+						a.setAttFno(i+1);		// 사진 분류 순서
 						list.add(a);
 					}
 				}
@@ -76,26 +75,17 @@ public class ConsignmentController {
 			// 게시판 분류(attCategory) : 1(리뷰) / 2(위탁문의) / 3(그림추천)
 			// 그림추천(썸네일) 구분(fno) : 0(없), 1(있)
 			// 위탁문의 순서(fno) : 앞(1)/뒤(2)/서명(3)/구매서류(4)/상세사진(5)		
-		
-		for(int i = 0; i < list.size(); i++) {
-			Attachment a = list.get(i);
-			a.setAttFno(i + 1);
-		}	
-
 		int result1 = cService.insertConsignment(c);	// 정보 저장 리스트
-	
-		System.out.println(c.getConNo());
-		System.out.println(c);
+
 		// 첨부 파일이 없는 경우
 		if(!list.isEmpty()) {
 			for(Attachment a : list) {
-				System.out.println(c.getConNo());
 				a.setAttBno(c.getConNo());	
 			}
 			int result2 = cService.insertAttm(list);	// 사진 리스트
 			
 			if(result1 > 0 && result2 > 0) {			// 정보저장도 하고, 사진도 무조건 있어야 성공
-				return "redirect:conEnroll.co";
+				return "redirect:conInfo.co";
 			} else {
 				for(Attachment a : list) {
 					deleteFile(a.getAttRename());
@@ -112,7 +102,7 @@ public class ConsignmentController {
 	}
 
 	public String saveFile(MultipartFile upload) {
-		String root = "User:\\";
+		String root = "C:\\";
 		String savePath = root + "\\uploadFiles";
 		
 		File folder = new File(savePath);
@@ -143,7 +133,7 @@ public class ConsignmentController {
 	}
 	
 	public void deleteFile(String fileName) {
-		String root = "Users:\\";
+		String root = "C:\\";
 		String savePath = root + "\\uploadFiles";
 		
 		File f = new File(savePath + "\\" + fileName);
@@ -151,6 +141,50 @@ public class ConsignmentController {
 			f.delete();
 		}
 	}
+	
+	// 마이페이지 위탁문의 리스트
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 상세조회
 	@GetMapping("selectConsignment.co")

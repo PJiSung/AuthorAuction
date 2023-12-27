@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>	    
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,22 +54,22 @@
 	                    <h6 class="inputset-tit"> 위탁자 이름 </h6>
 	                  </span>
 	                  <span>
-	                    <input type="text" class="inputset-input form-control" placeholder="주소를 입력해주세요." aria-label="내용" required="">
+	                    <input type="text" class="inputset-input form-control" value="${ loginUser.memName }" name="memName" aria-label="내용" required="" readonly>
 	                  </span>
 	                </label>
 	                <label>
 	                  <h6 class="inputset-tit"> 주소 </h6>
-	                  <input type="text" class="inputset-input form-control" placeholder="주소를 입력해주세요." aria-label="내용" required="">
+	                  <input type="text" class="inputset-input form-control" value="${ fn:split(loginUser.memAddress, '@')[0] } ${ fn:split(loginUser.memAddress, '@')[1] } ${ fn:split(loginUser.memAddress, '@')[2] }${ fn:split(loginUser.memAddress, '@')[3] }" name="memAddress" aria-label="내용" required="" readonly>
 	                </label>
 	              </div>
 	              <div class="inputset inputset-lg inputset-label">
 	                <label>
 	                  <h6 class="inputset-tit"> 연락처 </h6>
-	                  <input type="tel" class="inputset-input form-control" placeholder="-를 제외한 숫자를 입력해주세요." aria-label="내용" required="">
+	                  <input type="tel" class="inputset-input form-control" value="${loginUser.memPhone}" name="memPhone" aria-label="내용" required="" readonly>
 	                </label>
 	                <label>
 	                  <h6 class="inputset-tit"> 이메일 </h6>
-	                  <input type="text" class="inputset-input form-control" placeholder="이메일을 입력해주세요." aria-label="내용" required="">
+	                  <input type="text" class="inputset-input form-control" value="${loginUser.memEmail}"name="memEmail" aria-label="내용" required="">
 	                </label>
 	              </div>
 	            </div>
@@ -82,29 +83,23 @@
 	                <div class="body">
 	                  <label style="margin-left: 15rem;">
 	                    <a style="display:inline-block; width: 15%; text-align: center;">작가명</a>
-	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
+	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" name="conAuthor" style="width: 70rem; display:inline-block">
 	                    <br><br>
 	                    <a style="display:inline-block; width: 15%; text-align: center;">작품명</a>
-	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-	                    <br><br>
-	                    <a style="display:inline-block; width: 15%; text-align: center;">작품의 재료</a>
-	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
+	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" name="conProduct" style="width: 70rem; display:inline-block">
 	                    <br><br>
 	                    <a style=" display:inline-block; width: 15%; text-align: center;">작품의 크기(cm)</a>
-	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 34rem; display:inline-block"> X <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 34rem; display:inline-block">
+	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" name="conWidth" style="width: 34rem; display:inline-block"> X <input type="text" name="conHeight" class="inputset-input form-control" aria-label="내용" required="" style="width: 34rem; display:inline-block">
 	                    <br><br>
 	                    <a style="display:inline-block; width: 15%; text-align: center;">제작연도</a>
-	                    <input type=" text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-	                    <br><br>
-	                    <a style="display: inline-block; width: 15%; text-align: center;">구입가(KRW)</a>
-	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
+	                    <input type=" text" class="inputset-input form-control" aria-label="내용" required="" name="conYear" style="width: 70rem; display:inline-block">
 	                    <br><br>
 	                    <a style=" display: inline-block; width: 15%; text-align: center;">희망가</a>
-	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display: inline-block">
+	                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" name="conHope" style="width: 70rem; display: inline-block">
 	                    <br><br>
 	                    <div>
 	                      <label style="display: inline-block; width: 15%; text-align: center;">출처 / 기타</label>
-	                      <textarea class="inputset-textarea" required="" style="display: inline-block; width: 60%; vertical-align: middle; resize: none;"></textarea>
+	                      <textarea name="conEtc" class="inputset-textarea" required="" style="display: inline-block; width: 60%; vertical-align: middle; resize: none;"></textarea>
 	                    </div>
 	                  </label>
 	                </div>
@@ -123,7 +118,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 1</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -136,7 +131,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 2</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -149,7 +144,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 3</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -162,7 +157,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 4</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -175,7 +170,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 5</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>

@@ -19,14 +19,29 @@
 		select * from dual
 	</insert>
 	
-	<select id="selectConsignment" resultType="Consignment">
+	
+	
+	<!-- 마이페이지 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="selectConsignment" resultType="Consignment">							<!-- 상세조회 -->
 		select *
 		from consignment
 			 join member using(memId)
 		where CON_DEL_STATUS = 'Y' and CON_NO = #{conNo}
 	</select>
 	
-	<select id="selectAttmConsignmentList">
+	<select id="selectAttmConsignmentList">												<!-- 상세조회 -->
 		select *
 		from attachment
 		where ATT_STATUS = 'Y'
