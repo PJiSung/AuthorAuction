@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.auction.admin.model.vo.PageInfo;
@@ -68,18 +69,12 @@ public class AuctionController {
 	
 	
 	//입찰 - ajax 이용한 입찰
+	@ResponseBody
 	@PostMapping("insertBid.ac")
 	public String insertBid(@RequestParam("bidMoney") int bidMoney, @RequestParam("aucNo") int aucNo, Model model) {
 
 		
 		Member m = (Member)model.getAttribute("loginUser");
-		
-		System.out.println(m.getMemId());
-		System.out.println(aucNo);
-		System.out.println(bidMoney);
-		
-		
-		
 		
 		HashMap<String, Object> hm = new HashMap<>();
 		hm.put("bidMoney", bidMoney);
@@ -87,7 +82,10 @@ public class AuctionController {
 		hm.put("id", m.getMemId());
 		
 		int result = aService.insertBid(hm);
-		System.out.println(result);
-		return null;
+		if(result > 1) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
 }
