@@ -88,17 +88,9 @@ public class AuctionController {
 		//insert all을 이용해서 입찰내역 및 경매의 내용 변경
 		int result = aService.insertBid(hm);
 		
-		Gson gson = new Gson();
-		JsonObject jsonObject = new JsonObject();
-		
-		
-		
 		if(result > 0) {
 			 Auction updateAuction = aService.getAuctionDetail(aucNo);
-			 jsonObject.addProperty("aucFinishPrice", updateAuction.getAucFinishPrice());
-			 String jsonData = gson.toJson(jsonObject);
-			 
-			return "jsonData";
+			return Integer.toString(updateAuction.getAucFinishPrice());
 		}else {
 			return "fail";
 		}
