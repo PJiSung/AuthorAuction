@@ -1,13 +1,17 @@
 package com.kh.auction.user.controller;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,6 +21,9 @@ import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
 import com.kh.auction.user.service.ArtsService;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -88,9 +95,10 @@ public class ArtsController {
 	}
 	
 	@GetMapping("payresult.ar")
-	public String payresult() {
+	public String payresult(@RequestParam("imp_uid") String imp_uid, @RequestParam("merchant_uid") String merchant_uid) {
 		
-		
+		System.out.println(imp_uid);
+		System.out.println(merchant_uid);
 		return "arts/payresult";
 	}
 	
@@ -125,4 +133,39 @@ public class ArtsController {
 		 
 		return "redirect:wishlist.ar";
 	}
+	
+	
+	
+	
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+//	결제 컨트롤러
+	
+	@ResponseBody
+	@PostMapping("insertorder.ar")
+	public String insertorder(@RequestParam("imp_uid") String imp_uid, @RequestParam("merchant_uid") int merchant_uid) {
+		
+		System.out.println(imp_uid);
+		System.out.println(merchant_uid);
+		
+		return "결제됐어";
+	}
+	
+	
+	
+	
 }

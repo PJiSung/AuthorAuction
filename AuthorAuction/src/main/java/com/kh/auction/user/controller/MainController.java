@@ -20,7 +20,7 @@ public class MainController {
 	@GetMapping("/")
 	public String test(HttpSession session) {
 		Member m = new Member();
-		String id = "klmgahyun";
+		String id = "123";
 		m.setMemId(id);
 		Member loginUser = mService.login(m);
 		session.setAttribute("loginUser", loginUser);
