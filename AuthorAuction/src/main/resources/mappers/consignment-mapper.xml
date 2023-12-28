@@ -22,17 +22,17 @@
 	
 	<select id="getListCount" resultType="_int">										<!-- 마이페이지 리스트 -->
 		select count(*)	
-		from consignment
-		where CON_DEL_STATUS = 'Y' 	
+		from consignment 
+		where CON_DEL_STATUS = 'Y' and mem_id=#{memId}
 	</select>
 	
 	<select id="selectConsignmentList" resultType="Consignment">						<!-- 마이페이지 리스트 -->
 		select *
 		from consignment
-			 join Member using(mem_Id)
-		where CON_DEL_STATUS = 'Y'
+		where CON_DEL_STATUS = 'Y' and mem_id=#{memId}
 		order by CON_NO desc
 	</select>
+	
 	
 	<select id="searchCount" resultType="_int">											<!-- 조건 검색 -->
 		select count(*)
@@ -67,24 +67,37 @@
 		order by CON_CREATE_DATE desc
 	</select>
 	
-
-
-	
-	
 	<select id="selectConsignment" resultType="Consignment">							<!-- 상세조회 -->
 		select *
 		from consignment
-			 join member using(memId)
+			 join member using(mem_id)
 		where CON_DEL_STATUS = 'Y' and CON_NO = #{conNo}
 	</select>
 	
-	<select id="selectAttmConsignmentList">												<!-- 상세조회 -->
+	<select id="selectAttmConsignmentList" resultType="Attachment">						<!-- 상세조회 -->
 		select *
 		from attachment
 		where ATT_STATUS = 'Y'
+		<if test="conNo == null">
+			and att_fno = 0
+		</if>
+		<if test="conNo != null">
+			and att_bno = #{conNo}
+		</if>
+		order by att_no
 	</select>
 	
-
+	<update id="deleteConsignment">
+		update consignment
+		set CON_DEL_STATUS = 'N'
+		where con_no = #{conNo}	
+	</update>
+	
+	<update id="statusNConsignment">
+		update attachment
+		set ATT_STATUS = 'N'
+		where att_bno = #{conNo}
+	</update>
 	
 
 

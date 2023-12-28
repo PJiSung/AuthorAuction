@@ -27,29 +27,19 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	public int insertAttm(ArrayList<Attachment> list) {
 		return cDAO.insertAttm(list);
 	}
-	// 상세조회
+	// 마이페이지 리스트	
 	@Override
-	public Consignment selectConsignment(int conNo, String id) {
-		return cDAO.selectConsignment(conNo, id);
-	}
-	// 상세조회
-	@Override
-	public ArrayList<Attachment> selectAttmConsignmentList(Integer conNo) {
-		return cDAO.selectAttmConsignmentList(conNo);
+	public int getListCount(String memId) {
+		return cDAO.getListCount(memId);
 	}
 	// 마이페이지 리스트	
 	@Override
-	public int getListCount(int i) {
-		return cDAO.getListCount(i);
-	}
-	// 마이페이지 리스트	
-	@Override
-	public ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi) {
+	public ArrayList<Consignment> selectConsignmentList(String memId, PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return cDAO.selectConsignmentList(i, pi, rowBounds);
+		return cDAO.selectConsignmentList(memId, rowBounds);
 	}
 	// 마이페이지 검색
 	@Override
@@ -64,6 +54,24 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return cDAO.searchList(map, rowBounds);
+	}
+	// 상세조회
+	@Override
+	public Consignment selectConsignment(int conNo) {
+		return cDAO.selectConsignment(conNo);
+	}
+	// 상세조회 첨부 리스트
+	@Override
+	public ArrayList<Attachment> selectAttmConsignmentList(int conNo) {
+		return cDAO.selectAttmConsignmentList(conNo);
+	}
+	@Override
+	public int deleteConsignment(int conNo) {
+		return cDAO.deleteConsignment(conNo);
+	}
+	@Override
+	public int statusNConsignment(int conNo) {
+		return cDAO.statusNConsignment(conNo);
 	}
 
 

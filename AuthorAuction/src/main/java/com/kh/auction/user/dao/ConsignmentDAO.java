@@ -17,17 +17,25 @@ public interface ConsignmentDAO {
 
 	int insertAttm(ArrayList<Attachment> list);
 
-	Consignment selectConsignment(int conNo, String id);
-         
-	ArrayList<Attachment> selectAttmConsignmentList(Integer conNo);
-
-	int getListCount(int i);
+	int getListCount(String memId);
 
 	ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi, RowBounds rowBounds);
 
 	int searchCount(HashMap<String, String> map);
 
 	ArrayList<Consignment> searchList(HashMap<String, String> map, RowBounds rowBounds);
+
+	Consignment selectConsignment(int conNo);
+
+	ArrayList<Attachment> selectAttmConsignmentList(int conNo);
+
+	ArrayList<Consignment> selectConsignmentList(String memId, RowBounds rowBounds);
+
+	int deleteConsignment(int conNo);
+
+	int statusNConsignment(int conNo);
+
+
 
 
 
