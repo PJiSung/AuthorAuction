@@ -1,6 +1,7 @@
 package com.kh.auction.member.controller;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Random;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.auction.member.service.MemberService;
 import com.kh.auction.user.model.vo.Address;
@@ -286,7 +288,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("updatePw")
-	public String updatePwView(Member m) throws Exception {
+	public String updatePwView(Member m) throws Exception{
 		m.setMemPwd(bcrypt.encode(m.getMemPwd()));
 		int result = mService.updatePwd(m);
 		if(result > 0) {
@@ -302,19 +304,26 @@ public class MemberController {
 	}
 	
 	@PostMapping("insertAddress")
-	public String insertAddress(Address a) throws Exception {
-		System.out.println(a);
+	public String insertAddress(Address a, RedirectAttributes ratt) throws Exception {
 		int result = mService.insertAddress(a);
 		if(result > 0) {
-			return null;
+			ratt.addAttribute("tab", 2);
+			return "redirect:myInfo";
 		} else {
 			throw new Exception("배송지 추가 실패");
 		}
 	}
 	
-	@GetMapping("myAddList")
-	public String addList() {
-		
-		return "member/myAddList";
+	@GetMapping("myInfo")
+	public String addList(HttpSession session, Model model, @RequestParam(value="tab", defaultValue="1") int tab) throws Exception {
+		String id = ((Member)session.getAttribute("loginUser")).getMemId();
+		ArrayList<Address> list = mService.selectAddressList(id);
+		if(list != null) {
+			model.addAttribute("tab", tab);
+			model.addAttribute("list", list);
+			return "member/myInfo";
+		}else {
+			throw new Exception("배송지 조회 실패");
+		}
 	}
 }
