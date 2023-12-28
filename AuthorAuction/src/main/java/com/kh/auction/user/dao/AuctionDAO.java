@@ -24,5 +24,9 @@ public interface AuctionDAO {
 
 	//입찰 성공시에 입찰내역 업데이트
 	int insertBiddingDetail(HashMap<String, Object> hm);
+
+	int updateMoneyInsertBid(HashMap<String, Object> hm);
+
+	int updateMoneyUnsold(HashMap<String, Object> hm);
 	
 }

@@ -36,8 +36,17 @@ public class AuctionServiceImpl implements AuctionService{
 		
 		if(updateAuctionPrice > 0) {
 			//입찰 성공시에 입찰내역 업데이트
-			int result = aDAO.insertBiddingDetail(hm);
-			return result;
+			int insertBiddingDetail = aDAO.insertBiddingDetail(hm);
+			
+			//전 입찰자에게 금액 복구			
+			aDAO.updateMoneyUnsold(hm);
+			
+			//입찰성공시에 금액 감소 
+			aDAO.updateMoneyInsertBid(hm);
+
+			
+			
+			return insertBiddingDetail;
 		}else {
 			return updateAuctionPrice;
 		}

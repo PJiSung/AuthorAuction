@@ -427,10 +427,57 @@
 										if(data != 'fail'){
 											alert("입찰에 성공하였습니다.")
 											bidModal.style.display = 'none';
-											nowPrice.innerText = data.toLocaleString().concat(" 원");
-											console.log(data);
+											nowPrice.innerText = parseInt(data).toLocaleString().concat(" 원");
+											modalNowPrice.innerText = parseInt(data).toLocaleString().concat(" 원");
+											//
+											
+											const aucFinishPrice = parseInt(data);
+											let minIncrement = 0;
+											let minPoint = 0;
+											
+											
+											switch (true) {
+											  case aucFinishPrice < 300000:
+											    minIncrement = 20000;
+											    break;
+											  case aucFinishPrice < 1000000:
+											    minIncrement = 50000;
+											    break;
+											  case aucFinishPrice < 5000000:
+											    minIncrement = 100000;
+											    break;
+											  case aucFinishPrice < 10000000:
+											    minIncrement = 200000;
+											    break;
+											  case aucFinishPrice < 30000000:
+											    minIncrement = 1000000;
+											    break;
+											  case aucFinishPrice < 50000000:
+											    minIncrement = 2000000;
+											    break;
+											  case aucFinishPrice < 200000000:
+											    minIncrement = 5000000;
+											    break;
+											  case aucFinishPrice < 500000000:
+											    minIncrement = 1000000;
+											    break;
+											  default:
+											    minIncrement = 20000000;
+											}
+											
+											minPoint = aucFinishPrice + minIncrement;
+											
+											const formatMinPoint = minPoint.toLocaleString();
+							
+											myInputPoint.setAttribute("min", aucFinishPrice + minIncrement);
+											myInputPoint.value = aucFinishPrice + minIncrement;
+											minPrice.innerText = formatMinPoint.concat(' 원');
+											
+											
+											//
 										}else{
 											alert("입찰에 실패하였습니다.");
+											location.reload();
 										}
 									},
 									error: data => console.log(data)
@@ -448,10 +495,58 @@
 										if(data != 'fail'){
 											alert("입찰에 성공하였습니다.")
 											bidModal.style.display = 'none';
-											nowPrice.innerText = data.toLocaleString().concat(" 원");
-											console.log(data);
+											nowPrice.innerText = parseInt(data).toLocaleString().concat(" 원");
+											modalNowPrice.innerText = parseInt(data).toLocaleString().concat(" 원");
+											//
+											
+											const aucFinishPrice = parseInt(data);
+											let minIncrement = 0;
+											let minPoint = 0;
+											
+											
+											switch (true) {
+											  case aucFinishPrice < 300000:
+											    minIncrement = 20000;
+											    break;
+											  case aucFinishPrice < 1000000:
+											    minIncrement = 50000;
+											    break;
+											  case aucFinishPrice < 5000000:
+											    minIncrement = 100000;
+											    break;
+											  case aucFinishPrice < 10000000:
+											    minIncrement = 200000;
+											    break;
+											  case aucFinishPrice < 30000000:
+											    minIncrement = 1000000;
+											    break;
+											  case aucFinishPrice < 50000000:
+											    minIncrement = 2000000;
+											    break;
+											  case aucFinishPrice < 200000000:
+											    minIncrement = 5000000;
+											    break;
+											  case aucFinishPrice < 500000000:
+											    minIncrement = 1000000;
+											    break;
+											  default:
+											    minIncrement = 20000000;
+											}
+											
+											minPoint = aucFinishPrice + minIncrement;
+											
+											const formatMinPoint = minPoint.toLocaleString();
+							
+											myInputPoint.setAttribute("min", aucFinishPrice + minIncrement);
+											myInputPoint.value = aucFinishPrice + minIncrement;
+											minPrice.innerText = formatMinPoint.concat(' 원');
+											
+											
+											//
+
 										}else{
 											alert("입찰에 실패하였습니다.");
+											location.reload();
 										}
 									},
 									error: data => console.log(data)

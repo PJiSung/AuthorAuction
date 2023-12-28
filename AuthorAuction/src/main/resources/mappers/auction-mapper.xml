@@ -101,6 +101,37 @@
 	<insert id="insertBiddingDetail">
 		insert into bidding_Detail values(bdd_seq.nextval, #{bidMoney}, #{aucNo}, #{id})
 	</insert>
+	
+	<update id="updateMoneyInsertBid">
+		update member
+		set mem_balance = mem_balance - #{bidMoney}
+		where mem_id = #{id}
+	</update>
+	
+	<update id="updateMoneyUnsold"> <!-- 경매 참여했을때 유동적으로 잘 들어가는지 확인 -->
+		update member
+		set mem_balance = mem_balance + nvl((SELECT bid_price
+		                                 FROM (
+		                                     SELECT bid_price, ROWNUM as rnum
+		                                     FROM (
+		                                         SELECT bid_price
+		                                         FROM bidding_detail
+		                                         ORDER BY bid_price DESC
+		                                        )
+		                                    )
+		                                 WHERE rnum = 2
+		                                ),0)
+		where mem_id = (select mem_id
+		from(
+		    select bid_price, mem_id, rownum as rnum
+		    from(
+		        select bid_price, mem_id
+		        from bidding_detail
+		        order by bid_price desc
+		    )
+		)
+		where rnum=2)
+	</update>
 
 
 	<!-- <select id="getAdminSearchList">
