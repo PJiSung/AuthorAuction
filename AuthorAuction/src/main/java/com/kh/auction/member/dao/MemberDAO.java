@@ -1,5 +1,7 @@
 package com.kh.auction.member.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.auction.user.model.vo.Address;
@@ -21,4 +23,8 @@ public interface MemberDAO {
 	int updatePwd(Member m);
 
 	int insertAddress(Address a);
+
+	ArrayList<Address> selectAddressList(String id);
+
+	int updateAddressDefault(Address updateA);
 }

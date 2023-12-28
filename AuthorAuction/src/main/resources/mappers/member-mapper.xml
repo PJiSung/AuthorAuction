@@ -54,4 +54,18 @@
 		VALUES(SEQ_ADD.NEXTVAL, #{addName}, #{addRecipient}, #{addAddress}, #{addPhone}, #{addDefault}, #{memId})
 	</insert>
 	
+	<update id="updateAddressDefault">
+		UPDATE ADDRESS
+		SET ADD_DEFAULT = #{addDefault}
+		WHERE MEM_ID = #{memId}
+	</update>
+	
+	<select id="selectAddressList">
+		SELECT *
+		FROM ADDRESS
+		WHERE MEM_ID = #{id}
+		ORDER BY ADD_DEFAULT DESC,
+        ADD_NO DESC
+	</select>
+	
 </mapper>

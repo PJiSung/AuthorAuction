@@ -32,7 +32,14 @@ public class AuctionServiceImpl implements AuctionService{
 
 	@Override //입찰 - ajax 이용한 입찰 + insert all을 이용해서 입찰내역 및 경매의 내용 변경
 	public int insertBid(HashMap<String, Object> hm) {
-		return aDAO.insertBid(hm);
+		int updateAuctionPrice = aDAO.insertBid(hm);
+		
+		if(updateAuctionPrice > 0) {
+			//입찰 성공시에 입찰내역 업데이트
+			int result = aDAO.insertBiddingDetail(hm);
+			return result;
+		}else {
+			return updateAuctionPrice;
+		}
 	}
-
 }
