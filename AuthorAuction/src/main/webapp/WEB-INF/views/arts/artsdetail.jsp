@@ -594,7 +594,7 @@
   
   
  <div class="sns_share" style = "position: fixed;
-	z-index: 1;
+	z-index: 9999;
 	padding-top: 50vh;
 	left: 0;
 	top: 0;

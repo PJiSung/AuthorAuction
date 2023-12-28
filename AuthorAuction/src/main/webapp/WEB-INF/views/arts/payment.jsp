@@ -77,7 +77,6 @@ input.check_btn:checked + label:before{
 
 
 
-
 </style>
 
 
@@ -590,11 +589,17 @@ input.check_btn:checked + label:before{
 						<div style = " display:flex; align-items: center;height: 15.625%;">
 							<div style = "width: 10%; height: 100%; display: flex; align-items: center;">
 									<div style = " cursor: pointer; border: 1px solid red; width: 100%; display: flex; height: 55%; align-items: center; justify-content:center; color: red;" onclick = "sample6_execDaumPostcode()">주소찾기</div>
-	
+									
 							</div>
 							<div style = " display:flex; align-items: center; height: 100%; width: 20%; justify-content: center; ">
 								<input type = "text" placeholder = "우편번호" style = "width: 90%; height: 55%; border: 1px solid #aaa; text-align:center;" id ="sample6_postcode" class= "deliveryinfo" >
 							</div>
+							
+							
+							<div style = " display:flex; align-items: center; height: 100%; width: 20%; justify-content: center; ">
+								<div style = " cursor: pointer; border: 1px solid #888; width: 52.5%; display: flex; height: 30%; align-items: center; justify-content:center; color: #555;" onclick= "popadd('on')">배송지 조회</div>
+							</div>
+							
 							
 						</div>
 						<div style = " display:flex; align-items: center;height: 15.625%;">
@@ -749,14 +754,14 @@ input.check_btn:checked + label:before{
 	  		</div>
 	  	</div>
 	  
-	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 10%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;">
+	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 10%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;" onclick = "requestpay();">
 	  		<h2>주문하기</h2>
 	  	</div>
 	  </div>
 	
 	
 	
-	
+	<!-- 	배송비 팝업 -->
 	<div style = "width: 15vw; height: 40vh; display:none;  position : absolute; top: 192%; left: 50%; z-index: 20; background-color: white; border: 1px solid #eee;" id = "qqq">
 		<div style = "height: 10%; padding: 5px; font-size: 12px; font-weight: bold;">배송비 조건 안내</div>
 		<div style = " padding: 5px; font-size: 14px;">같은 판매자의 상품도 출고지에 따라 배송비 무료 조건이 각각 적용될 수 있습니다.</div>
@@ -768,6 +773,41 @@ input.check_btn:checked + label:before{
 			<div>도서산간	<span style = "font-weight: bold; position:absolute; right: 10%;">4천원</span></div>
 		</div>
 	</div>
+	
+	
+
+<!-- 	내 배송지 팝업 -->
+<div class="sns_share" style = "position: fixed;
+	z-index: 9999;
+	padding-top:10vh;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);">
+	
+	<div style = "width: 500px;
+	height: 500px;
+	padding: 30px 30px;
+	margin: 0 auto;
+	border: 1px solid #777;
+	background-color: #fff;">
+	
+ 	<span style = "float: right;
+	font-weight: bold;
+	color: #777;
+	font-size: 25px;
+	cursor: pointer;" onclick = "popadd('off')">&times;</span>
+	
+	<div style = "border: 1px solid red; display: flex; align-itmes:center; justify-content: center; height: 25%;">
+			<input type = "radio" name = "addre" id = "defaultaddre"><label for = "defaultaddre">기본 배송지</label>
+			<input type = "radio" name = "addre" id = "recentaddre"><label for = "recentaddre">최근 배송지</label>
+	</div>
+	</div>
+</div>	
+	
+	
 	
 	
 <!-- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> ---- <!> -->
@@ -964,6 +1004,25 @@ $(document).ready(function(){
 </script>
   
   
+  <script>
+  
+//   	배송지 조회 스크립트
+	document.getElementsByClassName('sns_share')[0].style.display = "none";
+  	
+  	function popadd(condition){
+  		
+  		if(condition == 'on'){
+  			document.getElementsByClassName('sns_share')[0].style.display = "block";
+  			
+  		}else{
+  			document.getElementsByClassName('sns_share')[0].style.display = "none";
+  		}
+  		
+  	}
+  
+  
+  
+  </script>
 
 
 <!-- jQuery -->
