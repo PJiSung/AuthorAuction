@@ -553,7 +553,7 @@ input.check_btn:checked + label:before{
 						</div>
 						<div style = " display:flex; align-items: center;height: 25%;">
 							<div style = " display:flex; align-items: center; height: 100%; width: 30%;">
-								<input type = "text" placeholder = "이메일아이디" style = "width: 95%; height: 55%; border: 1px solid #aaa; text-align:center; ">
+								<input type = "text" placeholder = "이메일아이디" style = "width: 95%; height: 55%; border: 1px solid #aaa; text-align:center; " id = "emailforward">
 							</div>
 							<div style = "display:flex; align-items: center; font-size: 30px; padding-right:5px;">
 								<span>@</span>
@@ -721,10 +721,10 @@ input.check_btn:checked + label:before{
 						</div>
 						<div style = "border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; display:flex; height: 10vh; align-items: center; margin-top: 2.5%;">
 							<div style = "width: 50%; border-right: 1px solid #aaa; height: 100%; display:flex; align-items: center;">
-								<input type = "radio" id="creditcard" style = "width: 40px;" name = "paymethod"><label for = "creditcard"><h4>신용카드</h4></label>
+								<input type = "radio" id="creditcard" style = "width: 40px;" name = "paymethod" class = "paymethod"><label for = "creditcard"><h4>신용카드</h4></label>
 							</div>
 							<div style = "width: 50%; height: 100%; display:flex; align-items: center;">
-								<input type = "radio" id="pointpay" style = "width: 40px;" name = "paymethod"><label for = "pointpay"><h4>포인트</h4></label>
+								<input type = "radio" id="pointpay" style = "width: 40px;" name = "paymethod" class = "paymethod"><label for = "pointpay"><h4>포인트</h4></label>
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : 0p)</div>
 							</div>
 						</div>
@@ -766,7 +766,7 @@ input.check_btn:checked + label:before{
 	  		<h2>결제하기</h2>
 	  	</div>
 	  </div>
-	
+	<button onclick = "testt();"> test</button>
 	
 	
 	<!-- 	배송비 팝업 -->
@@ -1088,13 +1088,16 @@ $(document).ready(function(){
 
   <script>
   
+  		//비어있는 곳 체크 확인
+  		
  	function checkall(){
  		
  		var count = 0;
+ 		var mecount = 0;
  		
  		for(var i=0; i<=3; i++){
  			
- 			if(document.getElementsByClassName('deliveryinfo')[i].value.trim() == ''){
+ 			if(i<=3 && document.getElementsByClassName('deliveryinfo')[i].value.trim() == ''){
  				
  				alert(document.getElementsByClassName('deliveryinfo')[i].placeholder+' 입력해 주십시오.');
  				
@@ -1104,15 +1107,29 @@ $(document).ready(function(){
  			count++;
  		}
  		
- 		if(count == 4){
+ 		for(pm of document.getElementsByClassName('paymethod')){
  			
- 			requestpay();
+ 			if(pm.checked == true){
+ 				
+ 				mecount++;
+ 				break;
+ 			}
  			
  		}
+ 			if(count == 4 && mecount == 0){
+ 				
+ 				alert('결제 수단을 선택해주세요.')
+ 			}
+ 				
+ 		if(count == 4 && mecount == 1 ){
+ 			
+ 			if(document.getElementsByClassName('paymethod')[0].checked == true){
+ 				requestpay();
+ 			}else{
+ 				alert('포인트 결제');
+ 			}
+ 		}
  	}
-  
-  
-  
   
   
   
@@ -1130,25 +1147,66 @@ $(document).ready(function(){
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
   
+ 
  <script>
+ 	function testt(){
+ 		
+ 		console.log(document.getElementById('sample6_postcode').value.trim());
+ 		
+ 	}
+ </script> 
+  
+  
+ <script>
+ 	
+ 	//결제 스크립트
+ 	
+
  
  var IMP = window.IMP; // 생략 가능
  IMP.init("imp41106724"); // 예시 : imp00000000
  
  
- 
  function requestpay(){
+	 
+	 
+	 
+	 //물건가격 
+	 const amount = parseInt(document.getElementById('propribill').innerText)
+	 const ordernum = Math.floor(Math.random()*1000000000*new Date().getMilliseconds());
+	 const ordererName = document.getElementsByClassName('ordererinfo')[0].value;
+	 const phoneNum = document.getElementsByClassName('ordererinfo')[1].value +  '-' + 
+		document.getElementsByClassName('ordererinfo')[2].value.trim() + '-' +
+		document.getElementsByClassName('ordererinfo')[3].value.trim();
+	 
+	 const email = document.getElementById('emailforward').value.trim()+'@'+document.getElementById('emaildomain').value.trim();
+	 const address = document.getElementById('sample6_address').value.trim()+' '+
+		document.getElementById('sample6_detailAddress').value.trim();
+	 const postcode = document.getElementById('sample6_postcode').value.trim();
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
  IMP.request_pay({
 	    pg : 'html5_inicis',
 	    pay_method : 'card',
-	    merchant_uid: "order_no_0001", // 상점에서 관리하는 주문 번호
+	    merchant_uid: ordernum, // 상점에서 관리하는 주문 번호
 	    name : '주문명:결제테스트',
-	    amount : 14000,
-	    buyer_email : 'iamport@siot.do',
-	    buyer_name : '구매자이름',
-	    buyer_tel : '010-1234-5678',
-	    buyer_addr : '서울특별시 강남구 삼성동',
-	    buyer_postcode : '123-456'
+	    amount : amount,
+	    buyer_email : email,
+	    buyer_name : ordererName,
+	    buyer_tel : phoneNum,
+	    buyer_addr : address,
+	    buyer_postcode : postcode
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
