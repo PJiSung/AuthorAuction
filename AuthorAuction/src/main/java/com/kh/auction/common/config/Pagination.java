@@ -1,6 +1,6 @@
 package com.kh.auction.common.config;
 
-import com.kh.auction.admin.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.PageInfo;
 
 public class Pagination {
 	public static PageInfo getPageInfo(int currentPage, int listCount, int boardLimit) {

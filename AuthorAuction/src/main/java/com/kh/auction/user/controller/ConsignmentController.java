@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.service.ConsignmentService;
 
 import jakarta.servlet.http.HttpServletRequest;

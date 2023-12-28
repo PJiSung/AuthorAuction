@@ -1,4 +1,4 @@
-package com.kh.auction.admin.model.vo;
+package com.kh.auction.user.model.vo;
 
 public class PageInfo {
 	private int currentPage;

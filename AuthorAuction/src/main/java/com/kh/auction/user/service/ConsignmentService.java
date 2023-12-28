@@ -3,9 +3,9 @@ package com.kh.auction.user.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.PageInfo;
 
 public interface ConsignmentService {
 	
