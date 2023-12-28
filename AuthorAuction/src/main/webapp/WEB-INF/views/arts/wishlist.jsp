@@ -529,7 +529,7 @@ ul,li,ol{
 		
 	</div>	
 	
-	  <div style = "background-color: #fafafa; position: fixed; top: 25vh; width: 25%; right: 5%; height: 60vh; box-shadow: 3px 3px 0.2px 0.2px; z-index: 5;">
+	  <div style = "background-color: #fafafa; position: fixed; top: 25vh; width: 25%; right: 5%; height: 60vh; z-index: 5;">
 	  	<div style = " height: 85%;">
 	  		<div style = "display:flex; align-items:center; height: 20%;">
 	  			<h2 style ="margin-left: 10%; width:70%;">적립혜택</h2>
@@ -551,8 +551,8 @@ ul,li,ol{
 	  		</div>
 	  	</div>
 	  
-	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;">
-	  		<h2>주문하기</h2>
+	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;" onclick = "location.href = 'payment.ar'">
+	  		<h2>총 ${wlistsize}개 주문하기</h2>
 	  	</div>
 	  </div>
 	

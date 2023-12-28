@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -663,22 +664,24 @@ input.check_btn:checked + label:before{
 								<h2>주문상품</h2>	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<p style = "color: #888;">상품수량 및 옵션변경은 상품상세 또는 장바구니에서 가능합니다.</p>
 						</div>
-						<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
-							<img src = "sunwoo/images/img_basic_N42_3.png" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
-							<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
-							작품명명ㅁ연며염녕
-							</div>
-							<div style = "height: 80%; width: 10%; display:flex; align-items:center; justify-content:center;border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
-							     <p>1개</p>
-							</div>
-							<div style = "height: 80%; width: 20%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
-							     <p style = "font-weight: bold; font-size: 20px;">100,000</p><p>원</p>
-							</div>
-							<div style = "height: 80%; width: 10%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
-							     <p>무료배송</p><div style = "margin-left: 5px;border: 1px solid #888; color: #888; border-radius: 100%; width: 20px; height: 20px; display:flex; justify-content:center; align-items: center;" id = "questiondeliver">?</div>
-							</div>
-						</div>
 						
+						<c:forEach items = "${wlist}" var = "w">
+							<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
+								<img src = "sunwoo/images/img_basic_N42_3.png" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+								<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
+									<p>${w.proName}</p>
+								</div>
+								<div style = "height: 80%; width: 10%; display:flex; align-items:center; justify-content:center;border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
+								     <p>${w.wisAmount}</p>
+								</div>
+								<div style = "height: 80%; width: 20%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
+								     <p style = "font-weight: bold; font-size: 20px;" class = "proprices">${w.wisAmount*w.proPrice}</p><small> 원</small>
+								</div>
+								<div style = "height: 80%; width: 10%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+								     <p>무료배송</p><div style = "margin-left: 5px;border: 1px solid #888; color: #888; border-radius: 100%; width: 20px; height: 20px; display:flex; justify-content:center; align-items: center;" class = "questiondeliver">?</div>
+								</div>
+							</div>
+						</c:forEach>
 					</div>
 				</div>	
 				
@@ -686,28 +689,28 @@ input.check_btn:checked + label:before{
 				
 				
 				
-				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh;">
-					<div style = "height: 100%; width: 100%;">
-						<div style = "display:flex; align-items: center;height: 9.375%;  ">
-								<h2>할인/포인트</h2>
-						</div>
+<!-- 				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh;"> -->
+<!-- 					<div style = "height: 100%; width: 100%;"> -->
+<!-- 						<div style = "display:flex; align-items: center;height: 9.375%;  "> -->
+<!-- 								<h2>할인/포인트</h2> -->
+<!-- 						</div> -->
 						
-						<div style = "height:10vh; width: 100%; display:flex; align-items: center;">
-								<div style = "width: 5%; display:flex; align-items:center; justify-content:center;"><img src = "sunwoo/images/discount.svg" style = "width: 50%;"></div>
-								<div style = "width: 7.5%; display:flex; align-items:center;"><h4>포인트 할인</h4></div>
-						</div>
-						<div style = " height: 20vh; width: 80%; margin: 0 auto; background-color: #FFFFF2;">
-								<div style = "width: 100%; height: 50%; display:flex; align-items:center;">
-									<div style = "width: 20%; height:100%; border-right: 1px solid #fff; border-bottom: 1px solid #fff; display:flex; align-items:center; justify-content:center;"><h3>배송비 쿠폰</h3></div>
-									<div style = "width: 80%; height:100%;  border-bottom: 1px solid #fff; display:flex; align-items:center; justify-content:center;">- 87,450 원</div>
-								</div>
-								<div style = "width: 100%; height: 50%; display:flex; align-items:center;">
-									<div style = "width: 20%; height:100%; border-right: 1px solid #fff;  border-bottom: 1px solid #fff;  display:flex; align-items:center; justify-content:center;"><h3>장바구니 쿠폰</h3></div>
-									<div style = "width: 80%; height:100%; border-bottom: 1px solid #fff; display:flex; align-items:center; justify-content:center;">- 87,450 원</div>
-								</div>
-						</div>
-					</div>
-				</div>	
+<!-- 						<div style = "height:10vh; width: 100%; display:flex; align-items: center;"> -->
+<!-- 								<div style = "width: 5%; display:flex; align-items:center; justify-content:center;"><img src = "sunwoo/images/discount.svg" style = "width: 50%;"></div> -->
+<!-- 								<div style = "width: 7.5%; display:flex; align-items:center;"><h4>포인트 할인</h4></div> -->
+<!-- 						</div> -->
+<!-- 						<div style = " height: 20vh; width: 80%; margin: 0 auto; background-color: #FFFFF2;"> -->
+<!-- 								<div style = "width: 100%; height: 50%; display:flex; align-items:center;"> -->
+<!-- 									<div style = "width: 20%; height:100%; border-right: 1px solid #fff; border-bottom: 1px solid #fff; display:flex; align-items:center; justify-content:center;"><h3>배송비 쿠폰</h3></div> -->
+<!-- 									<div style = "width: 80%; height:100%;  border-bottom: 1px solid #fff; display:flex; align-items:center; justify-content:center;">- 87,450 원</div> -->
+<!-- 								</div> -->
+<!-- 								<div style = "width: 100%; height: 50%; display:flex; align-items:center;"> -->
+<!-- 									<div style = "width: 20%; height:100%; border-right: 1px solid #fff;  border-bottom: 1px solid #fff;  display:flex; align-items:center; justify-content:center;"><h3>장바구니 쿠폰</h3></div> -->
+<!-- 									<div style = "width: 80%; height:100%; border-bottom: 1px solid #fff; display:flex; align-items:center; justify-content:center;">- 87,450 원</div> -->
+<!-- 								</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div>	 -->
 				
 				
 				
@@ -732,7 +735,7 @@ input.check_btn:checked + label:before{
 			</div>
 	</div>	
 	
-	   <div style = "background-color: #fafafa; position: fixed; top: 25vh; width: 25%; right: 5%; height: 70vh; box-shadow: 3px 3px 0.2px 0.2px; z-index: 5;">
+	   <div style = "background-color: #fafafa; position: fixed; top: 25vh; width: 25%; right: 5%; height: 70vh; z-index: 5;">
 	  	<div style = " height: 85%;">
 	  		<div style = "display:flex; align-items:center; height: 20%;">
 	  			<h2 style ="margin-left: 10%; width:70%;">적립혜택</h2>
@@ -743,19 +746,24 @@ input.check_btn:checked + label:before{
 	  			<h2 style ="margin-left: 10%;">결제 예정금액	</h2>
 	  		</div>
 	  		<div style = "display:flex; align-items:center;">
-	  			 <div style = "width: 60%; padding-left: 10%;">상품금액</div>
-	  			 <div><h3 id = "propribill">0</h3></div>
+	  			 <div style = "width: 60%; padding-left: 10%; font-size: 23px;">상품금액</div>
+	  			 <div><h2 id = "propribill">0</h2></div>
 	  			 <div><small> 원</small></div>
 	  		</div>
-	  		<div style = "display:flex; align-items:center; height: 40%;">
-	  			 <div style = "width: 60%; padding-left: 10%; color:red;">합계</div>
+	  		<div style = "display:flex; align-items:center; height: 10%;">
+	  			 <div style = "width: 60%; padding-left: 10%; font-size: 23px;">배송비</div>
+	  			 <div><h2 id = "propribill">0</h2></div>
+	  			 <div><small> 원</small></div>
+	  		</div>
+	  		<div style = "display:flex; align-items:center; height: 20%;">
+	  			 <div style = "width: 60%; padding-left: 10%; color:red; font-size: 23px;">합계</div>
 	  			 <div><h1 id = "totalbill" style = "color:red;">0</h1></div>
 	  			 <div><small> 원</small></div>
 	  		</div>
 	  	</div>
 	  
-	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 10%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;" onclick = "requestpay();">
-	  		<h2>주문하기</h2>
+	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;" onclick = "checkall()">
+	  		<h2>결제하기</h2>
 	  	</div>
 	  </div>
 	
@@ -800,9 +808,27 @@ input.check_btn:checked + label:before{
 	font-size: 25px;
 	cursor: pointer;" onclick = "popadd('off')">&times;</span>
 	
-	<div style = "border: 1px solid red; display: flex; align-itmes:center; justify-content: center; height: 25%;">
-			<input type = "radio" name = "addre" id = "defaultaddre"><label for = "defaultaddre">기본 배송지</label>
-			<input type = "radio" name = "addre" id = "recentaddre"><label for = "recentaddre">최근 배송지</label>
+	<div style = "display: flex; align-items:center; justify-content: center; height: 25%;">
+			<span><input type = "radio" name = "addre" id = "defaultaddre" checked><label for = "defaultaddre">기본 배송지</label></span>
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<span><input type = "radio" name = "addre" id = "recentaddre"><label for = "recentaddre">최근 배송지</label></span>
+	</div>
+	<div style = "border: 1px solid #888; height: 75%; overflow:auto;">
+			<div>
+				sajdjsa				
+			</div>
+			<div>
+				sajdjsa				
+			</div>
+			<div>
+				sajdjsa				
+			</div>
+			<div>
+				sajdjsa				
+			</div>
+			<div>
+				sajdjsa				
+			</div>
 	</div>
 	</div>
 </div>	
@@ -988,7 +1014,7 @@ input.check_btn:checked + label:before{
 
 $(document).ready(function(){
 
-	$('#questiondeliver').hover(function(){
+	$('.questiondeliver').hover(function(){
 	 if(document.getElementById('qqq').style.display == "none"){
 		 document.getElementById('qqq').style.display = "block";
 	 }else{
@@ -1023,6 +1049,80 @@ $(document).ready(function(){
   
   
   </script>
+
+
+  <script>
+  
+	//천단위 콤마 스크립트
+	for(p of document.getElementsByClassName('proprices')){
+		
+		p.innerText = p.innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+		
+	}
+  
+  </script>
+  
+  
+  
+  
+  <script>
+  	//총 상품 금액 스크립트
+  	function updateproTotalPrice(){	
+  		
+  	var prototal=0;
+  		
+  		for(p of document.getElementsByClassName('proprices')){
+  	  		
+  			prototal = prototal + parseInt(p.innerText.replace(/,/g,""));
+  	  		
+  	  	}
+  		
+  		document.getElementById('propribill').innerText = prototal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  	}
+  	
+	updateproTotalPrice();
+  
+  </script>
+
+
+
+  <script>
+  
+ 	function checkall(){
+ 		
+ 		var count = 0;
+ 		
+ 		for(var i=0; i<=3; i++){
+ 			
+ 			if(document.getElementsByClassName('deliveryinfo')[i].value.trim() == ''){
+ 				
+ 				alert(document.getElementsByClassName('deliveryinfo')[i].placeholder+' 입력해 주십시오.');
+ 				
+ 				break;
+ 				
+ 			}
+ 			count++;
+ 		}
+ 		
+ 		if(count == 4){
+ 			
+ 			requestpay();
+ 			
+ 		}
+ 	}
+  
+  
+  
+  
+  
+  
+  </script>
+
+
+
+
+
+
 
 
 <!-- jQuery -->
@@ -1079,7 +1179,7 @@ $(document).ready(function(){
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
 	        
-	        alert(msg);
+	        alert(rsp.error_msg);
 	    }
 	});
  }

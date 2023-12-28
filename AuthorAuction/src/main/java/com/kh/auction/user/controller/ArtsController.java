@@ -36,6 +36,7 @@ public class ArtsController {
 		
 		model.addAttribute("loginid", loginid);
 		model.addAttribute("wlist", wlist);
+		model.addAttribute("wlistsize", wlist.size());
 		
 		return "arts/wishlist";
 		
@@ -71,7 +72,16 @@ public class ArtsController {
 	}
 	
 	@GetMapping("payment.ar")
-	public String payment() {
+	public String payment(HttpSession session, Model model) {
+		
+		
+		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
+		ArrayList<Wishlist> wlist = aService.selectWishlist(loginid);
+		
+		
+		model.addAttribute("loginid", loginid);
+		model.addAttribute("wlist", wlist);
+		
 		
 		
 		return "arts/payment";
