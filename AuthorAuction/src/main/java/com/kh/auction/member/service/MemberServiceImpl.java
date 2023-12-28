@@ -1,5 +1,7 @@
 package com.kh.auction.member.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +47,23 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public int insertAddress(Address a) {
-		return mDao.insertAddress(a);
+		int result = 0;
+		if(a.getAddDefault().equals("Y")) {
+			Address updateA = new Address();
+			updateA.setAddDefault("N");
+			updateA.setMemId(a.getMemId());
+			result = mDao.updateAddressDefault(updateA);
+		}
+		if(result > 0) {
+			return mDao.insertAddress(a);
+		}else {
+			return 0;
+		}
+	}
+
+	@Override
+	public ArrayList<Address> selectAddressList(String id) {
+		return mDao.selectAddressList(id);
 	}
 	
 }

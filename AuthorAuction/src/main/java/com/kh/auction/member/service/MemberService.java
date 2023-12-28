@@ -1,5 +1,7 @@
 package com.kh.auction.member.service;
 
+import java.util.ArrayList;
+
 import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
 
@@ -18,4 +20,6 @@ public interface MemberService {
 	int updatePwd(Member m);
 
 	int insertAddress(Address a);
+
+	ArrayList<Address> selectAddressList(String id);
 }

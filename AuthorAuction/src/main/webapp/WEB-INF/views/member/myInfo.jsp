@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>	 
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +23,7 @@
 <link rel="stylesheet" href="consignment/css/template.css">
 <link rel="stylesheet" href="consignment/css/common.css">
 <link rel="stylesheet" href="consignment/css/style.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
 .tabset{
 	margin-top: 80px;
@@ -34,6 +37,10 @@
     border: 1px solid black;
     border-radius: 5px;
     padding: 20px;
+}
+.address{
+	width: 45%;
+	margin: 80px auto 0;
 }
 .profile{
     height: 200px;
@@ -59,13 +66,51 @@
 .withdrawal{
 	margin-top: 15px;
 }
-.address{
+.myInfo{
 	display:none;
+}
+.address{
+	display:block;
+	height: auto;
+	border: 1px solid black;
+}
+.addList{
+	padding-top:10px;
+	padding-bottom: 10px;
+	height: auto;
+}
+.addList table{
+	width:100%;
+	line-height: 30px;
+}
+.addList table tr:first-child td:first-child{
+	width:80%;
+}
+.addList table input[type=button]{
+	width: 80%;
+}
+font{
+	color: gray;
+	font-weight: 400;
+}
+.th-layout-main{
+	min-height: 800px;
 }
 </style>
 <script>
 window.onload = () =>{
+	tab2();
 	tabs();
+}
+
+
+
+const tab2 = () =>{
+	let tab = '${tab}';
+	if(tab == "2"){
+		myInfo.style.display = "none";
+		address.style.display = "block";
+	}
 }
 
 const tabs = () =>{
@@ -83,35 +128,56 @@ const tabs = () =>{
 			}
 		});
 	}
-	
+}
+
+const enrollAddress = () =>{
+	let endNo = document.getElementById("endNo").value;
+	if(endNo == 4){
+		alert("배송지는 5개이상 등록할 수 없습니다.");
+	}else{
+		location.href='enrollAddress';
+	}
 }
 </script>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
 <main class="th-layout-main">
+  <div class="hooms-N58" data-bid="brlqg6jlsc">
+      <div class="contents-container container-md">
         <div class="tabset tabset-solid">
           <ul class="tabset-list tabset-sm">
             <li class="tabset-item active">
-              <a class="tabset-link" href="#">
-                <span>내 정보</span>
+              <a class="tabset-link" href="#tab1">
+                <span>내정보</span>
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" href="#">
+              <a class="tabset-link" href="#tab2">
                 <span>배송지</span>
               </a>
             </li>
           </ul>
+          
         </div>
+      </div>
+    </div>
         
         <div class="myInfo">
 	    <div class="profile">
 		    <h3>프로필</h3>
 	    	<table>
 	    		<tr>
-					<td><img src="member/images/defaultProfile.svg">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td>아이디<br><h3>닉네임</h3></td> 			
+					<td>
+						<c:if test="${ loginUser.memFileName eq null }">
+							<img src="member/images/defaultProfile.svg">
+						</c:if>
+						<c:if test="${ loginUser.memFileName ne null }">
+							
+						</c:if>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					</td>
+					<td>${ loginUser.memId }<br><h3>${ loginUser.memNickName }</h3></td> 			
 	    		</tr>
 	    	</table>
 	    </div>
@@ -121,27 +187,27 @@ const tabs = () =>{
 	        <table>
 	       		<tr>
 	        		<td>이름</td>
-	        		<td>박지성</td>
+	        		<td>${ loginUser.memName }</td>
 	        	</tr>
 	        	<tr>
 	        		<td>이메일</td>
-	        		<td>starcr222@mmm.com</td>
+	        		<td>${ loginUser.memEmail }</td>
 	        	</tr>
 	        	<tr>
 	        		<td>전화번호</td>
-	        		<td>010-1111-4444</td>
+	        		<td>${ loginUser.memPhone }</td>
 	        	</tr>
 	        	<tr>
 	        		<td>주소</td>
-	        		<td>서울 특별시 금천구 홍길5동</td>
+	        		<td>(${ fn:split(loginUser.memAddress, '@')[0] }) ${ fn:split(loginUser.memAddress, '@')[1] } ${ fn:split(loginUser.memAddress, '@')[2] }${ fn:split(loginUser.memAddress, '@')[3] }</td>
 	        	</tr>
 	        	<tr>
 	        		<td>회원등급</td>
-	        		<td>Gold</td>
+	        		<td>${ loginUser.memRating }</td>
 	        	</tr>
 	        	<tr>
 	        		<td>충전금</td>
-	        		<td>100000원</td>
+	        		<td>${ loginUser.memBalance }원</td>
 	        	</tr>
 	        </table>
 	    </div>
@@ -152,9 +218,32 @@ const tabs = () =>{
 	        <input type="button" value="탈퇴하기">
 	    </div>
 	    </div>
+	    
 	    <div class="address">
-	    	목록
+	    	<div class="addList">
+	    		<c:forEach items="${ list }" var="a" varStatus="status">
+	    		<input type="hidden" id="endNo" value="${ status.end }"> 
+	    		<c:if test="${ status.index > 0 }">
+	    			<hr>
+	    		</c:if>
+	    		<table>
+	    			<tr>
+	    				<td><h4>&nbsp;&nbsp;${ a.addRecipient }(${ a.addName }) <c:if test="${ a.addDefault eq 'Y' }"><font>&nbsp;&nbsp;기본배송지</font></c:if></h4></td>
+	    				<td><input type="button" value="삭제"></td>
+	    				<td><input type="button" value="수정"></td>
+	    			</tr>
+	    			<tr>
+	    				<td colspan="3">&nbsp;&nbsp;${ a.addPhone }</td>
+	    			</tr>
+	    			<tr>
+	    				<td colspan="3">&nbsp;&nbsp;(${ fn:split(a.addAddress, '@')[0] }) ${ fn:split(a.addAddress, '@')[1] } ${ fn:split(a.addAddress, '@')[2] }${ fn:split(a.addAddress, '@')[3] }</td>
+	    			</tr>
+	    		</table>
+	    		</c:forEach>
+	    	</div>
+	    	
 	    </div>
+	    	<input type="button" value="배송지 등록" onclick="enrollAddress()">
 	    <br><br><br>
 </main>
 <jsp:include page="../common/footer.jsp"/>

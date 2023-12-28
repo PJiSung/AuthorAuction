@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="main/css/common.css">
 <link rel="stylesheet" href="main/css/main.css">
 <link rel="stylesheet" href="main/css/style.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <!-- [S]personal-rglq12YMbj -->

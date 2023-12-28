@@ -105,7 +105,6 @@ const submitBtn = () =>{
 	}else{
 		document.getElementsByName("addDefault")[0].value = "Y";
 	}
-  	alert(document.getElementsByName("addDefault")[0].value);
   	document.getElementById('addressForm').submit();
 }
 </script>
