@@ -3,6 +3,8 @@ package com.kh.auction.user.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Member;
@@ -75,8 +75,6 @@ public class AuctionController {
 	@PostMapping("insertBid.ac")
 	public String insertBid(@RequestParam("bidMoney") int bidMoney, @RequestParam("aucNo") int aucNo, Model model) {
 		
-		
-		
 		Member m = (Member)model.getAttribute("loginUser");
 		
 		HashMap<String, Object> hm = new HashMap<>();
@@ -85,12 +83,25 @@ public class AuctionController {
 		hm.put("id", m.getMemId());
 		
 		
+		
+		
+		
 		//insert all을 이용해서 입찰내역 및 경매의 내용 변경
 		int result = aService.insertBid(hm);
 		
 		if(result > 0) {
 			 Auction updateAuction = aService.getAuctionDetail(aucNo);
-			return Integer.toString(updateAuction.getAucFinishPrice());
+			 
+			 
+			 JSONObject jsonObject = new JSONObject();
+			 JSONArray jArr = new JSONArray();
+			
+			 jsonObject.put("memBalance", m.getMemBalance());
+			 jsonObject.put("aucFinishPrice",updateAuction.getAucFinishPrice());
+			 jArr.put(jsonObject);
+			 
+			 String jsonString = jArr.toString();
+			return jsonString;
 		}else {
 			return "fail";
 		}

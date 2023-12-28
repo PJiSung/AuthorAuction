@@ -177,7 +177,7 @@
     			</div>
     			<div style="margin-bottom:5%;">
 	    			<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">보유 포인트</div>
-	    			<div style="width:48%; text-align: center; display:inline-block;"><fmt:formatNumber value="${ loginUser.memBalance }" pattern="#,##0" /> 포인트</div>
+	    			<div style="width:48%; text-align: center; display:inline-block;" id="possession"><fmt:formatNumber value="${ loginUser.memBalance }" pattern="#,##0" /> 원</div>
     			</div>
     			
     			<div style="margin-top:5%;margin-bottom:2%;">
@@ -215,7 +215,7 @@
         	const check = document.getElementById("checkId");
         	let remainingTime = document.getElementById("remainingTime");
         	const nowPriceInDB = parseInt("${ auction.aucFinishPrice }");
-        	
+        	const possession = document.getElementById("possession");
         	/* 모달창 컨트롤 */
         	priceTagBtn.addEventListener('click',function(){
         		priceTag.style.display='block';
@@ -424,55 +424,60 @@
 									type: 'post',
 									data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
 									success: data =>{
+										console.log(data);
+										let jsonObject = JSON.parse(data)
+										const aucFinishPriceJs = jsonObject[0].aucFinishPrice;
+										const memBalanceJs = jsonObject[0].memBalance;
+										
 										if(data != 'fail'){
-											alert("입찰에 성공하였습니다.")
+											alert("입찰에 성공하였습니다.") //에이젝스로 새로 갱신
+											
 											bidModal.style.display = 'none';
-											nowPrice.innerText = parseInt(data).toLocaleString().concat(" 원");
-											modalNowPrice.innerText = parseInt(data).toLocaleString().concat(" 원");
+											nowPrice.innerText = aucFinishPriceJs.toLocaleString().concat(" 원");
+											modalNowPrice.innerText = aucFinishPriceJs.toLocaleString().concat(" 원");
 											//
 											
-											const aucFinishPrice = parseInt(data);
 											let minIncrement = 0;
 											let minPoint = 0;
 											
 											
 											switch (true) {
-											  case aucFinishPrice < 300000:
+											  case aucFinishPriceJs < 300000:
 											    minIncrement = 20000;
 											    break;
-											  case aucFinishPrice < 1000000:
+											  case aucFinishPriceJs < 1000000:
 											    minIncrement = 50000;
 											    break;
-											  case aucFinishPrice < 5000000:
+											  case aucFinishPriceJs < 5000000:
 											    minIncrement = 100000;
 											    break;
-											  case aucFinishPrice < 10000000:
+											  case aucFinishPriceJs < 10000000:
 											    minIncrement = 200000;
 											    break;
-											  case aucFinishPrice < 30000000:
+											  case aucFinishPriceJs < 30000000:
 											    minIncrement = 1000000;
 											    break;
-											  case aucFinishPrice < 50000000:
+											  case aucFinishPriceJs < 50000000:
 											    minIncrement = 2000000;
 											    break;
-											  case aucFinishPrice < 200000000:
+											  case aucFinishPriceJs < 200000000:
 											    minIncrement = 5000000;
 											    break;
-											  case aucFinishPrice < 500000000:
+											  case aucFinishPriceJs < 500000000:
 											    minIncrement = 1000000;
 											    break;
 											  default:
 											    minIncrement = 20000000;
 											}
 											
-											minPoint = aucFinishPrice + minIncrement;
+											minPoint = aucFinishPriceJs + minIncrement;
 											
 											const formatMinPoint = minPoint.toLocaleString();
 							
-											myInputPoint.setAttribute("min", aucFinishPrice + minIncrement);
-											myInputPoint.value = aucFinishPrice + minIncrement;
+											myInputPoint.setAttribute("min", aucFinishPriceJs + minIncrement);
+											myInputPoint.value = aucFinishPriceJs + minIncrement;
 											minPrice.innerText = formatMinPoint.concat(' 원');
-											
+											possession.innerText = memBalanceJs.toLocaleString().concat(" 원");
 											
 											//
 										}else{
@@ -492,58 +497,62 @@
 									type: 'post',
 									data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
 									success: data =>{
+										console.log(data);
+										let jsonObject = JSON.parse(data)
+										const aucFinishPriceJs = jsonObject[0].aucFinishPrice;
+										const memBalanceJs = jsonObject[0].memBalance;
+										
 										if(data != 'fail'){
-											alert("입찰에 성공하였습니다.")
+											alert("입찰에 성공하였습니다.") //에이젝스로 새로 갱신
+											
 											bidModal.style.display = 'none';
-											nowPrice.innerText = parseInt(data).toLocaleString().concat(" 원");
-											modalNowPrice.innerText = parseInt(data).toLocaleString().concat(" 원");
+											nowPrice.innerText = aucFinishPriceJs.toLocaleString().concat(" 원");
+											modalNowPrice.innerText = aucFinishPriceJs.toLocaleString().concat(" 원");
 											//
 											
-											const aucFinishPrice = parseInt(data);
 											let minIncrement = 0;
 											let minPoint = 0;
 											
 											
 											switch (true) {
-											  case aucFinishPrice < 300000:
+											  case aucFinishPriceJs < 300000:
 											    minIncrement = 20000;
 											    break;
-											  case aucFinishPrice < 1000000:
+											  case aucFinishPriceJs < 1000000:
 											    minIncrement = 50000;
 											    break;
-											  case aucFinishPrice < 5000000:
+											  case aucFinishPriceJs < 5000000:
 											    minIncrement = 100000;
 											    break;
-											  case aucFinishPrice < 10000000:
+											  case aucFinishPriceJs < 10000000:
 											    minIncrement = 200000;
 											    break;
-											  case aucFinishPrice < 30000000:
+											  case aucFinishPriceJs < 30000000:
 											    minIncrement = 1000000;
 											    break;
-											  case aucFinishPrice < 50000000:
+											  case aucFinishPriceJs < 50000000:
 											    minIncrement = 2000000;
 											    break;
-											  case aucFinishPrice < 200000000:
+											  case aucFinishPriceJs < 200000000:
 											    minIncrement = 5000000;
 											    break;
-											  case aucFinishPrice < 500000000:
+											  case aucFinishPriceJs < 500000000:
 											    minIncrement = 1000000;
 											    break;
 											  default:
 											    minIncrement = 20000000;
 											}
 											
-											minPoint = aucFinishPrice + minIncrement;
+											minPoint = aucFinishPriceJs + minIncrement;
 											
 											const formatMinPoint = minPoint.toLocaleString();
 							
-											myInputPoint.setAttribute("min", aucFinishPrice + minIncrement);
-											myInputPoint.value = aucFinishPrice + minIncrement;
+											myInputPoint.setAttribute("min", aucFinishPriceJs + minIncrement);
+											myInputPoint.value = aucFinishPriceJs + minIncrement;
 											minPrice.innerText = formatMinPoint.concat(' 원');
-											
+											possession.innerText = memBalanceJs.toLocaleString().concat(" 원");
 											
 											//
-
 										}else{
 											alert("입찰에 실패하였습니다.");
 											location.reload();

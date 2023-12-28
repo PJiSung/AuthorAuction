@@ -1,17 +1,14 @@
 package com.kh.auction.user.controller;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,9 +18,6 @@ import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
 import com.kh.auction.user.service.ArtsService;
-import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

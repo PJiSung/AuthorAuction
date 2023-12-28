@@ -43,8 +43,6 @@ public class AuctionServiceImpl implements AuctionService{
 			
 			//입찰성공시에 금액 감소 
 			aDAO.updateMoneyInsertBid(hm);
-
-			
 			
 			return insertBiddingDetail;
 		}else {
