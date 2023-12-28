@@ -182,8 +182,7 @@
     			
     			<div style="margin-top:5%;margin-bottom:2%;">
     				<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">입찰 포인트</div>
-    				<input type="number" value="" id="myInputPoint" style="margin-left:4%; width:30%; text-align: center;"> 포인트
-    				<div id="moneyCheck" style="text-align: center; margin-top:3%; color:red;"></div>
+    				<input type="number" value="" id="myInputPoint" pattern="\d*" style="margin-left:4%; width:30%; text-align: center;"> 포인트
     				<div style="text-align: center; margin-top:2%;"><button style="background: gray; color:white;" onclick="alert('포인트 충전 url 내놔')">포인트 충전</button></div><!--  온클릭 로케이션 -->
     			</div>
     		</div>
@@ -193,8 +192,12 @@
         	</div>
         </div>
 	</div>
+
+	<input type="hidden" value="${ auction.aucFinishPrice }" id="nowPriceInDB">
         
 	<jsp:include page="../common/footer.jsp"/>
+
+
 
 	<script>
         window.onload = function(){
@@ -208,11 +211,10 @@
         	const bidModal = document.getElementById("bidModal");
         	const closeBidModal = document.getElementById("closeBidModal");
         	const myInputPoint = document.getElementById("myInputPoint");
-        	const moneyCheck = document.getElementById("moneyCheck");
         	const insertBid = document.getElementById("insertBid");
         	const check = document.getElementById("checkId");
         	let remainingTime = document.getElementById("remainingTime");
-        	
+        	const nowPriceInDB = parseInt("${ auction.aucFinishPrice }");
         	
         	/* 모달창 컨트롤 */
         	priceTagBtn.addEventListener('click',function(){
@@ -229,7 +231,6 @@
     			}else{
     				myInputPoint.value = '${ auction.aucFinishPrice }';
     			}
-        		moneyCheck.innerText = '';
         	})
         	
         	
@@ -306,65 +307,158 @@
 						check.removeEventListener('click',bidding);
 					} */
 				}
-				}, 1000);
+			}, 1000);
 			
 			
-			// 상태에 따른 입찰가 변경
-			if(${ empty auction.aucFinishPrice }){
+			// 상태에 따른 최소 입찰가 및 최초 기본 입찰가 변경
+			if(${ auction.aucFinishPrice eq null }){
 				nowPrice.innerText = "현재 입찰 없음";
 				modalNowPrice.innerText = "현재 입찰 없음";
 				minPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucStartPrice }"/> 포인트';
+				myInputPoint.setAttribute("min", ${ auction.aucStartPrice })
 				myInputPoint.value= '${ auction.aucStartPrice }';
 			}else{
 				nowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }"/> 포인트';
 				modalNowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }"/> 포인트';
+				
+				const aucFinishPrice = parseInt('${ auction.aucFinishPrice }');
+				let minIncrement = 0;
+				let minPoint = 0;
+				
+				
+				switch (true) {
+				  case aucFinishPrice < 300000:
+				    minIncrement = 20000;
+				    break;
+				  case aucFinishPrice < 1000000:
+				    minIncrement = 50000;
+				    break;
+				  case aucFinishPrice < 5000000:
+				    minIncrement = 100000;
+				    break;
+				  case aucFinishPrice < 10000000:
+				    minIncrement = 200000;
+				    break;
+				  case aucFinishPrice < 30000000:
+				    minIncrement = 1000000;
+				    break;
+				  case aucFinishPrice < 50000000:
+				    minIncrement = 2000000;
+				    break;
+				  case aucFinishPrice < 200000000:
+				    minIncrement = 5000000;
+				    break;
+				  case aucFinishPrice < 500000000:
+				    minIncrement = 1000000;
+				    break;
+				  default:
+				    minIncrement = 20000000;
+				}
+				
+				minPoint = aucFinishPrice + minIncrement;
+				
+				const formatMinPoint = minPoint.toLocaleString();
+
+				myInputPoint.setAttribute("min", aucFinishPrice + minIncrement);
+				myInputPoint.value = aucFinishPrice + minIncrement;
+				minPrice.innerText = formatMinPoint.concat('원');
+				
+				
+				/* if('${ auction.aucFinishPrice }' < parseInt(300000)){
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 20000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 20000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 20000 }'/> 포인트"
+				}else if('${ auction.aucFinishPrice }' >= parseInt(300000) &&'${ auction.aucFinishPrice }' < parseInt(1000000)){
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 50000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 50000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 50000 }'/> 포인트"
+				}else if('${ auction.aucFinishPrice }' >= parseInt(1000000) &&'${ auction.aucFinishPrice }' < parseInt(5000000)){
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 100000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 100000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 100000 }'/> 포인트"
+				}else if('${ auction.aucFinishPrice }' >= parseInt(5000000) &&'${ auction.aucFinishPrice }' < parseInt(10000000)){
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 200000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 200000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 200000 }'/> 포인트"
+				}else if('${ auction.aucFinishPrice }' >= parseInt(10000000) &&'${ auction.aucFinishPrice }' < parseInt(30000000)){
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 1000000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 1000000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 1000000 }'/> 포인트"
+				}else if('${ auction.aucFinishPrice }' >= parseInt(30000000) &&'${ auction.aucFinishPrice }' < parseInt(50000000)){
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 2000000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 2000000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 2000000 }'/> 포인트"
+				}else if('${ auction.aucFinishPrice }' >= parseInt(50000000) &&'${ auction.aucFinishPrice }' < parseInt(200000000)){
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 5000000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 5000000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 5000000 }'/> 포인트"
+				}else if('${ auction.aucFinishPrice }' >= parseInt(200000000) &&'${ auction.aucFinishPrice }' < parseInt(500000000)){
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 1000000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 1000000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 1000000 }'/> 포인트"
+				}else {
+					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 20000000})
+					myInputPoint.value= ${ auction.aucFinishPrice + 20000000};
+					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 20000000 }'/> 포인트"
+				} */
 			}
 			
-			
-			if(nowPrice.innerText == "현재 입찰 없음"){
-				myInputPoint.setAttribute("min", ${ auction.aucStartPrice })
-			}else{
-				myInputPoint.setAttribute("min", ${ auction.aucFinishPrice })
-			}
-			
- 			console.log(parseInt(myInputPoint.value));
- 			console.log(${ auction.aucStartPrice});
- 			console.log(parseInt(minPrice.innerText));
- 			console.log(parseInt(minPrice.innerHTML));
- 			console.log(parseInt(minPrice.innerText.split(' ')[0]));
- 			
-			
+			//입찰 버튼 눌렀을때 반응
 			insertBid.addEventListener('click',function(){
-				if(parseInt(myInputPoint.value) > '${ loginUser.memBalance}'){
-					if(confirm('보유하신 포인트가 부족합니다, \n충전 페이지로 이동하시겠습니까?')){
-						alert("충전 url 입력")
-						/* location.href="#"; */
-					}
+				if(myInputPoint.value != parseInt(myInputPoint.value)){
+					alert("숫자만 입력하실 수 있습니다");
+					myInputPoint.value = '';
 				}else{
-					if(nowPrice.innerText == "현재 입찰 없음") {
-						if(parseInt(myInputPoint.value) < '${ auction.aucStartPrice}'){
-							alert('최소입찰가보다 작게 입찰할 수 없습니다');
-						}else if(confirm("입찰하시고 나면 취소하실 수 없습니다\n그래도 입찰시겠습니까?")){
-							$.ajax({
-								url: 'insertBid.ac',
-								type: 'post',
-								data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
-								success: data =>{
-									if(data == 'success'){
-										console.log(1);
-									}else{
-										alert("입찰하신 금액보다 더 큰 금액이 입찰되었습니다.")
-									}
-								},
-								error: data => console.log(data)
-							})
+					if(parseInt(myInputPoint.value) > '${ loginUser.memBalance }'){
+						if(confirm('보유하신 포인트가 부족합니다, \n충전 페이지로 이동하시겠습니까?')){
+							alert("충전 url 입력")
+							/* location.href="#"; */
+						}
+					}else{
+						if(nowPrice.innerText == "현재 입찰 없음") {
+							if(parseInt(myInputPoint.value) < '${ auction.aucStartPrice}'){
+								alert('최소입찰가보다 작게 입찰할 수 없습니다');
+							}else if(confirm("입찰하시고 나면 취소하실 수 없습니다\n그래도 입찰시겠습니까?")){
+								$.ajax({
+									url: 'insertBid.ac',
+									type: 'post',
+									data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
+									success: data =>{
+										console.log(data)
+										if(data != 'fail'){
+											console.log("s");
+										}else{
+											console.log(data);
+											alert("입찰에 실패하였습니다.");
+										}
+									},
+									error: data => console.log(data)
+								})
+							}
+						}else{
+							if(parseInt(myInputPoint.value) < parseInt(minPrice.innerText.replace(/,/g, '').split(' ')[0])){
+								alert('최소입찰가보다 작게 입찰할 수 없습니다');
+							}else if(confirm("입찰하시고 나면 취소하실 수 없습니다\n그래도 입찰시겠습니까?")){
+								$.ajax({
+									url: 'insertBid.ac',
+									type: 'post',
+									data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
+									success: data =>{
+										console.log(data)
+										if(data != 'fail'){
+											console.log("s");
+										}else{
+											console.log(data);
+											alert("입찰에 실패하였습니다.");
+										}
+									},
+									error: data => console.log(data)
+								})
+							}
 						}
 					}
 				}
 			})
-			
-			
-			
 			
 		}
     </script>

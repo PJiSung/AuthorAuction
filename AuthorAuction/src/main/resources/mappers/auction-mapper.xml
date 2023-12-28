@@ -67,22 +67,22 @@
 				</when>
 				<otherwise></otherwise>
 			</choose>
-			<if test="aucSS != ''">
+			<if test="aucSS != null">
 				<![CDATA[
 					and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 			</if>
-			<if test="aucSE != ''">
+			<if test="aucSE != null">
 				<![CDATA[
 					and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 			</if>
-			<if test="aucFS != ''">
+			<if test="aucFS != null">
 				<![CDATA[
 					and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 			</if>
-			<if test="aucFE != ''">
+			<if test="aucFE != null">
 				<![CDATA[
 					and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')
 				]]>
@@ -90,13 +90,19 @@
 		</if>
 	</select>
 	
-	<insert id="insertBid">
-		
-		
+	<update id="insertBid" parameterType="java.util.Map">
+		<![CDATA[
+		update auction
+		set auc_finish_price = #{bidMoney}
+		where (auc_finish_price < #{bidMoney} or nvl(auc_finish_price,0) < #{bidMoney}) and auc_no = #{aucNo}
+		]]>
+	</update>
+	
+	<insert id="insertBiddingDetail">
+		insert into bidding_Detail values(bdd_seq.nextval, #{bidMoney}, #{aucNo}, #{id})
 	</insert>
-	
-	
-	
+
+
 	<!-- <select id="getAdminSearchList">
 		select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
 				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,

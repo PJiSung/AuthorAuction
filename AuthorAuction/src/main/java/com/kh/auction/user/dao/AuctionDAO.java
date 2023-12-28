@@ -21,5 +21,8 @@ public interface AuctionDAO {
 
 	//입찰 - ajax 이용한 입찰 + insert all을 이용해서 입찰내역 및 경매의 내용 변경
 	int insertBid(HashMap<String, Object> hm);
+
+	//입찰 성공시에 입찰내역 업데이트
+	int insertBiddingDetail(HashMap<String, Object> hm);
 	
 }
