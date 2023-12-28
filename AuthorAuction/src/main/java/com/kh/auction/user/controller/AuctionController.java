@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.service.AuctionService;
 
 @SessionAttributes("loginUser")
@@ -97,7 +97,7 @@ public class AuctionController {
 			 Auction updateAuction = aService.getAuctionDetail(aucNo);
 			 jsonObject.addProperty("aucFinishPrice", updateAuction.getAucFinishPrice());
 			 String jsonData = gson.toJson(jsonObject);
-			 model.addAttribute("jsonData", jsonData);
+			 
 			return "jsonData";
 		}else {
 			return "fail";

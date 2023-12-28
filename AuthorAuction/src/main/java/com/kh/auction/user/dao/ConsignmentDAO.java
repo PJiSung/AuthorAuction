@@ -6,9 +6,9 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
-import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.PageInfo;
 
 @Mapper
 public interface ConsignmentDAO {
@@ -23,7 +23,7 @@ public interface ConsignmentDAO {
 
 	int getListCount(int i);
 
-	ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi);
+	ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi, RowBounds rowBounds);
 
 	int searchCount(HashMap<String, String> map);
 

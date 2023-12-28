@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
 import com.kh.auction.user.service.ArtsService;

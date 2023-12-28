@@ -3,7 +3,7 @@ package com.kh.auction.user.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.kh.auction.admin.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
 

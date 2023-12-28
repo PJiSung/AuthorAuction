@@ -7,10 +7,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.auction.admin.model.vo.PageInfo;
 import com.kh.auction.user.dao.ConsignmentDAO;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.PageInfo;
 
 @Service
 public class ConsignmentServiceImpl implements ConsignmentService{
@@ -45,7 +45,11 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	// 마이페이지 리스트	
 	@Override
 	public ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi) {
-		return cDAO.selectConsignmentList(i, pi);
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return cDAO.selectConsignmentList(i, pi, rowBounds);
 	}
 	// 마이페이지 검색
 	@Override

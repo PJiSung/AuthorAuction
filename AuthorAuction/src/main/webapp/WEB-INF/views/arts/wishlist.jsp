@@ -518,7 +518,7 @@ ul,li,ol{
 					    				</select>
 					    				
 		             	    </div>
-					   		<div class = "productprice"  style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all"><span style = "font-weight:bold; font-size: 17px;">${w.proPrice * w.wisAmount}</span><small>&nbsp;원</small></div>
+					   		<div class = "productprice"  style ="width:15%; height: 100%; display:flex; align-items: center;justify-content: center; word-break:break-all"><span class = "totalpp" style = "font-weight:bold; font-size: 17px;">${w.proPrice * w.wisAmount}</span><small>&nbsp;원</small></div>
 					   		<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><img src = "sunwoo/icons/ico_close_black.svg" style = "cursor:pointer;" onclick = "location.href = 'deletewis.ar?memId=${loginid}&proNo=${w.proNo}'"></div>
 				  		</div>
 				  </c:forEach>
@@ -529,22 +529,30 @@ ul,li,ol{
 		
 	</div>	
 	
-	  <div style = "background-color: #eee; position: fixed; top: 20vh; width: 25%; right: 5%; height: 60vh; box-shadow: 5px 5px 1px 1px; z-index: 10;">
-	  	<div style = "overflow:auto; height: 85%;">
-	  		<div style = "height: 30%; display:flex; align-items:center; border-bottom: 1px solid red;">
-	  			<div style= "width: 40%; height: 100%; display: flex; align-items:center; justify-content:center "><img src = "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 100%;"></div>
-	  			<div style = "width: 60%; height: 100%;">
-	  				<div style = "height: 20%; display:flex; justify-content : flex-end; align-items: center;"> <img src = "sunwoo/icons/ico_close_black.svg" style = "width: 10%;"></div>
-	  				<div style = "height: 40%; display: flex; align-items:center; justify-content:flex-end; word-break:break-all; font-weight: bold; color:black; padding-right: 10%; border-bottom: 1px solid #fff;">해바라기</div>
-	  				<div style = "height: 20%; display: flex; align-items:center; justify-content:flex-end; word-break:break-all;  color:black; padding-right: 10%;">배송비 : 3000원</div>
-	  				<div style = "height: 20%; display: flex; align-items:center; justify-content:flex-end; word-break:break-all;  color:black; padding-right: 10%;">제품비용: 3000000원</div>
-	  			</div>
+	  <div style = "background-color: #fafafa; position: fixed; top: 25vh; width: 25%; right: 5%; height: 60vh; box-shadow: 3px 3px 0.2px 0.2px; z-index: 5;">
+	  	<div style = " height: 85%;">
+	  		<div style = "display:flex; align-items:center; height: 20%;">
+	  			<h2 style ="margin-left: 10%; width:70%;">적립혜택</h2>
+	  			<a style ="color:#0B83E6; cursor:pointer;"><small>마이페이지</small></a>
 	  		</div>
-	  		
+	  		<div style = "padding-left: 10%; height: 20%; border-bottom: 1px dotted #666;">골드 +10%;</div>
+	  		<div style = "display:flex; align-items:center; height: 20%;">
+	  			<h2 style ="margin-left: 10%;">결제 예정금액	</h2>
+	  		</div>
+	  		<div style = "display:flex; align-items:center;">
+	  			 <div style = "width: 60%; padding-left: 10%;">상품금액</div>
+	  			 <div><h3 id = "propribill">0</h3></div>
+	  			 <div><small> 원</small></div>
+	  		</div>
+	  		<div style = "display:flex; align-items:center; height: 40%;">
+	  			 <div style = "width: 60%; padding-left: 10%; color:red;">합계</div>
+	  			 <div><h1 id = "totalbill" style = "color:red;">0</h1></div>
+	  			 <div><small> 원</small></div>
+	  		</div>
 	  	</div>
 	  
-	  	<div style = "position:absolute; bottom: 0%; background-color:gray; width: 100%; height: 15%; display: flex; align-items:center; padding-left: 10%; word-break:break-all;">
-	  		<h1>총 합계 : 1000000000원</h1>
+	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;">
+	  		<h2>주문하기</h2>
 	  	</div>
 	  </div>
 	
@@ -652,8 +660,51 @@ ul,li,ol{
   		p.children[0].innerText = p.children[0].innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   		
   	}
+	
   
   </script>  
+  
+  
+  <script>
+  
+  	// 상품 합친 금액 스크립트
+  function updateproTotalPrice(){	
+  	var prototal=0;
+  		
+  		for(p of document.getElementsByClassName('productprice')){
+  	  		
+  			prototal = prototal + parseInt(p.children[0].innerText.replace(/,/g,""));
+  	  		
+  	  	}
+  		
+  		document.getElementById('propribill').innerText = prototal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  	}
+  	
+	
+  setInterval(updateproTotalPrice, 100);
+  
+  
+  //총 결제 금액 스크립트 
+  
+  
+  function updateallTotalPrice(){	
+  	var alltotal=0;
+  		
+  		for(p of document.getElementsByClassName('productprice')){
+  	  		
+  			alltotal = alltotal + parseInt(p.children[0].innerText.replace(/,/g,""));
+  	  		
+  	  	}
+  		
+  		document.getElementById('totalbill').innerText = alltotal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  	}
+  	
+	
+  setInterval(updateallTotalPrice, 100);
+  
+  </script>
+  
+  
   
   
   
