@@ -552,7 +552,7 @@ ul,li,ol{
 	  	</div>
 	  
 	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;">
-	  		<h1>주문하기</h1>
+	  		<h2>주문하기</h2>
 	  	</div>
 	  </div>
 	
