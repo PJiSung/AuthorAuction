@@ -361,7 +361,7 @@
 
 				myInputPoint.setAttribute("min", aucFinishPrice + minIncrement);
 				myInputPoint.value = aucFinishPrice + minIncrement;
-				minPrice.innerText = formatMinPoint.concat('원');
+				minPrice.innerText = formatMinPoint.concat(' 원');
 				
 				
 				/* if('${ auction.aucFinishPrice }' < parseInt(300000)){
@@ -424,11 +424,12 @@
 									type: 'post',
 									data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
 									success: data =>{
-										console.log(data)
 										if(data != 'fail'){
-											console.log("s");
-										}else{
+											alert("입찰에 성공하였습니다.")
+											bidModal.style.display = 'none';
+											nowPrice.innerText = data.toLocaleString().concat(" 원");
 											console.log(data);
+										}else{
 											alert("입찰에 실패하였습니다.");
 										}
 									},
@@ -444,11 +445,12 @@
 									type: 'post',
 									data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
 									success: data =>{
-										console.log(data)
 										if(data != 'fail'){
-											console.log("s");
-										}else{
+											alert("입찰에 성공하였습니다.")
+											bidModal.style.display = 'none';
+											nowPrice.innerText = data.toLocaleString().concat(" 원");
 											console.log(data);
+										}else{
 											alert("입찰에 실패하였습니다.");
 										}
 									},

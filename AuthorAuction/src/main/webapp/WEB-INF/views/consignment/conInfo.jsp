@@ -185,7 +185,6 @@
         <div style="margin-left: 102rem;">
           <a class="btnset btnset-lg" value="상담문의" type="button" href="conEnroll.co" style="width: 20rem; margin: auto;">상담문의</a>
           <a class="btnset btnset-lg" value="마이페이지" type="button" href="list.co" style="width: 20rem; margin: auto;">마이페이지</a>
-          <a class="btnset btnset-lg" value="상세내역" type="button" style="width: 20rem; margin: auto;" onclick="selectConsignment()">상세내역</a>		
         </div>
         <br><br><br>
       </div>

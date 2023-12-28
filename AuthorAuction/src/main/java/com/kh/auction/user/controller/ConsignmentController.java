@@ -48,7 +48,7 @@ public class ConsignmentController {
 	@PostMapping("conInsert.co")
 	public String insertConsignment(@ModelAttribute Consignment c,
 									@RequestParam(value="file", required=false) ArrayList<MultipartFile> files, HttpSession session, Member m) {
-		c.setmemId("starcr222");
+//		c.setmemId("starcr222");
 		// 현재 세션에 저장된 사용자 정보에서 회원 ID를 가져와서 위탁 정보 객체설정
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		if(loginUser != null) {
@@ -149,14 +149,18 @@ public class ConsignmentController {
 	// 마이페이지 위탁문의 리스트
 	@GetMapping("list.co")
 	public String selectConsignmentList(@RequestParam(value="page", defaultValue="1") int page,
-										HttpServletRequest request, Model model) {
-		
-		int listCount = cService.getListCount(2);
-		
+										HttpServletRequest request, Model model, HttpSession session) {
+
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String memId = (loginUser != null) ? loginUser.getMemId() : null;
+//		if(loginUser != null) {
+//			id = loginUser.getMemId();
+//		}
+		int listCount = cService.getListCount(memId);
 		int currentPage = page;
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		ArrayList<Consignment> list = cService.selectConsignmentList(2, pi);
+		ArrayList<Consignment> list = cService.selectConsignmentList(memId, pi);
 		
 		if(list != null) {
 			model.addAttribute("list", list);
@@ -197,80 +201,42 @@ public class ConsignmentController {
 		}	
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// 상세조회
 	@GetMapping("selectConsignment.co")
-	public String selectConsignment(@RequestParam("conNo") int conNo, @RequestParam("page") int page,
+	public String selectConsignment(@RequestParam(value="conNo", defaultValue="1") int conNo, @RequestParam(value="page", defaultValue="1") String page,
 							HttpSession session, Model model) {
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String id = null;
-		
-		if(loginUser != null) {
-			id = loginUser.getMemId();
-		}
-		
+		Consignment c = cService.selectConsignment(conNo);					// 게시글 정보 조회
 		// 게시글의 첨부파일 목록 조회
 		ArrayList<Attachment> list = cService.selectAttmConsignmentList(conNo);		
 		
-		// 첨부 파일이 있을 때만 게시글을 조회하고 상세조회 페이지로 이동
-	    if (!list.isEmpty()) {
-	        Consignment c = cService.selectConsignment(conNo, id);					// 게시글 정보 조회
+		// 조회된 게시글이 null이 아닌 경우에만 모델에 추가하고 상세조회 페이지로 이동 
+		if(list != null) {		
+			model.addAttribute("c", c);
+			model.addAttribute("page", page);
+			model.addAttribute("list", list);
+			
+			return "consignment/conDetail";
+		} else {
+			throw new Exception("첨부파일 게시글 상세조회 실패");
+		}
+	}
+	
+	// 글 삭제
+	@PostMapping("delete.co")
+	public String deleteConsignment(@RequestParam("conNo")int conNo) {
+		int result1 = cService.deleteConsignment(conNo);
+		int result2 = cService.statusNConsignment(conNo);
 		
-			// 조회된 게시글이 null이 아닌 경우에만 모델에 추가하고 상세조회 페이지로 이동 
-			if(c != null) {		
-				model.addAttribute("c", c);
-				model.addAttribute("page", page);
-				model.addAttribute("list", list);
-				
-				return "consignment/conDetail";
-			} else {
-				throw new Exception("첨부파일 게시글 상세조회 실패");
-			}
-	    } else {
-	    	// 첨부 파일이 없는 경우 상세조회 페이지로 이동X
-	    	throw new Exception("첨부파일이 없는 게시글");
-	    }
+		System.out.println(conNo);
+		System.out.println(result1);
+		System.out.println(result2);
+		
+		if(result1>0 && result2>0) {
+			return "redirect:list.co";
+		} else {
+			throw new Exception("게시글 삭제 실패");
+		}
 	}
 	
 	

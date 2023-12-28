@@ -22,8 +22,14 @@
   <link rel="stylesheet" href="consignment/css/template.css">
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
-</head>
 
+
+<script>
+	const consignmentDetail = (conNo) =>{												<!-- 상세보기로 이동 -->
+		location.href="selectConsignment.co?conNo=" + conNo + "&page=" + ${pi.currentPage};
+	}
+</script>
+</head>
 
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -91,7 +97,7 @@
               </thead>
               <tbody>
               	<c:forEach items="${list}" var="c">
-	                <tr>
+	                <tr onclick="consignmentDetail(this.id)" id="${c.conNo}">
 	                  <td>${ c.conAuthor }</td>
 	                  <td>${ c.conProduct }</td>
 	                  <td>${ c.conWidth }*${ c.conHeight }cm</td>
@@ -182,25 +188,17 @@
 			      </a>
 			   </div>
 			</c:if>
-			</nav>        
-        
-        
-        
-        
-        
-        
-        
-        
+		</nav>     
       </div>
     </div>
     <!-- [E]hooms-N48 -->
   </main>
 <jsp:include page="../common/footer.jsp"/>  
-  
-  <script src="../resources/js/setting.js"></script>
-  <script src="../resources/js/plugin.js"></script>
-  <script src="../resources/js/template.js"></script>
-  <script src="../resources/js/common.js"></script>
-  <script src="../resources/js/script.js"></script>
+
+  <script src="consignment/js/setting.js"></script>
+  <script src="consignment/js/plugin.js"></script>
+  <script src="consignment/js/template.js"></script>
+  <script src="consignment/js/common.js"></script>
+  <script src="consignment/js/script.js"></script>
 </body>
 </html>
