@@ -723,30 +723,34 @@ input.check_btn:checked + label:before{
 								배송일은 주문일 기준 2~3일 소요됩니다
 					</div>
 				</div>	
-				
-				
-					
-					
 					
 			</div>
 	</div>	
 	
-	  <div style = "background-color: #eee; position: fixed; top: 20vh; width: 25%; right: 5%; height: 60vh; box-shadow: 5px 5px 1px 1px; z-index: 10;">
-	  	<div style = "overflow:auto; height: 85%;">
-	  		<div style = "height: 30%; display:flex; align-items:center; border-bottom: 1px solid red;">
-	  			<div style= "width: 40%; height: 100%; display: flex; align-items:center; justify-content:center "><img src = "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 100%;"></div>
-	  			<div style = "width: 60%; height: 100%;">
-	  				<div style = "height: 20%; display:flex; justify-content : flex-end; align-items: center;"> <img src = "sunwoo/icons/ico_close_black.svg" style = "width: 10%;"></div>
-	  				<div style = "height: 40%; display: flex; align-items:center; justify-content:flex-end; word-break:break-all; font-weight: bold; color:black; padding-right: 10%; border-bottom: 1px solid #fff;">해바라기</div>
-	  				<div style = "height: 20%; display: flex; align-items:center; justify-content:flex-end; word-break:break-all;  color:black; padding-right: 10%;">배송비 : 3000원</div>
-	  				<div style = "height: 20%; display: flex; align-items:center; justify-content:flex-end; word-break:break-all;  color:black; padding-right: 10%;">제품비용: 3000000원</div>
-	  			</div>
+	   <div style = "background-color: #fafafa; position: fixed; top: 25vh; width: 25%; right: 5%; height: 70vh; box-shadow: 3px 3px 0.2px 0.2px; z-index: 5;">
+	  	<div style = " height: 85%;">
+	  		<div style = "display:flex; align-items:center; height: 20%;">
+	  			<h2 style ="margin-left: 10%; width:70%;">적립혜택</h2>
+	  			<a style ="color:#0B83E6; cursor:pointer;"><small>마이페이지</small></a>
 	  		</div>
-	  		
+	  		<div style = "padding-left: 10%; height: 20%; border-bottom: 1px dotted #666;">골드 +10%;</div>
+	  		<div style = "display:flex; align-items:center; height: 20%;">
+	  			<h2 style ="margin-left: 10%;">결제 예정금액	</h2>
+	  		</div>
+	  		<div style = "display:flex; align-items:center;">
+	  			 <div style = "width: 60%; padding-left: 10%;">상품금액</div>
+	  			 <div><h3 id = "propribill">0</h3></div>
+	  			 <div><small> 원</small></div>
+	  		</div>
+	  		<div style = "display:flex; align-items:center; height: 40%;">
+	  			 <div style = "width: 60%; padding-left: 10%; color:red;">합계</div>
+	  			 <div><h1 id = "totalbill" style = "color:red;">0</h1></div>
+	  			 <div><small> 원</small></div>
+	  		</div>
 	  	</div>
 	  
-	  	<div style = "position:absolute; bottom: 0%; background-color:gray; width: 100%; height: 15%; display: flex; align-items:center; padding-left: 10%; word-break:break-all;" onclick = "requestpay()">
-	  	<h1>주문하기</h1>
+	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 10%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;">
+	  		<h2>주문하기</h2>
 	  	</div>
 	  </div>
 	
