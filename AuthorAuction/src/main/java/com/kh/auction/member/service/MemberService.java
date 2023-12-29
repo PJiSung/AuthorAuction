@@ -22,4 +22,8 @@ public interface MemberService {
 	int insertAddress(Address a);
 
 	ArrayList<Address> selectAddressList(String id);
+
+	Address selectAddress(int addNo);
+
+	int updateAddress(Address a);
 }

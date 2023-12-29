@@ -310,7 +310,7 @@ public class MemberController {
 			ratt.addAttribute("tab", 2);
 			return "redirect:myInfo";
 		} else {
-			throw new Exception("배송지 추가 실패");
+			throw new Exception("배송지 등록 실패");
 		}
 	}
 	
@@ -326,4 +326,26 @@ public class MemberController {
 			throw new Exception("배송지 조회 실패");
 		}
 	}
+	
+	@GetMapping("updateAddressView")
+	public String updateAddressView(@RequestParam("addNo") int addNo, Model model) throws Exception {
+		Address a = mService.selectAddress(addNo);
+		if(a != null) {
+			model.addAttribute("a", a);
+			return "member/updateAddress";
+		}else{
+			throw new Exception("배송지 업데이트 실패");
+		}
+	}
+	
+	@PostMapping("updateAddress")
+	public String updateAddress(Address a, RedirectAttributes ratt) throws Exception {
+		int result = mService.updateAddress(a);
+		if(result > 0) {
+			ratt.addAttribute("tab", 2);
+			return "redirect:myInfo";
+		}
+		return "redirect:myInfo";
+	}
+	
 }

@@ -27,4 +27,8 @@ public interface MemberDAO {
 	ArrayList<Address> selectAddressList(String id);
 
 	int updateAddressDefault(Address updateA);
+
+	Address selectAddress(int addNo);
+
+	int updateAddress(Address a);
 }

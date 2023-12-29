@@ -19,14 +19,19 @@ public interface AuctionDAO {
 	//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
 	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm);
 
-	//입찰 - ajax 이용한 입찰 + insert all을 이용해서 입찰내역 및 경매의 내용 변경
+	
+	
+	
+	
+	//입찰 - ajax  경매금액 업데이트
 	int insertBid(HashMap<String, Object> hm);
 
-	//입찰 성공시에 입찰내역 업데이트
-	int insertBiddingDetail(HashMap<String, Object> hm);
-
-	int updateMoneyInsertBid(HashMap<String, Object> hm);
-
-	int updateMoneyUnsold(HashMap<String, Object> hm);
+	//유찰된 금액 환불
+	void returnUnsold(HashMap<String, Object> hm);
 	
+	//입찰성공시에 금액 감소
+	void updateMoneyInsertBid(HashMap<String, Object> hm);
+
+	//입찰 성공시에 입찰내역 업데이트
+	void insertBiddingDetail(HashMap<String, Object> hm);
 }

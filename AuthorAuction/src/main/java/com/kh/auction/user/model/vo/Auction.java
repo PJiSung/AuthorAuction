@@ -6,6 +6,7 @@ public class Auction {
 	private Integer aucFinishPrice;
 	private String aucStartDate;
 	private String aucFinishDate;
+	private String aucMemId;
 	private String conAuthor;
 	private String conProduct;
 	private int conWidth;
@@ -18,14 +19,15 @@ public class Auction {
 	public Auction() {}
 
 	public Auction(int aucNo, int aucStartPrice, Integer aucFinishPrice, String aucStartDate, String aucFinishDate,
-			String conAuthor, String conProduct, int conWidth, int conHeight, int conYear, int conHope, String conEtc,
-			String attRename) {
+			String aucMemId, String conAuthor, String conProduct, int conWidth, int conHeight, int conYear, int conHope,
+			String conEtc, String attRename) {
 		super();
 		this.aucNo = aucNo;
 		this.aucStartPrice = aucStartPrice;
 		this.aucFinishPrice = aucFinishPrice;
 		this.aucStartDate = aucStartDate;
 		this.aucFinishDate = aucFinishDate;
+		this.aucMemId = aucMemId;
 		this.conAuthor = conAuthor;
 		this.conProduct = conProduct;
 		this.conWidth = conWidth;
@@ -74,6 +76,14 @@ public class Auction {
 
 	public void setAucFinishDate(String aucFinishDate) {
 		this.aucFinishDate = aucFinishDate;
+	}
+
+	public String getAucMemId() {
+		return aucMemId;
+	}
+
+	public void setAucMemId(String aucMemId) {
+		this.aucMemId = aucMemId;
 	}
 
 	public String getConAuthor() {
@@ -143,8 +153,9 @@ public class Auction {
 	@Override
 	public String toString() {
 		return "Auction [aucNo=" + aucNo + ", aucStartPrice=" + aucStartPrice + ", aucFinishPrice=" + aucFinishPrice
-				+ ", aucStartDate=" + aucStartDate + ", aucFinishDate=" + aucFinishDate + ", conAuthor=" + conAuthor
-				+ ", conProduct=" + conProduct + ", conWidth=" + conWidth + ", conHeight=" + conHeight + ", conYear="
-				+ conYear + ", conHope=" + conHope + ", conEtc=" + conEtc + ", attRename=" + attRename + "]";
+				+ ", aucStartDate=" + aucStartDate + ", aucFinishDate=" + aucFinishDate + ", aucMemId=" + aucMemId
+				+ ", conAuthor=" + conAuthor + ", conProduct=" + conProduct + ", conWidth=" + conWidth + ", conHeight="
+				+ conHeight + ", conYear=" + conYear + ", conHope=" + conHope + ", conEtc=" + conEtc + ", attRename="
+				+ attRename + "]";
 	}
 }
