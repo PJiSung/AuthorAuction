@@ -527,7 +527,7 @@ input.check_btn:checked + label:before{
 							소셜 로그인 회원의 회원정보는 최초 주문자 정보(이름, 휴대폰 번호, 이메일)로 업데이트되며, 본인인증 또는 회원정보 변경을 통해 수정 가능합니다.		
 						</div>
 						<div style = "display:flex; align-items: center;height: 25%;">
-							<input type = "text" placeholder = "주문자명" style = "width: 50%; height: 55%; border: 1px solid #aaa; text-align:center;" class = "ordererinfo">
+							<input type = "text" placeholder = "주문자명" style = "width: 50%; height: 55%; border: 1px solid #aaa; text-align:center;" class = "ordererinfo" value = "${loginUser.memName}" readonly>
 						</div>
 						<div style = " display:flex; align-items: center;height: 25%;">
 							<div style = "width: 15%; height: 100%; display: flex; align-items: center;">
@@ -725,7 +725,7 @@ input.check_btn:checked + label:before{
 							</div>
 							<div style = "width: 80%; height: 100%; display:flex; align-items: center;">
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #555"><h5>포인트 사용</h5></div>
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "number" min="1000" max="${loginUser.memBalance}" step = "1000" id = "pointinput"></div> 
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "number" min="1000" max="${w.wisAmount*w.proPrice}" step = "1000" id = "pointinput"></div> 
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : ${loginUser.memBalance}p)</div>
 							</div>
 						</div>
@@ -1171,6 +1171,24 @@ $(document).ready(function(){
   </script>
 
 
+<script>
+
+	function test(){
+		const receiver = document.getElementsByClassName('deliveryinfo')[0].value.trim();
+		
+		const receiverPhone = 
+		document.getElementsByClassName('deliveryinfo')[4].value +  '-' + 
+		document.getElementsByClassName('deliveryinfo')[5].value.trim() + '-' +
+		document.getElementsByClassName('deliveryinfo')[6].value.trim();
+		
+		alert(receiverPhone);
+	}
+
+
+
+
+</script>
+
 
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
@@ -1213,8 +1231,17 @@ $(document).ready(function(){
 			deliveryMsg = document.getElementById('messel').value;
 		}
 		
-	 var ordPoPrice = parseInt(document.getElementById('pointprice').innerText.replace(/,/g,"").split('-')[1]);
+	 var ordPoPrice = document.getElementById('pointprice').innerText == '0' ? 0 : parseInt(document.getElementById('pointprice').innerText.replace(/,/g,"").split('-')[1]);
 	 
+	 
+	 const receiver = document.getElementsByClassName('deliveryinfo')[0].value.trim();
+		
+		const receiverPhone = 
+		document.getElementsByClassName('deliveryinfo')[4].value +  '-' + 
+		document.getElementsByClassName('deliveryinfo')[5].value.trim() + '-' +
+		document.getElementsByClassName('deliveryinfo')[6].value.trim();
+		
+		
 	 
  IMP.request_pay({
 	    pg : 'html5_inicis',
@@ -1232,7 +1259,7 @@ $(document).ready(function(){
 	    if (rsp.success) {
 	    	
 	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginid}
-	    	+"&postcode="+postcode+"&address="+address;
+	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청

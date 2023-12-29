@@ -69,8 +69,10 @@
 	
 	<delete id="deletewis">
 		delete from wishlist
-		where MEM_ID = #{memId} and PRO_NO = #{proNo}
-	
+		where MEM_ID = #{memId} 
+			<if test = "proNo != '0'">
+			and PRO_NO = #{proNo}
+			</if>
 	</delete>
 		
 		
@@ -81,6 +83,17 @@
 		 	#{proNo}
 		</foreach>
 	</delete>
+	
+	
+	
+	<insert id="insertOrder">
+		insert into orders values(#{ordNo},SYSDATE,'Y',#{ordMessage},#{ordPoPrice},#{ordCaPrice},
+		${ordPoPrice}+${ordCaPrice},#{ordMethod},#{memId},0)
+	
+	</insert>
+	
+	
+	
 		
 </mapper>
 

@@ -3,6 +3,7 @@ package com.kh.auction.user.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
@@ -22,6 +23,9 @@ public interface ArtsService {
 	int deletewis(Wishlist deletewis);
 
 	int deletewishlist(HashMap<String, Object> map);
+
+	int insertOrder(Order order);
+
 
 
 

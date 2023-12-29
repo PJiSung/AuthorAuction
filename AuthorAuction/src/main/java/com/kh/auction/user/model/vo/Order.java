@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Order {
 
-	private int ordNo;
+	private String ordNo;
 	private Date ordDate;
 	private String ordStatus;
 	private String ordMessage;
@@ -17,7 +17,7 @@ public class Order {
 	
 	public Order() {}
 
-	public Order(int ordNo, Date ordDate, String ordStatus, String ordMessage, int ordPoPrice, int ordCaPrice,
+	public Order(String ordNo, Date ordDate, String ordStatus, String ordMessage, int ordPoPrice, int ordCaPrice,
 			int ordSumPrice, String ordMethod, String memId, int addNo) {
 		super();
 		this.ordNo = ordNo;
@@ -32,11 +32,11 @@ public class Order {
 		this.addNo = addNo;
 	}
 
-	public int getOrdNo() {
+	public String getOrdNo() {
 		return ordNo;
 	}
 
-	public void setOrdNo(int ordNo) {
+	public void setOrdNo(String ordNo) {
 		this.ordNo = ordNo;
 	}
 

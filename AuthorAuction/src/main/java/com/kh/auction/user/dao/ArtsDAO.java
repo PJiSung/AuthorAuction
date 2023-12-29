@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
 
@@ -26,6 +27,9 @@ public interface ArtsDAO {
 	int deletewis(Wishlist deletewis);
 
 	int deletewishlist(HashMap<String, Object> map);
+
+	int insertOrder(Order order);
+
 
 	
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
@@ -89,12 +90,18 @@ public class ArtsController {
 	}
 	
 	@GetMapping("payresult.ar")
-	public String payresult(@RequestParam("imp_uid") String imp_uid, @RequestParam("merchant_uid") String merchant_uid) {
+	public String payresult(HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
+			@RequestParam("address") String address,@RequestParam("receiver") String receiver,@RequestParam("receiverPhone") String receiverPhone ) {
 		
-		System.out.println(imp_uid);
-		System.out.println(merchant_uid);
+		Wishlist w = new Wishlist();
+		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
+		w.setMemId(loginid);
+		w.setProNo(0);
 		
-//		aService.insertOrder(merchant_uid); 
+		aService.deletewis(w);
+		int result = aService.insertOrder(order); 
+		
+    	
 		return "arts/payresult";
 	}
 	

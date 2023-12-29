@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.auction.user.dao.ArtsDAO;
+import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
@@ -67,4 +68,11 @@ public class ArtsServiceImpl implements ArtsService {
 		
 		return aDAO.deletewishlist(map);
 	}
+	
+	@Override
+	public int insertOrder(Order order) {
+		
+		return aDAO.insertOrder(order);
+	}
+	
 }
