@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.auction.common.config.Pagination;
+import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
@@ -45,6 +46,25 @@ public class conAdmController {
 			return "consignment/conAdminList";
 		} else {
 			throw new Exception("관리자 위탁문의 리스트 조회 실패");
+		}
+	}
+	
+	@GetMapping("selectUser.adco")
+	public String selectUser(@RequestParam(value="conNo", defaultValue="1")int conNo, @RequestParam(value="page") String page,
+							 HttpSession session, Model model) {
+		Consignment c = cService.selectUserList(conNo);
+		ArrayList<Consignment> list = cService.selectUserAttmList(conNo);
+		
+		if(list != null) {
+			model.addAttribute("list", list);
+			model.addAttribute("c", c);
+			model.addAttribute("page", page);
+			
+			
+//			return "consignment/conAdmDetail";	// 관리자 리스트 상세조회를 여기로 보내면 관라자열람여부 조건을 어떻게 할건지
+			return "consignment/conDetail";		// 마이페이지 리스트랑 똑같은데 그럼 수정 삭제버튼을 관리자 열람 전에만 띄우게 한 걸 어떻게 할건지
+		} else {
+			throw new Exception("첨부파일 게시글 상세조회 실패");
 		}
 	}
 	

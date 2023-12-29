@@ -34,4 +34,8 @@ public interface ConsignmentService {
 	
 	// 관리자 리스트
 	ArrayList<Consignment> selectUserList(String memId, PageInfo pi);
+	// 관리자 상세조회
+	Consignment selectUserList(int conNo);
+	// 관리자 첨부 상세조회
+	ArrayList<Consignment> selectUserAttmList(int conNo);
 }
