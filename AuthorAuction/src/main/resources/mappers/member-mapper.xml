@@ -68,4 +68,15 @@
         ADD_NO DESC
 	</select>
 	
+	<select id="selectAddress">
+		SELECT *
+		FROM ADDRESS
+		WHERE ADD_NO = #{addNo}
+	</select>
+	
+	<update id="updateAddress">
+		UPDATE ADDRESS
+		SET ADD_NAME = #{addName}, ADD_RECIPIENT = #{addRecipient}, ADD_ADDRESS = #{addAddress}, ADD_PHONE = #{addPhone}, ADD_DEFAULT = #{addDefault}
+		WHERE ADD_NO = #{addNo}
+	</update>
 </mapper>

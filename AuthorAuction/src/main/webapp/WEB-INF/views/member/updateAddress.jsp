@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>	 
 <!DOCTYPE html>
 <html lang="UTF-8">
 
@@ -40,10 +42,6 @@ legend{
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-window.onload = () =>{
-	
-}
-
 document.addEventListener("keypress", function(e) {
 	if (e.keyCode == 13) {
 		document.querySelector(".btn-box a").click();
@@ -121,8 +119,7 @@ const submitBtn = () =>{
 	}else{
 		document.getElementsByName("addDefault")[0].value = "Y";
 	}
-  	form.submit();
-  	
+  	document.getElementById('addressForm').submit();
 }
 </script>
 </head>
@@ -139,7 +136,8 @@ const submitBtn = () =>{
 								<h4 class="form-tit">배송지 등록</h4>
 							</div>
 						</div>
-						<form action="insertAddress" method="post" id="addressForm">
+						<form action="updateAddress" method="post" id="addressForm">
+						<input type="hidden" name="addNo" value="${ a.addNo }">
 						<input type="hidden" name="memId" value="${ loginUser.memId }">
 						<input type="hidden" name="addAddress">
 						<input type="hidden" name="addDefault">
@@ -148,7 +146,7 @@ const submitBtn = () =>{
 									<legend class="legend">배송지명 *</legend>
 									<div class="input-group">
 										<div class="inputset col inputset-line">
-											<input type="text" class="inputset-input form-control" name="addName"
+											<input type="text" class="inputset-input form-control" name="addName" value="${ a.addName }"
 												placeholder="예)우리집"
 												aria-label="예)우리집" required="required">
 										</div>
@@ -158,7 +156,7 @@ const submitBtn = () =>{
 									<legend class="legend">받는사람 *</legend>
 									<div class="input-group">
 										<div class="inputset col inputset-line">
-											<input type="text" class="inputset-input form-control" name="addRecipient"
+											<input type="text" class="inputset-input form-control" name="addRecipient" value="${ a.addRecipient }"
 												placeholder="이름"
 												aria-label="이름" required="required">
 										</div>
@@ -168,7 +166,7 @@ const submitBtn = () =>{
 									<legend class="legend">주소 *</legend>
 									<div class="input-group m-0">
 										<div class="inputset inputset-line">
-											<input type="text" class="inputset-input form-control" id="sample6_postcode"
+											<input type="text" class="inputset-input form-control" id="sample6_postcode" value="${ fn:split(a.addAddress, '@')[0] }"
 												placeholder="우편번호" aria-label="우편번호" required="required" readonly="readonly">
 										</div>
 										<button
@@ -177,17 +175,17 @@ const submitBtn = () =>{
 									</div>
 									<div class="input-group">
 										<div class="inputset col inputset-line">
-											<input type="text" class="inputset-input form-control"
+											<input type="text" class="inputset-input form-control" value="${ fn:split(a.addAddress, '@')[1] }"
 												placeholder="주소" aria-label="주소" id="sample6_address" required="required" readonly="readonly">
 										</div>
 									</div>
 									<div class="input-group">
 									<div class="inputset col inputset-line">
-											<input type="text" class="inputset-input form-control" id="sample6_detailAddress" 
+											<input type="text" class="inputset-input form-control" id="sample6_detailAddress" value="${ fn:split(a.addAddress, '@')[2] }"
 												placeholder="상세주소" aria-label="상세주소" required="required">
 										</div>
 										<div class="inputset inputset-line">
-											<input type="text" class="inputset-input form-control" id="sample6_extraAddress"
+											<input type="text" class="inputset-input form-control" id="sample6_extraAddress" value="${ fn:split(a.addAddress, '@')[3] }"
 												placeholder="참고항목" aria-label="참고항목" readonly="readonly">
 										</div>
 									</div>
@@ -196,20 +194,20 @@ const submitBtn = () =>{
 									<legend class="legend">연락처 *</legend>
 									<div class="input-group">
 										<div class="inputset col inputset-line">
-											<input type="text" class="inputset-input form-control" name="addPhone"
+											<input type="text" class="inputset-input form-control" name="addPhone" value="${ a.addPhone }"
 												placeholder="휴대폰 번호" aria-label="휴대폰 번호" required="required">
 										</div>
 									</div>
 								</fieldset>
 								 <fieldset class="fieldset">
 						            <div class="checkset">
-						              <input id="checkset-a-1-2" class="checkset-input input-fill" type="checkbox">
+						              <input id="checkset-a-1-2" class="checkset-input input-fill" type="checkbox" <c:if test="${ a.addDefault eq 'Y' }">checked</c:if> >
 						              <label class="checkset-label" for="checkset-a-1-2"></label>
 						              <span class="checkset-text" onclick="checkCbox()">기본 배송지로 설정</span>
 						            </div>
 						          </fieldset>
 							 	  <div class="form-footer btn-box">
-								      <a class="btnset btnset-mono btnset-lg btnset-rect" href="javascript:void(0)">취소</a>
+								      <a class="btnset btnset-mono btnset-lg btnset-rect" href="myInfo?tab=2">취소</a>
 								      <a class="btnset2 btnset-lg btnset-rect" href="javascript:void(0)" onclick="submitBtn()">확인</a>
 							      </div>
 							</div>

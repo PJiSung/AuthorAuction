@@ -53,17 +53,44 @@ public class MemberServiceImpl implements MemberService{
 			updateA.setAddDefault("N");
 			updateA.setMemId(a.getMemId());
 			result = mDao.updateAddressDefault(updateA);
-		}
-		if(result > 0) {
-			return mDao.insertAddress(a);
+			
+			if(result > 0) {
+				return mDao.insertAddress(a);
+			}else {
+				return 0;
+			}
 		}else {
-			return 0;
+			return mDao.insertAddress(a);
 		}
 	}
 
 	@Override
 	public ArrayList<Address> selectAddressList(String id) {
 		return mDao.selectAddressList(id);
+	}
+
+	@Override
+	public Address selectAddress(int addNo) {
+		return mDao.selectAddress(addNo);
+	}
+
+	@Override
+	public int updateAddress(Address a) {
+		int result = 0;
+		if(a.getAddDefault().equals("Y")) {
+			Address updateA = new Address();
+			updateA.setAddDefault("N");
+			updateA.setMemId(a.getMemId());
+			result = mDao.updateAddressDefault(updateA);
+			
+			if(result > 0) {
+				return mDao.updateAddress(a);
+			}else {
+				return 0;
+			}
+		}else {
+			return mDao.updateAddress(a);
+		}
 	}
 	
 }
