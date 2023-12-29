@@ -93,6 +93,8 @@ public class ArtsController {
 		
 		System.out.println(imp_uid);
 		System.out.println(merchant_uid);
+		
+//		aService.insertOrder(merchant_uid); 
 		return "arts/payresult";
 	}
 	
@@ -154,7 +156,9 @@ public class ArtsController {
 	public String insertorder(@RequestParam("imp_uid") String imp_uid, @RequestParam("merchant_uid") int merchant_uid) {
 		
 		System.out.println(imp_uid);
-		System.out.println(merchant_uid);
+		
+		
+//		aService.insertOrder(merchant_uid); 
 		
 		return "결제됐어";
 	}

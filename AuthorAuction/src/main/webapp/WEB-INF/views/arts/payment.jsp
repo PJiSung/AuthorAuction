@@ -635,8 +635,8 @@ input.check_btn:checked + label:before{
 						</div>
 						<div style = " display:flex; align-items: center;height: 9.375%;">
 							<div style = " display:flex; align-items: center; height: 100%; width: 40%;">
-								<select style = " border: 1px solid #aaa; width: 100%; height: 55%; text-align:center;" onchange = "selectmessage(this)">
-									<option value = "010">배송시 요청사항 선택하기</option>
+								<select style = " border: 1px solid #aaa; width: 100%; height: 55%; text-align:center;" onchange = "selectmessage(this)" id = "messel">
+									<option value = "none">배송시 요청사항 선택하기</option>
 									<option value = "직접 수령하겠습니다">직접 수령하겠습니다</option>
 									<option value = "문 앞에 놓아주세요">문 앞에 놓아주세요</option>
 									<option value = "경비실에 맡겨주세요">경비실에 맡겨주세요</option>
@@ -712,7 +712,7 @@ input.check_btn:checked + label:before{
 <!-- 					</div> -->
 <!-- 				</div>	 -->
 				
-				
+			<button onclick = "test()">테스트 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</button>	
 				
 				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh; margin-bottom: 20%;">
 					<div style = "height: 100%; width: 100%;">
@@ -723,9 +723,10 @@ input.check_btn:checked + label:before{
 							<div style = "width: 50%; border-right: 1px solid #aaa; height: 100%; display:flex; align-items: center;">
 								<input type = "radio" id="creditcard" style = "width: 40px;" name = "paymethod" class = "paymethod"><label for = "creditcard"><h4>신용카드</h4></label>
 							</div>
-							<div style = "width: 50%; height: 100%; display:flex; align-items: center;">
-								<input type = "radio" id="pointpay" style = "width: 40px;" name = "paymethod" class = "paymethod"><label for = "pointpay"><h4>포인트</h4></label>
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : 0p)</div>
+							<div style = "width: 80%; height: 100%; display:flex; align-items: center;">
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #555"><h5>포인트 사용</h5></div>
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "number" min="0" max="${loginUser.memBalance}" step = "1000" id = "pointinput"></div> 
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : ${loginUser.memBalance}p)</div>
 							</div>
 						</div>
 								배송일은 주문일 기준 2~3일 소요됩니다
@@ -745,14 +746,19 @@ input.check_btn:checked + label:before{
 	  		<div style = "display:flex; align-items:center; height: 20%;">
 	  			<h2 style ="margin-left: 10%;">결제 예정금액	</h2>
 	  		</div>
-	  		<div style = "display:flex; align-items:center;">
+	  		<div style = "display:flex; align-items:center; height: 7.5%;">
 	  			 <div style = "width: 60%; padding-left: 10%; font-size: 23px;">상품금액</div>
 	  			 <div><h2 id = "propribill">0</h2></div>
 	  			 <div><small> 원</small></div>
 	  		</div>
-	  		<div style = "display:flex; align-items:center; height: 10%;">
+	  		<div style = "display:flex; align-items:center; height: 7.5%;">
 	  			 <div style = "width: 60%; padding-left: 10%; font-size: 23px;">배송비</div>
-	  			 <div><h2 id = "propribill">0</h2></div>
+	  			 <div><h2 id = "delibill">0</h2></div>
+	  			 <div><small> 원</small></div>
+	  		</div>
+	  		<div style = "display:flex; align-items:center; height: 7.5%;">
+	  			 <div style = "width: 60%; padding-left: 10%; font-size: 23px;">포인트</div>
+	  			 <div><h2 id = "pointprice">0</h2></div>
 	  			 <div><small> 원</small></div>
 	  		</div>
 	  		<div style = "display:flex; align-items:center; height: 20%;">
@@ -1063,6 +1069,19 @@ $(document).ready(function(){
   
   
   
+  <script>
+  	//포인트 천단위로 입력시키기 스크립트
+  	
+  	$("#pointinput").keyup(function(e) {
+  			var n = $(this).val(); 
+  			 n = Math.floor(n/1000) * 1000;
+  			 if(n>=1000){
+  		     $(this).val(n);
+  			 }
+		});
+  
+  </script>
+  
   
   <script>
   	//총 상품 금액 스크립트
@@ -1079,7 +1098,36 @@ $(document).ready(function(){
   		document.getElementById('propribill').innerText = prototal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   	}
   	
-	updateproTotalPrice();
+  	updateproTotalPrice();
+  	
+  	
+  //총 금액 스크립트
+		
+	document.getElementById('totalbill').innerText = 
+	document.getElementById('propribill').innerText;
+	
+  
+ 	//포인트 금액 및 총 금액 스크립트
+ 	const totalbill = document.getElementById('totalbill').innerText;
+		$("#pointinput").keyup(function(e) {
+			var content = $(this).val();
+			$("#pointprice").text('-'+content.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); //실시간 포인트 
+			$("#totalbill").text( (parseInt(totalbill.replace(/,/g,""))+parseInt(document.getElementById('pointprice').innerText.replace(/,/g,""))).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+			if (content > ${loginUser.memBalance}) {
+				alert('잔여 포인트보다 더 사용할 수 없습니다');
+				$(this).val(0);
+				$("#pointprice").text(0);
+				$("#totalbill").text(totalbill);
+			}
+		});
+ 	
+ 	
+ 		
+	
+	
+	
+	
+	
   
   </script>
 
@@ -1092,7 +1140,6 @@ $(document).ready(function(){
  	function checkall(){
  		
  		var count = 0;
- 		var mecount = 0;
  		
  		for(var i=0; i<=3; i++){
  			
@@ -1106,36 +1153,22 @@ $(document).ready(function(){
  			count++;
  		}
  		
- 		for(pm of document.getElementsByClassName('paymethod')){
  			
- 			if(pm.checked == true){
- 				
- 				mecount++;
- 				break;
- 			}
- 			
- 		}
- 			if(count == 4 && mecount == 0){
+ 		
+ 		if(count == 4 && !document.getElementsByClassName('paymethod')[0].checked){
  				
  				alert('결제 수단을 선택해주세요.')
  			}
  				
- 		if(count == 4 && mecount == 1 ){
+ 		if(count == 4 && document.getElementsByClassName('paymethod')[0].checked ){
  			
- 			if(document.getElementsByClassName('paymethod')[0].checked == true){
  				requestpay();
- 			}else{
- 				alert('포인트 결제');
  			}
  		}
- 	}
   
   
   
   </script>
-
-
-
 
 
 
@@ -1168,7 +1201,19 @@ $(document).ready(function(){
 		document.getElementById('sample6_detailAddress').value.trim();
 	 const postcode = document.getElementById('sample6_postcode').value.trim();
 	 
-	 
+	 var deliveryMsg = "";
+
+		if(document.getElementById('messel').options[0].selected){
+			
+			deliveryMsg = 'none';
+		}
+		else if(document.getElementById('messel').options[6].selected){
+			
+			deliveryMsg = document.getElementById('messagetext').value.trim();
+		}
+		else{
+			deliveryMsg = document.getElementById('messel').value;
+		}
 	 
 	 
 	 
@@ -1188,7 +1233,7 @@ $(document).ready(function(){
 		
 	    if (rsp.success) {
 	    	
-	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&merchant_uid="+rsp.merchant_uid;
+	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&merchant_uid="+rsp.merchant_uid+"&";
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청
