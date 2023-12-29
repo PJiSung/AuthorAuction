@@ -99,8 +99,10 @@
 	                  <td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
 	                  <td class="tableset-order05">${ c.conHope }</td>
 	                  <td class="tableset-order01">
-	                    <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">답변완료</div>
-	                    <div class="badgeset" style="width:45%; display: inline-block;">거절</div>
+	                    <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
+	                    	<intput type="button">수락	
+	                    </div>
+	                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">거절</div>
 	                  </td>
 	                </tr>
                 </c:forEach>
