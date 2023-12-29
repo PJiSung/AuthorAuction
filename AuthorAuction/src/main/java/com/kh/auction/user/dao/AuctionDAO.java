@@ -34,4 +34,13 @@ public interface AuctionDAO {
 
 	//입찰 성공시에 입찰내역 업데이트
 	void insertBiddingDetail(HashMap<String, Object> hm);
+	
+	//상세페이지 이동시 관심 목록 여부 확인
+	int likeCheck(HashMap<String, Object> hm);
+
+	//관심 목록 등록
+	int insertLike(HashMap<String, Object> hm);
+
+	//관심 목록 삭제
+	int deleteLike(HashMap<String, Object> hm);
 }

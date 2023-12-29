@@ -60,4 +60,21 @@ public class AuctionServiceImpl implements AuctionService{
 		
 		return updateAuctionPrice;
 	}
+
+	@Override //상세페이지 이동시 관심 목록 여부 확인
+	public int likeCheck(HashMap<String, Object> hm) {
+		return aDAO.likeCheck(hm);
+	}
+
+	@Override //관심목록 업데이트
+	public String updateInterest(HashMap<String, Object> hm) {
+		if(aDAO.likeCheck(hm) > 0) {
+			aDAO.insertLike(hm);
+			return "insert";
+		}else {
+			aDAO.deleteLike(hm);
+			return "delete";
+		}
+		
+	}
 }

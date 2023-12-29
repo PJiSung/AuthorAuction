@@ -19,4 +19,10 @@ public interface AuctionService {
 	//입찰 - ajax 이용해 환불한후에 바로 경매금액 업데이트
 	int insertBid(HashMap<String, Object> hm);
 
+	//상세 페이지 이동시 관심 목록 등록 확인
+	int likeCheck(HashMap<String, Object> hm);
+
+	//관심목록 업데이트
+	String updateInterest(HashMap<String, Object> hm);
+
 }
