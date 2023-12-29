@@ -80,7 +80,6 @@ public class ArtsController {
 		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
 		ArrayList<Wishlist> wlist = aService.selectWishlist(loginid);
 		
-		
 		model.addAttribute("loginid", loginid);
 		model.addAttribute("wlist", wlist);
 		

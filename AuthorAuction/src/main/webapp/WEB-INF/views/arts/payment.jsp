@@ -547,8 +547,6 @@ input.check_btn:checked + label:before{
 								<input type = "text" placeholder = "휴대폰 뒷자리" style = "width: 70%; height: 55%; border: 1px solid #aaa; text-align:center;" class = "ordererinfo">
 							</div>
 							<div style = " display:flex; align-items: center; height: 100%; width: 20%;" class = "check_wrap">
-								<input type = "checkbox"  style = "border: 1px solid #aaa;" class = "check_btn" id = "checksms">
-								<label for = "checksms"><span>SMS 수신동의</span></label>
 							</div>
 						</div>
 						<div style = " display:flex; align-items: center;height: 25%;">

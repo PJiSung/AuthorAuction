@@ -42,7 +42,6 @@ ul,li,ol{
 
 
 
-
 </style>
 	
 </head>
@@ -551,7 +550,7 @@ ul,li,ol{
 	  		</div>
 	  	</div>
 	  
-	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;" onclick = "location.href = 'payment.ar'">
+	  	<div style = "position:absolute; bottom: 0%; color: #fff; background-color:black; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; cursor:pointer;" onclick = "paymentar()" id = "gotopaybtn">
 	  		<h2>총 ${wlistsize}개 주문하기</h2>
 	  	</div>
 	  </div>
@@ -705,7 +704,30 @@ ul,li,ol{
   </script>
   
   
+  <script>
   
+  
+  
+  	//결제창으로 넘어가는 스크립트
+  	function paymentar(){
+  		if(${wlistsize} != 0){
+  			location.href = 'payment.ar';
+  		}else{
+  			alert('최소 1개 이상의 물건을 선택해주십시오.');
+  		}
+  	}
+  	
+  	
+  	//장바구니 물건 없을 떄 결제 버튼 회색으로 만들기 스크립트
+  	if(${wlistsize} == 0){
+  	   var btn = document.getElementById('gotopaybtn');
+  	 btn.style.backgroundColor = "gray";
+  	 btn.style.cursor = 'not-allowed';
+  	
+  	}
+  	
+  
+  </script>
   
   
   
