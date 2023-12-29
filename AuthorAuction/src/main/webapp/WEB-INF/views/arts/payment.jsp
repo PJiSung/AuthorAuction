@@ -725,7 +725,7 @@ input.check_btn:checked + label:before{
 							</div>
 							<div style = "width: 80%; height: 100%; display:flex; align-items: center;">
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #555"><h5>포인트 사용</h5></div>
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "number" min="0" max="${loginUser.memBalance}" step = "1000" id = "pointinput"></div> 
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "number" min="1000" max="${loginUser.memBalance}" step = "1000" id = "pointinput"></div> 
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : ${loginUser.memBalance}p)</div>
 							</div>
 						</div>
@@ -1172,8 +1172,6 @@ $(document).ready(function(){
 
 
 
-
-
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <!-- iamport.payment.js -->
@@ -1189,7 +1187,7 @@ $(document).ready(function(){
  function requestpay(){
 	 
 	 //물건가격 
-	 const amount = parseInt(document.getElementById('propribill').innerText)
+	 const amount = parseInt(document.getElementById('totalbill').innerText.replace(/,/g,""))
 	 const ordernum = Math.floor(Math.random()*1000000000*new Date().getMilliseconds());
 	 const ordererName = document.getElementsByClassName('ordererinfo')[0].value;
 	 const phoneNum = document.getElementsByClassName('ordererinfo')[1].value +  '-' + 
@@ -1214,8 +1212,8 @@ $(document).ready(function(){
 		else{
 			deliveryMsg = document.getElementById('messel').value;
 		}
-	 
-	 
+		
+	 var ordPoPrice = parseInt(document.getElementById('pointprice').innerText.replace(/,/g,"").split('-')[1]);
 	 
 	 
  IMP.request_pay({
@@ -1233,7 +1231,8 @@ $(document).ready(function(){
 		
 	    if (rsp.success) {
 	    	
-	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&merchant_uid="+rsp.merchant_uid+"&";
+	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginid}
+	    	+"&postcode="+postcode+"&address="+address;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청
