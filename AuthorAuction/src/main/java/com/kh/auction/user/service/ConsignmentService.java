@@ -30,5 +30,8 @@ public interface ConsignmentService {
 	// 글 삭제
 	int statusNConsignment(int conNo);
 
-
+	////////////////////////////////////////////////////////////////////////////////
+	
+	// 관리자 리스트
+	ArrayList<Consignment> selectUserList(String memId, PageInfo pi);
 }

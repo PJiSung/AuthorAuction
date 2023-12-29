@@ -22,7 +22,8 @@
   <link rel="stylesheet" href="consignment/css/plugin.css">
   <link rel="stylesheet" href="consignment/css/template.css">
   <link rel="stylesheet" href="consignment/css/common.css">
-  <link rel="stylesheet" href="consignment/css/style.css"></head>
+  <link rel="stylesheet" href="consignment/css/style.css">
+</head>
 
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -43,7 +44,7 @@
 			    <a class="textset-tit" style="font-size: 40px;">위탁 문의 내역(수정)</a>
 			</div>
           
-          	<form action="updateConsignment.co" method="post" enctype="multipart/form-data" id="attmForm">
+          	<form action="updateConsignment.co" method="post" enctype="multipart/form-data" id="attmForm"></form>
           	<input type="hidden" name="conNo" value="${ c.conNo }">
 	          <div class="dhead">
 	            <div>
@@ -120,7 +121,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 1</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" value="image/치즈 냥이.jpg">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -148,7 +149,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 3</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" >
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -162,7 +163,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 4</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" >
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -184,7 +185,18 @@
 	                    </label>
 	                  </div>
 	                  <br>
+	                  
+	                 <div style="width: 100%; height: 100px;">
+			          <img style="width:15%; display: inline-block; margin:1% 2% 0% 2%" class="contents-thumbimg" src="static/image/치즈 냥이.png" alt="앞면">
+			          <img style="width:15%; display: inline-block; margin:1% 2% 0% 2%" class="contents-thumbimg" src="" alt="썸네일이미지">
+			          <img style="width:15%; display: inline-block; margin:1% 2% 0% 2%" class="contents-thumbimg" src="" alt="썸네일이미지">
+			          <img style="width:15%; display: inline-block; margin:1% 2% 0% 2%" class="contents-thumbimg" src="" alt="썸네일이미지">
+			          <img style="width:15%; display: inline-block; margin:1% 2% 0% 2%" class="contents-thumbimg" src="" alt="썸네일이미지">
+	                  </div> 
 	                </div>
+	                
+	                
+	                
 	                
 	                <c:if test="${ c.conAdmStatus == 'N' }">
 		                <div class="contents-sign">
@@ -195,10 +207,10 @@
 	               
 	                <div id="modalSet1" class="modalset">
 	                  <div class="modal-header">
-	                    <h6 class="modal-title">수정 완료</h6>
+	                    <h6 class="modal-title">수정이 완료되었습니다.</h6>
 	                  </div>
 	                  <div class="modal-body">
-	                    <p> 수정이 완료되었습니다.
+	                    <p>
 	                  </div>
 	                  <div class="modal-footer">
 	                    <button type="button" class="btnset btnset-ghost modal-close">취소</button>
@@ -206,15 +218,16 @@
 	                  </div>
 	                </div>
 	                
+	                
 	                <div id="modalSet2" class="modalset">
 	                  <div class="modal-header">
 	                    <h6 class="modal-title">삭제하시겠습니까?</h6>
 	                  </div>
 	                  <div class="modal-body">
-	                    <p>삭제하시겠습니까?
+	                    <p>
 	                  </div>
 	                  <div class="modal-footer">
-	                    <button type="button" class="btnset btnset-ghost modal-close">취소</button>
+	                    <button type="reset" class="btnset btnset-ghost modal-close">취소</button>
 	                    <button type="button" class="btnset btnset-confirm" id="deleteConfirm">확인</button>
 	                  </div>
 	                </div>
@@ -249,28 +262,7 @@
 		}
 	</script>
 
-	<script>
-		const form = document.getElementById('attmForm');
-		document.getElementById('submitAttm').addEventListener('click', () =>{
-			const files = document.getElementsByName('file');
-			let isEmpty = true;
-			for(const f of files){
-				if(f.value != ''){
-					isEmpty = false;
-				}
-			} 
-			if(isEmpty){
-				$('modalChoice').modal('show');
-			} else {
-			form.delete();
-	
-			}
-		
-		});
-	</script>
 
-  
-  
   <script src="consignment/js/setting.js"></script>
   <script src="consignment/js/plugin.js"></script>
   <script src="consignment/js/template.js"></script>

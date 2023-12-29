@@ -87,19 +87,23 @@
 		order by att_no
 	</select>
 	
-	<update id="deleteConsignment">
+	<update id="deleteConsignment">														<!-- 글 삭제 -->
 		update consignment
 		set CON_DEL_STATUS = 'N'
 		where con_no = #{conNo}	
 	</update>
 	
-	<update id="statusNConsignment">
+	<update id="statusNConsignment">													<!-- 글 삭제 -->
 		update attachment
 		set ATT_STATUS = 'N'
 		where att_bno = #{conNo}
 	</update>
 	
-
+	<select id="selectUserList" resultType="Consignment">								<!-- 관리자 리스트 -->
+		select *
+		from consignment
+		
+	</select>
 
 	
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,18 +17,19 @@
   <meta property="og:image" content="https://웹사이트/images/opengraph.png">
   <meta property="og:url" content="https://웹사이트">
   <title>관리자 위탁 내역 | 침대</title>
-  <link rel="stylesheet" href="../resources/css/setting.css">
-  <link rel="stylesheet" href="../resources/css/plugin.css">
-  <link rel="stylesheet" href="../resources/css/template.css">
-  <link rel="stylesheet" href="../resources/css/common.css">
-  <link rel="stylesheet" href="../resources/css/style.css">
+  <link rel="stylesheet" href="consignment/css/setting.css">
+  <link rel="stylesheet" href="consignment/css/plugin.css">
+  <link rel="stylesheet" href="consignment/css/template.css">
+  <link rel="stylesheet" href="consignment/css/common.css">
+  <link rel="stylesheet" href="consignment/css/style.css">
 </head>
 
 <body>
+<jsp:include page="../common/header.jsp"/>
   <main class="th-layout-main ">
     <!-- [S]hooms-N48 -->
     <div class="hooms-N48" data-bid="no2CLZNtZF5">
-      <div class="contents-inner">
+      <div class="contents-inner" style="padding: 6rem 2.4rem 10rem;">
         <div class="contents-container container-md">
           <div class="textset">
             <a class="textset-tit">관리자(위탁 문의 내역)</a>
@@ -36,22 +38,23 @@
               <div class="date">
                 <span><a>조회 기간</a></span>
                 <span>
-                  <input type="date" class="con_startdate">
-                </span>
-                <span>
-                  <input type="date" class="con_enddate">
-                </span>
+				  <input type="date" class="con_startdate">
+				</span>
+				~
+				<span>
+				  <input type="date" class="con_enddate" style="margin-left:20px;">
+				</span>
                 <span>
                   <a>검색어</a>
-                  <select style="width: 5%; height: 2.7rem;">
+                  <select style="width: 5%; height: 3rem;" name="select">
                     <option>전체</option>
                     <option>작가명</option>
                     <option>작품명</option>
                   </select>
                   <input type="text" class="inputText" placeholder="" aria-label="내용" style="width: 10%;">
                 </span>
-                <span><button class="admsearch">검색</button></span>
-                <span><button class="admcancel">초기화</button></span>
+                <span><button type="submit" class="admsearch">검색</button></span>
+                <span><button type="reset" class="admcancel">초기화</button></span>
               </div>
             </div>
             <br><br>
@@ -81,128 +84,124 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="tableset-mobile">
-                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
-                  </td>
-                  <td class="tableset-tit tableset-order02" style="text-align: center;">
-                    <a href="javascript:void(0)">
-                      <span>rosa_kim</span>
-                    </a>
-                  </td>
-                  <td class="tableset-order05">김로사</td>
-                  <td class="tableset-order05">로롱이</td>
-                  <td class="tableset-order05">30*26cm</td>
-                  <td class="tableset-order05">KRW 100,000</td>
-                  <td class="tableset-order01">
-                    <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">답변완료</div>
-                    <div class="badgeset" style="width:45%; display: inline-block;">거절</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="tableset-mobile">
-                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
-                  </td>
-                  <td class="tableset-tit tableset-order02" style="text-align: center;">
-                    <a href="javascript:void(0)">
-                      <span>rosa_kim</span>
-                    </a>
-                  </td>
-                  <td class="tableset-order05">김로사</td>
-                  <td class="tableset-order05">김로롱이</td>
-                  <td class="tableset-order05">50*48cm</td>
-                  <td class="tableset-order05">KRW 150,000</td>
-                  <td class="tableset-order01">
-                    <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">답변완료</div>
-                    <div class="badgeset" style="width:45%; display: inline-block;">거절</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="tableset-mobile">
-                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
-                  </td>
-                  <td class="tableset-tit tableset-order02" style="text-align: center;">
-                    <a href="javascript:void(0)">
-                      <span>rosa_kim</span>
-                    </a>
-                  </td>
-                  <td class="tableset-order05">김로사</td>
-                  <td class="tableset-order05">로롱5</td>
-                  <td class="tableset-order05">60*72cm</td>
-                  <td class="tableset-order05">KRW 650,000</td>
-                  <td class="tableset-order05" style="color: green; font-size: 16px;">진행중인 경매</td>
-                </tr>
-                <tr>
-                  <td class="tableset-mobile">
-                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
-                  </td>
-                  <td class="tableset-tit tableset-order02" style="text-align: center;">
-                    <a href="javascript:void(0)">
-                      <span>rosa_kim</span>
-                    </a>
-                  </td>
-                  <td class="tableset-order05">김로사</td>
-                  <td class="tableset-order05">로롱4</td>
-                  <td class="tableset-order05">60*72cm</td>
-                  <td class="tableset-order05">KRW 300,000</td>
-                  <td class="tableset-order05" style="color: blue; font-size: 16px;">경매 예정</td>
-                </tr>
-                <tr>
-                  <td class="tableset-mobile">
-                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
-                  </td>
-                  <td class="tableset-tit tableset-order02" style="text-align: center;">
-                    <a href="javascript:void(0)">
-                      <span>rosa_kim</span>
-                    </a>
-                  </td>
-                  <td class="tableset-order05">김로사</td>
-                  <td class="tableset-order05">로롱3</td>
-                  <td class="tableset-order05">60*72cm</td>
-                  <td class="tableset-order05">KRW 350,000</td>
-                  <td class="tableset-order05" style="color: red; font-size: 16px;">종료된 경매</td>
-                </tr>
+	             <c:forEach items="${list}" var="c"> 
+	                <tr onclick="consignmentDetail(this.id)" id="${c.conNo}">
+	                  <td class="tableset-mobile">
+	                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
+	                  </td>
+	                  <td class="tableset-tit tableset-order02" style="text-align: center;">
+	                    <a href="javascript:void(0)">
+	                      <span>${c.memId}</span>
+	                    </a>
+	                  </td>
+	                  <td class="tableset-order05">${ c.conAuthor }</td>
+	                  <td class="tableset-order05">${ c.conProduct }</td>
+	                  <td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
+	                  <td class="tableset-order05">${ c.conHope }</td>
+	                  <td class="tableset-order01">
+	                    <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">답변완료</div>
+	                    <div class="badgeset" style="width:45%; display: inline-block;">거절</div>
+	                  </td>
+	                </tr>
+                </c:forEach>
               </tbody>
             </table>
             <input class="btnset btnset-lg" value="선택삭제" type="button">
           </div>
         </div>
+        
         <br><br><br>
-        <nav class="pagiset pagiset-line">
-          <div class="pagiset-ctrl">
-            <a class="pagiset-link pagiset-first" href="javascript:void(0)">
-              <span class="visually-hidden">처음</span>
-            </a>
-          </div>
-          <div class="pagiset-ctrl">
-            <a class="pagiset-link pagiset-prev" href="javascript:void(0)">
-              <span class="visually-hidden">이전</span>
-            </a>
-          </div>
-          <div class="pagiset-list">
-            <a class="pagiset-link active-fill" href="javascript:void(0)">1</a>
-            <a class="pagiset-link" href="javascript:void(0)">2</a>
-            <a class="pagiset-link" href="javascript:void(0)">3</a>
-          </div>
-          <div class="pagiset-ctrl">
-            <a class="pagiset-link pagiset-next" href="javascript:void(0)">
-              <span class="visually-hidden">다음</span>
-            </a>
-          </div>
-          <div class="pagiset-ctrl">
-            <a class="pagiset-link pagiset-last" href="javascript:void(0)">
-              <span class="visually-hidden">마지막</span>
-            </a>
-          </div>
-        </nav>
+        
+		<nav class="pagiset pagiset-line">
+			<c:if test="${ pi.currentPage <= 1 }">
+			   <div class="pagiset-ctrl">
+			      <a class="pagiset-link pagiset-first"> <span
+			         class="visually-hidden">처음</span>
+			      </a>
+			   </div>
+			   <div class="pagiset-ctrl">
+			      <a class="pagiset-link pagiset-prev"> <span
+			         class="visually-hidden">이전</span>
+			      </a>
+			   </div>
+			</c:if>
+			<c:if test="${ pi.currentPage > 1 }">
+			   <div class="pagiset-ctrl">
+			      <c:url var="goFirst" value="${ loc }">
+			         <c:param name="page" value="${ pi.startPage }"></c:param>
+			      </c:url>
+			      <a class="pagiset-link pagiset-first" href="${ goFirst }">
+			         <span class="visually-hidden">처음</span>
+			      </a>
+			   </div>
+			   <div class="pagiset-ctrl">
+			      <c:url var="goBack" value="${ loc }">
+			         <c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+			      </c:url>
+			      <a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
+			         class="visually-hidden">이전</span>
+			      </a>
+			   </div>
+			</c:if>
+			<div class="pagiset-list">
+			   <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }"
+			      var="p">
+			      <c:url var="goNum" value="${ loc }">
+			         <c:param name="page" value="${ p }"></c:param>
+			      </c:url>
+			      <c:choose>
+			         <c:when test="${p eq pi.currentPage}">
+			            <a class="pagiset-link active-fill" href="${ goNum }">${ p }</a>
+			         </c:when>
+			         <c:otherwise>
+			            <a class="pagiset-link" href="${ goNum }">${ p }</a>
+			         </c:otherwise>
+			      </c:choose>
+			   </c:forEach>
+			</div>
+			
+			<c:if test="${ pi.currentPage >= pi.maxPage }">
+			   <div class="pagiset-ctrl">
+			      <a class="pagiset-link pagiset-next"> <span
+			         class="visually-hidden">다음</span>
+			      </a>
+			   </div>
+			   <div class="pagiset-ctrl">
+			      <a class="pagiset-link pagiset-last"> <span
+			         class="visually-hidden">마지막</span>
+			      </a>
+			   </div>
+			</c:if>
+			<c:if test="${ pi.currentPage < pi.maxPage }">
+			   <div class="pagiset-ctrl">
+			      <c:url var="goNext" value="${ loc }">
+			         <c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+			      </c:url>
+			      <a class="pagiset-link pagiset-next" href="${ goNext }"> <span
+			         class="visually-hidden">다음</span>
+			      </a>
+			   </div>
+			   <div class="pagiset-ctrl">
+			      <c:url var="goList" value="${ loc }">
+			         <c:param name="page" value="${ pi.maxPage }"></c:param>
+			      </c:url>
+			      <a class="pagiset-link pagiset-last" href="${ goList }"> <span
+			         class="visually-hidden">마지막</span>
+			      </a>
+			   </div>
+			</c:if>
+		</nav>     
+
       </div>
     </div>
     <!-- [E]hooms-N48 -->
   </main>
-  <script src="../resources/js/setting.js"></script>
-  <script src="../resources/js/plugin.js"></script>
-  <script src="../resources/js/template.js"></script>
-  <script src="../resources/js/common.js"></script>
-  <script src="../resources/js/script.js"></script>
+<jsp:include page="../common/footer.jsp"/>    
+  
+  <script src="consignment/js/setting.js"></script>
+  <script src="consignment/js/plugin.js"></script>
+  <script src="consignment/js/template.js"></script>
+  <script src="consignment/js/common.js"></script>
+  <script src="consignment/js/script.js"></script>
 </body>
 </html>

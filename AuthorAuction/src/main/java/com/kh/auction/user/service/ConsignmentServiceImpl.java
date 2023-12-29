@@ -17,6 +17,7 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 
 	@Autowired
 	private ConsignmentDAO cDAO;
+	
 	// 위탁 문의 등록(글)
 	@Override
 	public int insertConsignment(Consignment c) {
@@ -65,15 +66,27 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	public ArrayList<Attachment> selectAttmConsignmentList(int conNo) {
 		return cDAO.selectAttmConsignmentList(conNo);
 	}
+	// 글 삭제
 	@Override
 	public int deleteConsignment(int conNo) {
 		return cDAO.deleteConsignment(conNo);
 	}
+	// 글 삭제
 	@Override
 	public int statusNConsignment(int conNo) {
 		return cDAO.statusNConsignment(conNo);
 	}
 
+	//////////////////////////////////////////////////////////////////////////////
 
+	// 관리자 리스트
+	@Override
+	public ArrayList<Consignment> selectUserList(String memId, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return cDAO.selectUserList(memId, rowBounds);
+	}
 	
 }
