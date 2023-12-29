@@ -32,6 +32,8 @@ public interface ArtsDAO {
 
 	int deletewisAll(String loginid);
 
+	int insertOrderDetail(HashMap<String, Object> map);
+
 
 	
 }

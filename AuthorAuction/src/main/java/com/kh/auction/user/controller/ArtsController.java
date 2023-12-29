@@ -90,13 +90,30 @@ public class ArtsController {
 	
 	@GetMapping("payresult.ar")
 	public String payresult(HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
-			@RequestParam("address") String address,@RequestParam("receiver") String receiver,@RequestParam("receiverPhone") String receiverPhone ) {
+			@RequestParam("address") String address,@RequestParam("receiver") String receiver,@RequestParam("receiverPhone") String receiverPhone,
+			@RequestParam("wisAmountfororder") int[] wisAmountfororder, @RequestParam("pronofororder") int[] pronofororder) {
+		
+		
+		int result = aService.insertOrder(order); 
+		
+		for(int i =0; i<pronofororder.length; i++) {
+			
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("ordNo", order.getOrdNo());
+			map.put("proNos", (Integer)pronofororder[i]);
+			map.put("odtNum", (Integer)wisAmountfororder[i]);
+			
+			int resultweq = aService.insertOrderDetail(map);
+			
+		}
+		
 		
 		
 		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
 		
+		
 		int resultwis = aService.deletewisAll(loginid);
-		int result = aService.insertOrder(order); 
+		
 		
     	
 		return "arts/payresult";

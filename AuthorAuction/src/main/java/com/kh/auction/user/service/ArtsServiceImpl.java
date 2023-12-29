@@ -81,4 +81,11 @@ public class ArtsServiceImpl implements ArtsService {
 		return aDAO.deletewisAll(loginid);
 	}
 	
+	@Override
+	public int insertOrderDetail(HashMap<String, Object> map) {
+		
+		
+		return aDAO.insertOrderDetail(map);
+	}
+	
 }

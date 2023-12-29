@@ -664,13 +664,14 @@ input.check_btn:checked + label:before{
 						</div>
 						
 						<c:forEach items = "${wlist}" var = "w">
+							<input type ="hidden" value = "${w.proNo}" class = "pronofororder">
 							<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
 								<img src = "sunwoo/images/img_basic_N42_3.png" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
 								<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
 									<p>${w.proName}</p>
 								</div>
 								<div style = "height: 80%; width: 10%; display:flex; align-items:center; justify-content:center;border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
-								     <p>${w.wisAmount}</p>
+								     <p class = "wisAmountfororder">${w.wisAmount}</p>
 								</div>
 								<div style = "height: 80%; width: 20%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
 								     <p style = "font-weight: bold; font-size: 20px;" class = "proprices">${w.wisAmount*w.proPrice}</p><small> 원</small>
@@ -1188,8 +1189,7 @@ $(document).ready(function(){
 </script>
 
 <script>
-	console.log(Math.floor(Math.random()*1000000000*new Date().getMilliseconds()));
-
+		
 </script>
 
 
@@ -1244,6 +1244,20 @@ $(document).ready(function(){
 		document.getElementsByClassName('deliveryinfo')[5].value.trim() + '-' +
 		document.getElementsByClassName('deliveryinfo')[6].value.trim();
 		
+		var pronofororder = [];
+		var wisAmountfororder= [];
+		
+		for(pro of document.getElementsByClassName('pronofororder')){
+			
+			pronofororder.push(parseInt(pro.value));
+			
+		}
+		
+		for(wisa of document.getElementsByClassName('wisAmountfororder')){
+			
+			wisAmountfororder.push(parseInt(wisa.innerText));
+		}
+		
 		
 	 
  IMP.request_pay({
@@ -1262,7 +1276,7 @@ $(document).ready(function(){
 	    if (rsp.success) {
 	    	
 	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginid}
-	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone;
+	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청

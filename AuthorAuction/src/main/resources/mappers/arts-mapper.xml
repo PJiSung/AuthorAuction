@@ -94,6 +94,12 @@
 		where MEM_ID = #{loginid}
 	</delete>
 	
+	
+	<insert id="insertOrderDetail">
+		insert into order_detail values(#{ordNo},#{proNos},#{odtNum})
+	
+	</insert>
+	
 		
 </mapper>
 
