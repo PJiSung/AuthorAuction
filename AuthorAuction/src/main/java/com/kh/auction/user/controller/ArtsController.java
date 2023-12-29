@@ -93,12 +93,10 @@ public class ArtsController {
 	public String payresult(HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
 			@RequestParam("address") String address,@RequestParam("receiver") String receiver,@RequestParam("receiverPhone") String receiverPhone ) {
 		
-		Wishlist w = new Wishlist();
-		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
-		w.setMemId(loginid);
-		w.setProNo(0);
 		
-		aService.deletewis(w);
+		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
+		
+		int resultwis = aService.deletewisAll(loginid);
 		int result = aService.insertOrder(order); 
 		
     	

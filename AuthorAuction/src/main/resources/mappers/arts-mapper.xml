@@ -69,10 +69,7 @@
 	
 	<delete id="deletewis">
 		delete from wishlist
-		where MEM_ID = #{memId} 
-			<if test = "proNo != '0'">
-			and PRO_NO = #{proNo}
-			</if>
+		where MEM_ID = #{memId} and PRO_NO = #{proNo}
 	</delete>
 		
 		
@@ -92,7 +89,10 @@
 	
 	</insert>
 	
-	
+	<delete id="deletewisAll">
+		delete from wishlist
+		where MEM_ID = #{loginid}
+	</delete>
 	
 		
 </mapper>

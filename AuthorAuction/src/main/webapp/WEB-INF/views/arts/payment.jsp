@@ -1189,6 +1189,11 @@ $(document).ready(function(){
 
 </script>
 
+<script>
+	console.log(Math.floor(Math.random()*1000000000*new Date().getMilliseconds()));
+
+</script>
+
 
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>

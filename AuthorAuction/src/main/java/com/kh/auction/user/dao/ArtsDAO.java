@@ -30,6 +30,8 @@ public interface ArtsDAO {
 
 	int insertOrder(Order order);
 
+	int deletewisAll(String loginid);
+
 
 	
 }

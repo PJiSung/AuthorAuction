@@ -26,6 +26,8 @@ public interface ArtsService {
 
 	int insertOrder(Order order);
 
+	int deletewisAll(String loginid);
+
 
 
 

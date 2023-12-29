@@ -75,4 +75,10 @@ public class ArtsServiceImpl implements ArtsService {
 		return aDAO.insertOrder(order);
 	}
 	
+	@Override
+	public int deletewisAll(String loginid) {
+		
+		return aDAO.deletewisAll(loginid);
+	}
+	
 }
