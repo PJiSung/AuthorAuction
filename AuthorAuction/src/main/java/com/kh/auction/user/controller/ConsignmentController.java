@@ -174,7 +174,7 @@ public class ConsignmentController {
 	}
 	
 	// 마이페이지 검색
-	@PostMapping("list.co")
+	@GetMapping("searchList.co")
 	public String searchConsignment(@RequestParam("select")String select,
 									@RequestParam("keyword")String keyword, Model model, 
 									@RequestParam(value = "page", defaultValue = "1")int page) {

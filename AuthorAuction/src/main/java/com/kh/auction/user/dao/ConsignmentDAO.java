@@ -35,6 +35,11 @@ public interface ConsignmentDAO {
 
 	int statusNConsignment(int conNo);
 
+	
+	
+	//////////////////////////////////////////////////////////////////
+	
+	ArrayList<Consignment> selectUserList(String memId, RowBounds rowBounds);
 
 
 
