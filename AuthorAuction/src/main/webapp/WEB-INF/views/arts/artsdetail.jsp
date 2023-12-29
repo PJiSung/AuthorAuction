@@ -31,6 +31,7 @@
 	<link rel="stylesheet" href="sunwoo/rosacss/rosamain.css">
 	<link rel="stylesheet" href="sunwoo/rosacss/rosastyle.css">
   
+   <script src = "sunwoo/jquery/jquery-3.7.1.min.js"></script>
   
   
   
@@ -470,7 +471,7 @@
           <div class="contents-right">
             <div class="contents-right-group">
               <div class="contents-brand">
-                <a href="javascript:void(0);">${p.proNo}</a>
+                <a href="javascript:void(0);" id = "proNo">${p.proNo}</a>
                 <div class="contents-brand-group">
                   <button class="contents-btn btn-like-line">
                     <img src="sunwoo/icons/ico_like_black_line.svg" alt="하트 라인 아이콘">
@@ -543,7 +544,7 @@
               </div>
             </div>
             <div class="contents-btn-group">
-              <button class="btnset btnset-line" type="button">장바구니</button>
+              <button class="btnset btnset-line" type="button" onclick = "addtowishlist()">장바구니</button>
               <button class="btnset" type="button">구매하기</button>
             </div>
           </div>
@@ -783,6 +784,35 @@
 </script>
 
   
+  <script>
+  		//장바구니에 물건 담든 스크립트
+  		function addtowishlist(){
+  			const proNo = parseInt(document.getElementById('proNo').innerText);
+  			var wisAmount = parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText);
+  			
+  		  $.ajax({
+			    url: 'addtowishlist.ar',
+			    type: 'GET',
+			    data: {
+			    	memId: ${loginid},
+			    	proNo: proNo,
+			    	wisAmount: wisAmount
+			    },
+			    success: function onData (msg) {
+			        alert(msg);
+			    },
+			    error: function onError (error) {
+			        console.error(error);
+			    }
+			});
+  		  
+  			
+  			
+  		}
+  
+  
+  
+  </script>
   
   
   <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->

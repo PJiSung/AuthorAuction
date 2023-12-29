@@ -100,6 +100,9 @@
 	
 	</insert>
 	
+	<insert id="addtowishlist">
+		insert into wishlist values(#{memId}, #{proNo}, #{wisAmount})
+	</insert>
 		
 </mapper>
 

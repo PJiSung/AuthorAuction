@@ -30,6 +30,8 @@ public interface ArtsService {
 
 	int insertOrderDetail(HashMap<String, Object> map);
 
+	int addtowishlist(Wishlist addwis);
+
 
 
 

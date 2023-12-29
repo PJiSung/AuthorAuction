@@ -64,10 +64,12 @@ public class ArtsController {
 	}
 	
 	@GetMapping("artsDetail.ar")
-	public String ArtsDetail(@RequestParam("proNo") int proNo,Model model) {
+	public String ArtsDetail(@RequestParam("proNo") int proNo,Model model,HttpSession session) {
 		
 		Product p = aService.selectArts(proNo);
+		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
 		model.addAttribute("p", p);
+		model.addAttribute("loginid", loginid);
 		
 		return "arts/artsdetail";
 		
@@ -152,38 +154,16 @@ public class ArtsController {
 	}
 	
 	
-	
-	
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-//	결제 컨트롤러
-	
 	@ResponseBody
-	@PostMapping("insertorder.ar")
-	public String insertorder(@RequestParam("imp_uid") String imp_uid, @RequestParam("merchant_uid") int merchant_uid) {
+	@GetMapping("addtowishlist.ar")
+	public String addtowishlist(Wishlist addwis) {
 		
-		System.out.println(imp_uid);
+		int result = aService.addtowishlist(addwis);
 		
 		
-//		aService.insertOrder(merchant_uid); 
 		
-		return "결제됐어";
+		return "장바구니에 물건이 담겼습니다.";
 	}
-	
 	
 	
 	

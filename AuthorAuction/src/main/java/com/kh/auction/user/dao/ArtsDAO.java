@@ -34,6 +34,8 @@ public interface ArtsDAO {
 
 	int insertOrderDetail(HashMap<String, Object> map);
 
+	int addtowishlist(Wishlist addwis);
+
 
 	
 }

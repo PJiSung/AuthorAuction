@@ -88,4 +88,9 @@ public class ArtsServiceImpl implements ArtsService {
 		return aDAO.insertOrderDetail(map);
 	}
 	
+	@Override
+	public int addtowishlist(Wishlist addwis) {
+		
+		return aDAO.addtowishlist(addwis);
+	}
 }
