@@ -687,9 +687,9 @@
   	
 
   	function checkamount(){
-  		var num = document.getElementsByClassName('contents-amount-num')[0].innerText;
+  		var num = parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText);
 
-  		if(num+2>amount){
+  		if(num+1>amount){
   			alert('주문가능 수량을 초과했습니다');
   			document.getElementsByClassName('contents-amount-num')[0].innerText = num-1;
   		}
