@@ -36,6 +36,8 @@ public interface ArtsDAO {
 
 	int addtowishlist(Wishlist addwis);
 
+	int selectWish(Wishlist w);
+
 
 	
 }

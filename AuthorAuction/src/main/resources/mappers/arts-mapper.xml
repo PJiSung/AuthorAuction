@@ -104,5 +104,11 @@
 		insert into wishlist values(#{memId}, #{proNo}, #{wisAmount})
 	</insert>
 		
+	<select id="selectWish" resultType = "_int">
+		select count(*)
+		from wishlist
+		where MEM_ID = #{memId} and PRO_NO = #{proNo}
+	
+	</select>	
 </mapper>
 

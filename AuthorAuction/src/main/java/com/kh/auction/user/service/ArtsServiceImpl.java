@@ -93,4 +93,11 @@ public class ArtsServiceImpl implements ArtsService {
 		
 		return aDAO.addtowishlist(addwis);
 	}
+	
+	@Override
+	public int selectWish(Wishlist w) {
+		
+		
+		return aDAO.selectWish(w);
+	}
 }

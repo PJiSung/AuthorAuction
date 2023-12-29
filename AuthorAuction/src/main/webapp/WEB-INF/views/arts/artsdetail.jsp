@@ -785,8 +785,16 @@
 
   
   <script>
+  
+  
+  
+  	
   		//장바구니에 물건 담든 스크립트
+  
   		function addtowishlist(){
+  			
+  			if(${countwis} == 0){	
+  				
   			const proNo = parseInt(document.getElementById('proNo').innerText);
   			var wisAmount = parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText);
   			
@@ -800,17 +808,33 @@
 			    },
 			    success: function onData (msg) {
 			        alert(msg);
+			        var btn = document.getElementsByClassName('btnset-line')[0];
+			  		 btn.style.backgroundColor = "#bbb";
+			  		 btn.style.cursor = 'not-allowed';
+			  		 
 			    },
 			    error: function onError (error) {
 			        console.error(error);
 			    }
 			});
-  		  
+  		}else{
   			
-  			
+  			alert('장바구니에 이미 물건이 담겼습니다.');
   		}
+  	}	
   
+  </script>
   
+  <script>
+  		//장바구니 버튼 바꾸기 스크립트
+  	
+  		if(${countwis} != 0){
+  			
+  	   var btn = document.getElementsByClassName('btnset-line')[0];
+  		 btn.style.backgroundColor = "#bbb";
+  		 btn.style.cursor = 'not-allowed';
+  	
+  	}
   
   </script>
   

@@ -68,8 +68,19 @@ public class ArtsController {
 		
 		Product p = aService.selectArts(proNo);
 		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
+		
+		
+		Wishlist w = new Wishlist();
+		
+		w.setMemId(loginid);
+		w.setProNo(proNo);
+		
+		
+		int countwis = aService.selectWish(w);
+		
 		model.addAttribute("p", p);
 		model.addAttribute("loginid", loginid);
+		model.addAttribute("countwis", countwis);
 		
 		return "arts/artsdetail";
 		

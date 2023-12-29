@@ -32,6 +32,8 @@ public interface ArtsService {
 
 	int addtowishlist(Wishlist addwis);
 
+	int selectWish(Wishlist w);
+
 
 
 
