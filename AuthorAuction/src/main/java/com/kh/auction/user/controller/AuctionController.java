@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.auction.common.config.Pagination;
+import com.kh.auction.member.service.MemberService;
 import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
@@ -26,6 +27,9 @@ public class AuctionController {
 	
 	@Autowired
 	private AuctionService aService;
+	
+	@Autowired
+	private MemberService mService;
 	
 	@GetMapping("auctionList.ac") 
 	public String moveToAuctionList(@RequestParam(value="page", defaultValue="1") int page, Model model) {
@@ -65,7 +69,7 @@ public class AuctionController {
 		 */
 		model.addAttribute("auction",auction);
 		model.addAttribute("page", page);
-		
+//		model.addAttribute("",);
 		return "/auction/auctionDetail";
 	}
 	
@@ -82,16 +86,12 @@ public class AuctionController {
 		hm.put("aucNo", aucNo);
 		hm.put("id", m.getMemId());
 		
-		
-		
-		
-		
 		//insert all을 이용해서 입찰내역 및 경매의 내용 변경
 		int result = aService.insertBid(hm);
 		
 		if(result > 0) {
 			 Auction updateAuction = aService.getAuctionDetail(aucNo);
-			 
+			 m = mService.login(m);
 			 
 			 JSONObject jsonObject = new JSONObject();
 			 JSONArray jArr = new JSONArray();

@@ -4,13 +4,13 @@
 
 	<select id="getAllAuction" resultType="Auction">
 		<![CDATA[
-		select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
-				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
+		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_hope, con_etc, att_rename
 		from auction
 		    join (select *
 		    		from consignment 
-		    			join attachment on (con_no = att_bno) 
+		    			join attachment on (con_no = att_bno)
 		    		where att_category = 2) on (auc_no = con_no)
 		where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
         		TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS')
@@ -18,8 +18,8 @@
 	</select>
 	
 	<select id="getAuctionDetail" resultType="Auction">
-		select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
-				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
+		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price, to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_hope, con_etc, att_rename
 		from auction
 		    join (select *
@@ -29,9 +29,9 @@
 		where auc_no = #{aucNo}
 	</select>
 	
-	<select id="getAdminSearchList">
-		select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
-				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
+	<select id="getAdminSearchList" resultType="Auction">
+		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_hope, con_etc, att_rename
 		from auction
 		    join (select *
@@ -90,17 +90,23 @@
 		</if>
 	</select>
 	
-	<update id="insertBid" parameterType="java.util.Map">
-		<![CDATA[
+	
+	
+	
+
+	<update id="insertBid"> <!-- 경매 참여했을때 유동적으로 잘 들어가는지 확인 -->
 		update auction
-		set auc_finish_price = #{bidMoney}
+		set auc_finish_price = #{bidMoney}, auc_mem_id = #{id}
+		<![CDATA[
 		where (auc_finish_price < #{bidMoney} or nvl(auc_finish_price,0) < #{bidMoney}) and auc_no = #{aucNo}
 		]]>
 	</update>
-	
-	<insert id="insertBiddingDetail">
-		insert into bidding_Detail values(bdd_seq.nextval, #{bidMoney}, #{aucNo}, #{id})
-	</insert>
+
+	<update id="returnUnsold">
+		update member
+		set mem_balance = mem_balance + #{beforeBidMoney}
+		where mem_id = #{beforeId}
+	</update>
 	
 	<update id="updateMoneyInsertBid">
 		update member
@@ -108,8 +114,18 @@
 		where mem_id = #{id}
 	</update>
 	
-	<update id="updateMoneyUnsold"> <!-- 경매 참여했을때 유동적으로 잘 들어가는지 확인 -->
-		update member
+	<insert id="insertBiddingDetail">
+		insert into bidding_Detail values(bdd_seq.nextval, #{bidMoney}, #{aucNo}, #{id})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- update member
 		set mem_balance = mem_balance + nvl((SELECT bid_price
 		                                 FROM (
 		                                     SELECT bid_price, ROWNUM as rnum
@@ -130,8 +146,9 @@
 		        order by bid_price desc
 		    )
 		)
-		where rnum=2)
-	</update>
+		where rnum=2) -->
+
+
 
 
 	<!-- <select id="getAdminSearchList">

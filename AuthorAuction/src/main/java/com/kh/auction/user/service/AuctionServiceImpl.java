@@ -15,7 +15,7 @@ public class AuctionServiceImpl implements AuctionService{
 	@Autowired
 	private AuctionDAO aDAO;
 	
-	@Override //진행중인 경매를 가지고옴
+	@Override //진행중인 모든 경매를 가지고옴
 	public ArrayList<Auction> getAllAuction() {
 		return aDAO.getAllAuction();
 	}
@@ -30,23 +30,34 @@ public class AuctionServiceImpl implements AuctionService{
 		return aDAO.getAdminSearchList(hm);
 	}
 
-	@Override //입찰 - ajax 이용한 입찰 + insert all을 이용해서 입찰내역 및 경매의 내용 변경
+	@Override //입찰 - ajax 이용해 환불한후에 바로 경매금액 업데이트 및 입찰내역 업데이트 입찰자 금액감소
 	public int insertBid(HashMap<String, Object> hm) {
+		
+		
+		//입찰전 환불을 위해서 이전 경매의 정보를 다 들고옴
+		int aucNo = (int) hm.get("aucNo");
+		Auction beforeAuction = aDAO.getAuctionDetail(aucNo);
+		hm.put("beforeBidMoney", (int)beforeAuction.getAucFinishPrice());
+		hm.put("beforeId", (String)beforeAuction.getAucMemId());
+		
+		
+		//경매금액 업데이트
 		int updateAuctionPrice = aDAO.insertBid(hm);
 		
 		if(updateAuctionPrice > 0) {
-			//입찰 성공시에 입찰내역 업데이트
-			int insertBiddingDetail = aDAO.insertBiddingDetail(hm);
-			
-			//전 입찰자에게 금액 복구			
-			aDAO.updateMoneyUnsold(hm);
+			//유찰된 금액 환불
+			if(hm.get("beforeId") != null) {
+				aDAO.returnUnsold(hm);
+			}
 			
 			//입찰성공시에 금액 감소 
 			aDAO.updateMoneyInsertBid(hm);
 			
-			return insertBiddingDetail;
-		}else {
-			return updateAuctionPrice;
+			//입찰 성공시에 입찰내역 업데이트
+			aDAO.insertBiddingDetail(hm);
+			
 		}
+		
+		return updateAuctionPrice;
 	}
 }
