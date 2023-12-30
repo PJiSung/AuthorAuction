@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.common.config.Pagination;
+import com.kh.auction.user.model.vo.Keyword;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
@@ -45,7 +46,20 @@ public class ArtsController {
 	}
 	
 	@GetMapping("artslist.ar")
-	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request) {
+	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request, @ModelAttribute Keyword keyword, @RequestParam(value = "materiallist", required = false, defaultValue = "") String[] materiallist) {
+		
+		
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		System.out.println(keyword);
+
+		for(String s  : materiallist) {
+			
+			System.out.println(s);
+		}
+		
+		
+		
+		
 		
 		int currentPage = page;
 		

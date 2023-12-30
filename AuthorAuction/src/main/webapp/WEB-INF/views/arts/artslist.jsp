@@ -36,7 +36,7 @@
 	  
   
   
-  
+   <script src = "sunwoo/jquery/jquery-3.7.1.min.js"></script>
 
   
   
@@ -476,8 +476,8 @@
                       <div class="accordset-content">
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;">적용</button>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명" id = "keyword">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -490,10 +490,10 @@
                       <div class="accordset-content">
                         <div class="radioset" style = "flex-direction: column;">
                           <span class="radioset-text"></span>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상" id = "minPrice">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;">적용</button>
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하" id = "maxPrice">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;" onclick = "conditionfunc('price')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -505,29 +505,29 @@
                     <div class="accordset-body">
                       <div class="accordset-content">
                         <div class="checkset">
-                          <input id="checkset-3-1" class="checkset-input input-round" type="checkbox" value="">
+                          <input id="checkset-3-1" class="checkset-input input-round cccmaterial" type="checkbox" value="캔버스">
                           <label class="checkset-label" for="checkset-3-1"></label>
                           <span class="checkset-text">캔버스</span>
                         </div>
                         <div class="checkset">
-                          <input id="checkset-3-2" class="checkset-input input-round" type="checkbox" value="">
+                          <input id="checkset-3-2" class="checkset-input input-round cccmaterial" type="checkbox" value="종이">
                           <label class="checkset-label" for="checkset-3-2"></label>
                           <span class="checkset-text">종이</span>
                         </div>
                         <div class="checkset">
-                          <input id="checkset-3-3" class="checkset-input input-round" type="checkbox" value="">
+                          <input id="checkset-3-3" class="checkset-input input-round cccmaterial" type="checkbox" value="점토">
                           <label class="checkset-label" for="checkset-3-3"></label>
                           <span class="checkset-text">점토</span>
                         </div>
                         <div class="checkset">
-                          <input id="checkset-3-4" class="checkset-input input-round" type="checkbox" value="">
+                          <input id="checkset-3-4" class="checkset-input input-round cccmaterial" type="checkbox" value="나무">
                           <label class="checkset-label" for="checkset-3-4"></label>
                           <span class="checkset-text">나무</span>
                         </div>
                           <div class="checkset" style = "flex-direction:column;">
                            <span class="checkset-text"></span>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;">적용</button>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료" id = "materialinput">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('material')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -540,10 +540,10 @@
                       <div class="accordset-content">
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "가로(단위: cm)">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "가로(단위: cm)" id = "width">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; "></div>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "세로(단위: cm)">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;">적용</button>
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "세로(단위: cm)" id = "height">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;" onclick = "conditionfunc('size')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -800,10 +800,67 @@
  			
 			p.children[0].innerText = p.children[0].innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","); 	
  	}
+ 	
+ </script>
+ 
+ <script>
+ 	//검색 가격,가로세로 숫자만 들어가도록하는 스크립트
+ 	
+		$("#minPrice").keyup(function(e) {
+			var content = $(this).val();
+			var regex = /[^0-9]/g;	
+			$(this).val(content.replace(regex, ""));
+		});
+		
+ 	
+		$("#width").keyup(function(e) {
+			var content = $(this).val();
+			var regex = /[^0-9]/g;	
+			$(this).val(content.replace(regex, ""));
+		});
+		
+		
+		$("#height").keyup(function(e) {
+			var content = $(this).val();
+			var regex = /[^0-9]/g;	
+			$(this).val(content.replace(regex, ""));
+		});
+		
+ 	
+ 	
+		$("#maxPrice").keyup(function(e) {
+			var content = $(this).val();
+			var regex = /[^0-9]/g;	
+			$(this).val(content.replace(regex, ""));
+		});
+		
  
  </script>
   
   
+  <script>
+  	function conditionfunc(kind){
+  		
+  			var keyword = document.getElementById('keyword').value.trim();
+  			var maxPrice = document.getElementById('maxPrice').value.trim() == '' ? 0 : document.getElementById('maxPrice').value.trim();
+  			var minPrice = document.getElementById('minPrice').value.trim() == '' ? 0 : document.getElementById('minPrice').value.trim();
+  			var width = document.getElementById('width').value.trim() == '' ? 0 : document.getElementById('width').value.trim();
+  			var height = document.getElementById('height').value.trim() == '' ? 0 : document.getElementById('height').value.trim();
+  			var mclist = [];
+  			for(mc of document.getElementsByClassName('cccmaterial')){
+  				if(mc.checked == true){
+  					mclist.push(mc.value);
+  				}
+  			}
+  			mclist.push(document.getElementById('materialinput').value.trim());
+  			
+			
+  			location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+mclist+"&height="+height+"&width="+width;
+  		
+  	}  	
+  
+  
+  </script>
   
   
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
