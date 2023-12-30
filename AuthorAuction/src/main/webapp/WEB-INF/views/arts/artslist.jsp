@@ -852,11 +852,15 @@
   					mclist.push(mc.value);
   				}
   			}
-  			mclist.push(document.getElementById('materialinput').value.trim());
-  			
-			
-  			location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+mclist+"&height="+height+"&width="+width;
-  		
+  				if(document.getElementById('materialinput').value.trim() != ''){
+  				mclist.push(document.getElementById('materialinput').value.trim());
+  				}
+  				
+  				if(mclist.length !=0){
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+mclist+"&height="+height+"&width="+width;
+  				}else{
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&height="+height+"&width="+width;
+  				}
   	}  	
   
   

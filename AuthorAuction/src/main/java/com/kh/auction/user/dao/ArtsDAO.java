@@ -14,11 +14,11 @@ import com.kh.auction.user.model.vo.Wishlist;
 @Mapper
 public interface ArtsDAO {
 
-	ArrayList<Product> selectArtslist(RowBounds rowBounds);
+	ArrayList<Product> selectArtslist(RowBounds rowBounds, HashMap<String, Object> map);
 
 	ArrayList<Wishlist> selectWishlist(String loginid);
 
-	int getListCount();
+	int getListCount(HashMap<String, Object> map);
 
 	Product selectArts(int proNo);
 

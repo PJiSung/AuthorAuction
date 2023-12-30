@@ -6,6 +6,31 @@
 	<select id="getListCount" resultType = "_int">
 			select count(*)
 			from product
+			where 1=1
+			<if test="keyword != null">
+			and (PRO_NAME like '%'||#{keyword}||'%'
+			or PRO_WRITER like '%'||#{keyword}||'%')
+			</if>
+			<if test="materiallist != null">
+			and PRO_MATERIAL IN 
+				 <foreach collection = "materiallist" item = "material" open="(" separator="," close=")">
+		 			#{material}
+				</foreach>
+			</if>	
+		<if test="minPrice != 0">
+		and PRO_PRICE <![CDATA[ >=]]> #{minPrice} 
+		</if>
+		<if test="maxPrice != 0">
+		and PRO_PRICE <![CDATA[ <= ]]> #{maxPrice} 
+		</if>
+		<if test="height != 0">
+		and PRO_HEIGHT <![CDATA[ <= ]]> #{height} 
+		</if>
+		<if test="width != 0">
+		and PRO_WIDTH <![CDATA[ <= ]]> #{width} 
+		</if>
+		
+		
 		
 	</select>
 	
@@ -14,8 +39,36 @@
 		
 		SELECT *
 		FROM PRODUCT
+		where 1=1
+			<if test="keyword != null">
+			and (PRO_NAME like '%'||#{keyword}||'%'
+			or PRO_WRITER like '%'||#{keyword}||'%')
+			</if>
+			<if test="materiallist != null">
+			and PRO_MATERIAL IN 
+				 <foreach collection = "materiallist" item = "material" open="(" separator="," close=")">
+		 			#{material}
+				</foreach>
+			</if>	
+		<if test="minPrice != 0">
+		and PRO_PRICE <![CDATA[ >=]]> #{minPrice} 
+		</if>
+		<if test="maxPrice != 0">
+		and PRO_PRICE <![CDATA[ <= ]]> #{maxPrice} 
+		</if>
+		<if test="height != 0">
+		and PRO_HEIGHT <![CDATA[ <= ]]> #{height} 
+		</if>
+		<if test="width != 0">
+		and PRO_WIDTH <![CDATA[ <= ]]> #{width} 
+		</if>
 		order by pro_no desc
 	</select>
+	
+	
+	
+	
+	
 	
 	<resultMap type="Product" id="promap">
 		<id column="PRO_NO" property="proNo"/>

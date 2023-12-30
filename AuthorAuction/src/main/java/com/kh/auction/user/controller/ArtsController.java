@@ -46,28 +46,29 @@ public class ArtsController {
 	}
 	
 	@GetMapping("artslist.ar")
-	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request, @ModelAttribute Keyword keyword, @RequestParam(value = "materiallist", required = false, defaultValue = "") String[] materiallist) {
+	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request, @ModelAttribute Keyword keyword, @RequestParam(value = "materiallist", required = false) String[] materiallist) {
 		
 		
 		HashMap<String, Object> map = new HashMap<String,Object>();
-		System.out.println(keyword);
-
-		for(String s  : materiallist) {
+		map.put("keyword", keyword.getKeyword());
+		map.put("height", keyword.getHeight());
+		map.put("width", keyword.getWidth());
+		map.put("maxPrice", keyword.getMaxPrice());
+		map.put("minPrice", keyword.getMinPrice());
+		map.put("materiallist", materiallist);
 			
-			System.out.println(s);
-		}
 		
-		
-		
+		System.out.println(keyword);
+		System.out.println(materiallist);
 		
 		
 		int currentPage = page;
 		
-		int listCount = aService.getlistCount();
+		int listCount = aService.getlistCount(map);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
 		
-		ArrayList<Product> plist = aService.selectArtslist(pi);
+		ArrayList<Product> plist = aService.selectArtslist(pi,map);
 		model.addAttribute("plistsize", plist.size());
 		model.addAttribute("plist", plist);
 		model.addAttribute("loc", request.getRequestURI());

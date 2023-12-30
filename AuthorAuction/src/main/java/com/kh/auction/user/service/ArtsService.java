@@ -10,11 +10,11 @@ import com.kh.auction.user.model.vo.Wishlist;
 
 public interface ArtsService {
 
-	ArrayList<Product> selectArtslist(PageInfo pi);
+	ArrayList<Product> selectArtslist(PageInfo pi, HashMap<String, Object> map);
 
 	ArrayList<Wishlist> selectWishlist(String loginid);
 
-	int getlistCount();
+	int getlistCount(HashMap<String, Object> map);
 
 	Product selectArts(int proNo);
 
