@@ -457,6 +457,34 @@
             <button class="contents-btn btn-filter" type="button">
               <img src="sunwoo/icons/ico_filter_black.svg" alt="모바일 필터 아이콘">
             </button>
+            
+                  
+         <div class="contents-badge-group">
+       	  <c:if test= "${keyword.keyword != null and keyword.keyword != ''}">
+        	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
+         	   <span class="badgeset-text">${keyword.keyword } &nbsp &times;</span>
+         	 </div>
+          </c:if>
+            <c:if test= "${keyword.minPrice != 0}">
+        	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
+         	   <span class="badgeset-text">최소 가격 : ${keyword.minPrice } &nbsp &times;</span>
+         	 </div>
+          </c:if>
+            <c:if test= "${keyword.maxPrice != 0}">
+        	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
+         	   <span class="badgeset-text">최대 가격 : ${keyword.maxPrice } &nbsp &times;</span>
+         	 </div>
+          </c:if>
+           <c:if test= "${materiallist != null}">
+           	 <c:forEach items = "${materiallist}" var = "m" >
+        	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
+         	   <span class="badgeset-text">${m} &nbsp &times;</span>
+         	 </div>
+         	 </c:forEach>
+          </c:if>
+        </div>
+        
+        
           </div>
           <div class="contents-body">
             <div class="contents-left">
@@ -466,6 +494,9 @@
                   <img src="sunwoo/icons/ico_close_black.svg" alt="닫기 아이콘">
                 </button>
               </div>
+              
+        
+              
               <div class="contents-filter-body">
                 <div class="accordset accordset-plus">
                   <div class="accordset-item">

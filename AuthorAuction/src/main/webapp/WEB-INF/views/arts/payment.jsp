@@ -1121,10 +1121,14 @@ $(document).ready(function(){
 		});
  	
  	
- 		
-	
-	
-	
+		
+		//포인트에 문자 못들어가게 막는 스크립트
+		$("#pointinput").keyup(function(e) {
+			var content = $(this).val();
+			var regex = /[^0-9]/g;	
+			$(this).val(content.replace(regex, ""));
+		});
+		
 	
 	
   

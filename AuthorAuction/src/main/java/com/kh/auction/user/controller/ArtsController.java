@@ -59,9 +59,6 @@ public class ArtsController {
 			
 		
 		System.out.println(keyword);
-		System.out.println(materiallist);
-		
-		
 		int currentPage = page;
 		
 		int listCount = aService.getlistCount(map);
@@ -69,6 +66,8 @@ public class ArtsController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
 		
 		ArrayList<Product> plist = aService.selectArtslist(pi,map);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("materiallist", materiallist);
 		model.addAttribute("plistsize", plist.size());
 		model.addAttribute("plist", plist);
 		model.addAttribute("loc", request.getRequestURI());
