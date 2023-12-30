@@ -24,9 +24,49 @@
   <link rel="stylesheet" href="consignment/css/style.css">
   
 <script type="text/javascript">
-	const userDetail = (conNo) =>{												<!-- 상세보기로 이동 -->
+	<!-- 상세보기로 이동 -->
+	const userDetail = (conNo) =>{												
 		location.href="selectUser.adco?conNo=" + conNo + "&page=" + ${pi.currentPage};
 	}
+
+    <!-- 전체선택 / 해제 -->
+		conNo =[];
+		<!-- 체크박스 선택 -->
+		const check1 = () =>{
+			const checkboxes = document.querySelectorAll('input[name="check"]');       // 전체 체크박스들
+            const checked = document.querySelectorAll('input[name="check"]:checked')   // 선택된 체크박스
+            const checkAll = document.querySelector('input[name="checkAll"]');         // 전체선택 박스
+          
+         	for(i=0; i < checked.length; i++){
+            
+          	}
+          
+          	if(checkboxes.length == checked.length){                           // 체크박스 전체개수 = 선택된 체크박스
+            	checkAll.checked = true;
+          	} else {
+            	checkAll.checked = false;
+          	}
+        }
+       	<!-- 전체 선택 -->
+      	const checkAll1 = () =>{
+        	const checkboxes = document.querySelectorAll("input[type=checkbox]");
+         	for(let i=1; i<checkboxes.length; i++){
+           		checkboxes[i].checked = checkboxes[0].checked;                     // 배열 갯수만큼 체크된 체크박스 = 전체선택 박스
+            }
+        } 
+      	<!-- 선택 삭제 -->
+      	const minus = () =>{
+        	const checkboxes = document.querySelectorAll("input[name='check']:checked");
+            const deleteIds = [];
+           
+            for(i=0; i<checkboxes.length; i++){
+               deleteIds[i] = checkboxes[i].id;
+               console.log(deleteIds[i]);
+            }
+            if(deleteIds.length != 0){
+               location.href = "checkDelete.adco?deleteIds="+deleteIds;
+            }
+      };     
 </script>
 </head>
 
@@ -42,80 +82,91 @@
             <br><br>
             <div class="date-box">
               <div class="date">
-                <span><a>조회 기간</a></span>
-                <span>
-				  <input type="date" class="con_startdate">
-				</span>
-				~
-				<span>
-				  <input type="date" class="con_enddate" style="margin-left:20px;">
-				</span>
-                <span>
-                  <a>검색어</a>
-                  <select style="width: 5%; height: 3rem;" name="select">
-                    <option>전체</option>
-                    <option>작가명</option>
-                    <option>작품명</option>
-                  </select>
-                  <input type="text" class="inputText" placeholder="" aria-label="내용" style="width: 10%;">
-                </span>
-                <span><button type="submit" class="admsearch">검색</button></span>
-                <span><button type="reset" class="admcancel">초기화</button></span>
+             	<form action="searchList.adco" class="searchForm">
+	                <span><a>조회 기간</a></span>
+	                <span>
+					  <input type="date" class="con_startdate">
+					</span>
+					~
+					<span>
+					  <input type="date" class="con_enddate" style="margin-left:20px;">
+					</span>
+	                <span>
+	                  <a>검색어</a>
+	                  <select style="width: 5%; height: 3rem;" name="select">
+	                    <option>전체</option>
+	                    <option>작가명</option>
+	                    <option>작품명</option>
+	                  </select>
+	                  <input type="text" class="inputText" value="" placeholder="작가명/작품명" name="keyword" aria-label="내용" style="width: 10%;">
+	                </span>
+	                <span><button type="submit" class="admsearch">검색</button></span>
+	                <span><button type="reset" class="admcancel">초기화</button></span>
+	             </form>   
               </div>
             </div>
             <br><br>
           </div>
-          <div class="tableset">
-            <table class="tableset-table table">
-              <colgroup>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-                <col>
-              </colgroup>
-              <thead class="thead-light thead-border-top">
-                <tr>
-                  <th scope="col">
-                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
-                  </th>
-                  <th scope="col">회원아이디</th>
-                  <th scope="col">작가명</th>
-                  <th scope="col">작품명</th>
-                  <th scope="col">작품의 크기</th>
-                  <th scope="col">희망가</th>
-                  <th scope="col">경매등록</th>
-                </tr>
-              </thead>
-              <tbody>
-	             <c:forEach items="${list}" var="c"> 
-	                <tr onclick="userDetail(this.id)" id="${c.conNo}">
-	                  <td class="tableset-mobile">
-	                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
-	                  </td>
-	                  <td class="tableset-tit tableset-order02" style="text-align: center;">
-	                    <a href="javascript:void(0)">
-	                      <span>${c.memId}</span>
-	                    </a>
-	                  </td>
-	                  <td class="tableset-order05">${ c.conAuthor }</td>
-	                  <td class="tableset-order05">${ c.conProduct }</td>
-	                  <td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
-	                  <td class="tableset-order05">${ c.conHope }</td>
-	                  <td class="tableset-order01">
-	                    <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
-	                    	<intput type="button">수락	
-	                    </div>
-	                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">거절</div>
-	                  </td>
+          <form action="list.adco" method="post" class="listForm">
+	          <div class="tableset">
+	            <table class="tableset-table table">
+	              <colgroup>
+	                <col>
+	                <col>
+	                <col>
+	                <col>
+	                <col>
+	                <col>
+	                <col>
+	              </colgroup>
+	              <thead class="thead-light thead-border-top">
+	                <tr>
+	                  <th scope="col">
+	                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" id="checkAll" name="checkAll" onclick="checkAll1()">
+	                  </th>
+	                  <th scope="col">회원아이디</th>
+	                  <th scope="col">작가명</th>
+	                  <th scope="col">작품명</th>
+	                  <th scope="col">작품의 크기</th>
+	                  <th scope="col">희망가</th>
+	                  <th scope="col">삭제여부</th>
+	                  <th scope="col">열람여부</th>
+	                  <th scope="col">승인여부</th>
 	                </tr>
-                </c:forEach>
-              </tbody>
-            </table>
-            <input class="btnset btnset-lg" value="선택삭제" type="button">
-          </div>
+	              </thead>
+	              <tbody>
+		             <c:forEach items="${list}" var="c"> 
+		                <tr onclick="userDetail(this.id)" id="${c.conNo}">
+		                  <td class="tableset-mobile"   onclick="javascript:event.stopPropagation();">
+		                   <!-- <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">	-->
+		                    <input id="${c.conNo}" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
+		                  </td>
+		                  <td class="tableset-tit tableset-order02" style="text-align: center;">
+		                    <a href="javascript:void(0)">
+		                      <span>${c.memId}</span>
+		                    </a>
+		                  </td>
+		                  <td class="tableset-order05">${ c.conAuthor }</td>
+		                  <td class="tableset-order05">${ c.conProduct }</td>
+		                  <td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
+		                  <td class="tableset-order05">${ c.conHope }</td>
+		                  <td class="tableset-order05">${ c.conDelStatus }</td>
+		                  <td class="tableset-order05">${ c.conAdmStatus }</td>
+		                  <td class="tableset-order01">
+		                   <!--  <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
+		                    	<intput type="button">수락	
+		                    </div>
+		                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">거절</div> -->
+		                  ${c.conConStatus }</td>
+		                  
+		                  <td><input type="hidden" value="${ c.conNo }" name="conNo"></td>
+		                </tr>
+	                </c:forEach>
+	              </tbody>
+	            </table>
+	            <input class="btnset btnset-lg" value="선택 삭제" type="button" id="deleteBtn();" name="deleteBtn" onclick="minus()">
+	          </div>
+	        </form>
         </div>
         
         <br><br><br>

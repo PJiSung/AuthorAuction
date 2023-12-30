@@ -57,22 +57,22 @@
 	                    <h6 class="inputset-tit"> 위탁자 이름 </h6>
 	                  </span>
 	                  <span>
-	                    <input type="text" class="inputset-input form-control" value="${ loginUser.memName }" name="memName" aria-label="내용" required="" readonly>
+	                    <input type="text" class="inputset-input form-control" value="${ m.memName }" name="memName" aria-label="내용" required="" readonly>
 	                  </span>
 	                </label>
 	                <label>
 	                  <h6 class="inputset-tit"> 주소 </h6>
-	                  <input type="text" class="inputset-input form-control" value="${ fn:split(loginUser.memAddress, '@')[0] } ${ fn:split(loginUser.memAddress, '@')[1] } ${ fn:split(loginUser.memAddress, '@')[2] }${ fn:split(loginUser.memAddress, '@')[3] }" name="memAddress" aria-label="내용" required="" readonly>
+	                  <input type="text" class="inputset-input form-control" value="${ fn:split(m.memAddress, '@')[0] } ${ fn:split(m.memAddress, '@')[1] } ${ fn:split(m.memAddress, '@')[2] }${ fn:split(m.memAddress, '@')[3] }" name="memAddress" aria-label="내용" required="" readonly>
 	                </label>
 	              </div>
 	              <div class="inputset inputset-lg inputset-label">
 	                <label>
 	                  <h6 class="inputset-tit"> 연락처 </h6>
-	                  <input type="tel" class="inputset-input form-control" value="${loginUser.memPhone}" name="memPhone" aria-label="내용" required="" readonly>
+	                  <input type="tel" class="inputset-input form-control" value="${m.memPhone}" name="memPhone" aria-label="내용" required="" readonly>
 	                </label>
 	                <label>
 	                  <h6 class="inputset-tit"> 이메일 </h6>
-	                  <input type="text" class="inputset-input form-control" value="${loginUser.memEmail}"name="memEmail" aria-label="내용" required="" readonly>
+	                  <input type="text" class="inputset-input form-control" value="${m.memEmail}"name="memEmail" aria-label="내용" required="" readonly>
 	                </label>
 	              </div>
 	            </div>
@@ -120,7 +120,7 @@
 	                    <label>
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 1</a>
+	                          <a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
 	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" value="image/치즈 냥이.jpg">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
@@ -134,7 +134,7 @@
 	                    <label>
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 2</a>
+	                          <a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
 	                          <input type="file" class="fileset-input" name="file" style="width: 83%;">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
@@ -148,7 +148,7 @@
 	                    <label>
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 3</a>
+	                          <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
 	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" >
 	                          <button class="fileset-cancel"></button>
 	                        </div>
@@ -162,7 +162,7 @@
 	                    <label>
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 4</a>
+	                          <a style="display: inline-block; width: 15%; text-align: center;">구매서류</a>
 	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" >
 	                          <button class="fileset-cancel"></button>
 	                        </div>
@@ -176,7 +176,7 @@
 	                    <label>
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 5</a>
+	                          <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
 	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
@@ -197,14 +197,22 @@
 	                
 	                
 	                
-	                
-	                <c:if test="${ c.conAdmStatus == 'N' }">
-		                <div class="contents-sign">
-		                  <button class="btnset modalset-btn" type="button" id="submitAttm">수정완료</button>
-		                  <button class="btnset modalset-btn" type="button" id="delete">삭제</button>
-		                </div>
+	                <c:if test="${ loginUser.memIsAdmin == 'N' }">
+		             <c:if test="${ c.conAdmStatus == 'N' }">
+			          <div class="contents-sign">
+			           <button class="btnset modalset-btn" type="button" id="submitAttm">수정완료</button>
+			           <button class="btnset modalset-btn" type="button" id="delete">삭제</button>
+			          </div>
+		             </c:if>
 	                </c:if>
-	               
+	                <c:if test="${ loginUser.memIsAdmin == 'Y' }">
+	                 <div class="contents-sign">
+			          <button class="btnset modalset-btn" type="button" id="submitAttm">수정완료</button>
+			          <button class="btnset modalset-btn" type="button" id="delete">삭제</button>
+			         </div>
+	                </c:if>
+	                
+	                
 	                <div id="modalSet1" class="modalset">
 	                  <div class="modal-header">
 	                    <h6 class="modal-title">수정이 완료되었습니다.</h6>

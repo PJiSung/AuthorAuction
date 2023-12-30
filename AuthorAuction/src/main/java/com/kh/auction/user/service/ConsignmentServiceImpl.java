@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.auction.user.dao.ConsignmentDAO;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 
 @Service
@@ -66,6 +67,16 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	public ArrayList<Attachment> selectAttmConsignmentList(int conNo) {
 		return cDAO.selectAttmConsignmentList(conNo);
 	}
+	// 관리자 열람여부
+	@Override
+	public int updateConAdmStatus(int conNo) {
+		return cDAO.updateConAdmStatus(conNo);
+	}
+	// 상세조회 멤버 가져옴
+	@Override
+	public Member selectMember(int conNo) {
+		return cDAO.selectMember(conNo);
+	}
 	// 글 삭제
 	@Override
 	public int deleteConsignment(int conNo) {
@@ -77,8 +88,17 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 		return cDAO.statusNConsignment(conNo);
 	}
 
+	
+	
 	//////////////////////////////////////////////////////////////////////////////
 
+	
+	
+	// 관리자 리스트
+	@Override
+	public int getListCount2(String memId) {
+		return cDAO.getListCount2(memId);
+	}
 	// 관리자 리스트
 	@Override
 	public ArrayList<Consignment> selectUserList(String memId, PageInfo pi) {
@@ -88,13 +108,41 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 		
 		return cDAO.selectUserList(memId, rowBounds);
 	}
+	// 관리자 상세조회
 	@Override
-	public Consignment selectUserList(int conNo) {
-		return cDAO.selectUserList(conNo);
+	public Consignment selectUser(int conNo) {
+		return cDAO.selectUser(conNo);
 	}
+	// 관리자 첨부 상세조회
 	@Override
-	public ArrayList<Consignment> selectUserAttmList(int conNo) {
-		return cDAO.selectUserAttmList(conNo);
+	public ArrayList<Consignment> selectAttmUserList(int conNo) {
+		return cDAO.selectAttmUserList(conNo);
 	}
+	// 관리자 체크 삭제
+	@Override
+	public void checkDelete(String[] deleteIds) {
+		cDAO.checkDelete(deleteIds);
+	}
+	// 관리자 조건 검색
+	@Override
+	public int searchCount2(HashMap<String, String> map) {
+		return cDAO.searchCount2(map);
+	}
+	// 관리자 조건 검색
+	@Override
+	public ArrayList<Consignment> searchList2(HashMap<String, String> map, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return cDAO.searchList2(map, rowBounds);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

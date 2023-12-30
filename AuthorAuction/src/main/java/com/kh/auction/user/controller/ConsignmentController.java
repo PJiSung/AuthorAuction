@@ -49,11 +49,12 @@ public class ConsignmentController {
 	public String insertConsignment(@ModelAttribute Consignment c,
 									@RequestParam(value="file", required=false) ArrayList<MultipartFile> files, HttpSession session, Member m) {
 //		c.setmemId("starcr222");
+		
 		// 현재 세션에 저장된 사용자 정보에서 회원 ID를 가져와서 위탁 정보 객체설정
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		if(loginUser != null) {
 			String id = loginUser.getMemId();
-			c.setmemId(id);
+			c.setMemId(id);
 		}
 		
 		// 첨부 파일 리스트를 담을 ArrayList를 생성
@@ -106,8 +107,12 @@ public class ConsignmentController {
 	}
 
 	public String saveFile(MultipartFile upload) {
-		String root = "C:\\";
-		String savePath = root + "\\uploadFiles";
+//		String root = "C:\\";
+//		String savePath = root + "\\uploadFiles";
+		
+		
+		String savePath = "/Users/kimgahyun/uploadFiles"; 				// 맥
+
 		
 		File folder = new File(savePath);
 		if(!folder.exists()) {
@@ -122,7 +127,12 @@ public class ConsignmentController {
 		String renameFileName = sdf.format(time) + ranNum + originFileName.substring(originFileName.lastIndexOf("."));
 		
 		// rename된 파일 저장소에 저장
-		String renamePath = folder + "\\" + renameFileName;	// 이름 변경	
+//		String renamePath = folder + "\\" + renameFileName;	// 이름 변경	
+	
+		
+		String renamePath = folder + File.separator + renameFileName;	// 맥
+
+		
 		try {
 			upload.transferTo(new File(renamePath));
 		} catch (IllegalStateException e) {
@@ -137,10 +147,15 @@ public class ConsignmentController {
 	}
 	
 	public void deleteFile(String fileName) {
-		String root = "C:\\";
-		String savePath = root + "\\uploadFiles";
+//		String root = "C:\\";
+//		String savePath = root + "\\uploadFiles";
 		
-		File f = new File(savePath + "\\" + fileName);
+		
+		String savePath = "/Users/kimgahyun/uploadFiles";				// 맥
+		
+		File f = new File(savePath + File.separator + fileName);		// 맥
+		
+//		File f = new File(savePath + "\\" + fileName);
 		if(f.exists()) {
 			f.delete();
 		}
@@ -203,9 +218,17 @@ public class ConsignmentController {
 	
 	// 상세조회
 	@GetMapping("selectConsignment.co")
-	public String selectConsignment(@RequestParam(value="conNo", defaultValue="1") int conNo, @RequestParam(value="page", defaultValue="1") String page,
+	public String selectConsignment(@RequestParam(value="conNo", defaultValue="1") int conNo, 
 							HttpSession session, Model model) {
 		
+		String isAdmin = ((Member)session.getAttribute("loginUser")).getMemIsAdmin();
+		
+		
+		if(isAdmin.equals("Y")) {
+			int result = cService.updateConAdmStatus(conNo);
+			System.out.println(result);
+		}
+		Member m = cService.selectMember(conNo);
 		Consignment c = cService.selectConsignment(conNo);					// 게시글 정보 조회
 		// 게시글의 첨부파일 목록 조회
 		ArrayList<Attachment> list = cService.selectAttmConsignmentList(conNo);		
@@ -213,9 +236,8 @@ public class ConsignmentController {
 		// 조회된 게시글이 null이 아닌 경우에만 모델에 추가하고 상세조회 페이지로 이동 
 		if(list != null) {		
 			model.addAttribute("c", c);
-			model.addAttribute("page", page);
 			model.addAttribute("list", list);
-			
+			model.addAttribute("m", m);
 			return "consignment/conDetail";
 		} else {
 			throw new Exception("첨부파일 게시글 상세조회 실패");
@@ -227,10 +249,6 @@ public class ConsignmentController {
 	public String deleteConsignment(@RequestParam("conNo")int conNo) {
 		int result1 = cService.deleteConsignment(conNo);
 		int result2 = cService.statusNConsignment(conNo);
-		
-		System.out.println(conNo);
-		System.out.println(result1);
-		System.out.println(result2);
 		
 		if(result1>0 && result2>0) {
 			return "redirect:list.co";

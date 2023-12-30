@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 
 @Mapper
@@ -28,6 +29,10 @@ public interface ConsignmentDAO {
 	Consignment selectConsignment(int conNo);
 
 	ArrayList<Attachment> selectAttmConsignmentList(int conNo);
+	
+	int updateConAdmStatus(int conNo);
+	
+	Member selectMember(int conNo);
 
 	ArrayList<Consignment> selectConsignmentList(String memId, RowBounds rowBounds);
 
@@ -38,12 +43,27 @@ public interface ConsignmentDAO {
 	
 	
 	//////////////////////////////////////////////////////////////////
+
+	
+	
+	int getListCount2(String memId);
 	
 	ArrayList<Consignment> selectUserList(String memId, RowBounds rowBounds);
 
-	Consignment selectUserList(int conNo);
+	Consignment selectUser(int conNo);
 
-	ArrayList<Consignment> selectUserAttmList(int conNo);
+	ArrayList<Consignment> selectAttmUserList(int conNo);
+
+	void checkDelete(String[] deleteIds);
+
+	int searchCount2(HashMap<String, String> map);
+
+	ArrayList<Consignment> searchList2(HashMap<String, String> map, RowBounds rowBounds);
+
+
+
+
+
 
 
 
