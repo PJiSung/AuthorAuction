@@ -658,18 +658,18 @@
             </div>
             <div class="contents-right">
               <div class="contents-sort">
-                <p class="contents-sort-total"> 총 <span>${plistsize}</span>개의 제품이 있습니다. </p>
+                <p class="contents-sort-total"> 총 <span>${plistsize}</span>개의 상품이 있습니다. </p>
                 <div class="contents-sort-sel">
                   <div class="tabset tabset-text">
                     <ul class="tabset-list">
                       <li class="tabset-item">
                         <a class="tabset-link" href="javascript:void(0)">
-                          <span>높은가격순</span>
+                          <span onclick = "priceorder('high')">높은가격순</span>
                         </a>
                       </li>
                       <li class="tabset-item">
                         <a class="tabset-link" href="javascript:void(0)">
-                          <span>낮은가격순</span>
+                          <span onclick = "priceorder('low')">낮은가격순</span>
                         </a>
                       </li>
                     </ul>
@@ -927,6 +927,8 @@
   
   
   <script>
+  
+  		//검색 조건 삭제 스크립트
   	function deletecondition(condition){
   		var URLSearch = new URLSearchParams(location.search);
   	
@@ -1031,12 +1033,95 @@
   		 
   	}
   		
-  		
-  			
-  			
-  		
+  
+  </script>
+  
+  <script>
   
   
+  		//url 재수정 스크립트
+  function removeURLParameters(url, parametersToRemove) {
+	  var urlObject = new URL(url);
+	  var params = new URLSearchParams(urlObject.search);
+
+	  parametersToRemove.forEach(function (param) {
+	    params.delete(param);
+	  });
+
+	  urlObject.search = params.toString();
+
+	  return urlObject.href;
+	}
+  
+  
+  		
+  		
+  
+  	function priceorder(condition){
+  		
+  		var url = window.location.href;
+		
+  		var URLSearch = new URLSearchParams(location.search);
+  		
+  		
+  		if(URLSearch.size == 0){
+			  			
+  			switch(condition){
+  			
+  			case 'high' : location.href = url + "?order=high"; break;
+  			case 'low' : location.href = url + "?order=low"; break;
+  			}
+  			
+  		}
+  		else if(URLSearch.get('order') == null){
+  			
+  			switch(condition){
+  			case 'high' : location.href = url+ "&order=high"; break;
+  			case 'low' : location.href = url+ "&order=low"; break;
+  			}
+  			
+  		}else{
+  			
+  			switch(URLSearch.get('order')){
+  			
+  			case 'high': 
+  				
+  				if(condition == 'low'){
+  				var originalURL = window.location.href;
+  		  		var parametersToRemove = ["order"];
+  		  		var modifiedURL = removeURLParameters(originalURL, parametersToRemove);
+  		  		
+  		  		if(URLSearch.size == 1){
+  				location.href = modifiedURL+"?order=low";
+  				break;
+  				}else{
+  					location.href = modifiedURL+"&order=low"; break;
+  				}
+  				
+  				
+  				} break;		
+  				
+  				
+  			case 'low' :
+  				
+  				if(condition == 'high'){
+  	  				var originalURL = window.location.href;
+  	  		  		var parametersToRemove = ["order"];
+  	  		  		var modifiedURL = removeURLParameters(originalURL, parametersToRemove);
+  	  				
+  	  		  		if(URLSearch.size == 1){
+  	  		  		location.href = modifiedURL+"?order=high"; break;
+  	  		  		}else{
+  	  		  		location.href = modifiedURL+"&order=high"; break;
+  	  		  		}
+  	  				} break;		
+  			
+  			}
+  			
+  		}
+  		
+  	}
+  	
   
   </script>
   

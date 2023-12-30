@@ -450,7 +450,7 @@
         <div class="contents-container container-md">
           <div class="contents-left">
             <div class="contents-thumbnail">
-              <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_1.png" alt="썸네일이미지">
+              <img class="contents-thumbimg" src="sunwoo/proimages/${p.proImage}" alt="썸네일이미지">
             </div>
             <ul class="contents-thumblist">
               <li class="contents-thumbitem">

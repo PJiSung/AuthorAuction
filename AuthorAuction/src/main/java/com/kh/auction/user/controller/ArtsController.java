@@ -46,7 +46,7 @@ public class ArtsController {
 	}
 	
 	@GetMapping("artslist.ar")
-	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request, @ModelAttribute Keyword keyword, @RequestParam(value = "materiallist", required = false) String[] materiallist) {
+	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request, @ModelAttribute Keyword keyword, @RequestParam(value = "materiallist", required = false) String[] materiallist, @RequestParam(value = "order", required = false) String order) {
 		
 		
 		HashMap<String, Object> map = new HashMap<String,Object>();
@@ -58,9 +58,8 @@ public class ArtsController {
 		map.put("maxPrice", keyword.getMaxPrice());
 		map.put("minPrice", keyword.getMinPrice());
 		map.put("materiallist", materiallist);
-			
+		map.put("order", order);	
 		
-		System.out.println(keyword);
 		int currentPage = page;
 		
 		int listCount = aService.getlistCount(map);

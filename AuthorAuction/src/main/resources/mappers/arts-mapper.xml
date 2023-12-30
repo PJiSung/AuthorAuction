@@ -74,7 +74,14 @@
 		<if test="maxWidth != 0">
 		and PRO_WIDTH <![CDATA[ <= ]]> #{maxWidth} 
 		</if>
-		order by pro_no desc
+		
+		<choose>
+			<when test="order == 'high'"> order by pro_price desc </when>
+	    	<when test="order == 'low'"> order by pro_price asc </when>
+			<otherwise>order by pro_no desc</otherwise>
+		</choose>
+		
+	
 	</select>
 	
 	
