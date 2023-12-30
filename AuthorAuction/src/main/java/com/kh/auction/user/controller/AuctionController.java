@@ -50,25 +50,29 @@ public class AuctionController {
 	
 	@GetMapping("auctionDetail.ac")
 	public String moveToAuctionDetail(@RequestParam("page") int page, @RequestParam("aucNo") int aucNo, Model model) { 
-	//경매 번호를 가지고 세부내용을 들고옴
+		
+		//경매 번호를 가지고 세부내용을 들고옴
 		Auction auction = aService.getAuctionDetail(aucNo);
 		
-		
+		String id = null;
 		Member m = ((Member)model.getAttribute("loginUser"));
+		int likeCheck = 0;
 		
-		/*
-		 * String finishDate = auction.getAucFinishDate(); SimpleDateFormat sdf = new
-		 * SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		 * 
-		 * Date date = null;
-		 * 
-		 * try { date = sdf.parse(finishDate); } catch (ParseException e) {
-		 * e.printStackTrace(); }
-		 * 
-		 * model.addAttribute("finishDate", date);
-		 */
+		if(m != null) {
+			HashMap<String, Object> hm = new HashMap<>();
+			id = m.getMemId();
+			hm.put("aucNo", aucNo);
+			hm.put("id", m.getMemId());
+			likeCheck = aService.likeCheck(hm);
+			model.addAttribute("likeCheck", likeCheck);
+		}
+			
+		//상세 페이지로 이동할때 좋아요를 눌렀는지 체크
+		
 		model.addAttribute("auction",auction);
 		model.addAttribute("page", page);
+		
+		
 //		model.addAttribute("",);
 		return "/auction/auctionDetail";
 	}
@@ -86,7 +90,7 @@ public class AuctionController {
 		hm.put("aucNo", aucNo);
 		hm.put("id", m.getMemId());
 		
-		//insert all을 이용해서 입찰내역 및 경매의 내용 변경
+		//입찰 - ajax 이용해 환불한후에 바로 경매금액 업데이트 
 		int result = aService.insertBid(hm);
 		
 		if(result > 0) {
@@ -105,5 +109,16 @@ public class AuctionController {
 		}else {
 			return "fail";
 		}
+	}
+	
+	@ResponseBody
+	@PostMapping("interest.ac")
+	public String updateInterest(@RequestParam("aucNo") int aucNo, Model model) {
+		String id = ((Member)model.getAttribute("loginUser")).getMemId();
+		HashMap<String, Object> hm = new HashMap<>();
+		hm.put("id", id);
+		hm.put("aucNo", aucNo);
+		String result = aService.updateInterest(hm);
+		return result;
 	}
 }

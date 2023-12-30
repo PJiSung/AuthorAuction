@@ -41,6 +41,10 @@ public interface ConsignmentDAO {
 	
 	ArrayList<Consignment> selectUserList(String memId, RowBounds rowBounds);
 
+	Consignment selectUserList(int conNo);
+
+	ArrayList<Consignment> selectUserAttmList(int conNo);
+
 
 
 

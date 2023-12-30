@@ -22,6 +22,12 @@
   <link rel="stylesheet" href="consignment/css/template.css">
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
+  
+<script type="text/javascript">
+	const userDetail = (conNo) =>{												<!-- 상세보기로 이동 -->
+		location.href="selectUser.adco?conNo=" + conNo + "&page=" + ${pi.currentPage};
+	}
+</script>
 </head>
 
 <body>
@@ -85,7 +91,7 @@
               </thead>
               <tbody>
 	             <c:forEach items="${list}" var="c"> 
-	                <tr onclick="consignmentDetail(this.id)" id="${c.conNo}">
+	                <tr onclick="userDetail(this.id)" id="${c.conNo}">
 	                  <td class="tableset-mobile">
 	                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
 	                  </td>

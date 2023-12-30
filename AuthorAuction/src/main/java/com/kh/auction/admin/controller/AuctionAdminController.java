@@ -15,7 +15,7 @@ import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.service.AuctionService;
 
 @Controller
-public class AdminController {
+public class AuctionAdminController {
 	
 	@Autowired
 	private AuctionService aService;

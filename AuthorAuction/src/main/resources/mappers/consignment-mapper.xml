@@ -104,6 +104,9 @@
 		from consignment
 	</select>
 
+	<select id="" resultType="Consignment"></select>
 	
+	<select id="selectUserAttmList" resultType="Consignment">
 	
+	</select>
 </mapper>

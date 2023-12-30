@@ -88,5 +88,13 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 		
 		return cDAO.selectUserList(memId, rowBounds);
 	}
+	@Override
+	public Consignment selectUserList(int conNo) {
+		return cDAO.selectUserList(conNo);
+	}
+	@Override
+	public ArrayList<Consignment> selectUserAttmList(int conNo) {
+		return cDAO.selectUserAttmList(conNo);
+	}
 	
 }
