@@ -470,24 +470,14 @@
                 <div class="accordset accordset-plus">
                   <div class="accordset-item">
                     <div class="accordset-header">
-                      <button class="accordset-button btn" type="button">브랜드</button>
+                      <button class="accordset-button btn" type="button">작품명 및 작가명</button>
                     </div>
                     <div class="accordset-body">
                       <div class="accordset-content">
-                        <div class="checkset">
-                          <input id="checkset-1-1" class="checkset-input input-round" type="checkbox" value="" checked="">
-                          <label class="checkset-label" for="checkset-1-1"></label>
-                          <span class="checkset-text">전체</span>
-                        </div>
-                        <div class="checkset">
-                          <input id="checkset-1-2" class="checkset-input input-round" type="checkbox" value="" checked="">
-                          <label class="checkset-label" for="checkset-1-2"></label>
-                          <span class="checkset-text">템하피부</span>
-                        </div>
-                        <div class="checkset">
-                          <input id="checkset-1-3" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-1-3"></label>
-                          <span class="checkset-text">템하몰</span>
+                        <div class="checkset" style = "flex-direction: column;">
+                          <span class="checkset-text"></span>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;">검색</button>
                         </div>
                       </div>
                     </div>
@@ -498,27 +488,20 @@
                     </div>
                     <div class="accordset-body">
                       <div class="accordset-content">
-                        <div class="radioset">
-                          <input id="radioset-2-1" name="radioset-2" class="radioset-input input-line" type="radio" value="">
-                          <label class="radioset-label" for="radioset-2-1"></label>
-                          <span class="radioset-text">50,000원 미만</span>
-                        </div>
-                        <div class="radioset">
-                          <input id="radioset-2-2" name="radioset-2" class="radioset-input input-line" type="radio" value="">
-                          <label class="radioset-label" for="radioset-2-2"></label>
-                          <span class="radioset-text">50,000원 ~ 100,000원</span>
-                        </div>
-                        <div class="radioset">
-                          <input id="radioset-2-3" name="radioset-2" class="radioset-input input-line" type="radio" value="">
-                          <label class="radioset-label" for="radioset-2-3"></label>
-                          <span class="radioset-text">100,000원 이상</span>
+                        <div class="radioset" style = "flex-direction: column;">
+                          <span class="radioset-text"></span>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상">
+                          <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
+<!--                           <input type="text" style = "border: none; text-align:center; height: 40px;" value = "~" readonly> -->
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;">검색</button>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="accordset-item">
                     <div class="accordset-header">
-                      <button class="accordset-button btn" type="button">피부타입</button>
+                      <button class="accordset-button btn" type="button">재료</button>
                     </div>
                     <div class="accordset-body">
                       <div class="accordset-content">
@@ -547,7 +530,7 @@
                   </div>
                   <div class="accordset-item">
                     <div class="accordset-header">
-                      <button class="accordset-button btn" type="button">제품라인</button>
+                      <button class="accordset-button btn" type="button">크기</button>
                     </div>
                     <div class="accordset-body">
                       <div class="accordset-content">
@@ -571,7 +554,7 @@
                   </div>
                   <div class="accordset-item">
                     <div class="accordset-header">
-                      <button class="accordset-button btn" type="button">사용단계</button>
+                      <button class="accordset-button btn" type="button">제작년도</button>
                     </div>
                     <div class="accordset-body">
                       <div class="accordset-content">
@@ -605,24 +588,9 @@
                           <span class="checkset-text">무료배송</span>
                         </div>
                         <div class="checkset">
-                          <input id="checkset-6-2" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-6-2"></label>
-                          <span class="checkset-text">쿠폰</span>
-                        </div>
-                        <div class="checkset">
-                          <input id="checkset-6-3" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-6-3"></label>
-                          <span class="checkset-text">상품할인</span>
-                        </div>
-                        <div class="checkset">
                           <input id="checkset-6-4" class="checkset-input input-round" type="checkbox" value="">
                           <label class="checkset-label" for="checkset-6-4"></label>
                           <span class="checkset-text">포인트 적립</span>
-                        </div>
-                        <div class="checkset">
-                          <input id="checkset-6-5" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-6-5"></label>
-                          <span class="checkset-text">사은품 증정</span>
                         </div>
                       </div>
                     </div>
@@ -642,16 +610,6 @@
                 <div class="contents-sort-sel">
                   <div class="tabset tabset-text">
                     <ul class="tabset-list">
-                      <li class="tabset-item">
-                        <a class="tabset-link active" href="javascript:void(0)">
-                          <span>인기순</span>
-                        </a>
-                      </li>
-                      <li class="tabset-item">
-                        <a class="tabset-link" href="javascript:void(0)">
-                          <span>리뷰많은순</span>
-                        </a>
-                      </li>
                       <li class="tabset-item">
                         <a class="tabset-link" href="javascript:void(0)">
                           <span>높은가격순</span>
@@ -692,7 +650,7 @@
               <c:forEach items = "${plist}" var = "p">
                 <a href="artsDetail.ar?proNo=${p.proNo}" class="cardset cardset-shopping">
                   <figure class="cardset-figure">
-                    <img class="cardset-img" src="sunwoo/images/img_basic_N42_1.png" alt="카드 이미지">
+                    <img class="cardset-img" src="/sunwoo/proimages/${p.proImage}" alt="카드 이미지">
                   </figure>
                   <div class="cardset-body">
                     <span class="cardset-name">${p.proName}</span>
@@ -795,7 +753,7 @@
               
               <nav class="pagiset pagiset-line">
                 <div class="pagiset-ctrl">
-                  <a class="pagiset-link pagiset-first" href="javascript:void(0)">
+                  <a class="pagiset-link pagiset-first" href="${loc}?page=${pi.startPage}">
                     <span class="visually-hidden">처음</span>
                   </a>
                 </div>
@@ -815,7 +773,7 @@
                   </a>
                 </div>
                 <div class="pagiset-ctrl">
-                  <a class="pagiset-link pagiset-last" href="javascript:void(0)">
+                  <a class="pagiset-link pagiset-last" href="${loc}?page=${pi.maxPage}">
                     <span class="visually-hidden">마지막</span>
                   </a>
                 </div>
