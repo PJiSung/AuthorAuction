@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
 
 @Mapper 
@@ -19,10 +20,6 @@ public interface AuctionDAO {
 	//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
 	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm);
 
-	
-	
-	
-	
 	//입찰 - ajax  경매금액 업데이트
 	int insertBid(HashMap<String, Object> hm);
 
@@ -43,4 +40,10 @@ public interface AuctionDAO {
 
 	//관심 목록 삭제
 	int deleteLike(HashMap<String, Object> hm);
+
+	//경매 내부의 사진을 들고옴
+	ArrayList<Attachment> getAuctionAttachment(int aucNo);
+
+	//문의 글 번호로 경매 등록 - 경매가 아직 등록이 안되어 있기 때문에 경매 번호에 문의 글 번호 담음
+	int insertAuction();
 }
