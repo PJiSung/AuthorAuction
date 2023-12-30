@@ -477,7 +477,7 @@
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
                           <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;">검색</button>
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;">적용</button>
                         </div>
                       </div>
                     </div>
@@ -492,9 +492,8 @@
                           <span class="radioset-text"></span>
                           <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
-<!--                           <input type="text" style = "border: none; text-align:center; height: 40px;" value = "~" readonly> -->
                           <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;">검색</button>
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;">적용</button>
                         </div>
                       </div>
                     </div>
@@ -506,24 +505,29 @@
                     <div class="accordset-body">
                       <div class="accordset-content">
                         <div class="checkset">
-                          <input id="checkset-3-1" class="checkset-input input-round" type="checkbox" value="" checked="">
+                          <input id="checkset-3-1" class="checkset-input input-round" type="checkbox" value="">
                           <label class="checkset-label" for="checkset-3-1"></label>
-                          <span class="checkset-text">전체</span>
+                          <span class="checkset-text">캔버스</span>
                         </div>
                         <div class="checkset">
                           <input id="checkset-3-2" class="checkset-input input-round" type="checkbox" value="">
                           <label class="checkset-label" for="checkset-3-2"></label>
-                          <span class="checkset-text">건성</span>
+                          <span class="checkset-text">종이</span>
                         </div>
                         <div class="checkset">
                           <input id="checkset-3-3" class="checkset-input input-round" type="checkbox" value="">
                           <label class="checkset-label" for="checkset-3-3"></label>
-                          <span class="checkset-text">지성</span>
+                          <span class="checkset-text">점토</span>
                         </div>
                         <div class="checkset">
                           <input id="checkset-3-4" class="checkset-input input-round" type="checkbox" value="">
                           <label class="checkset-label" for="checkset-3-4"></label>
-                          <span class="checkset-text">민감성</span>
+                          <span class="checkset-text">나무</span>
+                        </div>
+                          <div class="checkset" style = "flex-direction:column;">
+                           <span class="checkset-text"></span>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;">적용</button>
                         </div>
                       </div>
                     </div>
@@ -534,48 +538,40 @@
                     </div>
                     <div class="accordset-body">
                       <div class="accordset-content">
-                        <div class="checkset">
-                          <input id="checkset-4-1" class="checkset-input input-round" type="checkbox" value="" checked="">
-                          <label class="checkset-label" for="checkset-4-1"></label>
-                          <span class="checkset-text">전체</span>
-                        </div>
-                        <div class="checkset">
-                          <input id="checkset-4-2" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-4-2"></label>
-                          <span class="checkset-text">마스크 시트</span>
-                        </div>
-                        <div class="checkset">
-                          <input id="checkset-4-3" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-4-3"></label>
-                          <span class="checkset-text">크림</span>
+                        <div class="checkset" style = "flex-direction: column;">
+                          <span class="checkset-text"></span>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "가로(단위: cm)">
+                          <div style = "display:flex; align-items:center; justify-content:center; height: 40px; "></div>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "세로(단위: cm)">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;">적용</button>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="accordset-item">
-                    <div class="accordset-header">
-                      <button class="accordset-button btn" type="button">제작년도</button>
-                    </div>
-                    <div class="accordset-body">
-                      <div class="accordset-content">
-                        <div class="checkset">
-                          <input id="checkset-5-1" class="checkset-input input-round" type="checkbox" value="" checked="">
-                          <label class="checkset-label" for="checkset-5-1"></label>
-                          <span class="checkset-text">전체</span>
-                        </div>
-                        <div class="checkset">
-                          <input id="checkset-5-2" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-5-2"></label>
-                          <span class="checkset-text">기초</span>
-                        </div>
-                        <div class="checkset">
-                          <input id="checkset-5-3" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-5-3"></label>
-                          <span class="checkset-text">케어</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+<!--                   <div class="accordset-item"> -->
+<!--                     <div class="accordset-header"> -->
+<!--                       <button class="accordset-button btn" type="button">제작년도</button> -->
+<!--                     </div> -->
+<!--                     <div class="accordset-body"> -->
+<!--                       <div class="accordset-content"> -->
+<!--                         <div class="checkset"> -->
+<!--                           <input id="checkset-5-1" class="checkset-input input-round" type="checkbox" value="" checked=""> -->
+<!--                           <label class="checkset-label" for="checkset-5-1"></label> -->
+<!--                           <span class="checkset-text">전체</span> -->
+<!--                         </div> -->
+<!--                         <div class="checkset"> -->
+<!--                           <input id="checkset-5-2" class="checkset-input input-round" type="checkbox" value=""> -->
+<!--                           <label class="checkset-label" for="checkset-5-2"></label> -->
+<!--                           <span class="checkset-text">기초</span> -->
+<!--                         </div> -->
+<!--                         <div class="checkset"> -->
+<!--                           <input id="checkset-5-3" class="checkset-input input-round" type="checkbox" value=""> -->
+<!--                           <label class="checkset-label" for="checkset-5-3"></label> -->
+<!--                           <span class="checkset-text">케어</span> -->
+<!--                         </div> -->
+<!--                       </div> -->
+<!--                     </div> -->
+<!--                   </div> -->
                   <div class="accordset-item active">
                     <div class="accordset-header">
                       <button class="accordset-button btn" type="button">혜택</button>

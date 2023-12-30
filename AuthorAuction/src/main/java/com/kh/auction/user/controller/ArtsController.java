@@ -173,7 +173,7 @@ public class ArtsController {
 		
 		
 		
-		return "장바구니에 물건이 담겼습니다.";
+		return "장바구니에 상품이 추가되었습니다.";
 	}
 	
 	
