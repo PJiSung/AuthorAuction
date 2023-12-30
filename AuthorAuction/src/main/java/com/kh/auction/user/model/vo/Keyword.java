@@ -6,23 +6,31 @@ public class Keyword {
 	private int minPrice;
 	private int maxPrice;
 	private String material;
-	private int height;
-	private int width;
+	private int minHeight;
+	private int maxHeight;
+	private int minWidth;
+	private int maxWidth;
 	private int deliveryFee;
 	
 	public Keyword() {}
 
-	public Keyword(String keyword, int minPrice, int maxPrice, String material, int height, int width,
-			int deliveryFee) {
+	
+	
+	public Keyword(String keyword, int minPrice, int maxPrice, String material, int minHeight, int maxHeight,
+			int minWidth, int maxWidth, int deliveryFee) {
 		super();
 		this.keyword = keyword;
 		this.minPrice = minPrice;
 		this.maxPrice = maxPrice;
 		this.material = material;
-		this.height = height;
-		this.width = width;
+		this.minHeight = minHeight;
+		this.maxHeight = maxHeight;
+		this.minWidth = minWidth;
+		this.maxWidth = maxWidth;
 		this.deliveryFee = deliveryFee;
 	}
+
+
 
 	public String getKeyword() {
 		return keyword;
@@ -56,20 +64,36 @@ public class Keyword {
 		this.material = material;
 	}
 
-	public int getHeight() {
-		return height;
+	public int getMinHeight() {
+		return minHeight;
 	}
 
-	public void setHeight(int height) {
-		this.height = height;
+	public void setMinHeight(int minHeight) {
+		this.minHeight = minHeight;
 	}
 
-	public int getWidth() {
-		return width;
+	public int getMaxHeight() {
+		return maxHeight;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
+	public void setMaxHeight(int maxHeight) {
+		this.maxHeight = maxHeight;
+	}
+
+	public int getMinWidth() {
+		return minWidth;
+	}
+
+	public void setMinWidth(int minWidth) {
+		this.minWidth = minWidth;
+	}
+
+	public int getMaxWidth() {
+		return maxWidth;
+	}
+
+	public void setMaxWidth(int maxWidth) {
+		this.maxWidth = maxWidth;
 	}
 
 	public int getDeliveryFee() {
@@ -83,8 +107,11 @@ public class Keyword {
 	@Override
 	public String toString() {
 		return "Keyword [keyword=" + keyword + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", material="
-				+ material + ", height=" + height + ", width=" + width + ", deliveryFee=" + deliveryFee + "]";
+				+ material + ", minHeight=" + minHeight + ", maxHeight=" + maxHeight + ", minWidth=" + minWidth
+				+ ", maxWidth=" + maxWidth + ", deliveryFee=" + deliveryFee + "]";
 	}
+
+	
 	
 	
 	

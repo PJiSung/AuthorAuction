@@ -462,23 +462,23 @@
          <div class="contents-badge-group">
        	  <c:if test= "${keyword.keyword != null and keyword.keyword != ''}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text">${keyword.keyword } &nbsp &times;</span>
+         	   <span class="badgeset-text">#${keyword.keyword } &nbsp &times;</span>
          	 </div>
           </c:if>
             <c:if test= "${keyword.minPrice != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text">최소 가격 : ${keyword.minPrice } &nbsp &times;</span>
+         	   <span class="badgeset-text">#최소 가격 : ${keyword.minPrice } &nbsp &times;</span>
          	 </div>
           </c:if>
             <c:if test= "${keyword.maxPrice != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text">최대 가격 : ${keyword.maxPrice } &nbsp &times;</span>
+         	   <span class="badgeset-text">#최대 가격 : ${keyword.maxPrice } &nbsp &times;</span>
          	 </div>
           </c:if>
            <c:if test= "${materiallist != null}">
            	 <c:forEach items = "${materiallist}" var = "m" >
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text">${m} &nbsp &times;</span>
+         	   <span class="badgeset-text">#${m} &nbsp &times;</span>
          	 </div>
          	 </c:forEach>
           </c:if>
@@ -524,7 +524,7 @@
                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상" id = "minPrice">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하" id = "maxPrice">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;" onclick = "conditionfunc('price')">적용</button>
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('price')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -571,10 +571,14 @@
                       <div class="accordset-content">
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "가로(단위: cm)" id = "width">
+                          	<input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 가로길이(cm)" class = "width">
+                          	<div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 가로길이(cm)" class = "width">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; "></div>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "세로(단위: cm)" id = "height">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 50px; width: 40%; color: white;" onclick = "conditionfunc('size')">적용</button>
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 세로길이(cm)" class = "height">
+                          <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
+                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 세로길이(cm)" class = "height">
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('size')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -844,14 +848,14 @@
 		});
 		
  	
-		$("#width").keyup(function(e) {
+		$(".width").keyup(function(e) {
 			var content = $(this).val();
 			var regex = /[^0-9]/g;	
 			$(this).val(content.replace(regex, ""));
 		});
 		
 		
-		$("#height").keyup(function(e) {
+		$(".height").keyup(function(e) {
 			var content = $(this).val();
 			var regex = /[^0-9]/g;	
 			$(this).val(content.replace(regex, ""));
@@ -875,9 +879,12 @@
   			var keyword = document.getElementById('keyword').value.trim();
   			var maxPrice = document.getElementById('maxPrice').value.trim() == '' ? 0 : document.getElementById('maxPrice').value.trim();
   			var minPrice = document.getElementById('minPrice').value.trim() == '' ? 0 : document.getElementById('minPrice').value.trim();
-  			var width = document.getElementById('width').value.trim() == '' ? 0 : document.getElementById('width').value.trim();
-  			var height = document.getElementById('height').value.trim() == '' ? 0 : document.getElementById('height').value.trim();
+  			var minWidth = document.getElementsByClassName('width')[0].value.trim() == '' ? 0 : document.getElementsByClassName('width')[0].value.trim()
+  			var maxWidth = document.getElementsByClassName('width')[1].value.trim() == '' ? 0 : document.getElementsByClassName('width')[1].value.trim()
+  			var minHeight = document.getElementsByClassName('height')[0].value.trim() == '' ? 0 : document.getElementsByClassName('height')[0].value.trim()
+  			var maxHeight = document.getElementsByClassName('height')[1].value.trim() == '' ? 0 : document.getElementsByClassName('height')[1].value.trim()
   			var mclist = [];
+  			console.log(minHeight);
   			for(mc of document.getElementsByClassName('cccmaterial')){
   				if(mc.checked == true){
   					mclist.push(mc.value);
@@ -888,9 +895,9 @@
   				}
   				
   				if(mclist.length !=0){
-  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+mclist+"&height="+height+"&width="+width;
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+mclist+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
   				}else{
-  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&height="+height+"&width="+width;
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
   				}
   	}  	
   

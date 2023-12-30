@@ -51,8 +51,10 @@ public class ArtsController {
 		
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		map.put("keyword", keyword.getKeyword());
-		map.put("height", keyword.getHeight());
-		map.put("width", keyword.getWidth());
+		map.put("minHeight", keyword.getMinHeight());
+		map.put("maxHeight", keyword.getMaxHeight());
+		map.put("minWidth", keyword.getMinWidth());
+		map.put("maxWidth", keyword.getMaxWidth());
 		map.put("maxPrice", keyword.getMaxPrice());
 		map.put("minPrice", keyword.getMinPrice());
 		map.put("materiallist", materiallist);

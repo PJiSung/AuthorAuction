@@ -23,11 +23,17 @@
 		<if test="maxPrice != 0">
 		and PRO_PRICE <![CDATA[ <= ]]> #{maxPrice} 
 		</if>
-		<if test="height != 0">
-		and PRO_HEIGHT <![CDATA[ <= ]]> #{height} 
+		<if test="minHeight != 0">
+		and PRO_HEIGHT <![CDATA[ >= ]]> #{minHeight} 
 		</if>
-		<if test="width != 0">
-		and PRO_WIDTH <![CDATA[ <= ]]> #{width} 
+		<if test="maxHeight != 0">
+		and PRO_HEIGHT <![CDATA[ <= ]]> #{maxHeight} 
+		</if>
+		<if test="minWidth != 0">
+		and PRO_WIDTH <![CDATA[ >= ]]> #{minWidth} 
+		</if>
+		<if test="maxWidth != 0">
+		and PRO_WIDTH <![CDATA[ <= ]]> #{maxWidth} 
 		</if>
 		
 		
@@ -56,11 +62,17 @@
 		<if test="maxPrice != 0">
 		and PRO_PRICE <![CDATA[ <= ]]> #{maxPrice} 
 		</if>
-		<if test="height != 0">
-		and PRO_HEIGHT <![CDATA[ <= ]]> #{height} 
+		<if test="minHeight != 0">
+		and PRO_HEIGHT <![CDATA[ >= ]]> #{minHeight} 
 		</if>
-		<if test="width != 0">
-		and PRO_WIDTH <![CDATA[ <= ]]> #{width} 
+		<if test="maxHeight != 0">
+		and PRO_HEIGHT <![CDATA[ <= ]]> #{maxHeight} 
+		</if>
+		<if test="minWidth != 0">
+		and PRO_WIDTH <![CDATA[ >= ]]> #{minWidth} 
+		</if>
+		<if test="maxWidth != 0">
+		and PRO_WIDTH <![CDATA[ <= ]]> #{maxWidth} 
 		</if>
 		order by pro_no desc
 	</select>
