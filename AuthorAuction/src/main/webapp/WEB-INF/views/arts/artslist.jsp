@@ -462,26 +462,46 @@
          <div class="contents-badge-group">
        	  <c:if test= "${keyword.keyword != null and keyword.keyword != ''}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text">#${keyword.keyword } &nbsp &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('keyword');">#${keyword.keyword } &nbsp; &times;</span>
          	 </div>
           </c:if>
             <c:if test= "${keyword.minPrice != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text">#최소 가격 : ${keyword.minPrice } &nbsp &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('minPrice');">#최소 가격 : ${keyword.minPrice } &nbsp; &times;</span>
          	 </div>
           </c:if>
             <c:if test= "${keyword.maxPrice != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text">#최대 가격 : ${keyword.maxPrice } &nbsp &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('maxPrice');">#최대 가격 : ${keyword.maxPrice } &nbsp; &times;</span>
          	 </div>
-          </c:if>
+       	   </c:if>
            <c:if test= "${materiallist != null}">
            	 <c:forEach items = "${materiallist}" var = "m" >
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text">#${m} &nbsp &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('${m}');">#${m} &nbsp; &times;</span>
          	 </div>
          	 </c:forEach>
           </c:if>
+           <c:if test= "${keyword.minHeight != 0}">
+        	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
+         	   <span class="badgeset-text" onclick = "deletecondition('minHeight');">#최소 세로 : ${keyword.minHeight } &nbsp; &times;</span>
+         	 </div>
+       	   </c:if>
+       	    <c:if test= "${keyword.maxHeight != 0}">
+        	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
+         	   <span class="badgeset-text" onclick = "deletecondition('maxHeight');">#최대 세로 : ${keyword.maxHeight } &nbsp; &times;</span>
+         	 </div>
+       	   </c:if>
+       	    <c:if test= "${keyword.minWidth != 0}">
+        	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
+         	   <span class="badgeset-text" onclick = "deletecondition('minWidth');">#최소 가로 : ${keyword.minWidth } &nbsp; &times;</span>
+         	 </div>
+       	   </c:if>
+       	    <c:if test= "${keyword.maxWidth != 0}">
+        	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
+         	   <span class="badgeset-text" onclick = "deletecondition('maxWidth');">#최대 가로 : ${keyword.maxWidth } &nbsp; &times;</span>
+         	 </div>
+       	   </c:if>
         </div>
         
         
@@ -508,7 +528,6 @@
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
                           <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명" id = "keyword">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -524,7 +543,6 @@
                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상" id = "minPrice">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하" id = "maxPrice">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('price')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -558,7 +576,7 @@
                           <div class="checkset" style = "flex-direction:column;">
                            <span class="checkset-text"></span>
                           <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료" id = "materialinput">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('material')">적용</button>
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('material')">검색</button>
                         </div>
                       </div>
                     </div>
@@ -628,6 +646,9 @@
                   </div>
                 </div>
               </div>
+              <div style = "display:flex; align-items:center; justify-content:center;">
+               <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
+               </div>
               <div class="contents-filter-footer">
                 <span>필터초기화</span>
                 <button class="contents-btn btn-refresh">
@@ -900,6 +921,121 @@
   					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
   				}
   	}  	
+  
+  
+  </script>
+  
+  
+  <script>
+  	function deletecondition(condition){
+  		var URLSearch = new URLSearchParams(location.search);
+  	
+  		var keyword = URLSearch.get('keyword');
+  		var minPrice = URLSearch.get('minPrice');
+  		var maxPrice = URLSearch.get('maxPrice');
+  		if(URLSearch.get('materiallist') != null){
+  			var materiallist=	URLSearch.get('materiallist').split(',');
+  		}
+  		var minHeight= URLSearch.get('minHeight');
+  		var maxHeight=  URLSearch.get('maxHeight');
+  		var minWidth=  URLSearch.get('minWidth');
+  		var maxWidth=  URLSearch.get('maxWidth');
+  		
+  		if(materiallist != null){
+  		var newmateriallist =  materiallist.filter(function (item) {
+  		  return item != condition;
+  		});
+  		}
+  		
+  		
+  		if(condition != 'keyword' && condition != 'minPrice' && condition != 'maxPrice' &&condition != 'minHeight' &&condition != 'maxHeight' &&condition != 'minWidth' &&condition != 'maxWidth'){
+  			
+  			if(newmateriallist.length != 0){
+  			location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+newmateriallist+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  			}else{
+  				location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  			}
+  		}
+  		
+  		
+  		switch(condition){
+  		
+  			
+  			case 'keyword':
+  				if(materiallist !=null){
+  				location.href = "artslist.ar?keyword=&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+materiallist+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}else{
+  					location.href = "artslist.ar?keyword=&minPrice="+minPrice+"&maxPrice="+maxPrice+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}
+  			break;
+  			
+  			
+  			
+  			case 'minPrice':
+  				if(materiallist !=null){
+  				location.href = "artslist.ar?keyword="+keyword+"&minPrice=0&maxPrice="+maxPrice+"&materiallist="+materiallist+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}else{
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice=0&maxPrice="+maxPrice+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}
+  			break;
+  			
+  			
+  			
+  			
+  			case 'maxPrice':
+  				if(materiallist !=null){
+  				location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice=0&materiallist="+materiallist+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}else{
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice=0&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}
+  			break;
+  			
+  			
+  			
+  			case 'minHeight':
+  				if(materiallist !=null){
+  				location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+materiallist+"&minHeight=0&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}else{
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&minHeight=0&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}
+  			break;
+  			
+  			case 'maxHeight':
+  				if(materiallist !=null){
+  				location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+materiallist+"&minHeight="+minHeight+"&maxHeight=0&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}else{
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&minHeight=+"+minHeight+"&maxHeight=0&minWidth="+minWidth+"&maxWidth="+maxWidth;
+  				}
+  			break;
+  			
+  			case 'minWidth':
+  				if(materiallist !=null){
+  				location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+materiallist+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth=0&maxWidth="+maxWidth;
+  				}else{
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&minHeight=+"+minHeight+"&maxHeight="+maxHeight+"&minWidth=0&maxWidth="+maxWidth;
+  				}
+  			break;
+  			
+  			
+  			case 'maxWidth':
+  				if(materiallist !=null){
+  				location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&materiallist="+materiallist+"&minHeight="+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth=0";
+  				}else{
+  					location.href = "artslist.ar?keyword="+keyword+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&minHeight=+"+minHeight+"&maxHeight="+maxHeight+"&minWidth="+minWidth+"&maxWidth=0";
+  				}
+  			break;
+  			
+  		 
+  		}
+
+  		 
+  	}
+  		
+  		
+  			
+  			
+  		
+  
   
   
   </script>
