@@ -462,44 +462,44 @@
          <div class="contents-badge-group">
        	  <c:if test= "${keyword.keyword != null and keyword.keyword != ''}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text" onclick = "deletecondition('keyword');">#${keyword.keyword } &nbsp; &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('keyword');" style = "cursor:pointer;">#${keyword.keyword } &nbsp; &times;</span>
          	 </div>
           </c:if>
             <c:if test= "${keyword.minPrice != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text" onclick = "deletecondition('minPrice');">#최소 가격 : ${keyword.minPrice } &nbsp; &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('minPrice');" style = "cursor:pointer">#최소 가격 : ${keyword.minPrice } &nbsp; &times;</span>
          	 </div>
           </c:if>
             <c:if test= "${keyword.maxPrice != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text" onclick = "deletecondition('maxPrice');">#최대 가격 : ${keyword.maxPrice } &nbsp; &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('maxPrice');" style = "cursor:pointer">#최대 가격 : ${keyword.maxPrice } &nbsp; &times;</span>
          	 </div>
        	   </c:if>
            <c:if test= "${materiallist != null}">
            	 <c:forEach items = "${materiallist}" var = "m" >
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text" onclick = "deletecondition('${m}');">#${m} &nbsp; &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('${m}');" style = "cursor:pointer">#${m} &nbsp; &times;</span>
          	 </div>
          	 </c:forEach>
           </c:if>
            <c:if test= "${keyword.minHeight != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text" onclick = "deletecondition('minHeight');">#최소 세로 : ${keyword.minHeight } &nbsp; &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('minHeight');" style = "cursor:pointer">#최소 세로 : ${keyword.minHeight } &nbsp; &times;</span>
          	 </div>
        	   </c:if>
        	    <c:if test= "${keyword.maxHeight != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text" onclick = "deletecondition('maxHeight');">#최대 세로 : ${keyword.maxHeight } &nbsp; &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('maxHeight');" style = "cursor:pointer">#최대 세로 : ${keyword.maxHeight } &nbsp; &times;</span>
          	 </div>
        	   </c:if>
        	    <c:if test= "${keyword.minWidth != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text" onclick = "deletecondition('minWidth');">#최소 가로 : ${keyword.minWidth } &nbsp; &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('minWidth');" style = "cursor:pointer">#최소 가로 : ${keyword.minWidth } &nbsp; &times;</span>
          	 </div>
        	   </c:if>
        	    <c:if test= "${keyword.maxWidth != 0}">
         	  <div class="badgeset badgeset-tag badgeset-round badgeset-line">
-         	   <span class="badgeset-text" onclick = "deletecondition('maxWidth');">#최대 가로 : ${keyword.maxWidth } &nbsp; &times;</span>
+         	   <span class="badgeset-text" onclick = "deletecondition('maxWidth');" style = "cursor:pointer">#최대 가로 : ${keyword.maxWidth } &nbsp; &times;</span>
          	 </div>
        	   </c:if>
         </div>
@@ -528,6 +528,7 @@
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
                           <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명" id = "keyword">
+                            <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -543,6 +544,7 @@
                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상" id = "minPrice">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하" id = "maxPrice">
+                            <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -576,7 +578,7 @@
                           <div class="checkset" style = "flex-direction:column;">
                            <span class="checkset-text"></span>
                           <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료" id = "materialinput">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('material')">검색</button>
+                            <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -596,7 +598,7 @@
                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 세로길이(cm)" class = "height">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
                            <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 세로길이(cm)" class = "height">
-                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('size')">적용</button>
+                          <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -636,18 +638,13 @@
                           <label class="checkset-label" for="checkset-6-1"></label>
                           <span class="checkset-text">무료배송</span>
                         </div>
-                        <div class="checkset">
-                          <input id="checkset-6-4" class="checkset-input input-round" type="checkbox" value="">
-                          <label class="checkset-label" for="checkset-6-4"></label>
-                          <span class="checkset-text">포인트 적립</span>
-                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div style = "display:flex; align-items:center; justify-content:center;">
-               <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
+             
                </div>
               <div class="contents-filter-footer">
                 <span>필터초기화</span>
@@ -663,13 +660,13 @@
                   <div class="tabset tabset-text">
                     <ul class="tabset-list">
                       <li class="tabset-item">
-                        <a class="tabset-link" href="javascript:void(0)">
-                          <span onclick = "priceorder('high')">높은가격순</span>
+                        <a class="tabset-link">
+                          <span onclick = "priceorder('high')" style = "cursor:pointer;" id = "ordebyhighprice">높은가격순</span>
                         </a>
                       </li>
                       <li class="tabset-item">
-                        <a class="tabset-link" href="javascript:void(0)">
-                          <span onclick = "priceorder('low')">낮은가격순</span>
+                        <a class="tabset-link">
+                          <span onclick = "priceorder('low')" style = "cursor:pointer;" id = "orderbylowprice">낮은가격순</span>
                         </a>
                       </li>
                     </ul>
@@ -805,27 +802,27 @@
               
               <nav class="pagiset pagiset-line">
                 <div class="pagiset-ctrl">
-                  <a class="pagiset-link pagiset-first" href="${loc}?page=${pi.startPage}">
+                  <a class="pagiset-link pagiset-first" onclick = "paging('first')" style = "cursor:pointer">
                     <span class="visually-hidden">처음</span>
                   </a>
                 </div>
                 <div class="pagiset-ctrl">
-                  <a class="pagiset-link pagiset-prev" href="${loc}?page=${pi.currentPage-1}">
+                  <a class="pagiset-link pagiset-prev" onclick = "paging('forward')" style = "cursor:pointer">
                     <span class="visually-hidden">이전</span>
                   </a>
                 </div>
                 <div class="pagiset-list">
-                  <c:forEach var = "page" begin = "${pi.startPage}" end ="${pi.endPage}">
-                  <a class= "${pi.currentPage == page} ? pagiset-link active-fill : pagiset-link"  href="${loc}?page=${page}">${page}</a>
+                  <c:forEach var = "page" begin = "${pi.startPage}" end ="${pi.endPage}" >
+                  <a class= "${pi.currentPage == page} ? pagiset-link active-fill : pagiset-link"  onclick = "paging(${page})" style = "cursor:pointer">${page}</a>
                   </c:forEach>
                 </div>
                 <div class="pagiset-ctrl">
-                  <a class="pagiset-link pagiset-next" href="${loc}?page=${pi.currentPage+1}">
+                  <a class="pagiset-link pagiset-next" onclick = "paging('next')" style = "cursor:pointer">
                     <span class="visually-hidden">다음</span>
                   </a>
                 </div>
                 <div class="pagiset-ctrl">
-                  <a class="pagiset-link pagiset-last" href="${loc}?page=${pi.maxPage}">
+                  <a class="pagiset-link pagiset-last" onclick = "paging('last')" style = "cursor:pointer">
                     <span class="visually-hidden">마지막</span>
                   </a>
                 </div>
@@ -1122,6 +1119,112 @@
   		
   	}
   	
+  
+  </script>
+  
+  <script>
+  	
+  		if(${order == "high"}){
+  			
+  			document.getElementById('ordebyhighprice').style.color = 'black';
+  		}
+  	
+  		if(${order == "low"}){
+  			
+  			document.getElementById('orderbylowprice').style.color = 'black';
+  		}
+  </script>
+  
+  
+  <script>
+  
+  function removeURLParameters(url, parametersToRemove) {
+		  var urlObject = new URL(url);
+		  var params = new URLSearchParams(urlObject.search);
+
+		  parametersToRemove.forEach(function (param) {
+		    params.delete(param);
+		  });
+
+		  urlObject.search = params.toString();
+
+		  return urlObject.href;
+		}
+  
+  
+ 	function paging(data){
+ 		
+		
+  		var URLSearch = new URLSearchParams(location.search);
+  		
+  		var originalURL = window.location.href;
+	  	var parametersToRemove = ["page"];
+	  	var modifiedURL = removeURLParameters(originalURL, parametersToRemove);
+	  		
+ 		switch(data){
+ 		
+ 		case 'first':
+ 			
+ 			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?page="+${pi.startPage}; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('page')){
+ 				location.href = modifiedURL + "?page="+${pi.startPage}; break;
+ 			}else{
+ 				location.href = modifiedURL + "&page="+${pi.startPage}; break;
+ 			}
+ 			break;
+ 		case 'forward':
+ 			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?page="+${pi.currentPage-1}; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('page')){
+ 				location.href = modifiedURL + "?page="+${pi.currentPage-1}; break;
+ 			}else{
+ 				location.href = modifiedURL + "&page="+${pi.currentPage-1}; break;
+ 			}
+ 			break;
+ 		case 'next':
+ 			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?page="+${pi.currentPage+1}; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('page')){
+ 				location.href = modifiedURL + "?page="+${pi.currentPage+1}; break;
+ 			}else{
+ 				location.href = modifiedURL + "&page="+${pi.currentPage+1}; break;
+ 			}
+ 			break;
+ 		case 'last':	
+ 			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?page="+${pi.maxPage}; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('page')){
+ 				location.href = modifiedURL + "?page="+${pi.maxPage}; break;
+ 			}else{
+ 				location.href = modifiedURL + "&page="+${pi.maxPage}; break;
+ 			}
+ 			break;
+ 		
+ 		default:
+ 			
+ 			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?page="+data; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('page')){
+ 				location.href = modifiedURL + "?page="+data; break;
+ 			}else{
+ 				location.href = modifiedURL + "&page="+data; break;
+ 			}
+ 			break;
+ 			
+ 		
+ 		}
+ 		
+ 		
+ 		
+ 	}
+  
+ 	
+ 	
+ 	
+ 	  
+  
+  
   
   </script>
   

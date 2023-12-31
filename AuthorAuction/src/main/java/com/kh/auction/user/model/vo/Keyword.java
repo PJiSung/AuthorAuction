@@ -14,8 +14,6 @@ public class Keyword {
 	
 	public Keyword() {}
 
-	
-	
 	public Keyword(String keyword, int minPrice, int maxPrice, String material, int minHeight, int maxHeight,
 			int minWidth, int maxWidth, int deliveryFee) {
 		super();
@@ -29,8 +27,6 @@ public class Keyword {
 		this.maxWidth = maxWidth;
 		this.deliveryFee = deliveryFee;
 	}
-
-
 
 	public String getKeyword() {
 		return keyword;
@@ -110,6 +106,10 @@ public class Keyword {
 				+ material + ", minHeight=" + minHeight + ", maxHeight=" + maxHeight + ", minWidth=" + minWidth
 				+ ", maxWidth=" + maxWidth + ", deliveryFee=" + deliveryFee + "]";
 	}
+
+	
+	
+	
 
 	
 	

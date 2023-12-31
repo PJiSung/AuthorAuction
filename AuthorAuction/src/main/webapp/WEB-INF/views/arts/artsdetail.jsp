@@ -452,9 +452,10 @@
             <div class="contents-thumbnail">
               <img class="contents-thumbimg" src="sunwoo/proimages/${p.proImage}" alt="썸네일이미지">
             </div>
+            <div style = "overflow:auto;">
             <ul class="contents-thumblist">
               <li class="contents-thumbitem">
-                <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_1.png" alt="썸네일이미지">
+                <img class="contents-thumbimg" src="sunwoo/proimages/${p.proImage}" alt="썸네일이미지">
               </li>
               <li class="contents-thumbitem">
                 <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_2.png" alt="썸네일이미지">
@@ -465,7 +466,9 @@
               <li class="contents-thumbitem">
                 <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_4.png" alt="썸네일이미지">
               </li>
+              
             </ul>
+            </div>
           </div>
           
           <div class="contents-right">
@@ -506,15 +509,16 @@
               <ul class="contents-right-list">
                 <li class="contents-right-item">
                   <strong>포인트적립</strong>
+                  <c:if test="${loginUser != null}">
+                  <span>4%</span>
+                  </c:if>
+                  <c:if test="${loginUser == null}">
                   <span>로그인시 포인트적립이 가능합니다</span>
+                  </c:if>
                 </li>
                 <li class="contents-right-item">
                   <strong>배송정보</strong>
                   <span>무료배송</span>
-                </li>
-                <li class="contents-right-item">
-                  <strong>판매자정보</strong>
-                  <span>템하피부몰</span>
                 </li>
               </ul>
             </div>
