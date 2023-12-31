@@ -150,14 +150,45 @@
 		                  <td class="tableset-order05">${ c.conProduct }</td>
 		                  <td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
 		                  <td class="tableset-order05">${ c.conHope }</td>
-		                  <td class="tableset-order05">${ c.conDelStatus }</td>
-		                  <td class="tableset-order05">${ c.conAdmStatus }</td>
-		                  <td class="tableset-order01">
-		                   <!--  <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
-		                    	<intput type="button">수락	
-		                    </div>
-		                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">거절</div> -->
-		                  ${c.conConStatus }</td>
+<%-- 		                  	<td class="tableset-order05">${ c.conDelStatus }</td> --%>
+		                  
+		                  <c:if test="${ c.conDelStatus == 'Y' }">
+		                  	<td class="tableset-order05">Y</td>
+		                  </c:if>
+		                  <c:if test="${ c.conDelStatus == 'N' }">
+		                  	<td class="tableset-order05">N</td>
+		                  </c:if>
+		                  
+<%-- 		                  <td class="tableset-order05">${ c.conAdmStatus }</td> --%>
+		                  
+		                  <c:if test="${ c.conAdmStatus == 'N'}">
+			                  <td class="tableset-order05">N</td>
+		                  </c:if>
+		                  <c:if test="${ c.conAdmStatus == 'Y'}">
+			                  <td class="tableset-order05">Y</td>
+		                  </c:if>
+		                  
+		                  
+		                  <c:if test="${c.conConStatus == 'N'}">
+			                  <td class="tableset-order01">
+			                   <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
+			                    	<intput type="button">수락	
+			                    </div>
+			                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">거절</div> 
+			                  </td>
+		                  </c:if>
+						  <c:if test="${c.conConStatus == 'Y'}">
+						  	<c:if test="">
+						  	  <td>진행중</td>	
+						  	</c:if>
+						  	<c:if test="">
+						  	  <td>예정</td>	
+						  	</c:if>
+						  	<c:if test="">
+						  	  <td>종료</td>	
+						  	</c:if>
+						  </c:if>
+		                  
 		                  
 		                  <td><input type="hidden" value="${ c.conNo }" name="conNo"></td>
 		                </tr>

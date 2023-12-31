@@ -60,6 +60,10 @@ public interface ConsignmentDAO {
 
 	ArrayList<Consignment> searchList2(HashMap<String, String> map, RowBounds rowBounds);
 
+	
+	
+	
+
 
 
 

@@ -69,7 +69,7 @@
 	
 	<select id="selectConsignment" resultType="Consignment">							<!-- 상세조회 -->
 		select *
-		from consignment
+		from consignment 
 		where CON_DEL_STATUS = 'Y' and CON_NO = #{conNo}
 	</select>
 	
@@ -181,5 +181,16 @@
 			#{conNo}
 		</foreach>
 	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

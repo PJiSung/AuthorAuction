@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.auction.common.config.Pagination;
@@ -40,7 +39,6 @@ public class conAdmController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Consignment> list = cService.selectUserList(memId, pi);
 		
-		
 		if(list != null) {
 			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
@@ -55,6 +53,14 @@ public class conAdmController {
 	@GetMapping("selectUser.adco")
 	public String selectUser(@RequestParam("conNo")int conNo,					// 리스트에서 받아와서
 							 HttpSession session, Model model) {
+	
+	
+		String isAdmin = ((Member)session.getAttribute("loginUser")).getMemIsAdmin();
+		if(isAdmin.equals("Y")) {
+			int result = cService.updateConAdmStatus(conNo);					// 관리자 열람 여부
+			System.out.println(result);
+		}
+	
 		Member m = cService.selectMember(conNo);
 		Consignment c = cService.selectUser(conNo);
 		ArrayList<Consignment> list = cService.selectAttmUserList(conNo);
@@ -71,7 +77,6 @@ public class conAdmController {
 			throw new Exception("첨부파일 게시글 상세조회 실패");
 		}
 	}
-	
 	// 체크박스 삭제
 	@GetMapping("checkDelete.adco")
 	public String checkDelete(@RequestParam("deleteIds") String[] deleteIds) {
@@ -79,7 +84,6 @@ public class conAdmController {
 		
 		return "redirect:list.adco"; 
 	}
-	
 	// 조건 검색
 	@GetMapping("searchList.adco")
 	public String searchAdminConsignment(@RequestParam("select") String select,
@@ -106,5 +110,8 @@ public class conAdmController {
 		}
 		
 	}
+	// 수락 / 거절 페이지 이동
+	
+	
 	
 }

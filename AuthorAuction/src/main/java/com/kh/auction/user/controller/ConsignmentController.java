@@ -243,7 +243,6 @@ public class ConsignmentController {
 			throw new Exception("첨부파일 게시글 상세조회 실패");
 		}
 	}
-	
 	// 글 삭제
 	@PostMapping("delete.co")
 	public String deleteConsignment(@RequestParam("conNo")int conNo) {
@@ -256,7 +255,6 @@ public class ConsignmentController {
 			throw new Exception("게시글 삭제 실패");
 		}
 	}
-	
 	
 	
 	
