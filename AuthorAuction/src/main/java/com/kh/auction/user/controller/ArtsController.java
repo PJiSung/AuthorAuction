@@ -107,12 +107,9 @@ public class ArtsController {
 	public String payment(HttpSession session, Model model) {
 		
 		
-		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
-		ArrayList<Wishlist> wlist = aService.selectWishlist(loginid);
+		ArrayList<Wishlist> wlist = aService.selectWishlist(((Member)session.getAttribute("loginUser")).getMemId());
 		
-		model.addAttribute("loginid", loginid);
 		model.addAttribute("wlist", wlist);
-		
 		
 		
 		return "arts/payment";
@@ -191,6 +188,24 @@ public class ArtsController {
 		
 		
 		return "장바구니에 상품이 추가되었습니다.";
+	}
+	
+	
+	
+	
+	@GetMapping("directPayment.ar")
+	public String payment(HttpSession session, Model model, Product product, @RequestParam("amount") int amount) {
+		
+		
+		Product p = aService.selectArts(product.getProNo());
+		
+		
+		model.addAttribute("p", p);
+		model.addAttribute("amount", amount);
+		
+		
+		
+		return "arts/directpayment";
 	}
 	
 	

@@ -549,7 +549,7 @@
             </div>
             <div class="contents-btn-group">
               <button class="btnset btnset-line" type="button" onclick = "addtowishlist()">장바구니</button>
-              <button class="btnset" type="button">구매하기</button>
+              <button class="btnset" type="button" onclick = "directPay()">구매하기</button>
             </div>
           </div>
         </div>
@@ -855,6 +855,22 @@
   		 btn.style.cursor = 'not-allowed';
   	
   	}
+  
+  </script>
+  
+  <script>
+  
+  
+  	//바로 구매
+  	function directPay(){
+  		
+  		var amount = parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText);
+  		
+  		location.href = 'directPayment.ar?proNo='+${p.proNo}+"&amount="+amount;
+  		
+  		
+  	}
+  
   
   </script>
   
