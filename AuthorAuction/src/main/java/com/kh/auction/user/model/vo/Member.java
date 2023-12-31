@@ -16,6 +16,15 @@ public class Member {
 	private int memBalance;
 	private Date memDate;
 	private String memRating;
+	private int graBonus;
+	
+	
+	public int getGraBonus() {
+		return graBonus;
+	}
+	public void setGraBonus(int graBonus) {
+		this.graBonus = graBonus;
+	}
 	public String getMemId() {
 		return memId;
 	}
@@ -97,7 +106,7 @@ public class Member {
 	
 	public Member(String memId, String memPwd, String memName, String memNickName, String memFileName,
 			String memAddress, String memPhone, String memEmail, String memIsAdmin, String memStatus, int memBalance,
-			Date memDate, String memRating) {
+			Date memDate, String memRating, int graBonus) {
 		super();
 		this.memId = memId;
 		this.memPwd = memPwd;
@@ -112,6 +121,7 @@ public class Member {
 		this.memBalance = memBalance;
 		this.memDate = memDate;
 		this.memRating = memRating;
+		this.graBonus = graBonus;
 	}
 	public Member() {}
 	@Override
@@ -119,6 +129,8 @@ public class Member {
 		return "Member [memId=" + memId + ", memPwd=" + memPwd + ", memName=" + memName + ", memNickName=" + memNickName
 				+ ", memFileName=" + memFileName + ", memAddress=" + memAddress + ", memPhone=" + memPhone
 				+ ", memEmail=" + memEmail + ", memIsAdmin=" + memIsAdmin + ", memStatus=" + memStatus + ", memBalance="
-				+ memBalance + ", memDate=" + memDate + ", memRating=" + memRating + "]";
+				+ memBalance + ", memDate=" + memDate + ", memRating=" + memRating + ", graBonus=" + graBonus + "]";
 	}
+
+	
 }

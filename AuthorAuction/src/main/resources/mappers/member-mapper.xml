@@ -21,7 +21,7 @@
 	
 	<select id="login">
 		SELECT *
-		FROM MEMBER
+		FROM MEMBER join grade on(GRA_NAME = MEM_RATING)
 		WHERE MEM_ID = #{memId} AND MEM_STATUS = 'Y'
 	</select>
 	

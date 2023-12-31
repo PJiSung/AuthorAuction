@@ -510,7 +510,7 @@
                 <li class="contents-right-item">
                   <strong>포인트적립</strong>
                   <c:if test="${loginUser != null}">
-                  <span>4%</span>
+                  <span id = "creditpoint">dd</span><small>&nbsp;p</small>
                   </c:if>
                   <c:if test="${loginUser == null}">
                   <span>로그인시 포인트적립이 가능합니다</span>
@@ -564,6 +564,7 @@
             <li class="tabset-item">
               <a class="tabset-link active" href="javascript:void(0)">
                 <span>상세정보</span>
+        
               </a>
             </li>
             <li class="tabset-item">
@@ -585,6 +586,9 @@
           </ul>
         </div>
         <div class="contents-container container-md">
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+          </div>
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
           </div>
@@ -704,30 +708,45 @@
   </script>
   
   <script>
+  
+	
+	
   		//총 결제 금액 스크립트
   		const originalprice = parseInt(document.getElementsByClassName('contents-price')[0].children[0].innerText);
   		document.getElementsByClassName('contents-price')[0].children[0].innerText = originalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   		
   		document.getElementsByClassName('contents-price')[1].children[0].innerText= originalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   		
+		//포인트 적립 가격 변동 스크립트
+		const originalPoint = ${loginUser.graBonus}/100 * originalprice;
+		const newPoint = parseInt(Math.round((originalPoint/1000)) * 1000);
+		document.getElementById('creditpoint').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		
 		function pricechage(btn){
 			var newprice = originalprice*(parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText));
-			
+			var newnewPoint = newPoint*(parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText));
 			switch(btn.className){
 					
 				case "contents-btn btn-plus": 
-					newprice = newprice+originalprice;  break;
+					newprice = newprice+originalprice;  
+					newnewPoint = newnewPoint+newPoint; break;
 				case "contents-btn btn-minus":
 					
 					if(parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText) != 1){
 					newprice = newprice-originalprice;  
+					newnewPoint = newnewPoint-newPoint;
 					}
 					break;
 			
 				}
 			document.getElementsByClassName('contents-price')[1].children[0].innerText = newprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+			document.getElementById('creditpoint').innerText = newnewPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		}		
+		
+		
+		
+		
+		
   
   </script>
   
@@ -789,9 +808,6 @@
 
   
   <script>
-  
-  
-  
   	
   		//장바구니에 물건 담든 스크립트
   
