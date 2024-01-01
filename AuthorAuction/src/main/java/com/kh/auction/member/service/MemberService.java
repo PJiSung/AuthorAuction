@@ -30,4 +30,6 @@ public interface MemberService {
 	int deleteMember(String memId);
 
 	int deleteAddress(int addNo);
+
+	int updateMember(Member m);
 }

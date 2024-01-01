@@ -423,4 +423,28 @@ public class MemberController {
 		}
 		return checkNum;
 	}
+	
+	@GetMapping("updateMember")
+	@ResponseBody
+	public int updateMember(Member m, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		m.setMemId(loginUser.getMemId());
+		System.out.println(m);
+		int result = mService.updateMember(m);
+		if(result > 0) {
+			if(m.getMemNickName() != null) {
+				loginUser.setMemNickName(m.getMemNickName());
+			}else if(m.getMemName() != null) {
+				loginUser.setMemName(m.getMemName());
+			}else if(m.getMemEmail() != null) {
+				loginUser.setMemEmail(m.getMemEmail());
+			}else if(m.getMemPhone() != null) {
+				loginUser.setMemPhone(m.getMemPhone());
+			}else if(m.getMemAddress() != null) {
+				loginUser.setMemAddress(m.getMemAddress());
+			}
+			session.setAttribute("loginUser", loginUser);
+		}
+		return result;
+	}
 }

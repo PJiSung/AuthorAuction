@@ -90,4 +90,24 @@
 		DELETE ADDRESS
 		WHERE ADD_NO = #{addNo}
 	</delete>
+	
+	<update id="updateMember">
+		UPDATE MEMBER
+		<if test="memNickName != null">
+			SET MEM_NICKNAME = #{memNickName}
+		</if>
+		<if test="memName != null">
+			SET MEM_NAME = #{memName}
+		</if>
+		<if test="memEmail != null">
+			SET MEM_EMAIL = #{memEmail} 
+		</if>
+		<if test="memPhone != null">
+			SET MEM_PHONE = #{memPhone}
+		</if>
+		<if test="memAddress != null">
+			SET MEM_ADDRESS = #{memAddress}
+		</if>
+		WHERE MEM_ID = #{memId}
+	</update>
 </mapper>

@@ -35,4 +35,6 @@ public interface MemberDAO {
 	int deleteMember(String memId);
 
 	int deleteAddress(int addNo);
+
+	int updateMember(Member m);
 }

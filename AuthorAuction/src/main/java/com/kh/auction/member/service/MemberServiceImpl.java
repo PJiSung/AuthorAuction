@@ -102,5 +102,10 @@ public class MemberServiceImpl implements MemberService{
 	public int deleteAddress(int addNo) {
 		return mDao.deleteAddress(addNo);
 	}
+
+	@Override
+	public int updateMember(Member m) {
+		return mDao.updateMember(m);
+	}
 	
 }

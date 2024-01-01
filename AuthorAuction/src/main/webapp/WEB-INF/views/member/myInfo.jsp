@@ -167,87 +167,7 @@ window.onload = () =>{
 	changeMember();
 }
 
-authNum = 0;
-const sendAuthNo = (value) =>{
-	if(value == 1){
-    	let email = document.getElementById("email");
-    	if(email.value != ""){
-    		alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
-    	    $.ajax({
-    	        type : 'get',
-    	        url : 'emailAuthentication',
-    	        data: {email: email.value},
-    	        success : function (data) {
-    	        	if(data != 0){
-						authNum = data;
-					}else{
-						authNum = null;
-					}
-					console.log(authNum);
-    	        }         
-    		}); 
-    	}
-	}else{
-		let phone = document.getElementById("phone");
-		if(phone.value != ""){
-			alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
-			$.ajax({
-				url: "authentication",
-				data: {phone : phone.value},
-				success: (data) =>{
-					if(data != 0){
-						authNum = data;
-					}else{
-						authNum = null;
-					}
-					console.log(authNum);
-				},
-				error : data => console.log
-			});
-		}
-	}
-}
 
-const checkNum1 = (value) =>{
-	let inputNum = document.getElementsByName("authNum")[0];
-	let tds = document.querySelectorAll(".myInfo tr td:last-child");
-	let phone = document.getElementById("email");
-	if(authNum == inputNum.value){
-		
-		$.ajax({
-			url: "updateMember",
-			data: {phone : phone.value},
-			success: (data) =>{
-				if(data != 0){
-					authNum = data;
-				}else{
-					authNum = null;
-				}
-				console.log(authNum);
-			},
-			error : data => console.log
-		});
-		
-		alert("이메일이 변경되었습니다.");
-		tds[value].innerHTML = '<input type="text" value="'+email.value+'">';
-	}else{
-		alert("인증번호가 일치하지않습니다");
-		inputNum.focus();
-	}
-}
-
-const checkNum2 = (value) =>{
-	let inputNum = document.getElementsByName("authNum")[1];
-	let tds = document.querySelectorAll(".myInfo tr td:last-child");
-	let phone = document.getElementById("phone");
-	if(authNum == inputNum.value){
-		alert("전화번호가 변경되었습니다.");
-		tds[value].innerHTML = '<input type="text" value="'+phone.value+'">';
-	}else{
-		alert("인증번호가 일치하지않습니다");
-		inputNum.focus();
-	}
-}
 
 tab = '${tab}';
 const tab2 = () =>{
@@ -407,7 +327,6 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 		tds[i].addEventListener("click", function(){
 			if(beforeIndex != i){
 				if(beforeIndex != null && tds[beforeIndex].innerHTML != beforeData){
-					console.log("이거 실행")
 					tds[beforeIndex].innerHTML = beforeData;
 				}
 				
@@ -415,8 +334,11 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 					beforeData = this.innerHTML;
 					beforeIndex = i;
 					if(i == 0){
+						let nickName = this.querySelector("h3");
+						nickName.innerHTML = '<input type="text" class="updateData" value="${ loginUser.memNickName }">'
 						
 					}else if(i == 1){
+						this.innerHTML = '<input type="text" class="updateData" value="${ loginUser.memName }">'
 						
 					}else if(i == 2){
 						const table = document.createElement("table");
@@ -430,7 +352,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						
 						const tr2 = document.createElement("tr");
 						const authNo = document.createElement("td");
-						authNo.innerHTML = '<input type="text" name="authNum" placeholder="인증코드 입력">';
+						authNo.innerHTML = '<input type="text" id="authNum" placeholder="인증코드 입력">';
 						const checkAuthNo = document.createElement("td");
 						checkAuthNo.innerHTML = '<input type="button" value="확인" onclick="checkNum1('+i+')">';
 						tr2.append(authNo);
@@ -454,7 +376,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						
 						const tr2 = document.createElement("tr");
 						const authNo = document.createElement("td");
-						authNo.innerHTML = '<input type="text" name="authNum" placeholder="인증코드 입력">';
+						authNo.innerHTML = '<input type="text" id="authNum" placeholder="인증코드 입력">';
 						const checkAuthNo = document.createElement("td");
 						checkAuthNo.innerHTML = '<input type="button" value="확인" onclick="checkNum2('+i+')">';
 						tr2.append(authNo);
@@ -484,7 +406,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						
 						const tr3 = document.createElement("tr");
 						const addDetail = document.createElement("td");
-						addDetail.innerHTML = '<input type="text" id="sample6_detailAddress" value="${ fn:split(loginUser.memAddress, '@')[2] }">';
+						addDetail.innerHTML = '<input type="text" id="sample6_detailAddress" class="updateData" value="${ fn:split(loginUser.memAddress, '@')[2] }">';
 						const addEtc = document.createElement("td");
 						addEtc.innerHTML = '<input type="text" id="sample6_extraAddress" value="${ fn:split(loginUser.memAddress, '@')[3] }" readonly="readonly">';
 						tr3.append(addDetail);
@@ -496,9 +418,183 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						this.innerHTML = "";
 						this.append(table);
 					}
+					
+					const updateDatas = document.getElementsByClassName('updateData');
+					for(let k=0; k<updateDatas.length; k++){
+						updateDatas[k].addEventListener("keyup", function(event){
+							if(event.key == "Enter"){
+								let datas = "";
+								if(i == 0 || i == 1){
+									datas = this.value;
+								}else{
+									let address = "";
+									address += document.getElementById("sample6_postcode").value+"@";
+									address += document.getElementById("sample6_address").value+"@";
+									address += document.getElementById("sample6_detailAddress").value+"@";
+									address += document.getElementById("sample6_extraAddress").value;
+									
+									datas = address;
+								}
+								
+								if(i == 0){
+									$.ajax({
+								 		url: 'checkNickName',
+								 		data: {memNickName: datas},
+								 		success: (data) =>{
+								 			if(data == 0){
+								 				$.ajax({
+											 		url: 'updateMember',
+											 		data: {memNickName: datas},
+											 		success: (data) =>{
+											 			if(data == 1){
+											 				let nickName = tds[beforeIndex].querySelector("h3");
+											 				let updateData = '<input type="text" value="'+datas+'">';
+											 				nickName.innerHTML = updateData;
+											 				console.log(beforeData.split("<h3>")[1]);
+											 				let beforeDataArr = beforeData.split("<h3>");
+											 				beforeData = beforeDataArr[0]+"<h3>"+updateData+"</h3>";
+											 				this.style.borderBottom = "none";
+											 			} else {
+											 				alert("수정이 실패하여 페이지가 새로고침 됩니다.");
+											 				location.reload();
+											 			}
+											 		},
+											 		error: data => console.log(data)
+											 		});
+								 			} else {
+								 				alert("중복된 닉네임입니다.");
+								 			}
+								 		},
+								 		error: data => console.log(data)
+								 		});
+								}else if(i == 1){
+									
+									$.ajax({
+								 		url: 'updateMember',
+								 		data: {memName: datas},
+								 		success: (data) =>{
+								 			if(data == 1){
+								 				tds[beforeIndex].innerHTML = '<input type="text" value="'+datas+'">';
+								 				this.style.borderBottom = "none";
+								 			} else {
+								 				alert("수정이 실패하여 페이지가 새로고침 됩니다.");
+								 				location.reload();
+								 			}
+								 		},
+								 		error: data => console.log(data)
+								 		});
+								}else if(i == 4){
+									
+									$.ajax({
+								 		url: 'updateMember',
+								 		data: {memAddress: datas},
+								 		success: (data) =>{
+								 			if(data == 1){
+								 				tds[beforeIndex].innerHTML = '<input type="text" value="'+datas+'">';
+								 				this.style.borderBottom = "none";
+								 			} else {
+								 				alert("수정이 실패하여 페이지가 새로고침 됩니다.");
+								 				location.reload();
+								 			}
+								 		},
+								 		error: data => console.log(data)
+								 		});
+								}
+							}
+						});
+					}
 				}
 			}
 		});
+	}
+}
+
+authNum = 0;
+const sendAuthNo = (value) =>{
+	if(value == 1){
+    	let email = document.getElementById("email");
+    	if(email.value != ""){
+    		alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
+    	    $.ajax({
+    	        type : 'get',
+    	        url : 'emailAuthentication',
+    	        data: {email: email.value},
+    	        success : function (data) {
+    	        	if(data != 0){
+						authNum = data;
+					}else{
+						authNum = null;
+					}
+					console.log(authNum);
+    	        }         
+    		}); 
+    	}
+	}else{
+		let phone = document.getElementById("phone");
+		if(phone.value != ""){
+			alert("인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보를 확인해 주세요.");
+			$.ajax({
+				url: "authentication",
+				data: {phone : phone.value},
+				success: (data) =>{
+					if(data != 0){
+						authNum = data;
+					}else{
+						authNum = null;
+					}
+					console.log(authNum);
+				},
+				error : data => console.log
+			});
+		}
+	}
+}
+
+const checkNum1 = (value) =>{
+	let inputNum = document.getElementById("authNum");
+	let tds = document.querySelectorAll(".myInfo tr td:last-child");
+	let email = document.getElementById("email");
+	if(authNum == inputNum.value){
+		$.ajax({
+			url: "updateMember",
+			data: {memEmail : email.value},
+			success: (data) =>{
+				if(data == 1){
+					tds[value].innerHTML = '<input type="text" value="'+email.value+'">';
+				}else{
+					alert("수정이 실패하여 페이지가 새로고침 됩니다.");
+	 				location.reload();
+				}
+			},
+			error : data => console.log
+		});
+	}else{
+		alert("인증번호가 일치하지않습니다");
+		inputNum.focus();
+	}
+}
+
+const checkNum2 = (value) =>{
+	let inputNum = document.getElementById("authNum");
+	let tds = document.querySelectorAll(".myInfo tr td:last-child");
+	let phone = document.getElementById("phone");
+	if(authNum == inputNum.value){
+		$.ajax({
+			url: "updateMember",
+			data: {memPhone : phone.value},
+			success: (data) =>{
+				if(data == 1){
+					tds[value].innerHTML = '<input type="text" value="'+phone.value+'">';
+				}else{
+					alert("수정이 실패하여 페이지가 새로고침 됩니다.");
+	 				location.reload();
+				}
+			},
+			error : data => console.log
+		});
+	}else{
+		alert("인증번호가 일치하지않습니다");
+		inputNum.focus();
 	}
 }
 
@@ -564,23 +660,6 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 	        		<td>전화번호</td>
 	        		<td><input type="text" value="${ loginUser.memPhone }"></td>
 	        	</tr>
-	        	
-	        	<!-- <tr>
-	        		<td>전화번호</td>
-	        		<td>
-	        		<table>
-	        			<tr>
-		        			<td><input type="text" value="${ loginUser.memPhone }"></td>
-		        			<td><input type="button" value="인증"></td>
-	        			<tr>
-	        			<tr>
-		        			<td><input type="text" value=""></td>
-		        			<td><input type="button" value="확인"></td>
-	        			<tr>
-	        		</table>
-	        		</td>
-	        	</tr> -->
-	        	
 	        	<tr>
 	        		<td>주소</td>
 	        		<td><input type="text" value="(${ fn:split(loginUser.memAddress, '@')[0] }) ${ fn:split(loginUser.memAddress, '@')[1] } ${ fn:split(loginUser.memAddress, '@')[2] }${ fn:split(loginUser.memAddress, '@')[3] }"></td>
