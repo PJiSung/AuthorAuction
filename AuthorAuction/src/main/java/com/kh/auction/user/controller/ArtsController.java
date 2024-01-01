@@ -124,7 +124,7 @@ public class ArtsController {
 		HashMap<String, Object> pm = new HashMap<String,Object>();
 		pm.put("pointBonus", pointBonus);
 		pm.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
-		
+		pm.put("usedPoint",order.getOrdPoPrice());
 		
 		
 		int pointresult = aService.updatepointBonus(pm);

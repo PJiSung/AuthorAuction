@@ -485,7 +485,7 @@ ul,li,ol{
 					<div style = "height: 100%; width: 40%;  text-align: right; display:flex; flex-direction: column; justify-content:center;">
 								<div style = "height:15%;"><h3>총 상품가격 :</h3></div>		
 								<div style = "height:15%;"><h3>적립 포인트 :</h3></div>		
-								<div style = "height:15%;"><h3>적립 포인트 사용 :</h3></div>		
+								<div style = "height:15%;"><h3>사용 포인트 :</h3></div>		
 								<div style = "height:15%;"><h1>총 결제금액 :</h1></div>
 					
 					</div>
