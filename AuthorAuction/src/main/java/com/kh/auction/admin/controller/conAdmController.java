@@ -51,13 +51,13 @@ public class conAdmController {
 	}
 	// 상세조회
 	@GetMapping("selectUser.adco")
-	public String selectUser(@RequestParam("conNo")int conNo,					// 리스트에서 받아와서
+	public String selectUser(@RequestParam("conNo")int conNo,						// 리스트에서 받아와서
 							 HttpSession session, Model model) {
 	
 	
 		String isAdmin = ((Member)session.getAttribute("loginUser")).getMemIsAdmin();
 		if(isAdmin.equals("Y")) {
-			int result = cService.updateConAdmStatus(conNo);					// 관리자 열람 여부
+			int result = cService.updateConAdmStatus(conNo);		// 관리자 열람 여부
 			System.out.println(result);
 		}
 	
@@ -70,7 +70,7 @@ public class conAdmController {
 		if(list != null) {
 			model.addAttribute("list", list);
 			model.addAttribute("c", c);
-			model.addAttribute("m", m);											// 상세조회로 보내	
+			model.addAttribute("m", m);												// 상세조회로 보내	
 			
 			return "consignment/conDetail";		
 		} else {

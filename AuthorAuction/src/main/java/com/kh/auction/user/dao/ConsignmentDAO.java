@@ -26,6 +26,7 @@ public interface ConsignmentDAO {
 
 	ArrayList<Consignment> searchList(HashMap<String, String> map, RowBounds rowBounds);
 
+//	Consignment selectConsignment(int conNo, String id);
 	Consignment selectConsignment(int conNo);
 
 	ArrayList<Attachment> selectAttmConsignmentList(int conNo);
@@ -39,7 +40,21 @@ public interface ConsignmentDAO {
 	int deleteConsignment(int conNo);
 
 	int statusNConsignment(int conNo);
+	
+	
+	
+	int deleteAttm(ArrayList<String> delRename);
+	
+	void updateAttmFno(String memId);
 
+	void updateAttmLevel(String memId);
+
+	int updateConsignment(Consignment c);
+
+	
+
+	
+	
 	
 	
 	//////////////////////////////////////////////////////////////////
@@ -59,17 +74,6 @@ public interface ConsignmentDAO {
 	int searchCount2(HashMap<String, String> map);
 
 	ArrayList<Consignment> searchList2(HashMap<String, String> map, RowBounds rowBounds);
-
-	
-	
-	
-
-
-
-
-
-
-
 
 
 }
