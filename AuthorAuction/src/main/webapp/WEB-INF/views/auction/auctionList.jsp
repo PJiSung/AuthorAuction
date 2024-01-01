@@ -12,6 +12,18 @@
 	<jsp:include page="../common/header.jsp"/>
 	<button onclick="location.href='adminInquiry.adac'">관리자</button>
 	
+	<button onclick="location.href='enrollAuction.adac'">경매 등록</button>
+	
+	<button onclick="location.href='editAuction.adac'">경매 수정</button>
+	
+	<button onclick="location.href='myInterest.ac'">내 관심 목록</button>
+	
+	<button onclick="location.href='myBidList.ac'">내 입찰 경매</button>
+	
+	<button onclick="location.href='endAuction.adac'">종료된 경매</button>
+	
+	<button onclick="location.href='scheduledAuction.adac'">예정 경매</button>
+	
     <div id="containerCover" style="width: 70%; margin: auto; margin-top: 1%;">
         <div style=" background-color: pink;">
             <div id="searchLine">
@@ -39,7 +51,7 @@
                     <div class="auction" id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
                         <img src="flower1.PNG" style="width: 100%; height: 100%;">
                         <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
-                        <input type="hidden" value="boardNo" id="check">
+                        <input type="hidden" value="114" id="check">
                     </div>
                     <div class="auction" id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
                         <img src="flower1.PNG" style="width: 100%; height: 100%;">

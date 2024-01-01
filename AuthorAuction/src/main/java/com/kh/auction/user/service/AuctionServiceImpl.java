@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.auction.user.dao.AuctionDAO;
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
 
 @Service
@@ -68,7 +69,7 @@ public class AuctionServiceImpl implements AuctionService{
 
 	@Override //관심목록 업데이트
 	public String updateInterest(HashMap<String, Object> hm) {
-		if(aDAO.likeCheck(hm) > 0) {
+		if(aDAO.likeCheck(hm) < 1) {
 			aDAO.insertLike(hm);
 			return "insert";
 		}else {
@@ -76,5 +77,15 @@ public class AuctionServiceImpl implements AuctionService{
 			return "delete";
 		}
 		
+	}
+
+	@Override //경매 내부의 사진을 들고옴
+	public ArrayList<Attachment> getAuctionAttachment(int aucNo) {
+		return aDAO.getAuctionAttachment(aucNo);
+	}
+
+	@Override //문의 글 번호로 경매 등록 - 경매가 아직 등록이 안되어 있기 때문에 경매 번호에 문의 글 번호 담음
+	public int insertAuction() {
+		return aDAO.insertAuction();
 	}
 }

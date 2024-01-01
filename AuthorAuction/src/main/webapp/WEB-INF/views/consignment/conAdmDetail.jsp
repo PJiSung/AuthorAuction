@@ -85,17 +85,11 @@
                     <a style="display:inline-block; width: 15%; text-align: center;">작품명</a>
                     <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
                     <br><br>
-                    <a style="display:inline-block; width: 15%; text-align: center;">작품의 재료</a>
-                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-                    <br><br>
                     <a style=" display:inline-block; width: 15%; text-align: center;">작품의 크기(cm)</a>
                     <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 34rem; display:inline-block"> X <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 34rem; display:inline-block">
                     <br><br>
                     <a style="display:inline-block; width: 15%; text-align: center;">제작연도</a>
                     <input type=" text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-                    <br><br>
-                    <a style="display: inline-block; width: 15%; text-align: center;">구입가(KRW)</a>
-                    <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display:inline-block">
                     <br><br>
                     <a style=" display: inline-block; width: 15%; text-align: center;">희망가</a>
                     <input type="text" class="inputset-input form-control" aria-label="내용" required="" style="width: 70rem; display: inline-block">

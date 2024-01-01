@@ -7,7 +7,7 @@
 		</selectKey>
 		insert into CONSIGNMENT
 		values (#{conNo}, #{conAuthor}, #{conProduct}, #{conWidth}, #{conHeight}, #{conYear}, #{conHope}, #{conEtc}, 
-				default, default, sysdate, #{memId})
+				default, default, sysdate, #{memId}, default)
 	</insert>
 	   
 	<insert id="insertAttm">															<!-- 첨부파일 등록 -->
@@ -34,7 +34,7 @@
 	</select>
 	
 	
-	<select id="searchCount" resultType="_int">											<!-- 조건 검색 -->
+	<select id="searchCount" resultType="_int">											<!-- 마이페이지 조건 검색 -->
 		select count(*)
 		from CONSIGNMENT
 			 join member using(mem_Id)
@@ -50,7 +50,7 @@
 		</if>
 	</select>
 	
-	<select id="searchList" resultType="Consignment">									<!-- 조건 검색 -->
+	<select id="searchList" resultType="Consignment">									<!-- 마이페이지 조건 검색 -->
 		select *
 		from CONSIGNMENT
 			 join member using(mem_Id)
@@ -69,8 +69,7 @@
 	
 	<select id="selectConsignment" resultType="Consignment">							<!-- 상세조회 -->
 		select *
-		from consignment
-			 join member using(mem_id)
+		from consignment 
 		where CON_DEL_STATUS = 'Y' and CON_NO = #{conNo}
 	</select>
 	
@@ -87,6 +86,19 @@
 		order by att_no
 	</select>
 	
+	<update id="updateConAdmStatus">													<!-- 관리자 열람여부 변경 -->
+		update consignment
+		set con_adm_status = 'Y'
+		where con_no=#{conNo}
+	</update>
+	
+	<select id="selectMember" resultType="Member">										<!-- 상세조회 멤버 가져옴 -->								
+		select *
+		from member
+		 	 join consignment using(mem_Id)
+		where con_no=#{conNo}
+	</select>
+	
 	<update id="deleteConsignment">														<!-- 글 삭제 -->
 		update consignment
 		set CON_DEL_STATUS = 'N'
@@ -99,14 +111,107 @@
 		where att_bno = #{conNo}
 	</update>
 	
+	
+
+
+			
+	<delete id="deleteAttm">					<!-- 파일 삭제 -->
+		delete from attachment
+		where ATT_RENAME in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="updateConsignment">				<!-- 내용 수정 -->
+		update consignment
+		set con_author=#{conAuthor}, con_product=#{conProduct}, 
+			board_modify_date = sysdate, board_type = #{boardType}
+		where board_id = #{boardId}
+	</update>
+	
+	<update id="updateAttmFno">
+		update attachment
+		set 
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	<!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  -->
+	
+	
+	<select id="getListCount2" resultType="_int">										<!-- 관리자 리스트 -->
+		select count(*)	
+		from consignment 
+	</select>
+
 	<select id="selectUserList" resultType="Consignment">								<!-- 관리자 리스트 -->
 		select *
 		from consignment
+		order by con_del_status desc, con_adm_status, con_con_status, con_no desc
 	</select>
 
-	<select id="" resultType="Consignment"></select>
-	
-	<select id="selectUserAttmList" resultType="Consignment">
-	
+	<select id="searchCount2" resultType="_int">										<!-- 관리자 조건 검색 -->
+		select count(*)
+		from consignment
+		where
+		<if test="select == '전체'">
+			 (con_author like '%'|| #{keyword} ||'%' or con_product like '%'|| #{keyword} ||'%')
+		</if>
+		<if test="select == '작가명'">
+			 con_author like '%'|| #{keyword} ||'%'
+		</if>
+		<if test="select == '작품명'">
+			 con_product like '%'|| #{keyword} ||'%'
+		</if>					 
 	</select>
+
+	<select id="searchList2" resultType="Consignment">									<!-- 관리자 조건 검색 -->
+		select *
+		from consignment
+		where
+		<if test="select == '전체'">
+			(con_author like '%'|| #{keyword} ||'%' or con_product like '%'|| #{keyword} ||'%')
+		</if>
+		<if test="select == '작가명'">
+			con_author like '%'|| #{keyword} ||'%'
+		</if>
+		<if test="select == '작품명'">
+			con_product like '%'|| #{keyword} ||'%'
+		</if>
+		order by con_del_status desc, con_No desc
+	</select>							
+
+	<select id="selectUser" resultType="Consignment">									<!-- 관리자 상세조회 -->
+		select *
+		from consignment
+		where con_no=#{conNo}
+	</select>
+	
+	<select id="selectAttmUserList" resultType="Attachment">							<!-- 관리자 첨부상세조회 -->
+		select *
+		from attachment
+		where ATT_STATUS = 'Y'
+		<if test="conNo == null">
+			and att_fno = 0
+		</if>
+		<if test="conNo != null">
+			and att_bno = #{conNo}
+		</if>
+		order by att_no
+	</select>
+	
+	<update id="checkDelete">															<!-- 관리자 체크박스 삭제 -->
+		update consignment
+		set con_del_status = 'N'
+		where con_No in
+		<foreach item="conNo" collection="array" open="(" separator="," close=")">
+			#{conNo}
+		</foreach>
+	</update>
+	
 </mapper>

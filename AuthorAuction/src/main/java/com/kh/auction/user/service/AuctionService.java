@@ -3,6 +3,7 @@ package com.kh.auction.user.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
 
 public interface AuctionService {
@@ -24,5 +25,11 @@ public interface AuctionService {
 
 	//관심목록 업데이트
 	String updateInterest(HashMap<String, Object> hm);
+	
+	//경매 내부의 사진을 들고옴
+	ArrayList<Attachment> getAuctionAttachment(int aucNo);
+
+	//문의 글 번호로 경매 등록 - 경매가 아직 등록이 안되어 있기 때문에 경매 번호에 문의 글 번호 담음
+	int insertAuction();
 
 }

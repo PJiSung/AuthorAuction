@@ -21,14 +21,14 @@ public class ArtsServiceImpl implements ArtsService {
 	ArtsDAO aDAO;
 	
 	@Override
-	public ArrayList<Product> selectArtslist(PageInfo pi){
+	public ArrayList<Product> selectArtslist(PageInfo pi,HashMap<String, Object> map){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return aDAO.selectArtslist(rowBounds);
+		return aDAO.selectArtslist(rowBounds,map);
 	}
 	
 	@Override
@@ -38,9 +38,9 @@ public class ArtsServiceImpl implements ArtsService {
 	}
 
 	@Override
-	public int getlistCount() {
+	public int getlistCount(HashMap<String, Object> map) {
 		
-		return aDAO.getListCount();
+		return aDAO.getListCount(map);
 	}
 	
 	@Override
@@ -92,5 +92,26 @@ public class ArtsServiceImpl implements ArtsService {
 	public int addtowishlist(Wishlist addwis) {
 		
 		return aDAO.addtowishlist(addwis);
+	}
+	
+	@Override
+	public int selectWish(Wishlist w) {
+		
+		
+		return aDAO.selectWish(w);
+	}
+	
+	@Override
+	public int updatepointBonus(HashMap<String, Object> pm) {
+		
+		
+		return aDAO.updatepointBonus(pm);
+	}
+	
+	@Override
+	public int updateProductamount(HashMap<String, Object> map) {
+		
+		
+		return aDAO.updateProductamount(map);
 	}
 }

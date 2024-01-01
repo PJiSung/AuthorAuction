@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +39,7 @@ public class AuctionController {
 		//진행중인 경매의 모든 경매리스트를 가지고옴
 		ArrayList<Auction> auctionList = aService.getAllAuction();
 		
+		
 		//가지고온 경매리스트의 갯수(size)가 총 갯수
 		PageInfo pi = Pagination.getPageInfo(currentPage, auctionList.size(), 12);
 	
@@ -53,22 +55,11 @@ public class AuctionController {
 		
 		//경매 번호를 가지고 세부내용을 들고옴
 		Auction auction = aService.getAuctionDetail(aucNo);
-		
-		String id = null;
-		Member m = ((Member)model.getAttribute("loginUser"));
-		int likeCheck = 0;
-		
-		if(m != null) {
-			HashMap<String, Object> hm = new HashMap<>();
-			id = m.getMemId();
-			hm.put("aucNo", aucNo);
-			hm.put("id", m.getMemId());
-			likeCheck = aService.likeCheck(hm);
-			model.addAttribute("likeCheck", likeCheck);
-		}
-			
-		//상세 페이지로 이동할때 좋아요를 눌렀는지 체크
-		
+		//경매 내부의 사진을 들고옴
+		/*
+		 * ArrayList<Attachment> aList = aService.getAuctionAttachment(aucNo);
+		 * System.out.println(aList);
+		 */
 		model.addAttribute("auction",auction);
 		model.addAttribute("page", page);
 		
@@ -112,7 +103,27 @@ public class AuctionController {
 	}
 	
 	@ResponseBody
-	@PostMapping("interest.ac")
+	@PostMapping("checkLike.ac")//상세 페이지로 이동할때 좋아요를 눌렀는지 체크
+	public int checkLike(@RequestParam("aucNo") int aucNo, Model model) {
+		String id = null;
+		Member m = ((Member)model.getAttribute("loginUser"));
+		int likeCheck = 0;
+		
+		if(m != null) {
+			HashMap<String, Object> hm = new HashMap<>();
+			id = m.getMemId();
+			hm.put("aucNo", aucNo);
+			hm.put("id", m.getMemId());
+			likeCheck = aService.likeCheck(hm);
+			model.addAttribute("likeCheck", likeCheck);
+			return likeCheck;
+		}
+			return 0;
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("interest.ac") //ajax 관심 목록 업데이트
 	public String updateInterest(@RequestParam("aucNo") int aucNo, Model model) {
 		String id = ((Member)model.getAttribute("loginUser")).getMemId();
 		HashMap<String, Object> hm = new HashMap<>();
@@ -121,4 +132,16 @@ public class AuctionController {
 		String result = aService.updateInterest(hm);
 		return result;
 	}
+	
+	@GetMapping("myBidList.ac")
+	public String moveToMyBIdList() {
+		return "/auction/myAuction";
+	}
+	
+	@GetMapping("myInterest.ac")
+	public String moveToMyInterest() {
+		return "/auction/likeList";
+	}
+	
+	 
 }

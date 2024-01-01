@@ -14,11 +14,11 @@ import com.kh.auction.user.model.vo.Wishlist;
 @Mapper
 public interface ArtsDAO {
 
-	ArrayList<Product> selectArtslist(RowBounds rowBounds);
+	ArrayList<Product> selectArtslist(RowBounds rowBounds, HashMap<String, Object> map);
 
 	ArrayList<Wishlist> selectWishlist(String loginid);
 
-	int getListCount();
+	int getListCount(HashMap<String, Object> map);
 
 	Product selectArts(int proNo);
 
@@ -35,6 +35,12 @@ public interface ArtsDAO {
 	int insertOrderDetail(HashMap<String, Object> map);
 
 	int addtowishlist(Wishlist addwis);
+
+	int selectWish(Wishlist w);
+
+	int updatepointBonus(HashMap<String, Object> pm);
+
+	int updateProductamount(HashMap<String, Object> map);
 
 
 	

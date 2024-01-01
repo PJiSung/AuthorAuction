@@ -12,14 +12,13 @@ public class Auction {
 	private int conWidth;
 	private int conHeight;
 	private int conYear;
-	private int conHope;
 	private String conEtc;
 	private String attRename;
 	
 	public Auction() {}
 
 	public Auction(int aucNo, int aucStartPrice, Integer aucFinishPrice, String aucStartDate, String aucFinishDate,
-			String aucMemId, String conAuthor, String conProduct, int conWidth, int conHeight, int conYear, int conHope,
+			String aucMemId, String conAuthor, String conProduct, int conWidth, int conHeight, int conYear,
 			String conEtc, String attRename) {
 		super();
 		this.aucNo = aucNo;
@@ -33,7 +32,6 @@ public class Auction {
 		this.conWidth = conWidth;
 		this.conHeight = conHeight;
 		this.conYear = conYear;
-		this.conHope = conHope;
 		this.conEtc = conEtc;
 		this.attRename = attRename;
 	}
@@ -126,14 +124,6 @@ public class Auction {
 		this.conYear = conYear;
 	}
 
-	public int getConHope() {
-		return conHope;
-	}
-
-	public void setConHope(int conHope) {
-		this.conHope = conHope;
-	}
-
 	public String getConEtc() {
 		return conEtc;
 	}
@@ -155,7 +145,6 @@ public class Auction {
 		return "Auction [aucNo=" + aucNo + ", aucStartPrice=" + aucStartPrice + ", aucFinishPrice=" + aucFinishPrice
 				+ ", aucStartDate=" + aucStartDate + ", aucFinishDate=" + aucFinishDate + ", aucMemId=" + aucMemId
 				+ ", conAuthor=" + conAuthor + ", conProduct=" + conProduct + ", conWidth=" + conWidth + ", conHeight="
-				+ conHeight + ", conYear=" + conYear + ", conHope=" + conHope + ", conEtc=" + conEtc + ", attRename="
-				+ attRename + "]";
+				+ conHeight + ", conYear=" + conYear + ", conEtc=" + conEtc + ", attRename=" + attRename + "]";
 	}
 }

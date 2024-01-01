@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.auction.common.config.Pagination;
@@ -81,9 +83,40 @@ public class AuctionAdminController {
 		System.out.println(aList);
 		return "";
 		
-		
-		
 	}
 	
+	
+	@GetMapping("enrollAuction.adac")
+	public String moveToEnrollAuction() {
+		return "/auction/enrollAuction";
+	}
+	
+	@PostMapping("insertAuction.adac")
+	public String insertAuction(@ModelAttribute Auction auction, Model model) {
+		//문의 글 번호로 경매 등록 - 경매가 아직 등록이 안되어 있기 때문에 경매 번호에 문의 글 번호 담음
+		int result = aService.insertAuction();
+		
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	@GetMapping("editAuction.adac")
+	public String moveToEditAuction() {
+		return "/auction/editAuction";
+	}
+	
+	@GetMapping("endAuction.adac")
+	public String moveToEndAuctioin() {
+		return "/auction/endAuction";
+	}
+	
+	@GetMapping("scheduledAuction.adac")
+	public String moveToScheduledAuction() {
+		return "/auction/scheduledAuction";
+	}
 	
 }

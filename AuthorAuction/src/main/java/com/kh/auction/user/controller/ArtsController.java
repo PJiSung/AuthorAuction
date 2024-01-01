@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.common.config.Pagination;
+import com.kh.auction.user.model.vo.Keyword;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
@@ -45,15 +46,31 @@ public class ArtsController {
 	}
 	
 	@GetMapping("artslist.ar")
-	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request) {
+	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request, @ModelAttribute Keyword keyword, @RequestParam(value = "materiallist", required = false) String[] materiallist, @RequestParam(value = "order", required = false) String order) {
+		
+		
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("keyword", keyword.getKeyword());
+		map.put("minHeight", keyword.getMinHeight());
+		map.put("maxHeight", keyword.getMaxHeight());
+		map.put("minWidth", keyword.getMinWidth());
+		map.put("maxWidth", keyword.getMaxWidth());
+		map.put("maxPrice", keyword.getMaxPrice());
+		map.put("minPrice", keyword.getMinPrice());
+		map.put("materiallist", materiallist);
+		map.put("order", order);	
+		
 		
 		int currentPage = page;
 		
-		int listCount = aService.getlistCount();
+		int listCount = aService.getlistCount(map);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
 		
-		ArrayList<Product> plist = aService.selectArtslist(pi);
+		ArrayList<Product> plist = aService.selectArtslist(pi,map);
+		model.addAttribute("order", order);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("materiallist", materiallist);
 		model.addAttribute("plistsize", plist.size());
 		model.addAttribute("plist", plist);
 		model.addAttribute("loc", request.getRequestURI());
@@ -68,8 +85,19 @@ public class ArtsController {
 		
 		Product p = aService.selectArts(proNo);
 		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
+		
+		
+		Wishlist w = new Wishlist();
+		
+		w.setMemId(loginid);
+		w.setProNo(proNo);
+		
+		
+		int countwis = aService.selectWish(w);
+		
 		model.addAttribute("p", p);
 		model.addAttribute("loginid", loginid);
+		model.addAttribute("countwis", countwis);
 		
 		return "arts/artsdetail";
 		
@@ -79,22 +107,27 @@ public class ArtsController {
 	public String payment(HttpSession session, Model model) {
 		
 		
-		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
-		ArrayList<Wishlist> wlist = aService.selectWishlist(loginid);
+		ArrayList<Wishlist> wlist = aService.selectWishlist(((Member)session.getAttribute("loginUser")).getMemId());
 		
-		model.addAttribute("loginid", loginid);
 		model.addAttribute("wlist", wlist);
-		
 		
 		
 		return "arts/payment";
 	}
 	
 	@GetMapping("payresult.ar")
-	public String payresult(HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
+	public String payresult(Model model, HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
 			@RequestParam("address") String address,@RequestParam("receiver") String receiver,@RequestParam("receiverPhone") String receiverPhone,
-			@RequestParam("wisAmountfororder") int[] wisAmountfororder, @RequestParam("pronofororder") int[] pronofororder) {
+			@RequestParam("wisAmountfororder") int[] wisAmountfororder, @RequestParam("pronofororder") int[] pronofororder,@RequestParam("pointBonus") int pointBonus) {
 		
+		
+		HashMap<String, Object> pm = new HashMap<String,Object>();
+		pm.put("pointBonus", pointBonus);
+		pm.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
+		pm.put("usedPoint",order.getOrdPoPrice());
+		
+		
+		int pointresult = aService.updatepointBonus(pm);
 		
 		int result = aService.insertOrder(order); 
 		
@@ -105,6 +138,7 @@ public class ArtsController {
 			map.put("proNos", (Integer)pronofororder[i]);
 			map.put("odtNum", (Integer)wisAmountfororder[i]);
 			
+			int resultqq = aService.updateProductamount(map);
 			int resultweq = aService.insertOrderDetail(map);
 			
 		}
@@ -115,6 +149,13 @@ public class ArtsController {
 		
 		
 		int resultwis = aService.deletewisAll(loginid);
+		
+		model.addAttribute("orderNo", order.getOrdNo());
+		model.addAttribute("OrdSumPrice", order.getOrdCaPrice());
+		model.addAttribute("ordPoPrice", order.getOrdPoPrice());
+		model.addAttribute("pointBonus", pointBonus);
+		model.addAttribute("address", address);
+		model.addAttribute("receiver", receiver);
 		
 		
     	
@@ -162,7 +203,24 @@ public class ArtsController {
 		
 		
 		
-		return "장바구니에 물건이 담겼습니다.";
+		return "장바구니에 상품이 추가되었습니다.";
+	}
+	
+	
+	
+	
+	@GetMapping("directPayment.ar")
+	public String payment(HttpSession session, Model model, Product product, @RequestParam("amount") int amount) {
+		
+		
+		Product p = aService.selectArts(product.getProNo());
+		
+		
+		model.addAttribute("p", p);
+		model.addAttribute("amount", amount);
+		
+		
+		return "arts/directpayment";
 	}
 	
 	
