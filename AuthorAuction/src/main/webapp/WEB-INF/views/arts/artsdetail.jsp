@@ -562,24 +562,24 @@
         <div class="tabset tabset-fluid">
           <ul class="tabset-list container-md">
             <li class="tabset-item">
-              <a class="tabset-link active" href="javascript:void(0)">
+              <a class="tabset-link active" onclick= "showdetail('detaildiv')" style = "cursor:pointer;">
                 <span>상세정보</span>
         
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" href="javascript:void(0)">
+              <a class="tabset-link" onclick= "showdetail('qnadiv')" style = "cursor:pointer;">
                 <span>상품문의</span>
               </a>
             </li>
             
             <li class="tabset-item">
-              <a class="tabset-link" href="javascript:void(0)">
+              <a class="tabset-link" onclick= "showdetail('reviewdiv')" style = "cursor:pointer;">
                 <span>리뷰</span>
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" onclick= "showdetail('delidiv')">
+              <a class="tabset-link" onclick= "showdetail('delidiv')" style = "cursor:pointer;">
                 <span>배송/교환/반품안내</span>
               </a>
             </li>
@@ -593,14 +593,31 @@
             <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
           </div>
         </div>
-        
-        <div id = "delidiv">
-        	 <div class="imageset">
+         <div class="contents-container container-md" id = "qnadiv">
+          <div class="imageset">
             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
           </div>
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
           </div>
+        </div>
+         <div class="contents-container container-md" id = "reviewdiv">
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+          </div>
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
+          </div>
+        </div>
+         <div class="contents-container container-md" id = "delidiv">
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+          </div>
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
+          </div>
+        </div>
+        
         	
         
         </div>
@@ -902,12 +919,44 @@ window.getSelection().removeAllRanges();
   </script>
   
   <script>
+   var  delidiv = document.getElementById('delidiv')
+  var reviewdiv = document.getElementById('reviewdiv')
+  var qnadiv = document.getElementById('qnadiv')
+  var detaildiv = document.getElementById('detaildiv')
   
-  document.getElementById('delidiv').style.display = "none";
+ 	 delidiv.style.display = "none";
+  	reviewdiv.style.display = "none";
+  	qnadiv.style.display = "none";
   
   	function showdetail(kind){
+  
+  		switch(kind){
   		
-  		document.getElementById(kind).style.display = "block";
+  		case 'delidiv': delidiv.style.display = "block";
+  		reviewdiv.style.display = "none";
+  		qnadiv.style.display = "none";
+  		detaildiv.style.display = "none";
+  					break;	
+  		
+  		case 'reviewdiv': reviewdiv.style.display = "block";
+  		delidiv.style.display = "none";
+  		qnadiv.style.display = "none";
+  		detaildiv.style.display = "none";
+  					break;	
+  		
+  		case 'qnadiv': qnadiv.style.display = "block";
+  		reviewdiv.style.display = "none";
+  		delidiv.style.display = "none";
+  		detaildiv.style.display = "none";
+  					break;	
+  		
+  		case 'detaildiv': detaildiv.style.display = "block";
+  		reviewdiv.style.display = "none";
+  		qnadiv.style.display = "none";
+  		delidiv.style.display = "none";
+  					break;	
+  		
+  		}
   		
   	}
   
