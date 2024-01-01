@@ -401,11 +401,6 @@
     		selectStartBtn.addEventListener('click', selectStartBtnEvent); 
     	}
     	
-    	
-    	
-    	
-    	
-    	
     	function selectEnd(targetDay){
     		if(parseInt(targetDay) < 10){
     			targetDay = "0" + targetDay;
