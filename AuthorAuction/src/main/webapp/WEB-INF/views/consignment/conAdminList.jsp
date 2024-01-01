@@ -174,7 +174,9 @@
 			                   <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
 			                    	<intput type="button">수락	
 			                    </div>
-			                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">거절</div> 
+			                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">
+			                    	거절
+			                    </div> 
 			                  </td>
 		                  </c:if>
 						  <c:if test="${c.conConStatus == 'Y'}">

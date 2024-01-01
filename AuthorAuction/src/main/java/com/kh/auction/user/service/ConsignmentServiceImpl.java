@@ -58,6 +58,10 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 		return cDAO.searchList(map, rowBounds);
 	}
 	// 상세조회
+//	@Override
+//	public Consignment selectConsignment(int conNo, String id) {
+//		return cDAO.selectConsignment(conNo, id);
+//	}
 	@Override
 	public Consignment selectConsignment(int conNo) {
 		return cDAO.selectConsignment(conNo);
@@ -87,7 +91,30 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	public int statusNConsignment(int conNo) {
 		return cDAO.statusNConsignment(conNo);
 	}
-
+	
+	
+	
+	
+	
+	// 글 수정
+	@Override
+	public int deleteAttm(ArrayList<String> delRename) {
+		return cDAO.deleteAttm(delRename);
+	}
+	@Override
+	public void updateAttmFno(String memId) {
+		cDAO.updateAttmFno(memId);
+	}
+	@Override
+	public void updateAttmLevel(String memId) {
+		cDAO.updateAttmLevel(memId);
+	}
+	@Override
+	public int updateConsignment(Consignment c) {
+		// TODO Auto-generated method stub
+		return cDAO.updateConsignment(c);
+	}
+	
 	
 	
 	//////////////////////////////////////////////////////////////////////////////
@@ -137,14 +164,6 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return cDAO.searchList2(map, rowBounds);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

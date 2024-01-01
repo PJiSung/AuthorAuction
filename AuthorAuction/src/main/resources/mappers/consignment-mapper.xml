@@ -99,7 +99,6 @@
 		where con_no=#{conNo}
 	</select>
 	
-	
 	<update id="deleteConsignment">														<!-- 글 삭제 -->
 		update consignment
 		set CON_DEL_STATUS = 'N'
@@ -111,6 +110,39 @@
 		set ATT_STATUS = 'N'
 		where att_bno = #{conNo}
 	</update>
+	
+	
+
+
+			
+	<delete id="deleteAttm">					<!-- 파일 삭제 -->
+		delete from attachment
+		where ATT_RENAME in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="updateConsignment">				<!-- 내용 수정 -->
+		update consignment
+		set con_author=#{conAuthor}, con_product=#{conProduct}, 
+			board_modify_date = sysdate, board_type = #{boardType}
+		where board_id = #{boardId}
+	</update>
+	
+	<update id="updateAttmFno">
+		update attachment
+		set 
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	<!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  -->
+	
 	
 	<select id="getListCount2" resultType="_int">										<!-- 관리자 리스트 -->
 		select count(*)	
@@ -181,16 +213,5 @@
 			#{conNo}
 		</foreach>
 	</update>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 </mapper>
