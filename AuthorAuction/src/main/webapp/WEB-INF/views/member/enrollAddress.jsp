@@ -101,8 +101,9 @@ const submitBtn = () =>{
 	    alert('모든 필수 입력 필드를 작성해주세요.');
 	    
 	    const invalidFields = document.querySelectorAll('input:invalid');
+	    
 	    invalidFields.forEach(field => {
-	      field.style.border = '1px solid red';
+	      field.style.borderBottom = '1px solid red';
 	    });
 		return;  
 	}

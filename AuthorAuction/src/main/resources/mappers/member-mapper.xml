@@ -79,4 +79,15 @@
 		SET ADD_NAME = #{addName}, ADD_RECIPIENT = #{addRecipient}, ADD_ADDRESS = #{addAddress}, ADD_PHONE = #{addPhone}, ADD_DEFAULT = #{addDefault}
 		WHERE ADD_NO = #{addNo}
 	</update>
+	
+	<update id="deleteMember">
+		UPDATE MEMBER
+		SET MEM_STATUS = 'N'
+		WHERE MEM_ID = #{memId}
+	</update>
+	
+	<delete id="deleteAddress">
+		DELETE ADDRESS
+		WHERE ADD_NO = #{addNo}
+	</delete>
 </mapper>

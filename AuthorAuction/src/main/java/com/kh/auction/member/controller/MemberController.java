@@ -334,7 +334,7 @@ public class MemberController {
 			model.addAttribute("a", a);
 			return "member/updateAddress";
 		}else{
-			throw new Exception("배송지 업데이트 실패");
+			throw new Exception("배송지 불러오기 실패");
 		}
 	}
 	
@@ -344,8 +344,83 @@ public class MemberController {
 		if(result > 0) {
 			ratt.addAttribute("tab", 2);
 			return "redirect:myInfo";
+		} else {
+			throw new Exception("배송지 업데이트 실패");
 		}
-		return "redirect:myInfo";
 	}
 	
+	@GetMapping("deleteAddress")
+	public String deleteAddress(@RequestParam("addNo") int addNo, RedirectAttributes ratt) throws Exception {
+		int result = mService.deleteAddress(addNo);
+		if(result > 0) {
+			ratt.addAttribute("tab", 2);
+			return "redirect:myInfo";
+		} else {
+			throw new Exception("배송지 삭제 실패");
+		}
+	}
+	
+	@PostMapping("checkPwd")
+	@ResponseBody
+	public String checkPwd(@RequestParam("pwd") String pwd, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if (bcrypt.matches(pwd, loginUser.getMemPwd())) {
+			return "success";
+		}
+		return "fail";
+	}
+	
+	@PostMapping("updatePwd")
+	public String updatePwd(@RequestParam("newPw") String newPw, HttpSession session) throws Exception {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		loginUser.setMemPwd(bcrypt.encode(newPw));
+		int result = mService.updatePwd(loginUser);
+		if(result > 0) {
+			session.setAttribute("loginUser", loginUser);
+			return "redirect:myInfo";
+		} else {
+			throw new Exception("비밀번호 변경 실패");
+		}
+	}
+	
+	@GetMapping("deleteMemberView")
+	public String deletememberView() {
+		return "member/deleteMember";
+	}
+	
+	@GetMapping("deleteMember")
+	public String deleteMember(HttpSession session) throws Exception {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int result = mService.deleteMember(loginUser.getMemId());
+		if(result > 0) {
+			session.invalidate();
+			return "redirect:/";
+		} else {
+			throw new Exception("회원 탈퇴 실패");
+		}
+	}
+	
+	@GetMapping("emailAuthentication")
+	@ResponseBody
+	public int emailAuthentication(@RequestParam("email") String email){
+		Random r = new Random();
+		int checkNum = r.nextInt(888888) + 111111;
+		String subject = "인증 코드";
+		String content = "<h1>Author Auction</h1><br>고객님의 인증 코드는 다음과 같습니다.<br><h1>" + checkNum +"</h1>";
+		String from = "gah_yn@naver.com";
+		String to = email;
+		try {
+			MimeMessage mail = mailSender.createMimeMessage();
+			MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+			mailHelper.setFrom(from); 
+			mailHelper.setTo(to);
+			mailHelper.setSubject(subject); 
+			mailHelper.setText(content, true);
+			mailSender.send(mail);
+		} catch (Exception e) {
+			checkNum = 0;
+			e.printStackTrace();
+		}
+		return checkNum;
+	}
 }

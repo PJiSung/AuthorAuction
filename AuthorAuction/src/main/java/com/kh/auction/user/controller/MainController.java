@@ -20,14 +20,14 @@ public class MainController {
 	@GetMapping("/")
 	public String test(HttpSession session) {
 		Member m = new Member();
-		String id = "123";
+		String id = "starcr222";
 		m.setMemId(id);
 		Member loginUser = mService.login(m);
 		session.setAttribute("loginUser", loginUser);
 		return "index";
 	}
 	
-	@GetMapping("/chat")
+	@GetMapping("chat")
 	public String chat(@RequestParam(value = "roomNumber", defaultValue = "1") String roomNumber, Model model) {
 		model.addAttribute("roomNumber", roomNumber);
 		return "common/chat";

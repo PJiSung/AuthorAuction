@@ -92,5 +92,15 @@ public class MemberServiceImpl implements MemberService{
 			return mDao.updateAddress(a);
 		}
 	}
+
+	@Override
+	public int deleteMember(String memId) {
+		return mDao.deleteMember(memId);
+	}
+
+	@Override
+	public int deleteAddress(int addNo) {
+		return mDao.deleteAddress(addNo);
+	}
 	
 }
