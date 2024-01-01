@@ -140,10 +140,20 @@
 	</select>
 	
 	<insert id="insertAuction">
-		insert into auction values(auc_seq.nextval, #{auction.aucStartPrice}, #{auction.}, null, to_timestamp(#{auction.aucStartDate}, 'YYYY-MM-DD HH24:MI:SS'), to_timestamp(#{auction.aucFinishDate}, 'YYYY-MM-DD HH24:MI:SS'), #{aucNo})
+		insert into auction values(auc_seq.nextval, #{aucStartPrice}, null, to_timestamp(#{aucStartDate}, 'YYYY-MM-DD HH24:MI:SS'), to_timestamp(#{aucFinishDate}, 'YYYY-MM-DD HH24:MI:SS'), #{aucNo}, null)
 	</insert>
 	
+	<select id="getConsignmentInfo">
+		select *
+		from consignment
+		where con_no = #{conNo}
+	</select>
 	
+	<select id="getAttachment">
+		select *
+		from attachment
+		where att_bno = #{conNo} and (att_fno = 1 or att_fno = 2 or att_fno = 3)
+	</select>
 	
 	<!-- update member
 		set mem_balance = mem_balance + nvl((SELECT bid_price

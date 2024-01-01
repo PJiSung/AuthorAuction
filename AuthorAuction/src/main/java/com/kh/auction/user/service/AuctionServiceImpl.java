@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.auction.user.dao.AuctionDAO;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
+import com.kh.auction.user.model.vo.Consignment;
 
 @Service
 public class AuctionServiceImpl implements AuctionService{
@@ -85,7 +86,17 @@ public class AuctionServiceImpl implements AuctionService{
 	}
 
 	@Override //문의 글 번호로 경매 등록 - 경매가 아직 등록이 안되어 있기 때문에 경매 번호에 문의 글 번호 담음
-	public int insertAuction() {
-		return aDAO.insertAuction();
+	public int insertAuction(Auction auction) {
+		return aDAO.insertAuction(auction);
+	}
+
+	@Override //문의 글 번호로 문의 글 내용들고옴
+	public Consignment getConsignmentInfo(int conNo) {
+		return aDAO.getConsignmentInfo(conNo);
+	}
+
+	@Override //문의 글 번호로 문의 글에 등록된 사진들을 들고옴
+	public ArrayList<Attachment> getAttachment(int conNo) {
+		return aDAO.getAttachment(conNo);
 	}
 }
