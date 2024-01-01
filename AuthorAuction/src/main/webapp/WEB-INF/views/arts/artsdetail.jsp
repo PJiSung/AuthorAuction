@@ -579,19 +579,30 @@
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" href="javascript:void(0)">
+              <a class="tabset-link" onclick= "showdetail('delidiv')">
                 <span>배송/교환/반품안내</span>
               </a>
             </li>
           </ul>
         </div>
-        <div class="contents-container container-md">
+        <div class="contents-container container-md" id = "detaildiv">
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
           </div>
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
           </div>
+        </div>
+        
+        <div id = "delidiv">
+        	 <div class="imageset">
+            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+          </div>
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
+          </div>
+        	
+        
         </div>
       </div>
     </div>
@@ -625,8 +636,8 @@
 	font-size: 25px;
 	cursor: pointer;" onclick = "share('off')">&times;</span>
 	
-	<button class="sns_share_btn" onclick="">SNS공유</button>
-		<input id = "snsaddress" type = "text" readonly style = "width: 50%;">
+	<button class="sns_share_btn" onclick="copy_to_clipboard()">클립보드에 복사</button>
+		<input id = "snsaddress" type = "text" readonly style = "width: 100%;">
 	<div>
 	
       <!-- Kakao -->
@@ -804,6 +815,22 @@
 	  const url = "https://sample.com/index.php";
 	  window.open("https://telegram.me/share/url?url=" + uri + "&text=" + text);
 }
+
+
+
+
+//클립보드에 링크 복사 스크립트
+
+
+function copy_to_clipboard(){
+var r = document.createRange();
+r.selectNode(document.getElementById('snsaddress'));
+window.getSelection().removeAllRanges();
+window.getSelection().addRange(r);
+document.execCommand('copy');
+window.getSelection().removeAllRanges();
+}
+
 </script>
 
   
@@ -868,6 +895,19 @@
   		
   		location.href = 'directPayment.ar?proNo='+${p.proNo}+"&amount="+amount;
   		
+  		
+  	}
+  
+  
+  </script>
+  
+  <script>
+  
+  document.getElementById('delidiv').style.display = "none";
+  
+  	function showdetail(kind){
+  		
+  		document.getElementById(kind).style.display = "block";
   		
   	}
   

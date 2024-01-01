@@ -220,7 +220,6 @@ public class ArtsController {
 		model.addAttribute("amount", amount);
 		
 		
-		
 		return "arts/directpayment";
 	}
 	

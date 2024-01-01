@@ -501,7 +501,7 @@ ul,li,ol{
 			
 			
 			</div>
-			<div style = "background-color: black; color: white; text-align:center; width: 30%; height: 25%; margin-top: 15%; margin: 0 auto; cursor:pointer;">미술품 목록으로 돌아가기</div>
+			<div style = "background-color: black; color: white; text-align:center; width: 30%; height: 30%; margin-top: 15%; margin: 0 auto; cursor:pointer;" onclick = "location.href = 'artslist.ar'">미술품 목록으로 돌아가기</div>
 
 
 

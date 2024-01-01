@@ -1079,8 +1079,8 @@ $(document).ready(function(){
   	
   	$("#pointinput").keyup(function(e) {
   			var n = $(this).val(); 
-  			 n = Math.floor(n/1000) * 1000;
-  			 if(n>=1000){
+  			 n = Math.floor(n/10) * 10;
+  			 if(n>=10){
   		     $(this).val(n);
   			 }
 		});

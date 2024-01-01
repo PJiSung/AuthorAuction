@@ -673,7 +673,7 @@ input.check_btn:checked + label:before{
 								     <p class = "wisAmountfororder">${amount}</p>
 								</div>
 								<div style = "height: 80%; width: 20%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
-								     <p style = "font-weight: bold; font-size: 20px;" class = "proprices">${p.proPrice * amount}</p><small> 원</small>
+								     <p style = "font-weight: bold; font-size: 20px;" class = "proprices">${p.proPrice*amount}</p><small> 원</small>
 								</div>
 								<div style = "height: 80%; width: 10%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
 								     <p>무료배송</p><div style = "margin-left: 5px;border: 1px solid #888; color: #888; border-radius: 100%; width: 20px; height: 20px; display:flex; justify-content:center; align-items: center;" class = "questiondeliver">?</div>
@@ -709,6 +709,7 @@ input.check_btn:checked + label:before{
 <!-- 					</div> -->
 <!-- 				</div>	 -->
 				
+			<button onclick = "test()">테스트 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</button>	
 				
 				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh; margin-bottom: 20%;">
 					<div style = "height: 100%; width: 100%;">
@@ -744,7 +745,6 @@ input.check_btn:checked + label:before{
 	  		  <div><h2 id = "pointBonus">0</h2></div>
 	  		 <div><small> p</small></div>
 	  		 </div>
-	  		 
 	  		<div style = "padding-left: 10%; height: 10%; border-bottom: 1px dotted #666;"></div>
 	  		<div style = "display:flex; align-items:center; height: 20%;">
 	  			<h2 style ="margin-left: 10%;">결제 예정금액	</h2>
@@ -753,7 +753,7 @@ input.check_btn:checked + label:before{
 	  			 <div style = "width: 60%; padding-left: 10%; font-size: 23px;">상품금액</div>
 	  			 <div><h2 id = "propribill">0</h2></div>
 	  			 <div><small> 원</small></div>
-	  		</div>
+	  		</div>	
 	  		<div style = "display:flex; align-items:center; height: 7.5%;">
 	  			 <div style = "width: 60%; padding-left: 10%; font-size: 23px;">배송비</div>
 	  			 <div><h2 id = "delibill">0</h2></div>
@@ -1073,12 +1073,12 @@ $(document).ready(function(){
   
   
   <script>
-  	//포인트 천단위로 입력시키기 스크립트
+  	//포인트 백단위로 입력시키기 스크립트
   	
   	$("#pointinput").keyup(function(e) {
   			var n = $(this).val(); 
-  			 n = Math.floor(n/1000) * 1000;
-  			 if(n>=1000){
+  			 n = Math.floor(n/10) * 10;
+  			 if(n>=10){
   		     $(this).val(n);
   			 }
 		});
@@ -1266,6 +1266,9 @@ $(document).ready(function(){
 			wisAmountfororder.push(parseInt(wisa.innerText));
 		}
 		
+		var pointBonus = parseInt(document.getElementById('pointBonus').innerText.replace(/,/g,""));
+		
+		
 		
 	 
  IMP.request_pay({
@@ -1283,8 +1286,8 @@ $(document).ready(function(){
 		
 	    if (rsp.success) {
 	    	
-	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginid}
-	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder;
+	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginUser.memId}
+	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청
@@ -1307,21 +1310,15 @@ $(document).ready(function(){
  }
 </script>
 
-
-
 <script>
-	//포인트 적립 채워넣기 스크립트
-		
-	var totalprice = parseInt(document.getElementById('totalbill').innerText.replace(/,/g,""));
-	var originalPoint = ${loginUser.graBonus}/100 * totalprice;
-	var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
-		document.getElementById('pointBonus').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
-		
-		
+
+	//적립 포인트 채우기 스크립트
+var totalprice = parseInt(document.getElementById('totalbill').innerText.replace(/,/g,""));
+var originalPoint = ${loginUser.graBonus}/100 * totalprice;
+var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
+	document.getElementById('pointBonus').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+
 </script>
-
-
-
 
 
 
