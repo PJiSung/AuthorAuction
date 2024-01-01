@@ -1268,6 +1268,9 @@ $(document).ready(function(){
 			wisAmountfororder.push(parseInt(wisa.innerText));
 		}
 		
+		var pointBonus = parseInt(document.getElementById('pointBonus').innerText.replace(/,/g,""));
+		
+		
 		
 	 
  IMP.request_pay({
@@ -1286,7 +1289,7 @@ $(document).ready(function(){
 	    if (rsp.success) {
 	    	
 	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginUser.memId}
-	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder;
+	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청
@@ -1314,9 +1317,8 @@ $(document).ready(function(){
 	//적립 포인트 채우기 스크립트
 var totalprice = parseInt(document.getElementById('totalbill').innerText.replace(/,/g,""));
 var originalPoint = ${loginUser.graBonus}/100 * totalprice;
-var newPoint = parseInt(Math.round((originalPoint/1000)) * 1000);
+var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
 	document.getElementById('pointBonus').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
-	
 
 </script>
 

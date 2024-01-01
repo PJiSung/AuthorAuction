@@ -744,7 +744,7 @@ ul,li,ol{
   function updatePointPrice(){
 	 var totalbill = parseInt(document.getElementById('totalbill').innerText.replace(/,/g,""));
 	 var originalPoint = ${loginUser.graBonus}/100 * totalbill;
-	 var newPoint = parseInt(Math.round((originalPoint/1000)) * 1000);
+	 var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
   	document.getElementById('pointBonus').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
   	
   }

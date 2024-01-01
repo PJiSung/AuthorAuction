@@ -181,6 +181,20 @@
 		from wishlist
 		where MEM_ID = #{memId} and PRO_NO = #{proNo}
 	
-	</select>	
+	</select>
+	
+	
+	<update id="updatepointBonus">
+		update member set MEM_BALANCE = (SELECT MEM_BALANCE from member where MEM_ID = #{memId})+#{pointBonus}
+		where mem_id = #{memId}
+		
+	</update>
+	
+	
+	<update id="updateProductamount">
+		update product set PRO_AMOUNT = (select PRO_AMOUNT from product where PRO_NO = #{proNos})-#{odtNum}
+		where PRO_NO = #{proNos}
+	
+	</update>	
 </mapper>
 

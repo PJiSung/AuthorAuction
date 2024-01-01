@@ -116,10 +116,18 @@ public class ArtsController {
 	}
 	
 	@GetMapping("payresult.ar")
-	public String payresult(HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
+	public String payresult(Model model, HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
 			@RequestParam("address") String address,@RequestParam("receiver") String receiver,@RequestParam("receiverPhone") String receiverPhone,
-			@RequestParam("wisAmountfororder") int[] wisAmountfororder, @RequestParam("pronofororder") int[] pronofororder) {
+			@RequestParam("wisAmountfororder") int[] wisAmountfororder, @RequestParam("pronofororder") int[] pronofororder,@RequestParam("pointBonus") int pointBonus) {
 		
+		
+		HashMap<String, Object> pm = new HashMap<String,Object>();
+		pm.put("pointBonus", pointBonus);
+		pm.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
+		
+		
+		
+		int pointresult = aService.updatepointBonus(pm);
 		
 		int result = aService.insertOrder(order); 
 		
@@ -130,6 +138,7 @@ public class ArtsController {
 			map.put("proNos", (Integer)pronofororder[i]);
 			map.put("odtNum", (Integer)wisAmountfororder[i]);
 			
+			int resultqq = aService.updateProductamount(map);
 			int resultweq = aService.insertOrderDetail(map);
 			
 		}
@@ -140,6 +149,13 @@ public class ArtsController {
 		
 		
 		int resultwis = aService.deletewisAll(loginid);
+		
+		model.addAttribute("orderNo", order.getOrdNo());
+		model.addAttribute("OrdSumPrice", order.getOrdCaPrice());
+		model.addAttribute("ordPoPrice", order.getOrdPoPrice());
+		model.addAttribute("pointBonus", pointBonus);
+		model.addAttribute("address", address);
+		model.addAttribute("receiver", receiver);
 		
 		
     	

@@ -100,4 +100,18 @@ public class ArtsServiceImpl implements ArtsService {
 		
 		return aDAO.selectWish(w);
 	}
+	
+	@Override
+	public int updatepointBonus(HashMap<String, Object> pm) {
+		
+		
+		return aDAO.updatepointBonus(pm);
+	}
+	
+	@Override
+	public int updateProductamount(HashMap<String, Object> map) {
+		
+		
+		return aDAO.updateProductamount(map);
+	}
 }

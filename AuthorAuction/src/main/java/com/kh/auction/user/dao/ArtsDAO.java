@@ -38,6 +38,10 @@ public interface ArtsDAO {
 
 	int selectWish(Wishlist w);
 
+	int updatepointBonus(HashMap<String, Object> pm);
+
+	int updateProductamount(HashMap<String, Object> map);
+
 
 	
 }

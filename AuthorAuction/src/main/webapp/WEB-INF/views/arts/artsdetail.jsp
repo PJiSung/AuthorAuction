@@ -719,7 +719,7 @@
   		
 		//포인트 적립 가격 변동 스크립트
 		const originalPoint = ${loginUser.graBonus}/100 * originalprice;
-		const newPoint = parseInt(Math.round((originalPoint/1000)) * 1000);
+		const newPoint = parseInt(Math.round((originalPoint/10)) * 10);
 		document.getElementById('creditpoint').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		
 		function pricechage(btn){
