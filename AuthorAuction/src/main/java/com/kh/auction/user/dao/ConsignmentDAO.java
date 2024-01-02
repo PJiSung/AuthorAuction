@@ -45,7 +45,7 @@ public interface ConsignmentDAO {
 	
 	int deleteAttm(ArrayList<String> delRename);
 	
-	void updateAttmFno(String memId);
+	void updateAttmFno(HashMap<String, Object> map);
 
 	int updateConsignment(Consignment c);
 
