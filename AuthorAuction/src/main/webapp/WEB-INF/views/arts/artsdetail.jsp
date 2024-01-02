@@ -873,7 +873,7 @@ window.getSelection().removeAllRanges();
 			    url: 'addtowishlist.ar',
 			    type: 'GET',
 			    data: {
-			    	memId: ${loginid},
+			    	memId: '${loginid}',
 			    	proNo: proNo,
 			    	wisAmount: wisAmount
 			    },

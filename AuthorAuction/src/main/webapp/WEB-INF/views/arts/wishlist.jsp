@@ -600,6 +600,21 @@ ul,li,ol{
  			
  			 if(this.checked == false){
  				 allcheck.checked = false;
+ 				 
+ 			 }else{
+ 				 var count = 0;
+ 				 for(checkbox of checkboxes){
+ 					 if(checkbox.checked == true){
+ 						 count++;
+ 					 }
+ 				 }
+ 				 
+ 				 if(count == checkboxes.length){
+ 					 
+ 					allcheck.checked = true;
+ 				 }
+ 				 
+ 				 
  			 }
  			 
  		 });
@@ -622,7 +637,9 @@ ul,li,ol{
   					checkedpronos.push(product.nextElementSibling.value);
   				}
   			}
-  			location.href = "deletewishlist.ar?memId="+${loginid}+"&pronos="+checkedpronos;
+  			if(checkedpronos.length >0){
+  				location.href = "deletewishlist.ar?memId="+'${loginid}'+"&pronos="+checkedpronos;
+  				}
   		}
   
   
@@ -643,7 +660,7 @@ ul,li,ol{
 			    url: 'updatewishamount.ar',
 			    type: 'GET',
 			    data: {
-			    	memId: ${loginid},
+			    	memId: '${loginid}',
 			    	proNo: proNo,
 			    	wisAmount: wisAmount
 			    },
