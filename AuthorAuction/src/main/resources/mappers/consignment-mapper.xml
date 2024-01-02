@@ -130,10 +130,10 @@
 		where con_No=#{conNo}
 	</update>
 	
-	<update id="updateAttmFno">															<!-- 들어오는 사진 순서 지정 -->
+	<update id="updateAttmFno" parameterType="java.util.HashMap">															<!-- 들어오는 사진 순서 지정 -->
 		update attachment
 		set att_fno=#{attFno}
-		where att_bno=#{attBno}
+		where att_bno=#{conNo}
 	</update>
 	
 	
