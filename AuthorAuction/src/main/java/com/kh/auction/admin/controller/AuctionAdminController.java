@@ -132,12 +132,6 @@ public class AuctionAdminController {
 		}
 	}
 	
-	
-	@GetMapping("editAuction.adac")
-	public String moveToEditAuction() {
-		return "/auction/editAuction";
-	}
-	
 	@GetMapping("endAuction.adac")
 	public String moveToEndAuctioin() {
 		return "/auction/endAuction";
