@@ -115,7 +115,7 @@
 
 
 			
-	<delete id="deleteAttm">					<!-- 파일 삭제 -->
+	<delete id="deleteAttm">															<!-- 파일 삭제 -->
 		delete from attachment
 		where ATT_RENAME in
 		<foreach collection="list" item="item" open="(" close=")" separator=",">
@@ -123,16 +123,17 @@
 		</foreach>
 	</delete>
 	
-	<update id="updateConsignment">				<!-- 내용 수정 -->
+	<update id="updateConsignment">														<!-- 내용 수정 -->
 		update consignment
-		set con_author=#{conAuthor}, con_product=#{conProduct}, 
-			board_modify_date = sysdate, board_type = #{boardType}
-		where board_id = #{boardId}
+		set con_author=#{conAuthor}, con_product=#{conProduct}, con_Width=#{conWidth}, con_height=#{conHeight},
+			con_year=#{conYear}, con_hope=#{conHope}, con_etc=#{conEtc}, con_create_date = sysdate
+		where con_No=#{conNo}
 	</update>
 	
-	<update id="updateAttmFno">
+	<update id="updateAttmFno">															<!-- 들어오는 사진 순서 지정 -->
 		update attachment
-		set 
+		set att_fno=#{attFno}
+		where att_bno=#{attBno}
 	</update>
 	
 	

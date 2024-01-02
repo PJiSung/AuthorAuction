@@ -45,8 +45,6 @@ public interface ConsignmentService {
 	// 수정 어쩌고저쩌고	
 	void updateAttmFno(String memId);
 	// 수정 어쩌고2	
-	void updateAttmLevel(String memId);
-	// 수정 어쩌고 3	
 	int updateConsignment(Consignment c);
 	
 	

@@ -20,13 +20,20 @@
         });
         $block.find(modalSet1).find('.btnset-confirm').on('click', function() {
           $block.find(modalSet1).removeClass('modalset-active');
-          $block.find(modalSet2).addClass('modalset-active');
+		  $block.find(dim).fadeOut();       
         });
         // Modal2 Show
         $block.find(modalSet2).find('.btnset-confirm').on('click', function() {
           $block.find(modalSet2).removeClass('modalset-active');
           $block.find(dim).fadeOut();
         });
+        // Modal2 Show
+        $block.find("#delete").on('click', function() {
+          $block.find(modalSet2).addClass('modalset-active');
+          $block.find(dim).fadeIn();
+        });
+         
+        
       };
     });
   });

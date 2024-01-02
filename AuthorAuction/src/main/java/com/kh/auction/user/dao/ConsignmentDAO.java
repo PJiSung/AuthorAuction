@@ -47,8 +47,6 @@ public interface ConsignmentDAO {
 	
 	void updateAttmFno(String memId);
 
-	void updateAttmLevel(String memId);
-
 	int updateConsignment(Consignment c);
 
 	

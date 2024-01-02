@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.auction.user.dao.ReviewDAO">
+	
+	<select id="getOrderList" resultType="map">
+		select distinct pro_no, pro_name, pro_writer, ord_date
+		from orders join order_detail using(ord_no)
+            		join product using(pro_no)
+		where mem_id = #{id} and ord_status = '배송완료'
+	</select>
+	
+	<insert id="insertReview" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="revNo">
+			select rev_seq.nextval from dual
+		</selectKey>
+		insert into review
+		values(#{revNo}, #{revContent}, default, sysdate, sysdate, default, #{memId}, #{proNo})
+	</insert>
+	
+	<insert id="insertAttm">
+		insert all
+		<foreach collection="list" item="item">
+			into attachment
+			values(att_new, #{item.attRename}, default, #{item.attFno}, #{item.attCategory}, #{item.attBno})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from review
+		where rev_status = 'Y'
+	</select>
+	
+	<select id="selectReviewList" resultType="Review">
+		select *
+		from (select rev_no, rev_content, rev_count, rev_create_date, rev_modify_date, rev_status, mem_id, pro_no,
+        	  		 pro_name, pro_writer, pro_image, mem_nickname, mem_filename,
+        			 case when a.att_no is not null then 'Y' else 'N' end as has_attm,
+        	  		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like,
+			  		 row_number() over (partition by r.rev_no order by r.rev_no desc) as rn
+    		  from review r join member using (mem_id)
+        			  join product using (pro_no)
+					  left join attachment a on r.rev_no = a.att_bno
+    		  where rev_status = 'Y')
+		where rn = 1
+		order by rev_no desc
+	</select>
+	
+	<select id="selectAttmList" resultType="Attachment">
+		select *
+		from attachment
+		where att_status = 'Y'
+		<if test="revNo != null">
+			and att_bno = #{revNo}
+		</if>
+		order by att_no
+	</select>
+	
+	<select id="getSearchListCount" resultType="_int">
+		select count(*)
+		from product
+		<if test="'category' == '전체'">
+			where pro_name like '%'||#{keyword}||'%' or pro_writer like '%'||#{keyword}'%'
+		</if>
+		<if test="'category' == '작품명'">
+			where pro_name like '%'||#{keyword}||'%'
+		</if>
+		<if test="'category' == '작가명'">
+			where pro_writer like '%'||#{keyword}||'%'
+		</if>
+	</select>
+	
+	<select id="searchReview" resultType="Review">
+    	select rev_no, pro_no, pro_name, pro_writer, pro_image
+    	from review join product using(pro_no)
+    	<where>
+	        pro_no = pro_no
+	        <if test="category == '전체'">
+	            and (pro_name like '%'||#{keyword}||'%' or pro_writer like '%'||#{keyword}||'%')
+	        </if>
+	        <if test="category == '작품명'">
+	            and pro_name like '%'||#{keyword}||'%'
+	        </if>
+	        <if test="category == '작가명'">
+	            and pro_writer like '%'||#{keyword}||'%'
+	        </if>
+    	</where>
+	</select>
+	
+	<update id="deleteReview">
+		update review
+		set rev_status = 'N'
+		where rev_no = #{revNo}
+	</update>
+		
+	<update id="statusNAttm">
+		update attachment
+		set att_status = 'N'
+		where att_bno = #{revNo}
+	</update>
+	
+	<select id="selectReview" resultType="Review">
+		select *
+		from review join product using(pro_no)
+		where rev_status = 'Y' and rev_no = #{revNo}
+	</select>
+	
+	<delete id="deleteAttm">
+		delete from attachment
+		where att_rename in
+		<foreach collection="list" item="rename" open="(" close=")" separator=",">
+			#{rename}
+		</foreach>
+	</delete>
+	
+	<update id="updateAttmLevel">
+		update attachment
+		set att_fno = 0
+		where att_no = (select min(att_no)
+						from attachment
+						where att_bno = #{revNo})
+	</update>
+	
+	<update id="updateReview">
+		update review
+		set rev_content = #{revContent}, rev_modify_date = sysdate
+		where rev_no = #{revNo}
+	</update>
+	
+	<insert id="insertReviewList">
+		insert into review_like
+		values(lik_seq.nextval, #{memId}, #{revNo})
+	</insert>
+	
+	<select id="selectReviewLike" resultType="_int">
+		select count(*)
+		from review_like
+		where rev_no = #{revNo}
+	</select>
+	
+	<delete id="deleteReviewLike">
+		delete review_like
+		where rev_no = #{revNo} and mem_id = #{memId}
+	</delete>
+	
+	<select id="reviewLikeList" resultType="map">
+		select *
+		from review_like
+	</select>
+	
+</mapper>

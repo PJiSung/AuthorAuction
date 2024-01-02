@@ -2,7 +2,7 @@ package com.kh.auction.user.model.vo;
 
 import java.sql.Date;
 
-public class Reply {
+public class Reply { 
 	
 	private int repNo;
 	private String repContent;

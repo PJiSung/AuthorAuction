@@ -22,8 +22,8 @@
   <link rel="stylesheet" href="consignment/css/template.css">
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   
+<<<<<<< HEAD
   <style type="text/css">
   	table{
 		width:100%;
@@ -548,6 +548,9 @@
 	/*  */
 	
 	
+=======
+<script type="text/javascript">
+>>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
 	<!-- 상세보기로 이동 -->
 	const userDetail = (conNo) =>{												
 		location.href="selectUser.adco?conNo=" + conNo + "&page=" + ${pi.currentPage};
@@ -590,152 +593,13 @@
             if(deleteIds.length != 0){
                location.href = "checkDelete.adco?deleteIds="+deleteIds;
             }
-      };
-      
-      const openEnrollModal = (data) =>{
-		const $data = $(data);
-    	const $enrollModal = $(".modal_overlay").eq(0);
-    	const ajaxConProduct = document.getElementById("ajaxConProduct");
-    	const ajaxConAuthor = document.getElementById("ajaxConAuthor");
-    	const ajaxConHope = document.getElementById("ajaxConHope");
-    	const ajaxConWidth = document.getElementById("ajaxConWidth");
-    	const ajaxConHeight = document.getElementById("ajaxConHeight");
-    	const ajaxConYear = document.getElementById("ajaxConYear");
-    	const ajaxConEtc = document.getElementById("ajaxConEtc");
-    	const ajaxConNo = document.querySelector('input[name="aucNo"]');
-    	$.ajax({
-    	  url:'getConsignmentInfo.adac',
-    	  type:'post',
-    	  data:{conNo:$data.parent().parent().siblings().eq(0).children().eq(0).val()},
-    	  success: (data) =>{
-    		  console.log(data);
-    		  const ajaxConsignment = JSON.parse(data.consignment);
-    		  const ajaxCttachmentList = JSON.parse(data.attachmentList);
-    		  ajaxConProduct.value = ajaxConsignment.conProduct;
-    		  ajaxConAuthor.value = ajaxConsignment.conAuthor;
-    		  ajaxConHope.value = ajaxConsignment.conHope;
-    		  ajaxConYear.value = ajaxConsignment.conYear;
-    		  ajaxConWidth.value = ajaxConsignment.conWidth;
-    		  ajaxConHeight.value = ajaxConsignment.conHeight;
-    		  ajaxConEtc.value = ajaxConsignment.conEtc;
-    		  ajaxConNo.value = ajaxConsignment.conNo;
-    		  
-    		  
-    		  //사진도 다 바꿔줘야함
-    		  
-    		  
-    	  },
-    	  error: (data) => console.log(data)
-    	})
-  	    $enrollModal.css('display','block');
-      }
+      };     
 </script>
 </head>
 
 <body>
 <jsp:include page="../common/header.jsp"/>
-	<!-- 경매 등록 모달 -->
-	<!--  -->
-	<div class="modal_overlay" style="display:none; z-index: 1; height:4000px;">
-		<div id="content-allOver-cover" style="width: 70%; height: 70%; margin:auto; left:12%; position:fixed; z-index: 1;">
-	        <div id="forWidthAndHeight" style="width: 70%; height: 100%; margin: auto; background-color: pink; margin-top: 1%; display:table;">
-	        	<form action="insertAuction.adac" method="post" id="auctionForm">
-		            <div style="margin-left: 5%;">경매 등록 페이지</div>
-		            <div id="workNamePlace" style="margin-left: 5%; width: 100%;">작품명 <input type="text" readonly style="width: 80%;" name="conProduct" id="ajaxConProduct" required></div>
-		            <div id="artistNamePlace" style="margin-left: 5%; width: 100%;">작가명 <input type="text" readonly style="width: 80%;" name="conAuthor" id="ajaxConAuthor" required></div>
-		            <div id="startMoney" style="margin-left: 5%; width: 100%;">시작가 <input type="number" style="width: 80%;" name="aucStartPrice" id="ajaxConHope" required></div>
-		            <div id="startDate" style="margin-left: 5%; width: 40%; display: inline-block;">
-		            	경매 시작일 <input type="text" name="aucStartDate" style="width:50%" readonly required><button type="button" style="position: absolute;" class="openCalender" id="startDateCalendar">달력</button>
-		            	
-		            	<div id="startCalendar" style="border:1px black solid; background:white; width:30%; position:absolute;">
-		            		<div style="text-align: center;">
-		            			<div style="float:left; width: 8%; display:inline-block;"><button id="previous" type="button" style="width:100%; background:white; border:0;">&lt;</button></div>
-		            			<span id="yearPlace"></span>년 <span id="monthPlace"></span>월
-		            			<div style="float:right; width: 8%; display:inline-block;"><button id="next" type="button" style="width:100%; background:white; border:0;">&gt;</button></div>
-		            		</div>
-		            		<table>
-		            			<thead>
-		            				<tr>
-				            			<th>월</th>
-				            			<th>화</th>
-				            			<th>수</th>
-				            			<th>목</th>
-				            			<th>금</th>
-				            			<th>토</th>
-				            			<th>일</th>
-		            				</tr>
-		            			</thead>
-		            			<tbody class="tb_body"></tbody>
-		            		</table>
-		            		<div style="text-align: right;">
-		            			<button type="button" id="selectStart">선택</button> <button type="button" id="closeStart">닫기</button>
-		            		</div>
-		            	</div>
-		            </div>
-		            <div id="endDate" style="width: 40%; float: right; margin-right:5%;">
-		            	경매 종료일<input type="text" name="aucFinishDate" style="width:50%;" readonly required><button type="button" class="openCalender" style="position:absolute;" id="endDateCalendar">달력</button>
-		            	
-		            	<div id="endCalendar" style="border:1px black solid; background:white; width:30%; position:absolute;">
-		            		<div style="text-align: center;">
-		            			<div style="float:left; width: 8%; display:inline-block;"><button id="previousEnd" type="button" style="width:100%; background:white; border:0;">&lt;</button></div>
-		            			<span id="yearPlaceEnd"></span>년 <span id="monthPlaceEnd"></span>월
-		            			<div style="float:right; width: 8%; display:inline-block;"><button id="nextEnd" type="button" style="width:100%; background:white; border:0;">&gt;</button></div>
-		            		</div>
-		            		<table>
-		            			<thead>
-		            				<tr>
-				            			<th>월</th>
-				            			<th>화</th>
-				            			<th>수</th>
-				            			<th>목</th>
-				            			<th>금</th>
-				            			<th>토</th>
-				            			<th>일</th>
-		            				</tr>
-		            			</thead>
-		            			<tbody class="tb_body"></tbody>
-		            		</table>
-		            		<div style="text-align: right;">
-		            			<button type="button" id="selectEnd">선택</button> <button type="button" id="closeEnd">닫기</button>
-		            		</div>
-		            	</div>
-		            </div>
-		            <div style="margin-left: 5%; width: 40%; display: inline-block;">제작 년도<input type="number" name="conYear" id="ajaxConYear"></div>
-		            <div style="width: 100%;">
-		            	<div style="margin-left: 5%; width: 40%; display:inline-block;">가로길이<input type="number" name="conWidth" id="ajaxConWidth" required></div>
-		            	<div style="margin-left: 5%; width: 40%; display:inline-block;">세로길이<input type="number" name="conHeight" id="ajaxConHeight" required></div>
-		            </div>
-		            <div id="explainPlace" style="margin-left: 5%;">
-		                <span>작품 설명</span><br>
-		                <textarea style="width: 91%; resize: none;" name="conEtc" id="ajaxConEtc" required></textarea>
-		            </div>
-		            <div style="margin-left: 5%; width: 100%;">
-		            	<div style="width:25%; display:inline-block; margin-right: 3.125%;">대표 사진<br><span id="presentPic"><img src="image/치즈 냥이.jpg" style="width:100%; height:100%;"></span></div>
-		            	<div style="width:25%; display:inline-block; margin-right: 3.125%; margin-left: 3.125%;">전면 사진<br><span id="firstPic"><img src="image/치즈 냥이.jpg" style="width:100%; height:100%;"></span></div>
-		            	<div style="width:25%; display:inline-block; margin-left: 3.125%;">후면 사진<br><span id="secondPic"><img src="image/치즈 냥이.jpg" style="width:100%; height:100%;"></span></div>
-		            </div>
-		            <div style="width: 100%; text-align: right;">
-		            	<button type="button" id="insertAuctionBtn">등록</button> 
-		            	<button type="button" id="closeAuctionModal" style=" margin-right: 8%;">취소</button>
-		            </div>
-		            <input type="hidden" name="aucNo">
-	            </form>
-	        </div>
-	    </div>
-	    
-	  	<div class="modal" name="alertModal" style="display:none; justify-content: center; align-items: center; z-index: 2;">
-	  		<div class="modal_overlay"></div>
-	  		<div class="modal_content">
-	  			<h5 id="modal_h3">경매 종료일이 경매 시작일보다 이전일 수 없습니다</h5>
-	  			<button id="closeAlertModal"> 닫기 </button>
-	  		</div>
-	  	</div>
-  	</div>
-	<!--  -->
-	<!--  -->
-
-
-  <main class="th-layout-main">
+  <main class="th-layout-main ">
     <!-- [S]hooms-N48 -->
     <div class="hooms-N48" data-bid="no2CLZNtZF5">
       <div class="contents-inner" style="padding: 6rem 2.4rem 10rem;">
@@ -797,12 +661,12 @@
 	                  <th scope="col">승인여부</th>
 	                </tr>
 	              </thead>
-	              <tbody id="tbody">
+	              <tbody>
 		             <c:forEach items="${list}" var="c"> 
-		                <tr>
+		                <tr onclick="userDetail(this.id)" id="${c.conNo}">
 		                  <td class="tableset-mobile"   onclick="javascript:event.stopPropagation();">
 		                   <!-- <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">	-->
-		                    <input id="${c.conNo}" value="${ c.conNo }" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
+		                    <input id="${c.conNo}" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
 		                  </td>
 		                  <td class="tableset-tit tableset-order02" style="text-align: center;">
 		                    <a href="javascript:void(0)">
@@ -831,10 +695,11 @@
 			                  <td class="tableset-order05">Y</td>
 		                  </c:if>
 		                  
+		                  
 		                  <c:if test="${c.conConStatus == 'N'}">
 			                  <td class="tableset-order01">
 			                   <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
-			                    	<intput type="button" onclick="openEnrollModal(this);">수락	
+			                    	<intput type="button">수락	
 			                    </div>
 			                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">
 			                    	거절
