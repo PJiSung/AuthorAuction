@@ -118,6 +118,16 @@ public class ReviewServiceImpl implements ReviewService {
 		return rDAO.reviewLikeList();
 	}
 
+	@Override
+	public ArrayList<Review> selectReviewAllList() {
+		return rDAO.selectReviewAllList();
+	}
+
+	@Override
+	public int updateReviewCount(int revNo) {
+		return rDAO.updateReviewCount(revNo);
+	}
+
 	
 
 	

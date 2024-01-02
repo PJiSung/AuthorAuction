@@ -452,7 +452,7 @@ body.modal-open {
 									<input type="hidden" value="${ r.hasAttm }" id="hasAttachment">
 									<input type="hidden" value="${ r.revNo }" id="reviewNo">
 									<input type="hidden" value="${ r.proNo }" id="productNo">
-									<input type="hidden" value="${ r.memId }" id="reviewWriter">
+									<input type="hidden" value="${ r.memId }" id="memId">
 									<table class="cardset-body">
 										<tr>
 											<td class="secTd">
@@ -600,7 +600,7 @@ body.modal-open {
 								<div class="contents-right-group">
 									<div class="contents-brand">
 										<div class="profilePic">
-											<img src="${ r.memFileName }" alt="프로필 사진" class="profileImg">
+											<img src="" alt="프로필 사진" class="profileImg" id="memFileName">
 										</div>
 										<h6 class="reviewDetailDivs" id="memNickname">떡볶이 좋아</h6>
 										<div class="updateDeleteDiv">
@@ -684,9 +684,7 @@ body.modal-open {
 				<h6 class="modal-title">DELETE</h6>
 			</div>
 			<div class="modal-body">
-				<p>
-					정말로 삭제하시겠습니까?<br> 삭제 후 ${target} 되돌릴 수 없습니다.
-				</p>
+				<p></p>
 			</div>
 			<div class="modal-footer">
 				<a class="btnset btnset-confirm" id="delConfirmButton">삭제</a>
@@ -745,6 +743,8 @@ body.modal-open {
 			
 			document.getElementById("closeSelectRevMd").addEventListener('click', ()=>{
 				closeModal();
+				const anotherReview = document.querySelector('#anotherReview');
+				anotherReview.innerHTML = '';
 	        });
 			
 			// 삭제 모달
@@ -796,6 +796,7 @@ body.modal-open {
 			const rList = "${rList}";
 			const aList = "${aList}";
 			const lList = "${lList}";
+			const allRlist = "${allRlist}";
 			
 			const reviewArr = rList.replace(/\[Review /g, '').replace(/Review/g, '').replace(/\[/g, '').split("], ");
 			const reviewList = reviewArr.map(reviews => {
@@ -809,7 +810,9 @@ body.modal-open {
 				return reviewMap;
 			});
 			
-			const attmArr = aList.replace(/\[Attachment /g, '').replace(/Attachment/g, '').replace(/\[/g, '').split("], ");
+			
+			
+			const attmArr = aList.replace(/\[Attachment /g, '').replace(/Attachment/g, '').replace(/\]]/g, '').replace(/\[/g, '').split("], ");
 			const attmList = attmArr.map(attachments => {
 					const attachment = attachments.split(', ');
 		
@@ -833,22 +836,53 @@ body.modal-open {
 					return rLikeMap;
 				});
 			
+			const allRArr = allRlist.replace(/\[Review /g, '').replace(/Review/g, '').replace(/\]]/g, '').replace(/\[/g, '').split("], ");
+			const allRList = allRArr.map(allRs => {
+					const allR = allRs.split(', ');
+		
+					const allRMap = {};
+					allR.forEach(keyValue => {
+						const [key, value] = keyValue.split('=');
+						allRMap[key.trim()] = value.trim();
+					});
+					return allRMap;
+				});
+			
 			// 리뷰 상세보기
 			const cardsetDiv = document.getElementsByClassName('cardset cardset-shopping');
 			for(const card of cardsetDiv){
 				card.addEventListener('click', () => {
 					showModal();
+					
 					const revNo = card.querySelector('#reviewNo').value;
 					document.querySelector('input[name="revNo"]').value = revNo;
 					
 					const hasAttm = card.querySelector('#hasAttachment').value;
 					document.querySelector('input[name="hasAttachment"]').value = hasAttm;
 					
-					const revMemId = card.querySelector('#reviewWriter').value;
-					
 					const proNo = card.querySelector('#productNo').value;
+					const memId = card.querySelector('#memId').value;
+					const reviewCount = card.querySelector('#reviewCount').value;
 					
-					for(const r of reviewList){
+					/*
+					if( '${loginUser.memId}' != memId ){
+						$.ajax({
+							url: 'updateReviewCount.rv',
+							data:{revNo: revNo},
+							success: data =>{
+								console.log(data);
+								if(data == 'success'){
+									const count = document.querySelector('#reviewCount');
+									count.innerText = reviewCount + 1;
+								}
+							},
+							error: data => console.log(data)
+						})
+					};
+					*/
+					
+					
+					for(const r of allRList){
 						if(r.revNo == revNo){
 							document.getElementById('productName').innerText = r.proName;
 							document.getElementById('reviewCount').innerText = "조회수 " + r.revCount;
@@ -856,6 +890,7 @@ body.modal-open {
 							document.getElementById('reviewModifyDate').innerText = r.revModifyDate;
 							document.getElementById('reviewContent').innerText = r.revContent;
 							document.getElementById('memNickname').innerText = r.memNickName;
+							document.getElementById('memFileName').src = r.memFileName;
 							document.getElementById('reviewLike').innerText = r.revLike;
 							document.getElementById('proImage').src = r.proImage;
 						}
@@ -911,60 +946,47 @@ body.modal-open {
 						            lineLikebut.style.display = 'none';
 						            fillLikebut.style.display = 'block';
 						        });
-						    }
-						}
-
-						// 이 작품의 다른 리뷰 미완 ㅠ
-						const anotherReview = document.querySelector('#anotherReview');
-						const cardsetImgs = document.querySelectorAll('.cardset-img').src;
-						anotherReview.innerHTML = '';
-						if(r.proNo == proNo){
-							
-							anotherReview.innerHTML += '<li class="contents-thumbitem"><img class="contents-thumbimg" src="' +  + '" alt="썸네일이미지"></li>';
-							/*
-							cardsetImgs.forEach(imgElement => {
-							    const imageUrl = imgElement.dataset.imageUrl;
-							    console.log(imageUrl);
-							});
-							*/
-						}
+						    };
+						};
 						
-						
-							console.log(revMemId);
-						// 좋아요
-						document.getElementById('reviewLikeUp').addEventListener('click', function(){
-							
-							if( '${loginUser}.memId' != revMemId ){
-								$.ajax({
-									url: 'insertReviewLike.rv',
-									data:{memId: '${loginUser.memId}', revNo: revNo},
-									success: data =>{
-										console.log(data);
-										const like = document.querySelector('#reviewLike');
-										like.innerText = data;
+						if(r.proNo == proNo && r.revNo != revNo){
+							for(const a of attmList){
+								if(r.revNo == a.attBno){
+									console.log(r.revNo);
+									if(r.hasAttm == 'Y' && a.attFno == '0'){
+										anotherReview.innerHTML += '<li class="contents-thumbitem"><img class="contents-thumbimg" src="' + a.attRename + '" alt="썸네일이미지"></li>';
+									} else{
+										anotherReview.innerHTML += '<li class="contents-thumbitem"><img class="contents-thumbimg" src="' + r.proImage + '" alt="썸네일이미지"></li>';
 									}
-								})
-							} else {
-								this.disabled = true;
-							}
-							
-							
-						});
-						
-						document.getElementById('reviewLikeDown').addEventListener('click', function(){
-							$.ajax({
-								url: 'deleteReviewLike.rv',
-								data:{memId: '${loginUser.memId}', revNo: revNo},
-								success: data =>{
-									console.log(data);
-									const like = document.querySelector('#reviewLike');
-									like.innerText = data;
 								}
-							})
-						});
+							}
+						}
 					}
 					
+					// 좋아요
+					document.getElementById('reviewLikeUp').addEventListener('click', function(){
+						$.ajax({
+							url: 'insertReviewLike.rv',
+							data:{memId: '${loginUser.memId}', revNo: revNo},
+							success: data =>{
+								console.log(data);
+								const like = document.querySelector('#reviewLike');
+								like.innerText = data;
+							}
+						})
+					});
 					
+					document.getElementById('reviewLikeDown').addEventListener('click', function(){
+						$.ajax({
+							url: 'deleteReviewLike.rv',
+							data:{memId: '${loginUser.memId}', revNo: revNo},
+							success: data =>{
+								console.log(data);
+								const like = document.querySelector('#reviewLike');
+								like.innerText = data;
+							}
+						})
+					});
 				});
 				
 			};
