@@ -340,11 +340,11 @@ const updateAdd = (addNo) =>{
 							<div class="category">
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
-										placeholder="현재 비밀번호" aria-label="Name" name="nowPw" id="nowPw">
+										placeholder="현재 비밀번호" aria-label="nowPw" name="nowPw" id="nowPw">
 								</div>
 								<div class="inputset inputset-line inputset-lg">
 									<input type="text" class="inputset-input form-control"
-										placeholder="새 비밀번호" aria-label="Email" name="newPw" id="newPw">
+										placeholder="새 비밀번호" aria-label="newPw" name="newPw" id="newPw">
 								</div>
 								<div class="inputset inputset-line inputset-lg" id="authDiv1">
 									<input type="text" class="inputset-input form-control"
