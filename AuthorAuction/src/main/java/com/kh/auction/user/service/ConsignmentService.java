@@ -43,7 +43,7 @@ public interface ConsignmentService {
 	// 글 수정
 	int deleteAttm(ArrayList<String> delRename);
 	// 수정 어쩌고저쩌고	
-	void updateAttmFno(String memId);
+	void updateAttmFno(HashMap<String, Object> map);
 	// 수정 어쩌고2	
 	int updateConsignment(Consignment c);
 	

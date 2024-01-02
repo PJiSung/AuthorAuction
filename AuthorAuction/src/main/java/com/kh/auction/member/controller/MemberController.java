@@ -24,6 +24,10 @@ import com.kh.auction.user.model.vo.Member;
 
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
 public class MemberController {
@@ -67,24 +71,23 @@ public class MemberController {
 	@GetMapping("authentication")
 	@ResponseBody
 	public int authentication(@RequestParam("phone") String phone) {
-//		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
-//		Message message = new Message();
-//		message.setFrom("01068938300");
-//		message.setTo(phone);
-//		
+		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
+		Message message = new Message();
+		message.setFrom("01068938300");
+		message.setTo(phone);
 		Random r = new Random();
 		int authNum = r.nextInt(888888) + 111111;
 		authNum = 1;
-//		message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
-//
-//		try {
-//		  messageService.send(message);
-//		} catch (NurigoMessageNotReceivedException exception) {
-//		  System.out.println(exception.getFailedMessageList());
-//		  System.out.println(exception.getMessage());
-//		} catch (Exception exception) {
-//		  System.out.println(exception.getMessage());
-//		}
+		message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
+
+		try {
+		  messageService.send(message);
+		} catch (NurigoMessageNotReceivedException exception) {
+		  System.out.println(exception.getFailedMessageList());
+		  System.out.println(exception.getMessage());
+		} catch (Exception exception) {
+		  System.out.println(exception.getMessage());
+		}
 		return authNum;
 	}
 
@@ -152,25 +155,24 @@ public class MemberController {
 		m.setMemPhone(arr[1]);
 		Member mem = mService.findMyInfo(m);
 		if (mem != null) {
-//			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
-//			Message message = new Message();
-//			message.setFrom("01068938300");
-//			message.setTo(m.getMemPhone());
-//			
-//			Random r = new Random();
-//		    authNum = r.nextInt(888888) + 111111;
-//		    message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
-//
-//			try {
-//			  messageService.send(message);
-//			} catch (NurigoMessageNotReceivedException exception) {
-//			  System.out.println(exception.getFailedMessageList());
-//			  System.out.println(exception.getMessage());
-//			} catch (Exception exception) {
-//			  System.out.println(exception.getMessage());
-//			}
+			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
+			Message message = new Message();
+			message.setFrom("01068938300");
+			message.setTo(m.getMemPhone());
+			
+			Random r = new Random();
+		    authNum = r.nextInt(888888) + 111111;
+		    message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
+
+			try {
+			  messageService.send(message);
+			} catch (NurigoMessageNotReceivedException exception) {
+			  System.out.println(exception.getFailedMessageList());
+			  System.out.println(exception.getMessage());
+			} catch (Exception exception) {
+			  System.out.println(exception.getMessage());
+			}
 		}
-		authNum = 1;
 		return authNum;
 	}
 
@@ -226,25 +228,24 @@ public class MemberController {
 		m.setMemPhone(arr[1]);
 		Member mem = mService.findMyInfo(m);
 		if (mem != null) {
-//			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
-//			Message message = new Message();
-//			message.setFrom("01068938300");
-//			message.setTo(m.getMemPhone());
-//			
-//			Random r = new Random();
-//		    authNum = r.nextInt(888888) + 111111;
-//		    message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
-//
-//			try {
-//			  messageService.send(message);
-//			} catch (NurigoMessageNotReceivedException exception) {
-//			  System.out.println(exception.getFailedMessageList());
-//			  System.out.println(exception.getMessage());
-//			} catch (Exception exception) {
-//			  System.out.println(exception.getMessage());
-//			}
+			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
+			Message message = new Message();
+			message.setFrom("01068938300");
+			message.setTo(m.getMemPhone());
+			
+			Random r = new Random();
+		    authNum = r.nextInt(888888) + 111111;
+		    message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
+
+			try {
+			  messageService.send(message);
+			} catch (NurigoMessageNotReceivedException exception) {
+			  System.out.println(exception.getFailedMessageList());
+			  System.out.println(exception.getMessage());
+			} catch (Exception exception) {
+			  System.out.println(exception.getMessage());
+			}
 		}
-		authNum = 1;
 		return authNum;
 	}
 
@@ -446,5 +447,11 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser);
 		}
 		return result;
+	}
+	
+	@GetMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 }

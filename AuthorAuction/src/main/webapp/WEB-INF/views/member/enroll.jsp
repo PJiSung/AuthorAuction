@@ -75,6 +75,17 @@ function sample6_execDaumPostcode() {
 } 
    
 const submitBtn = () =>{
+	const form = document.getElementById('enrollForm');
+	if (!form.checkValidity()) {
+	    alert('모든 필수 입력 필드를 작성해주세요.');
+	    
+	    const invalidFields = document.querySelectorAll('input:invalid');
+	    invalidFields.forEach(field => {
+	      field.style.borderBottom = '1px solid red';
+	    });
+		return;  
+	}
+	
 	let address = "";
 	let email = "";
 	address += document.getElementById("sample6_postcode").value+"@";

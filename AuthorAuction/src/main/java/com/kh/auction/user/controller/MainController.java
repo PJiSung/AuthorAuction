@@ -20,7 +20,11 @@ public class MainController {
 	@GetMapping("/")
 	public String test(HttpSession session) {
 		Member m = new Member();
+<<<<<<< HEAD
 		String id = "roro";
+=======
+		String id = "123";
+>>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
 		m.setMemId(id);
 		Member loginUser = mService.login(m);
 		session.setAttribute("loginUser", loginUser);

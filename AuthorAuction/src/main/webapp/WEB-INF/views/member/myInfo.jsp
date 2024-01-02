@@ -311,17 +311,25 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 		}
 	}) */
 	
-	/* document.querySelector('body').addEventListener('click', (event) =>{
-		console.log(event.target);
-		console.log(beforeIndex)
-		console.log(tds[beforeIndex].children[0]);
-		if(event.target == tds[beforeIndex].children[0]){
-			console.log("같음");
+	
+	document.querySelector('body').addEventListener('click', (event) =>{
+		
+		let target = event.target;
+		
+		console.log(target);
+		while (target != 'TR') {
+			target = target.parentNode;
 		}
-		if(beforeIndex != null && event.target != beforeData){
-			tds[beforeIndex].innerHTML = beforeData;
+		
+		if(beforeIndex != null){
+			let trElement = tds[beforeIndex].parentNode;
+			console.log(trElement);
+			console.log(target);
+			if(trElement != target){
+				tds[beforeIndex].innerHTML = beforeData;
+			}
 		}
-	}) */
+	}) 
 	
 	for(let i=0; i<tds.length; i++){
 		tds[i].addEventListener("click", function(){
@@ -334,11 +342,12 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 					beforeData = this.innerHTML;
 					beforeIndex = i;
 					if(i == 0){
+						console.log(i);
 						let nickName = this.querySelector("h3");
-						nickName.innerHTML = '<input type="text" class="updateData" value="${ loginUser.memNickName }">'
+						nickName.innerHTML = '<input type="text" class="updateData" value="'+nickName.querySelector("input").value+'">'
 						
 					}else if(i == 1){
-						this.innerHTML = '<input type="text" class="updateData" value="${ loginUser.memName }">'
+						this.innerHTML = '<input type="text" class="updateData" value="'+this.querySelector("input").value+'">'
 						
 					}else if(i == 2){
 						const table = document.createElement("table");
@@ -389,10 +398,11 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						this.append(table);
 						
 					}else if(i == 4){
+						const addArr = document.getElementById("address").value.split("@");
 						const table = document.createElement("table");
 						const tr1 = document.createElement("tr");
 						const addNo = document.createElement("td");
-						addNo.innerHTML = '<input type="text" id="sample6_postcode" value="${ fn:split(loginUser.memAddress, '@')[0]}" readonly="readonly">';
+						addNo.innerHTML = '<input type="text" id="sample6_postcode" value="'+ addArr[0] +'" readonly="readonly">';
 						const addBtn = document.createElement("td");
 						addBtn.innerHTML = '<input type="button" value="우편번호 검색" onclick="sample6_execDaumPostcode()" readonly="readonly">';
 						tr1.append(addNo);
@@ -401,14 +411,14 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						const tr2 = document.createElement("tr");
 						tr2.setAttribute("colspan", "2");
 						const addAdd = document.createElement("td");
-						addAdd.innerHTML = '<input type="text" id="sample6_address" value="${ fn:split(loginUser.memAddress, '@')[1] }" readonly="readonly">';
+						addAdd.innerHTML = '<input type="text" id="sample6_address" value="'+ addArr[1] +'" readonly="readonly">';
 						tr2.append(addAdd);
 						
 						const tr3 = document.createElement("tr");
 						const addDetail = document.createElement("td");
-						addDetail.innerHTML = '<input type="text" id="sample6_detailAddress" class="updateData" value="${ fn:split(loginUser.memAddress, '@')[2] }">';
+						addDetail.innerHTML = '<input type="text" id="sample6_detailAddress" class="updateData" value="'+ addArr[2] +'">';
 						const addEtc = document.createElement("td");
-						addEtc.innerHTML = '<input type="text" id="sample6_extraAddress" value="${ fn:split(loginUser.memAddress, '@')[3] }" readonly="readonly">';
+						addEtc.innerHTML = '<input type="text" id="sample6_extraAddress" value="'+ addArr[3] +'" readonly="readonly">';
 						tr3.append(addDetail);
 						tr3.append(addEtc);
 						
@@ -450,7 +460,6 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 											 				let nickName = tds[beforeIndex].querySelector("h3");
 											 				let updateData = '<input type="text" value="'+datas+'">';
 											 				nickName.innerHTML = updateData;
-											 				console.log(beforeData.split("<h3>")[1]);
 											 				let beforeDataArr = beforeData.split("<h3>");
 											 				beforeData = beforeDataArr[0]+"<h3>"+updateData+"</h3>";
 											 				this.style.borderBottom = "none";
@@ -475,6 +484,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 								 		success: (data) =>{
 								 			if(data == 1){
 								 				tds[beforeIndex].innerHTML = '<input type="text" value="'+datas+'">';
+								 				beforeData = '<input type="text" value="'+datas+'">';
 								 				this.style.borderBottom = "none";
 								 			} else {
 								 				alert("수정이 실패하여 페이지가 새로고침 됩니다.");
@@ -490,7 +500,11 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 								 		data: {memAddress: datas},
 								 		success: (data) =>{
 								 			if(data == 1){
-								 				tds[beforeIndex].innerHTML = '<input type="text" value="'+datas+'">';
+								 				document.getElementById("address").value = datas;
+								 				let address = datas.split("@");
+								 				datas = "("+address[0]+") "+ address[1] +" "+address[2]+" "+address[3];
+								 				beforeData = '<input type="text" value="'+datas+'">';
+								 				tds[beforeIndex].innerHTML = beforeData;
 								 				this.style.borderBottom = "none";
 								 			} else {
 								 				alert("수정이 실패하여 페이지가 새로고침 됩니다.");
@@ -542,7 +556,6 @@ const sendAuthNo = (value) =>{
 					}else{
 						authNum = null;
 					}
-					console.log(authNum);
 				},
 				error : data => console.log
 			});
@@ -560,7 +573,8 @@ const checkNum1 = (value) =>{
 			data: {memEmail : email.value},
 			success: (data) =>{
 				if(data == 1){
-					tds[value].innerHTML = '<input type="text" value="'+email.value+'">';
+					beforeData = '<input type="text" value="'+email.value+'">';
+					tds[value].innerHTML = beforeData;
 				}else{
 					alert("수정이 실패하여 페이지가 새로고침 됩니다.");
 	 				location.reload();
@@ -584,7 +598,8 @@ const checkNum2 = (value) =>{
 			data: {memPhone : phone.value},
 			success: (data) =>{
 				if(data == 1){
-					tds[value].innerHTML = '<input type="text" value="'+phone.value+'">';
+					beforeData = '<input type="text" value="'+phone.value+'">';
+					tds[value].innerHTML = beforeData;
 				}else{
 					alert("수정이 실패하여 페이지가 새로고침 됩니다.");
 	 				location.reload();
@@ -646,6 +661,7 @@ const checkNum2 = (value) =>{
 	    </div>
 	    		
 	    <div class="info">
+	    	<input type="hidden" id="address" value="${ loginUser.memAddress }">
 	        <h3>선택정보</h3>
 	        <table>
 	       		<tr>
@@ -745,20 +761,11 @@ const checkNum2 = (value) =>{
 				        <form action="updatePwd" method="post" id="updatePwForm">
 							<div class="category">
 								<div class="inputset inputset-line inputset-lg">
-<<<<<<< HEAD
-									<input type="text" class="inputset-input form-control"
-=======
 									<input type="password" class="inputset-input form-control"
->>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
 										placeholder="현재 비밀번호" aria-label="nowPw" name="nowPw" id="nowPw">
 								</div>
 								<div class="inputset inputset-line inputset-lg">
-<<<<<<< HEAD
-									<input type="text" class="inputset-input form-control"
-=======
-									<input type="password" class="inputset-input form-control"
->>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
-										placeholder="새 비밀번호" aria-label="newPw" name="newPw" id="newPw">
+									<input type="password" class="inputset-input form-control" placeholder="새 비밀번호" aria-label="newPw" name="newPw" id="newPw">
 								</div>
 								<div class="inputset inputset-line inputset-lg" id="authDiv1">
 									<input type="password" class="inputset-input form-control"

@@ -11,9 +11,11 @@
 		    join (select *
 		    		from consignment 
 		    			join attachment on (con_no = att_bno)
-		    		where att_category = 2) on (auc_no = con_no)
-		where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
-        		TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS')
+		    		where att_category = 2 and att_fno = 1) on (auc_cno = con_no)
+		where to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
+        		to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS')
+        order by auc_no desc
+        
 		]]>
 	</select>
 	
@@ -25,14 +27,14 @@
 		    join (select *
 		    		from consignment 
 		    			join attachment on (con_no = att_bno) 
-		    		where att_category = 2 and att_fno = 1) on (auc_no = con_no)
+		    		where att_category = 2 and att_fno = 1) on (auc_cno = con_no)
 		where auc_no = #{aucNo}
 	</select>
 	
 	<select id="getAuctionAttachment" resultType="Attachment">
 		select *
 		from attachment
-		where att_bno = #{aucNo} and att_status = 'Y' and att_category = 2 and (att_fno = 1 or att_fno = 2 or att_fno = 3)
+		where att_bno = #{aucNo} and att_status = 'Y' and att_category = 2 and (att_fno = 2 or att_fno = 3)
 	</select>
 	
 	<update id="insertBid">
@@ -79,8 +81,8 @@
 	<!-- adimin -->
 	
 	<select id="getAdminSearchList" resultType="Auction">
-		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
-				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
+		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price,to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_etc, att_rename
 		from auction
 		    join (select *
@@ -91,18 +93,18 @@
 			<choose>
 				<when test="auctionStatus == 'ongoing'">
 					<![CDATA[
-						where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
-	        				TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
+						where to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
+	        				to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
 	        		]]>
 				</when>
 				<when test="auctionStatus == 'scheduled'">
 					<![CDATA[
-						where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') < TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS')
+						where to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') < to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS')
 	        		]]>
 	        	</when>
 	        	<when test="auctionStatus == 'end'">
 					<![CDATA[
-						where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') > TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
+						where to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') > to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
 	        		]]>
 	        	</when>
 	        	<otherwise></otherwise>
@@ -118,22 +120,22 @@
 			</choose>
 			<if test="aucSS != null">
 				<![CDATA[
-					and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+					and to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= to_timestamp(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 			</if>
 			<if test="aucSE != null">
 				<![CDATA[
-					and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+					and to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= to_timestamp(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 			</if>
 			<if test="aucFS != null">
 				<![CDATA[
-					and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+					and to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= to_timestamp(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 			</if>
 			<if test="aucFE != null">
 				<![CDATA[
-					and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')
+					and to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= to_timestamp(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 			</if>
 		</if>
@@ -149,11 +151,13 @@
 		where con_no = #{conNo}
 	</select>
 	
+	
 	<select id="getAttachment">
 		select *
 		from attachment
 		where att_bno = #{conNo} and (att_fno = 1 or att_fno = 2 or att_fno = 3)
 	</select>
+	
 	
 	<!-- update member
 		set mem_balance = mem_balance + nvl((SELECT bid_price
@@ -182,8 +186,8 @@
 
 
 	<!-- <select id="getAdminSearchList">
-		select auc_no, auc_start_price, auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
-				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
+		select auc_no, auc_start_price, auc_finish_price,to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, con_author, con_product, con_width, con_height,
 				con_year, con_etc, att_rename
 		from auction
 		    join (select *
@@ -194,8 +198,8 @@
 		<choose>
 			<when test="auctionStatus == 'ongoing'">
 				<![CDATA[
-					where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
-        				TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
+					where to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
+        				to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
         		]]>
 				<choose>
 					<when test="searchType == 'work'">
@@ -210,7 +214,7 @@
 			
 			<when test="auctionStatus == 'scheduled'">
 				<![CDATA[
-					where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') < TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS')
+					where to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') < to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS')
         		]]>
 				<choose>
 					<when test="searchType == 'work'">
@@ -226,7 +230,7 @@
 			
 			<when test="auctionStatus == 'end'">
 				<![CDATA[
-					where TO_TIMESTAMP(sysdate, 'YYYY-MM-DD HH24:MI:SS') > TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
+					where to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') > to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') 
         		]]>
 				<choose>
 					<when test="searchType == 'work'">
@@ -242,22 +246,22 @@
 		</choose>
 		<if test="aucSS != ''">
 					<![CDATA[
-						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+						and to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') >= to_timestamp(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
 					]]>
 				</if>
 				<if test="aucSE != ''">
 					<![CDATA[
-						and TO_TIMESTAMP(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+						and to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') <= to_timestamp(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
 					]]>
 				</if>
 				<if test="aucFS != ''">
 					<![CDATA[
-						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+						and to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') >= to_timestamp(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
 					]]>
 				</if>
 				<if test="aucFE != ''">
 					<![CDATA[
-						and TO_TIMESTAMP(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= TO_TIMESTAMP(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+						and to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') <= to_timestamp(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
 					]]>
 				</if>
 		</if>
