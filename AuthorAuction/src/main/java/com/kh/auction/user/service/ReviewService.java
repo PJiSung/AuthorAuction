@@ -49,6 +49,8 @@ public interface ReviewService {
 
 	int updateReviewCount(int revNo);
 
+	int getReviewCount(int revNo);
+
 	
 	
 

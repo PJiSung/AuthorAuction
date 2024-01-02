@@ -810,8 +810,6 @@ body.modal-open {
 				return reviewMap;
 			});
 			
-			
-			
 			const attmArr = aList.replace(/\[Attachment /g, '').replace(/Attachment/g, '').replace(/\]]/g, '').replace(/\[/g, '').split("], ");
 			const attmList = attmArr.map(attachments => {
 					const attachment = attachments.split(', ');
@@ -862,24 +860,18 @@ body.modal-open {
 					
 					const proNo = card.querySelector('#productNo').value;
 					const memId = card.querySelector('#memId').value;
-					const reviewCount = card.querySelector('#reviewCount').value;
 					
-					/*
 					if( '${loginUser.memId}' != memId ){
 						$.ajax({
 							url: 'updateReviewCount.rv',
 							data:{revNo: revNo},
 							success: data =>{
 								console.log(data);
-								if(data == 'success'){
-									const count = document.querySelector('#reviewCount');
-									count.innerText = reviewCount + 1;
-								}
-							},
-							error: data => console.log(data)
+								const count = document.querySelector('#reviewCount');
+								count.innerText = data;
+							}
 						})
 					};
-					*/
 					
 					
 					for(const r of allRList){
@@ -952,7 +944,6 @@ body.modal-open {
 						if(r.proNo == proNo && r.revNo != revNo){
 							for(const a of attmList){
 								if(r.revNo == a.attBno){
-									console.log(r.revNo);
 									if(r.hasAttm == 'Y' && a.attFno == '0'){
 										anotherReview.innerHTML += '<li class="contents-thumbitem"><img class="contents-thumbimg" src="' + a.attRename + '" alt="썸네일이미지"></li>';
 									} else{
