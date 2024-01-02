@@ -49,7 +49,7 @@
             <div id="mainContentCover" style="border: 1px black solid;">
                 <div id="mainContent" style="margin-top: 1%;">
                 <c:forEach items="${ aList }" var="auction">
-                	 <div class="auction" id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center; margin: 0 1.5% 0 1.5%">
+                	 <div class="auction" id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center; margin: 0 1.5% 0 2.1%">
                 	 <img src="${ auction.attRename }" style="width: 100%; height: 100%;">
                         <span>${ auction.conProduct }</span><br><span>${ auction.aucFinishPrice }</span><br><span>${ fn:split(auction.aucStartDate, " ")[0] } ~ ${ fn:split(auction.aucFinishDate, " ")[0] }</span>
                         <input type="hidden" value="${ auction.aucNo }">
