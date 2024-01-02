@@ -76,24 +76,24 @@
           <li class="header-gnbitem">
           </li>
           <li class="header-gnbitem">
-            <a class="header-gnblink" href="myOrderList.jsp"">
+            <a class="header-gnblink" href="">
               <span>RECOMMEND</span>
             </a>
             <ul class="header-sublist">
               <li class="header-subitem">
-                <a class="header-sublink" href="myReviewList.jsp">
+                <a class="header-sublink" href="">
                   <span>1:1 추천</span>
                 </a>
               </li>
               <li class="header-subitem">
-                <a class="header-sublink" href="reviewList.jsp">
+                <a class="header-sublink" href="reviewList.rv">
                   <span>작품 리뷰</span>
                 </a>
               </li>
             </ul>
           </li>
           <li class="header-gnbitem">
-            <a class="header-gnblink" href="manaOrderList.jsp">
+            <a class="header-gnblink" href="">
               <span>HOW TO</span>
             </a>
             <ul class="header-sublist">
@@ -118,8 +118,12 @@
       </div>
       <div class="header-right">
         <div class="header-utils">
-          <a href="loginView"><span class="header-gnblink">LOGIN</span></a>
-          <!-- <a href=""><span class="header-gnblink">LOGOUT</span></a>  -->
+        	<c:if test="${ empty loginUser }">
+	         	<a href="loginView"><span class="header-gnblink">LOGIN</span></a>
+        	</c:if>
+        	<c:if test="${ !empty loginUser }">
+          		<a href="logout"><span class="header-gnblink">LOGOUT</span></a>
+        	</c:if>
           <div class="dropdown btn-user header-utils-btn">
             <img src="main/icons/ico_user_black.svg" class="dropbtn" alt="유저 아이콘">
             <div class="dropdown-content-user">
@@ -127,12 +131,12 @@
                   <tr>
                      <td class="profile">
                         <div class="profilePic">
-                           <img src="main/mainPic/profilePic.jpg" alt="프로필 사진" class="profileImg">
+                           <img src="${ loginUser.memFileName }" alt="프로필 사진" class="profileImg">
                         </div>
                      </td>
                      <td style="line-height: 20px; cursor: pointer;" onclick="location.href='';">
                         <div class="userText"><b>계정 관리</b></div>
-                        <div class="userText">aaaaaa7817</div>
+                        <div class="userText">${ loginUser.memId }</div>
                      </td>
                   </tr>
                   <tr>
