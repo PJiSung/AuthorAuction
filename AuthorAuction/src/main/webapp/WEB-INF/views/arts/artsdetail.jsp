@@ -660,8 +660,9 @@
 	font-size: 25px;
 	cursor: pointer;" onclick = "share('off')">&times;</span>
 	
-	<button class="sns_share_btn" onclick="copy_to_clipboard()">클립보드에 복사</button>
+
 		<input id = "snsaddress" type = "text" readonly style = "width: 100%;">
+			<span onclick="copy_to_clipboard()" style = "cursor:pointer; position: absolute; right: 37.5%; top: 56.18%;"><img src = "sunwoo/icons/copyicon.png" style = "width: 20px;"></span>
 	<div>
 	
       <!-- Kakao -->
@@ -853,6 +854,7 @@ window.getSelection().removeAllRanges();
 window.getSelection().addRange(r);
 document.execCommand('copy');
 window.getSelection().removeAllRanges();
+alert('클립보드에 복사되었습니다');
 }
 
 </script>
