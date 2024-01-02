@@ -156,7 +156,8 @@ public class ReviewController {
 	}
 	
 	public String saveFile(MultipartFile upload) {
-		String savaPath = "/Users/rosa/uploadFiles"; 
+		String root = "C:\\";
+		String savaPath = root + "\\uploadFiles";
 		
 		File folder = new File(savaPath);
 		if(!folder.exists()) {
@@ -170,7 +171,7 @@ public class ReviewController {
 		String originFileName = upload.getOriginalFilename(); 
 		String renameFileName = sdf.format(time) + ranNum + originFileName.substring(originFileName.lastIndexOf("."));
 																	
-		String renamePath = folder + File.separator + renameFileName;
+		String renamePath = folder + "\\" + renameFileName;
 		try {
 			upload.transferTo(new File(renamePath));
 		} catch (IllegalStateException e) {
@@ -183,9 +184,10 @@ public class ReviewController {
 	}
 	
 	public void deleteFile(String fileName) {
-		String savaPath = "/Users/rosa/uploadFiles"; 
+		String root = "C:\\";
+		String savaPath = root + "\\uploadFiles";
 		
-		File f = new File(savaPath + File.separator  + fileName);
+		File f = new File(savaPath + "\\" + fileName);
 		if(f.exists()) {
 			f.delete();
 		}
@@ -353,9 +355,6 @@ public class ReviewController {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("memId", memId);
 		map.put("revNo", revNo);
-		
-		System.out.println(memId);
-		System.out.println(revNo);
 		
 		int result = rService.insertReviewList(map);
 		int likeCount = 0;

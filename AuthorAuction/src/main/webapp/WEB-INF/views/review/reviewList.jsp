@@ -380,7 +380,7 @@ body.modal-open {
 						</button>
 					</div>
 					<div style="height: 4rem">
-						<div class="addReview" id="goWriteReviewButton" onclick="location.href='writeReview.rv'">등록</div>
+						<div class="addReview" id="goWriteReviewButton">등록</div>
 					</div>
 					<div class="contents-body">
 						<div class="contents-sort">
@@ -452,6 +452,7 @@ body.modal-open {
 									<input type="hidden" value="${ r.hasAttm }" id="hasAttachment">
 									<input type="hidden" value="${ r.revNo }" id="reviewNo">
 									<input type="hidden" value="${ r.proNo }" id="productNo">
+									<input type="hidden" value="${ r.memId }" id="reviewWriter">
 									<table class="cardset-body">
 										<tr>
 											<td class="secTd">
@@ -716,10 +717,9 @@ body.modal-open {
 				}
 			});
 			
-			console.log('${oList}');
 			document.getElementById('goWriteReviewButton').addEventListener('click', () =>{
-				if('${loginUser}' != null ){
-					if('${oList}' != ''){
+				if( '${loginUser}' != '[]' ){
+					if( '${oList}' != '[]'){
 						location.href='writeReview.rv';					
 					} else{
 						alert('리뷰 등록 가능한 작품이 없습니다.');
@@ -844,6 +844,8 @@ body.modal-open {
 					const hasAttm = card.querySelector('#hasAttachment').value;
 					document.querySelector('input[name="hasAttachment"]').value = hasAttm;
 					
+					const revMemId = card.querySelector('#reviewWriter').value;
+					
 					const proNo = card.querySelector('#productNo').value;
 					
 					for(const r of reviewList){
@@ -926,32 +928,43 @@ body.modal-open {
 							});
 							*/
 						}
+						
+						
+							console.log(revMemId);
+						// 좋아요
+						document.getElementById('reviewLikeUp').addEventListener('click', function(){
+							
+							if( '${loginUser}.memId' != revMemId ){
+								$.ajax({
+									url: 'insertReviewLike.rv',
+									data:{memId: '${loginUser.memId}', revNo: revNo},
+									success: data =>{
+										console.log(data);
+										const like = document.querySelector('#reviewLike');
+										like.innerText = data;
+									}
+								})
+							} else {
+								this.disabled = true;
+							}
+							
+							
+						});
+						
+						document.getElementById('reviewLikeDown').addEventListener('click', function(){
+							$.ajax({
+								url: 'deleteReviewLike.rv',
+								data:{memId: '${loginUser.memId}', revNo: revNo},
+								success: data =>{
+									console.log(data);
+									const like = document.querySelector('#reviewLike');
+									like.innerText = data;
+								}
+							})
+						});
 					}
 					
-					// 좋아요
-					document.getElementById('reviewLikeUp').addEventListener('click', function(){
-						$.ajax({
-							url: 'insertReviewLike.rv',
-							data:{memId: '${loginUser.memId}', revNo: revNo},
-							success: data =>{
-								console.log(data);
-								const like = document.querySelector('#reviewLike');
-								like.innerText = data;
-							}
-						})
-					});
 					
-					document.getElementById('reviewLikeDown').addEventListener('click', function(){
-						$.ajax({
-							url: 'deleteReviewLike.rv',
-							data:{memId: '${loginUser.memId}', revNo: revNo},
-							success: data =>{
-								console.log(data);
-								const like = document.querySelector('#reviewLike');
-								like.innerText = data;
-							}
-						})
-					});
 				});
 				
 			};
