@@ -45,6 +45,10 @@ public interface ReviewService {
 
 	ArrayList<HashMap<String, Object>> reviewLikeList();
 
+	ArrayList<Review> selectReviewAllList();
+
+	int updateReviewCount(int revNo);
+
 	
 	
 

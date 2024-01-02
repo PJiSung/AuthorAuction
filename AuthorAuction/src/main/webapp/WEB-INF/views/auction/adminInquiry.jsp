@@ -41,12 +41,12 @@
 	            <span style="margin-left: 3%;">기간검색</span>
 	            <div style="margin-left: 3%;">
 	                <div style="margin-top:2%; margin-bottom:1%;">
-	                    경매 시작일 <button>달력</button> <input type="text" name="aucSS"> ~ <button>달력</button> <input type="text" name="aucSE">
+	                    경매 시작일 <button type="button">달력</button> <input type="text" name="aucSS" readonly> ~ <button type="button">달력</button> <input type="text" name="aucSE" readonly>
 	                </div>
 	                <div style="display:inline-block; width:89%; margin-top:1%; margin-bottom:2%;">
-	                    경매 종료일 <button>달력</button> <input type="text" name="aucFS"> ~ <button>달력</button> <input type="text" name="aucFE">
+	                    경매 종료일 <button>달력</button> <input type="text" name="aucFS" readonly> ~ <button type="button">달력</button> <input type="text" name="aucFE" readonly>
 	                </div>
-	                <span style="display:inline-block; margin-right: 6%;"><button>초기화</button></span>
+	                <span style="display:inline-block;"><button type="button" id="reset">달력 초기화</button></span>
 	            </div>
 	        </div>
 	        
@@ -83,6 +83,8 @@
 		window.onload = () =>{
 			const auctionTerm = document.getElementById("auctionTerm");
 			const checkAuctionPeriod = document.getElementById("checkAuctionPeriod");
+			console.log(document.querySelectorAll("input[type='text']"));
+			
 			
 			//기간 검색 여닫이
 			auctionTerm.addEventListener('click',function(){
@@ -90,6 +92,12 @@
 					checkAuctionPeriod.style.display="block";
 				}else{
 					checkAuctionPeriod.style.display='none';
+				}
+			})
+			
+			document.querySelector("button[id='reset']").addEventListener('click',function(){
+				for(let i = 2; i < document.querySelectorAll("input[type='text']").length; i++){
+					 document.querySelectorAll("input[type='text']")[i].value= "";
 				}
 			})
 		}

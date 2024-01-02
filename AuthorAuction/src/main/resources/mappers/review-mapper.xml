@@ -50,7 +50,7 @@
 	<select id="selectAttmList" resultType="Attachment">
 		select *
 		from attachment
-		where att_status = 'Y'
+		where att_status = 'Y' and att_category = 1
 		<if test="revNo != null">
 			and att_bno = #{revNo}
 		</if>
@@ -148,5 +148,26 @@
 		select *
 		from review_like
 	</select>
+	
+	<select id="selectReviewAllList" resultType="Review">
+		select *
+		from (select rev_no, rev_content, rev_count, rev_create_date, rev_modify_date, rev_status, mem_id, pro_no,
+        	  		 pro_name, pro_writer, pro_image, mem_nickname, mem_filename,
+        			 case when a.att_no is not null then 'Y' else 'N' end as has_attm,
+        	  		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like,
+			  		 row_number() over (partition by r.rev_no order by r.rev_no desc) as rn
+    		  from review r join member using (mem_id)
+        			  join product using (pro_no)
+					  left join attachment a on r.rev_no = a.att_bno
+    		  where rev_status = 'Y')
+		where rn = 1
+		order by rev_no desc
+	</select>
+	
+	<update id="updateReviewCount">
+		update review
+		set rev_count = + 1
+		where rev_no = #{revNo}
+	</update>
 	
 </mapper>

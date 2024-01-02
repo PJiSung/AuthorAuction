@@ -574,11 +574,6 @@
             </li>
             
             <li class="tabset-item">
-              <a class="tabset-link" onclick= "showdetail('reviewdiv')" style = "cursor:pointer;">
-                <span>리뷰</span>
-              </a>
-            </li>
-            <li class="tabset-item">
               <a class="tabset-link" onclick= "showdetail('delidiv')" style = "cursor:pointer;">
                 <span>배송/교환/반품안내</span>
               </a>
@@ -659,54 +654,26 @@
 	color: #777;
 	font-size: 25px;
 	cursor: pointer;" onclick = "share('off')">&times;</span>
-	
-	<button class="sns_share_btn" onclick="copy_to_clipboard()">클립보드에 복사</button>
+	<h3>게시물 공유</h3>
+	<div style = "margin-top: 5%;">
 		<input id = "snsaddress" type = "text" readonly style = "width: 100%;">
-	<div>
+			<span onclick="copy_to_clipboard()" style = "cursor:pointer; position: absolute; right: 37.5%; top: 58.2%;"><img src = "sunwoo/icons/copyicon.png" style = "width: 20px;"></span>
+			</div>
+	<div style = "margin: 0 auto; text-align:center; margin-top: 5%;">
 	
-      <!-- Kakao -->
-      <button type="button"class="sns_btn">
-        <a id="kakao-link-btn" href="javascript:shareKakao()">
-          <img src="sunwoo/icons/icon-kakao.png" alt="카카오톡 공유하기">
-        </a>
-      </button>
+	
+          <img src="sunwoo/icons/icon-kakao.png" alt="카카오톡 공유하기" style = "width: 10%; cursor:pointer; " onclick="shareNaver()">
       
-      <!-- NAVER -->
-      <button type="button" class="sns_btn" onclick="shareNaver()">
-        <img src="sunwoo/icons/naver.png" alt="네이버 공유하기">
-      </button>
+        <img src="sunwoo/icons/navericon.png" alt="네이버 공유하기" style = "width: 10%; cursor:pointer; " onclick="shareNaver()">
       
-      <!-- Facebook -->
       <!-- facebook은 공유하려는 페이지에 meta og 설정 -->
-      <button type="button" class="sns_btn" onclick="shareFacebook()">
-        <img src="sunwoo/icons/icon-facebook.png" alt="페이스북 공유하기">
-      </button>
+        <img src="sunwoo/icons/icon-facebook.png" alt="페이스북 공유하기" style = "width: 10%; cursor:pointer; " onclick="shareFacebook()">
       
-      <!-- Twitter -->
-      <!-- script 작성 시 -->
-      <button type="button" class="sns_btn" onclick="shareTwitter()">
-        <img src="sunwoo/icons/icon-twitter.png" alt="트위터 공유하기">
-      </button>
       
-      <!-- a태그에 작성 시 -->
-      <button type="button" class="sns_btn">
-        <a href="https://twitter.com/intent/tweet?text=https://sample.com/index.php 추천코드: <?php echo $member['mb_referer']?>" target="_blank" class="sns_btn">
-          <img src="/images/twitter.png" alt="트위터 공유하기">
-        </a>
-      </button>
+          <img src="sunwoo/icons/icon-twitter.png" alt="트위터 공유하기" style = "width: 10%; cursor:pointer;" onclick="shareTwitter()">
       
-      <!-- Telegram -->
-      <!-- script 작성 시 -->
-      <button type="button" class="sns_btn" onclick="shareTelegram()">
-        <img src="/images/telegram.png" alt="텔레그램 공유하기">
-      </button>
       
-      <!-- a태그에 작성 시 -->
-      <button type="button" class="sns_btn">
-        <a href="https://telegram.me/share/url?url=https://sample.com/index.php&text=추천코드: <?php echo $member['mb_referer']?>" target="_blank" class="sns_btn">
-          <img src="/images/telegram.png" alt="텔레그램 공유하기">
-        </a>
-      </button>
+          <img src="sunwoo/icons/telegram.svg" alt="텔레그램 공유하기" style = "width: 10%; cursor:pointer; " onclick="shareTelegram()">
 
 	</div>
 	</div>
@@ -805,9 +772,7 @@
   		
   	}
   	
-  	
   	const uri = window.location.href;
-  	console.log(uri);
 // NAVER
 	function shareNaver() {
 	  const title = "어서옥션";
@@ -853,6 +818,7 @@ window.getSelection().removeAllRanges();
 window.getSelection().addRange(r);
 document.execCommand('copy');
 window.getSelection().removeAllRanges();
+alert('클립보드에 복사되었습니다');
 }
 
 </script>
@@ -873,7 +839,7 @@ window.getSelection().removeAllRanges();
 			    url: 'addtowishlist.ar',
 			    type: 'GET',
 			    data: {
-			    	memId: ${loginid},
+			    	memId: '${loginid}',
 			    	proNo: proNo,
 			    	wisAmount: wisAmount
 			    },
@@ -927,7 +893,6 @@ window.getSelection().removeAllRanges();
   
   <script>
    var  delidiv = document.getElementById('delidiv')
-  var reviewdiv = document.getElementById('reviewdiv')
   var qnadiv = document.getElementById('qnadiv')
   var detaildiv = document.getElementById('detaildiv')
   
@@ -940,25 +905,17 @@ window.getSelection().removeAllRanges();
   		switch(kind){
   		
   		case 'delidiv': delidiv.style.display = "block";
-  		reviewdiv.style.display = "none";
   		qnadiv.style.display = "none";
   		detaildiv.style.display = "none";
   					break;	
   		
-  		case 'reviewdiv': reviewdiv.style.display = "block";
-  		delidiv.style.display = "none";
-  		qnadiv.style.display = "none";
-  		detaildiv.style.display = "none";
-  					break;	
   		
   		case 'qnadiv': qnadiv.style.display = "block";
-  		reviewdiv.style.display = "none";
   		delidiv.style.display = "none";
   		detaildiv.style.display = "none";
   					break;	
   		
   		case 'detaildiv': detaildiv.style.display = "block";
-  		reviewdiv.style.display = "none";
   		qnadiv.style.display = "none";
   		delidiv.style.display = "none";
   					break;	

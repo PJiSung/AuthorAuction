@@ -50,6 +50,7 @@ public class ReviewController {
 		
 		PageInfo pi = Pagination.getPageInfo(page, listCount, 9);
 		ArrayList<Review> rList = rService.selectReviewList(pi);
+		ArrayList<Review> allRlist = rService.selectReviewAllList();
 		ArrayList<Attachment> aList = rService.selectAttmList(null);
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -60,13 +61,13 @@ public class ReviewController {
 		
 		ArrayList<HashMap<String, Object>> oList =  rService.getOrderList(id);
 		ArrayList<HashMap<String, Object>> lList = rService.reviewLikeList();
-		
 		if(rList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("rList", rList);
 			model.addAttribute("aList", aList);
 			model.addAttribute("oList", oList);
 			model.addAttribute("lList", lList);
+			model.addAttribute("allRlist", allRlist);
 			return "review/reviewList";
 		} else {
 			throw new Exception("리뷰 리스트 조회에 실패하였습니다.");
@@ -381,6 +382,15 @@ public class ReviewController {
 		}
 		
 		return String.valueOf(likeCount);
+	}
+	
+	@ResponseBody
+	@GetMapping("updateReviewCount.rv")
+	public String updateReviewCount(@RequestParam("revNo") int revNo) {
+		
+		int result = rService.updateReviewCount(revNo);
+		
+		return result == 1 ? "success" : "fail";
 	}
 
 }

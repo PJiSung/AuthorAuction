@@ -21,8 +21,6 @@
 	
 	<button onclick="location.href='enrollAuction.adac'">경매 등록</button>
 	
-	<button onclick="location.href='editAuction.adac'">경매 수정</button>
-	
 	<button onclick="location.href='myInterest.ac'">내 관심 목록</button>
 	
 	<button onclick="location.href='myBidList.ac'">내 입찰 경매</button>

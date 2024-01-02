@@ -48,5 +48,9 @@ public interface ReviewDAO {
 
 	ArrayList<HashMap<String, Object>> reviewLikeList();
 
+	ArrayList<Review> selectReviewAllList();
+
+	int updateReviewCount(int revNo);
+
 	
 }
