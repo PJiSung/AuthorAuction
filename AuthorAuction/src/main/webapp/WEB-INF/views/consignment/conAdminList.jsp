@@ -184,6 +184,7 @@
    						  aucStartDate:document.querySelector('input[name="aucStartDate"]').value, aucFinishDate:document.querySelector('input[name="aucFinishDate"]').value,
    						  conWidth:ajaxConWidth.value, conHeight:ajaxConHeight.value,conYear:ajaxConYear.value,conEtc:ajaxConEtc.value},
    					success: (data) =>{
+   						console.log(document.querySelector('input[name="aucStartDate"]').value);
    						if(data == 'success'){
    							document.querySelector('input[name="aucStartDate"]').value = '';
 	   	                    document.querySelector('input[name="aucFinishDate"]').value = '';
@@ -327,7 +328,7 @@
 	    }
 	
    
-	    //td들에 이벤트부여 선택 td 색 변경 + 
+	    //td들에 이벤트부여 선택 td 색 변경 + 다른게 선택되면 취소 됨
     	function chooseStartDay (event) {
     		if (event.target.tagName === 'TD') {
  	            const targetDay = event.target;
@@ -369,6 +370,9 @@
     	}
    	}
    	
+	
+	
+	//위에서 선택받은 td의 정보를 받아와서 만약 1자리 숫자라고 한다면 0을 붙여준다
    	function selectStart(targetDay) {
    		if(parseInt(targetDay) < 10){
    			targetDay = "0" + targetDay;
@@ -380,6 +384,8 @@
    		const modal = document.querySelector(".modal");
 	 	const modalContent = document.getElementById("modal_h3");
    		
+	 	
+	 	
 	 	function selectStartBtnEvent() {
 	        if (dateInput[5].value != '') {
 	            if (new Date(dateInput[5].value + " 23:59:59") > new Date(datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay + " 00:00:00") && new Date(datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay + " 00:00:00") > new Date()) {
@@ -395,6 +401,7 @@
 	            }else if(areDatesEqual(new Date(), new Date(datePlace[31].innerText + "-" + datePlace[32].innerText + "-" + targetDay))){
 	            	modalContent.innerText = '금일은 시작일로 지정하실 수 없습니다';
 	                modal.style.display = 'block';
+	                
 	            }else{
 	            	modalContent.innerText = '시작일을 종료일보다 후일로 설정할 수 없습니다';
 	                modal.style.display = 'block';

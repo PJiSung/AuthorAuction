@@ -39,6 +39,7 @@ public class AuctionController {
 		//진행중인 경매의 모든 경매리스트를 가지고옴
 		ArrayList<Auction> auctionList = aService.getAllAuction();
 		
+		System.out.println(auctionList);
 		
 		//가지고온 경매리스트의 갯수(size)가 총 갯수
 		PageInfo pi = Pagination.getPageInfo(currentPage, auctionList.size(), 12);
@@ -119,7 +120,6 @@ public class AuctionController {
 			return likeCheck;
 		}
 			return 0;
-		
 	}
 	
 	@ResponseBody

@@ -34,8 +34,6 @@ public class AuctionAdminController {
 		
 		PageInfo pi = Pagination.getPageInfo(page, auctionList.size(), 10);
 		
-		
-		
 		model.addAttribute("pi", pi);
 		model.addAttribute("aList", auctionList);
 		model.addAttribute("total", auctionList.size());
@@ -119,8 +117,12 @@ public class AuctionAdminController {
 	@PostMapping("insertAuction.adac")
 	public String insertAuction(@ModelAttribute Auction auction, Model model) {
 		//문의 글 번호로 경매 등록 - 경매가 아직 등록이 안되어 있기 때문에 경매 번호에 문의 글 번호 담음
+		System.out.println(auction);
 		auction.setAucStartDate(auction.getAucStartDate() +" 00:00:00");
 		auction.setAucFinishDate(auction.getAucFinishDate() + " 23:59:59");
+		
+		System.err.println(auction);
+		
 		int result = aService.insertAuction(auction);
 		
 		if(result > 0) {

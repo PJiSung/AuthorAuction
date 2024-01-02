@@ -1,12 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>경매품 리스트 페이지</title>
+<style type="text/css">
+	.auction{
+		cursor:pointer;
+	}
+</style>
+
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
@@ -43,30 +50,21 @@
 
             <div id="mainContentCover" style="border: 1px black solid;">
                 <div id="mainContent" style="margin-top: 1%;">
-                    <div class="auction" id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center;">
-                        <img src="치즈 냥이.jpg" style="width: 100%; height: 100%;">
-                        <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
-                        <input type="hidden" value="113" id="check">
+                <c:forEach items="${ aList }" var="auction">
+                	 <div class="auction" id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center; margin: 0 1.5% 0 1.5%">
+                	 <img src="${ auction.attRename }" style="width: 100%; height: 100%;">
+                        <span>${ auction.conProduct }</span><br><span>${ auction.aucFinishPrice }</span><br><span>${ fn:split(auction.aucStartDate, " ")[0] } ~ ${ fn:split(auction.aucFinishDate, " ")[0] }</span>
+                        <input type="hidden" value="${ auction.aucNo }">
                     </div>
-                    <div class="auction" id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
-                        <img src="flower1.PNG" style="width: 100%; height: 100%;">
-                        <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
-                        <input type="hidden" value="114" id="check">
-                    </div>
-                    <div class="auction" id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
-                        <img src="flower1.PNG" style="width: 100%; height: 100%;">
-                        <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
-                        <input type="hidden" value="boardNo" id="check">
-                    </div>
-                    <div class="auction" id="img" style="width: 21%; height: 20%; display: inline-block; margin-left: 4%; text-align: center;">
-                        <img src="flower1.PNG" style="width: 100%; height: 100%;">
-                        <span>작품명</span><br><span>현재입찰가</span><br><span>경매기간</span>
-                        <input type="hidden" value="boardNo" id="check">
-                    </div>
+                </c:forEach>
                 </div>
             </div>
         </div>
+        
+        
         <div id="pagingPlace" style="background: yellow; width: 100%; text-align: center;">for paging</div>
+        
+        
         <br>
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     </div>

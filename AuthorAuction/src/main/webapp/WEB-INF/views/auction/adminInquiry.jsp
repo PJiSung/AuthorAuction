@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +37,7 @@
 	                <input type="checkbox" id="auctionTerm"> <label for="auctionTerm">경매 기간</label>
 	            </div>
 	        </div>
-	        <div id="checkAuctionPeriod" style="width: 70%; height: 100%; margin: auto; margin-top: 1%; border: 1px black solid; padding: 1% 0 1% 0;">
+	        <div id="checkAuctionPeriod" style="width: 70%; height: 100%; margin: auto; margin-top: 1%; border: 1px black solid; padding: 1% 0 1% 0; display: none;">
 	            <span style="margin-left: 3%;">기간검색</span>
 	            <div style="margin-left: 3%;">
 	                <div style="margin-top:2%; margin-bottom:1%;">
@@ -48,6 +50,7 @@
 	            </div>
 	        </div>
 	        
+	        <jsp:useBean id="now" class="java.util.Date"/>
 	        <div style="width: 70%;  margin: auto; margin-top: 2%; margin-bottom: 2%;">
 	        	<div style="margin-bottom: 1%"><span>현재 진행중인 경매</span>총 ${ total } 개</div>
 	            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
@@ -58,56 +61,18 @@
 	                <div style="width: 16.5%; display: inline-block;">경매 기간</div>
 	                <div style="width: 16.5%; display: inline-block;">현재 입찰 금액</div>
 	            </div>
-	            <div style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
-	                <div style="width: 16.5%; display: inline-block; ">50</div>
-	                <div style="width: 16.5%; height: 100%; display: inline-block;">
-	                    <img src="image/치즈 냥이.jpg" style="height: 30%; width: 30%;">
-	                </div>
-	                <div style="width: 16.5%; display: inline-block;">찰스 김</div>
-	                <div style="width: 16.5%; display: inline-block;">치즈 냥이</div>
-	                <div style="width: 16.5%; display: inline-block;">23.12.09 ~ 23.12.19</div>
-	                <div style="width: 16.5%; display: inline-block;">경매 예정 작품</div>
-	            </div>
-	            <div style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
-	                <div style="width: 16.5%; display: inline-block; ">50</div>
-	                <div style="width: 16.5%; height: 100%; display: inline-block;">
-	                    <img src="image/치즈 냥이.jpg" style="height: 30%; width: 30%;">
-	                </div>
-	                <div style="width: 16.5%; display: inline-block;">찰스 김</div>
-	                <div style="width: 16.5%; display: inline-block;">치즈 냥이</div>
-	                <div style="width: 16.5%; display: inline-block;">23.12.09 ~ 23.12.19</div>
-	                <div style="width: 16.5%; display: inline-block;">경매 예정 작품</div>
-	            </div>
-	            <div style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
-	                <div style="width: 16.5%; display: inline-block; ">50</div>
-	                <div style="width: 16.5%; height: 100%; display: inline-block;">
-	                    <img src="image/치즈 냥이.jpg" style="height: 30%; width: 30%;">
-	                </div>
-	                <div style="width: 16.5%; display: inline-block;">찰스 김</div>
-	                <div style="width: 16.5%; display: inline-block;">치즈 냥이</div>
-	                <div style="width: 16.5%; display: inline-block;">23.12.09 ~ 23.12.19</div>
-	                <div style="width: 16.5%; display: inline-block;">경매 예정 작품</div>
-	            </div>
-	            <div style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
-	                <div style="width: 16.5%; display: inline-block; ">50</div>
-	                <div style="width: 16.5%; height: 100%; display: inline-block;">
-	                    <img src="image/치즈 냥이.jpg" style="height: 30%; width: 30%;">
-	                </div>
-	                <div style="width: 16.5%; display: inline-block;">찰스 김</div>
-	                <div style="width: 16.5%; display: inline-block;">치즈 냥이</div>
-	                <div style="width: 16.5%; display: inline-block;">23.12.09 ~ 23.12.19</div>
-	                <div style="width: 16.5%; display: inline-block;">경매 예정 작품</div>
-	            </div>
-	            <div style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
-	                <div style="width: 16.5%; display: inline-block; ">50</div>
-	                <div style="width: 16.5%; height: 100%; display: inline-block;">
-	                    <img src="image/치즈 냥이.jpg" style="height: 30%; width: 30%;">
-	                </div>
-	                <div style="width: 16.5%; display: inline-block;">찰스 김</div>
-	                <div style="width: 16.5%; display: inline-block;">치즈 냥이</div>
-	                <div style="width: 16.5%; display: inline-block;">23.12.09 ~ 23.12.19</div>
-	                <div style="width: 16.5%; display: inline-block;">경매 예정 작품</div>
-	            </div>
+	            <c:forEach items="${ aList }" var="auction">
+		            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 1px black solid; ">
+						<div style="width: 16.5%; display: inline-block; ">${ auction.aucNo }</div>
+		                <div style="width: 16.5%; height: 100%; display: inline-block;">
+		                    <img src="image/치즈 냥이.jpg" style="height: 30%; width: 30%;">
+		                </div>
+		                <div style="width: 16.5%; display: inline-block;">${ auction.conAuthor }</div>
+		                <div style="width: 16.5%; display: inline-block;">${ auction.conProduct }</div>
+		                <div style="width: 16.5%; display: inline-block;">${ fn:split(auction.aucStartDate, ' ')[0] } ~ ${ fn:split(auction.aucFinishDate, ' ')[0] }</div>
+		                <div style="width: 16.5%; display: inline-block;">${ auction.aucFinishPrice }</div>	 
+	                </div>           
+	            </c:forEach>
 	        </div>
 	    </div>
     </form>
@@ -120,7 +85,6 @@
 			const checkAuctionPeriod = document.getElementById("checkAuctionPeriod");
 			
 			//기간 검색 여닫이
-			checkAuctionPeriod.style.display='none';
 			auctionTerm.addEventListener('click',function(){
 				if(this.checked){
 					checkAuctionPeriod.style.display="block";
@@ -129,58 +93,6 @@
 				}
 			})
 		}
-		
-		/* const search = () =>{
-			const auctionStatus = document.getElementsByClassName("auctionStatus");
-			const content = document.getElementById("content").value;
-			const searchType= document.getElementById("searchType").value;
-			const aucSS = document.getElementById("aucSS").value;
-			const aucSE = document.getElementById("aucSE").value;
-			const aucFS = document.getElementById("aucFS").value;
-			const aucFE = document.getElementById("aucFE").value;
-			
-			const aucSSDay = '';
-			const aucSEDay = ''; 
-			const aucFSDay = '';
-			const aucFEDay = '';
-			
-			
-			if(aucSS != ''){
-				aucSSDay = "";
-			}
-			
-			if(aucSE != ''){
-				aucSEDay = "";
-			}
-			
-			if(aucFS != ''){
-				aucFSDay = "";
-			}
-			
-			if(aucFE != ''){
-				aucFEDay = "";
-			}
-			
-			 
-
-			
-			console.log("aucSS = " + aucSS);
-			console.log("aucSE = " + aucSE);
-			console.log("aucFS = " + aucFS);
-			console.log("aucFE = " + aucFE); */
-			
-			 /* for(let a of auctionStatus){
-				if(a.checked){
-					location.href="search.adac?progress=" + a.value +"&content=" + content + "&searchType=" + searchType;
-				}else if(content != ''){
-					location.href="search.adac?content=" + content;
-				} 
-					
-				
-			} */
-		/* } */
-		
-		
 	</script>
 </body>
 
