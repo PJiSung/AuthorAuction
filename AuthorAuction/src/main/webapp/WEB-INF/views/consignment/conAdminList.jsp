@@ -23,7 +23,6 @@
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
   
-<<<<<<< HEAD
   <style type="text/css">
   	table{
 		width:100%;
