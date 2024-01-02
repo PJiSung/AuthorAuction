@@ -665,7 +665,7 @@ input.check_btn:checked + label:before{
 						
 							<input type ="hidden" value = "${p.proNo}" class = "pronofororder">
 							<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
-								<img src = "sunwoo/images/img_basic_N42_3.png" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+								<img src="/sunwoo/proimages/${p.proImage}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
 								<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
 									<p>${p.proName}</p>
 								</div>
@@ -709,7 +709,6 @@ input.check_btn:checked + label:before{
 <!-- 					</div> -->
 <!-- 				</div>	 -->
 				
-			<button onclick = "test()">테스트 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</button>	
 				
 				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh; margin-bottom: 20%;">
 					<div style = "height: 100%; width: 100%;">
@@ -1286,7 +1285,7 @@ $(document).ready(function(){
 		
 	    if (rsp.success) {
 	    	
-	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginUser.memId}
+	    	location.href = "directpayresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginUser.memId}
 	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우

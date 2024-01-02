@@ -666,7 +666,7 @@ input.check_btn:checked + label:before{
 						<c:forEach items = "${wlist}" var = "w">
 							<input type ="hidden" value = "${w.proNo}" class = "pronofororder">
 							<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
-								<img src = "sunwoo/images/img_basic_N42_3.png" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+								<img src="/sunwoo/proimages/${w.proImage}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
 								<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
 									<p>${w.proName}</p>
 								</div>
@@ -711,7 +711,6 @@ input.check_btn:checked + label:before{
 <!-- 					</div> -->
 <!-- 				</div>	 -->
 				
-			<button onclick = "test()">테스트 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</button>	
 				
 				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh; margin-bottom: 20%;">
 					<div style = "height: 100%; width: 100%;">

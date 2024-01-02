@@ -496,7 +496,7 @@ ul,li,ol{
 					<c:forEach items = "${wlist}" var = "w">
 						<div style = "height: 30vh; line-height: 20vh; display: flex; align-items: center; ">	
 							<div style ="width:5%; height: 100%; display:flex; align-items: center;justify-content: center;"><input type = "checkbox" class = "productcheck"><input type = "hidden" value = "${w.proNo}"></div>
-							<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src= "sunwoo/images/img_basic_N51_4.png" style = "width: 100%; height: 90%;"></div>
+							<div style ="width:30%; height: 100%; display:flex; align-items: center;justify-content: center;" ><img src="/sunwoo/proimages/${w.proImage}" style = "width: 100%; height: 90%;"></div>
 							<div style ="width:30%; height: 100%; flex-direction: column; justify-content: center;" >
 								<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proName}</div>
 								<div style ="width:100%; height: 33.333%; display: flex; align-items: center;justify-content: center; word-break:break-all" >${w.proWriter}</div>

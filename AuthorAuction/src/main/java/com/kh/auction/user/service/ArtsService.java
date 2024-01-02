@@ -38,6 +38,8 @@ public interface ArtsService {
 
 	int updateProductamount(HashMap<String, Object> map);
 
+	int insertAddress(HashMap<String, Object> rmap);
+
 
 
 
