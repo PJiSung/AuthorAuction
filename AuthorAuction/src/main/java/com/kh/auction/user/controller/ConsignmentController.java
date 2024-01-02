@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -126,7 +130,7 @@ public class ConsignmentController {
 		
 		String originFileName = upload.getOriginalFilename();
 		String[] forNum = originFileName.split("\\.");
-		String newName = forNum[0] + "\\." +i + forNum[1];
+		String newName = forNum[0] + "." +i + "." + forNum[1];
 		
 		String renameFileName = sdf.format(time) + ranNum + newName.substring(originFileName.lastIndexOf("."));
 		
@@ -266,107 +270,89 @@ public class ConsignmentController {
 			throw new Exception("게시글 삭제 실패");
 		}
 	}
-	// 글 수정		
+	// 글 수정
+	@ResponseBody
 	@PostMapping("updateConsignment.co")
-	public String updateAttm(@ModelAttribute Consignment c, @RequestParam("page") int page,
-							 @RequestParam("deleteAttm") String[] deleteAttm,
-							 @RequestParam("file") ArrayList<MultipartFile> files, RedirectAttributes redirect) {
+	public String updateAttm(@ModelAttribute Consignment c, @RequestParam(value="page", defaultValue="1") int page,
+							 //@RequestParam("deleteAttm") String[] deleteAttm,@RequestParam("file") ArrayList<MultipartFile> files
+							 RedirectAttributes redirect, @RequestBody Map<String, Object> formData) {
 		
-		
+		List<Integer> exist = (List<Integer>) formData.get("exist"); // 새로 비어진 칸의 인덱스
+        List<String> imgArr = (List<String>) formData.get("imgArr"); // 삭제할 이미지 이름
+        
+        
+		System.out.println(exist);
+		System.out.println(imgArr);
 		// 파일 새로 추가
 		ArrayList<Attachment> list = new ArrayList<>();			// list : 새로추가할 파일들
 		ArrayList<Integer> num = new ArrayList<>();
 		
-		for(int i = 0; i < deleteAttm.length; i++) {
-			if(!deleteAttm[i].equals("")) {
+		
+		for(int i = 0; i < imgArr.size(); i++) { 
+			if(!imgArr.get(i).equals("")) {
 				num.add(i);
 			}
 		}
-			
-		for(int i = 0; i < files.size(); i++) {
-			MultipartFile upload = files.get(i);
-			
-			
-			if(!upload.getOriginalFilename().equals("")) {
-				String rename = saveFile(upload, num.get(i));
-				if(rename != null) {
-					Attachment a = new Attachment();
-					a.setAttRename(rename);
-					a.setAttCategory(2);
-					
-					list.add(a);
-				}
-			}
-		}
 		
-		System.out.println(files);
-		System.out.println(list);
+		//for(int i = 0; i < files.size(); i++) { MultipartFile upload = files.get(i);
 		
-		// 파일 삭제
-		ArrayList<String> delRename = new ArrayList<>();
-		ArrayList<Integer> delLevel = new ArrayList<>();
 		
-		for(int i = 0; i < deleteAttm.length; i++) {
-			String rename = deleteAttm[i];
-			if(!rename.equals("none")){
-				String[] split = rename.split("/");
-				delRename.add(split[0]);
-				delLevel.add(Integer.parseInt(split[1]));
-			}
-		}
+		//if(!upload.getOriginalFilename().equals("")) {
+		//	String rename =	saveFile(upload, num.get(i));
+		//	if(rename != null) { 
+		//		Attachment a = new Attachment();
+		//		a.setAttRename(rename);
+		//		a.setAttCategory(2);
+		//		list.add(a);
+		//		} 
+		//	} 
+		//}
 		
-		int deleteAttmResult = 0;
-		int updateConsignmentResult = 0;
-			
-		if(!delRename.isEmpty()) {									
+		// 파일 삭제 ArrayList<String> delRename = new ArrayList<>(); ArrayList<Integer>
+		//delLevel = new ArrayList<>();
+		
+		/*for(int i = 0; i < deleteAttm.length; i++) { String rename = deleteAttm[i];
+		if(!rename.equals("none")){ String[] split = rename.split("/");
+		delRename.add(split[0]); delLevel.add(Integer.parseInt(split[1])); } }
+		 
+		int deleteAttmResult = 0; int updateConsignmentResult = 0;
+		 
+		if(!delRename.isEmpty()) {
 			try {
 				deleteAttmResult = cService.deleteAttm(delRename);
 				if(deleteAttmResult > 0) {
-					for(String rename : delRename) {
-						deleteFile(rename);
+					for(String rename : delRename) { 
+						deleteFile(rename); 
+						} 
 					}
-				}
-			
-				for(Attachment a: list) {		// list : 삭제하고 새로 추가한 파일들
-					a.setAttBno(c.getConNo());
-					for(int i = 0; i < delLevel.size(); i++) {
-						int level = delLevel.get(i);			// delLevel : fno들
-						if(level >= 0 && level <= 4) {
-							a = list.get(i);
-							a.setAttFno(level + 1);
-
-							HashMap<String, Object> map = new HashMap<String, Object>();
-							map.put("attFno", a.getAttFno());
-							map.put("conNo", c.getConNo());
-							
-							cService.updateAttmFno(map);	// 사진 순서 업데이트
-							break;
-							
-						}
+					for(Attachment a: list) { // list : 삭제하고 새로 추가한 파일들
+						a.setAttBno(c.getConNo()); for(int i = 0; i < delLevel.size(); i++) { 
+							int level = delLevel.get(i); // delLevel : fno들 
+							if(level >= 0 && level <= 4) { 
+								a = list.get(i); a.setAttFno(level + 1);
+								HashMap<String, Object> map = new HashMap<String, Object>();
+								map.put("attFno", a.getAttFno()); map.put("conNo", c.getConNo());
+								cService.updateAttmFno(map); // 사진 순서 업데이트 break;
+		 					} 
+						} 
 					}
-				}
-			
-				updateConsignmentResult = cService.updateConsignment(c);
-				int updateAttmResult = 0;
-				if(!list.isEmpty()) {
-					updateAttmResult = cService.insertAttm(list);
-				}
-				
-//				if(updateConsignmentResult + updateAttmResult == list.size()+1) {
-				if(deleteAttmResult > 0 && updateConsignmentResult > 0 && updateAttmResult > 0) {
-					redirect.addAttribute("conNo", c.getConNo());
-					redirect.addAttribute("page", page);
-					
-					return "redirect:list.co";
-				} else {
+					updateConsignmentResult = cService.updateConsignment(c); 
+					int updateAttmResult = 0;
+					if(!list.isEmpty()) { 
+						updateAttmResult = cService.insertAttm(list);
+					}
+		 // if(updateConsignmentResult + updateAttmResult == list.size()+1) {
+					if(deleteAttmResult > 0 && updateConsignmentResult > 0 && updateAttmResult > 0) {
+						redirect.addAttribute("conNo", c.getConNo());
+						redirect.addAttribute("page", page);
+						return "redirect:list.co"; 
+					} else {
+						throw new Exception("게시글 수정 실패"); 
+					}
+				} catch(Exception e) {
 					throw new Exception("게시글 수정 실패");
-				}
-					
-			} catch(Exception e) {
-				throw new Exception("게시글 수정 실패");
-			}
-		}
-		
+					}
+				}*/
 		return "redirect: list.co";
 	}
 	
@@ -416,6 +402,8 @@ public class ConsignmentController {
 //				}
 //			}
 //		}
+	
+	
 //		
 //		for(Attachment a: list) {
 //			a.setAttBno(c.getConNo());

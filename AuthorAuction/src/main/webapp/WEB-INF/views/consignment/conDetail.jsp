@@ -512,60 +512,64 @@
 			
 			
 			
-			const img = document.querySelectorAll("img[class='contents-thumbimg']");
-			const imgArr = ["","","",""];
-			
-			for(const [index, selectImg] of img.entries()){
-				selectImg.addEventListener('click',function(){
-					if(imgArr[index] == "") {
-						imgArr[index] =  selectImg;
-					}else{
-						imgArr[index] = "";
-					}
-				})
-			}
-			
-			console.log(imgArr);
-			
-			let nonNoneCount = 0;
-			document.getElementById('submitAttm').addEventListener('click', function(){
+				const img = document.querySelectorAll("img[class='contents-thumbimg']");
+				const imgArr = ["","","",""];
+				
+				for(const [index, selectImg] of img.entries()){
+					selectImg.addEventListener('click',function(){
+						if(imgArr[index] == "") {
+							imgArr[index] =  selectImg.src;
+						}else{
+							imgArr[index] = "";
+						}
+					})
+				}
+				
 				console.log(imgArr);
-			/* console.log(document.querySelectorAll("input[class='fileset-input']"));
-			console.log(document.querySelectorAll(".active")); */
-			const files = document.getElementsByClassName("fileset-group")[0];
-			const exist = [];
-			for(let i = 0; i < 4; i++){
-				if(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active")){
-					exist.push(i);
-				}
-			}
-			
-			console.log(exist);
-			
-			for(let i = 0; i<imgArr.length; i++){
-				if(imgArr[i] != "" && !exist.includes(i)){
-					nonNoneCount++;
-				}
-			}	
 				
-			if(nonNoneCount > 0){
-				alert("사진의 갯수는 반드시 4개를 넣어주셔야 합니다");
-			}else{
-				
+				let nonNoneCount = 0;
+				document.getElementById('submitAttm').addEventListener('click', function(){
+					console.log(imgArr);
+				/* console.log(document.querySelectorAll("input[class='fileset-input']"));
+				console.log(document.querySelectorAll(".active")); */
+				const files = document.getElementsByClassName("fileset-group")[0];
+				const exist = [];
 				for(let i = 0; i < 4; i++){
-					if(document.querySelectorAll(".fileset-input.active")[i]){
-						//파일 넣고 ajax로 보내야됨
-					}	
+					if(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active")){
+						exist.push(i);
+					}
 				}
 				
-				$.ajax({
-					url:'updateConsignment.co',
-					type:'post',
-					data:{deleteAttm:imgArr, }
-						
-				})
+				for(let i = 0; i<imgArr.length; i++){
+					if(imgArr[i] != "" && !exist.includes(i)){
+						nonNoneCount++;
+					}
+				}	
+					
+				if(nonNoneCount > 0){
+					alert("사진의 갯수는 반드시 4개를 넣어주셔야 합니다");
+				}else{
+					
+					const sendData = {
+							exist: exist,
+							imgArr:imgArr
+					} 
+					
+					jsonData = JSON.stringify(sendData);
+					
+					$.ajax({
+						url:'updateConsignment.co',
+						type:'post',
+						data:jsonData,
+						contentType:"application/json",
+						success: (data) =>{
+							console.log(data);
+						},
+						error: data => console.log(data)
+							
+					})
 				
-				location.href="updateConsignment.co?deleteAttm=" + imgArr;
+				//location.href="updateConsignment.co?deleteAttm=" + imgArr;
 			}	
 		})
 				
