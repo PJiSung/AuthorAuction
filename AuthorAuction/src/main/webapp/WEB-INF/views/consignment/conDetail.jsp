@@ -17,11 +17,11 @@
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
 <style>
-#attmForm .picClass:hover{
+#attmForm .contents-thumbimg:hover{
 	filter: brightness(75%);
 }
 
-#attmForm .picClass.dark {
+#attmForm .contents-thumbimg.dark {
     filter: brightness(40%);
 }
 .originPic .contents-container {
@@ -266,6 +266,7 @@
           
           	<form action="updateConsignment.co" method="post" enctype="multipart/form-data" id="attmForm">
           	<input type="hidden" name="conNo" value="${ c.conNo }">
+          	<input type="hidden" name="page" value="${ pi.currentPage }">
 	          <div class="dhead">
 	            <div>
 	              <h2>위탁 정보 수정</h2>
@@ -341,7 +342,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;">
+	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -355,7 +356,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;">
+	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -369,7 +370,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" >
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -381,9 +382,9 @@
 	                  <div class="fileset fileset-lg fileset-label">
 	                    <label>
 	                      <div class="fileset-body">
-	                        <div class="fileset-group">
+	                        <div class="fileset-group" >
 	                          <a style="display: inline-block; width: 15%; text-align: center;">구매서류</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" >
+	                          <input type="file" class="fileset-input" style="width: 83%;" id="fileInput" name="file" accept="image/*" required>
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -397,7 +398,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -409,37 +410,22 @@
 	                  
 	                
 	                  
-	                  
+	                 <!-- 여기가 이미지 뜨는 곳 -->
 		             <div class="originPic">
 		              <div class="contents-container container-md">
-					   <%--  <div class="contents-left">
-					      <ul class="contents-thumblist">
-					      	<c:forEach items="${ list }" var="a">
-						        <li class="contents-thumbitem">
-						        	<img class="contents-thumbimg" src="${ a.attRename }" id="delete-${ a.attRename }/${a.attFno}" alt="기존 리뷰 사진">
-						        	<input type="hidden" name="deleteAttm" value="none">
-						        </li>
-					      	</c:forEach>
-					      </ul>
-					    </div> --%>
-					    
 					    <div class="contents-left">
 						  <ul class="contents-thumblist">
 						    <c:forEach items="${list}" var="a">
 						      <li class="contents-thumbitem">
-						        <img style="width: 100%; height: 100%;" class="picClass" src="${a.attRename}" id="pic-${a.attFno}" alt="등록된 사진">
-						        <input type="hidden" name="deleteAttm" value="${a.attFno}">
+						        <img style="width: 100%; height: 100%;" class="contents-thumbimg" src="${a.attRename}" id="delete-${ a.attRename }/${a.attFno}" alt="등록된 사진">
+						        <input type="hidden" name="deleteAttm" value="none">
 						      </li>
+						        <button class="deleteBtn" style="margin: 1% 2% 10% 1%; background:white; border: 1px solid white;">X</button>
+
 						    </c:forEach>
 						  </ul>
 						</div>
 					  </div>
-	                  
-	                  
-						                  
-	                  
-	                  
-	                   
 	                </div>
 	                
 	                
@@ -469,11 +455,9 @@
 	                    <p>
 	                  </div>
 	                  <div class="modal-footer">
-	                    <button type="button" class="btnset btnset-ghost modal-close">취소</button>
 	                    <button type="button" class="btnset btnset-confirm">확인</button>
 	                  </div>
 	                </div>
-	                
 	                
 	                <div id="modalSet2" class="modalset">
 	                  <div class="modal-header">
@@ -487,7 +471,6 @@
 	                    <button type="button" class="btnset btnset-confirm" id="deleteConfirm">확인</button>
 	                  </div>
 	                </div>
-	
 	                <div class="modalset-dim"></div>
 	              </label>
 	              <a style="display: inline-block; width: 15%; text-align: center;"></a>
@@ -505,34 +488,81 @@
 
 	<script>
 		window.onload = () => {
+			
+			console.log('${pi}')
+			
 			/*
 			const consignmentDetail = (conNo) =>{													<!-- 상세보기로 이동 -->
 				location.href="selectConsignment.co?conNo=" + conNo + "&page=" + ${pi.currentPage};
 			}
 			*/
-			const form = document.getElementById('attmForm');										<!-- 글 삭제 -->
+			
+			// 글 삭제
+			const form = document.getElementById('attmForm');										
 			document.getElementById('deleteConfirm').addEventListener('click', () =>{
 	            form.action = 'delete.co';
 	            form.submit();
 	        })
-	         
-	         
-	        // 등록된 이미지
-			const delAttms = document.getElementsByClassName('contents-thumbimg');
-				for(const dAtt of delAttms) {
+	        // 등록된 이미지 클릭 방지
+ 			const delAttms = document.getElementsByClassName('contents-thumbimg');
+			for(const dAtt of delAttms) {
 				dAtt.addEventListener('click', function(){
-				const nextHidden = this.nextElementSibling;
-				if(this.classList.contains('dark')) {
-					this.classList.remove('dark');
-                   	nextHidden.value = none;
-               	} else {
-					this.classList.add('dark');
-                    nextHidden.value = this.id.split('-')[1];
-                }
-            	});
-         	}
+					const nextHidden = this.nextElementSibling;
+					if(this.classList.contains('dark')) {
+						this.classList.remove('dark');
+	                   	nextHidden.value = 'none';
+	               	} else {
+						this.classList.add('dark');
+	                    nextHidden.value = this.id.split('-')[1];
+                	}
+           		});
+        	} 
+			// 아무데나 눌러도 이제 첨부창 안뜸
+			const divimg = document.getElementsByClassName('contents-thumblist');
+			for(const dAtt of divimg)
+				dAtt.addEventListener('click', function(event){
+				event.preventDefault();	
+			})
+			
+			const deleteAttmInputs = document.querySelectorAll('input[name="deleteAttm"]');
+			let nonNoneCount = 0;
+			document.getElementById('submitAttm').addEventListener('click', function(){
+				for (const input of deleteAttmInputs) {
+				  if (input.value == 'none') {
+				    nonNoneCount++;
+				  }
+				}
+				
+				const fileInputs = document.querySelectorAll('.fileset-group input[type="file"]');
+				// 총 파일 개수 초기화
+				let totalNewFileCount = 0;
+				// 각 파일 입력란을 순회하면서 파일 개수 더하기
+				fileInputs.forEach((input) => {
+				  totalNewFileCount += input.files.length;
+				});
+				console.log('새로 추가된 파일 입력란의 파일 개수:', totalNewFileCount);
+				console.log(nonNoneCount);
+				
+				const totalFileCount = nonNoneCount + totalNewFileCount;
+				if(totalFileCount != 5){
+					alert('이미지는 반드시 5개여야 합니다. (현재' + totalFileCount + '개)');
+					nonNoneCount = 0;
+				} else {
+					form.action = 'updateConsignment.co';
+					form.submit();
+				}
+				
+				// 기존 이미지 삭제 버튼 이벤트
+			    const deleteButtons = document.querySelectorAll('.deleteBtn');
+			    for (const deleteButton of deleteButtons) {
+			        deleteButton.addEventListener('click', function () {
+			            alert('기존 이미지 삭제 버튼이 클릭되었습니다.');
+			        });
+			    }
+			})
 
-			// 사진 삭제시 첨부창 추가  				
+			// 사진 삭제시 첨부창 추가  	
+			/* 
 			document.getElementById('delete-${ a.attRename }/${a.attFno}').addEventListener('click', () => {
 	  			const newDiv = document.createElement('div');
 	  		  	newDiv.className = 'fileset fileset-lg fileset-label';
@@ -540,9 +570,10 @@
 	  		  	const newHTML = '<label><div class="fileset-body"><div class="fileset-group"><input type="file" class="fileset-input" name="file"><button class="fileset-cancel"></button></div><span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span></div></label>';
 	  		  	newDiv.innerHTML = newHTML;
 	  		  	document.getElementById('addFileDiv').appendChild(newDiv);
-			}); 
+			});   
+			*/
 			
-		}
+		}		
 	</script>
 
 
@@ -553,15 +584,3 @@
   <script src="consignment/js/script.js"></script>
 </body>
 </html>
-
-
-
-
-
-  <!-- 여기가 이미지 뜨는 곳 -->
-	           <%--        <div style="width: 100%; height: 100px;">
-	                   <c:forEach items="${ list }" var="a">
-				           <img style="width:15%; display: inline-block; margin:1% 2% 0% 2%" class="picClass" src="${a.attRename}" id="delete-${ a.attRename }/${a.attFno}" alt="등록된 사진">
-                           <input type="hidden" name="deleteAttm" value="none">
-				       </c:forEach>    
-	                  </div> --%>

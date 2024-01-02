@@ -116,9 +116,9 @@
 	                  <div class="fileset fileset-lg fileset-label">
 	                    <label>
 	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 1</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                        <div class="fileset-group" data-order="1">
+	                          <a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
+	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -126,12 +126,13 @@
 	                    </label>
 	                  </div>
 	                  <br>
+	                  
 	                  <div class="fileset fileset-lg fileset-label">
 	                    <label>
 	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 2</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                        <div class="fileset-group" data-order="2">
+	                          <a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
+	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -139,12 +140,13 @@
 	                    </label>
 	                  </div>
 	                  <br>
+	                  
 	                  <div class="fileset fileset-lg fileset-label">
 	                    <label>
 	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 3</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                        <div class="fileset-group" data-order="3">
+	                          <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -152,12 +154,13 @@
 	                    </label>
 	                  </div>
 	                  <br>
+	                  
 	                  <div class="fileset fileset-lg fileset-label">
 	                    <label>
 	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 4</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                        <div class="fileset-group" data-order="4">
+	                          <a style="display: inline-block; width: 15%; text-align: center;">구매서류</a>
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -165,12 +168,13 @@
 	                    </label>
 	                  </div>
 	                  <br>
+	                  
 	                  <div class="fileset fileset-lg fileset-label">
 	                    <label>
 	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">첨부파일 5</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file">
+	                        <div class="fileset-group" data-order="5">
+	                          <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
+	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -178,7 +182,10 @@
 	                    </label>
 	                  </div>
 	                  <br>
+	                  
 	                </div>
+	                
+	                
 	                <div class="contents-sign">
 	                  <button class="btnset modalset-btn" id="submitAttm">등록하기</button>
 	                </div>

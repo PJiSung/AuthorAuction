@@ -106,10 +106,6 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 		cDAO.updateAttmFno(memId);
 	}
 	@Override
-	public void updateAttmLevel(String memId) {
-		cDAO.updateAttmLevel(memId);
-	}
-	@Override
 	public int updateConsignment(Consignment c) {
 		// TODO Auto-generated method stub
 		return cDAO.updateConsignment(c);
