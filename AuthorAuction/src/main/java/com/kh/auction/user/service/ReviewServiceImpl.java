@@ -128,6 +128,11 @@ public class ReviewServiceImpl implements ReviewService {
 		return rDAO.updateReviewCount(revNo);
 	}
 
+	@Override
+	public int getReviewCount(int revNo) {
+		return rDAO.getReviewCount(revNo);
+	}
+
 	
 
 	

@@ -52,5 +52,7 @@ public interface ReviewDAO {
 
 	int updateReviewCount(int revNo);
 
+	int getReviewCount(int revNo);
+
 	
 }
