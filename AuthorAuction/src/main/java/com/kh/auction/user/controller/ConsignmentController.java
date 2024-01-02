@@ -67,12 +67,12 @@ public class ConsignmentController {
 				
 				if(!upload.getOriginalFilename().equals("")) {
 					// 파일을 저장하고 저장된 파일정보 가져옴
-					String rename = saveFile(upload);
+					String rename = saveFile(upload, i);
 					if(rename != null) {
 						Attachment a = new Attachment();
 						a.setAttRename(rename);
 						a.setAttCategory(2); 	// 위탁문의 게시판(2)
-						a.setAttFno(i+1);		// 사진 분류 순서
+						a.setAttFno(i);		// 사진 분류 순서
 						list.add(a);
 					}
 				}
@@ -107,7 +107,7 @@ public class ConsignmentController {
 		}
 	}
 
-	public String saveFile(MultipartFile upload) {
+	public String saveFile(MultipartFile upload, int i) {
 		String root = "C:\\";
 		String savePath = root + "\\uploadFiles";
 		
@@ -125,7 +125,10 @@ public class ConsignmentController {
 		int ranNum = (int)(Math.random()*100000);		
 		
 		String originFileName = upload.getOriginalFilename();
-		String renameFileName = sdf.format(time) + ranNum + originFileName.substring(originFileName.lastIndexOf("."));
+		String[] forNum = originFileName.split(".");
+		String newName = forNum[0] + "." +i + forNum[1];
+		
+		String renameFileName = sdf.format(time) + ranNum + newName.substring(originFileName.lastIndexOf("."));
 		
 		// rename된 파일 저장소에 저장
 		String renamePath = folder + "\\" + renameFileName;	// 이름 변경	
@@ -257,7 +260,7 @@ public class ConsignmentController {
 		int result1 = cService.deleteConsignment(conNo);
 		int result2 = cService.statusNConsignment(conNo);
 		
-		if(result1>0 && result2>0) {
+		if(result1>0 && result2>0) { 
 			return "redirect:list.co";
 		} else {
 			throw new Exception("게시글 삭제 실패");
@@ -272,11 +275,20 @@ public class ConsignmentController {
 		
 		// 파일 새로 추가
 		ArrayList<Attachment> list = new ArrayList<>();			// list : 새로추가할 파일들
+		ArrayList<Integer> num = new ArrayList<>();
+		
+		for(int i = 0; i < deleteAttm.length; i++) {
+			if(!deleteAttm[i].equals("")) {
+				num.add(i);
+			}
+		}
+			
 		for(int i = 0; i < files.size(); i++) {
 			MultipartFile upload = files.get(i);
 			
+			
 			if(!upload.getOriginalFilename().equals("")) {
-				String rename = saveFile(upload);
+				String rename = saveFile(upload, num.get(i));
 				if(rename != null) {
 					Attachment a = new Attachment();
 					a.setAttRename(rename);
@@ -286,6 +298,9 @@ public class ConsignmentController {
 				}
 			}
 		}
+		
+		System.out.println(files);
+		System.out.println(list);
 		
 		// 파일 삭제
 		ArrayList<String> delRename = new ArrayList<>();
@@ -312,15 +327,14 @@ public class ConsignmentController {
 					}
 				}
 			
-				for(Attachment a: list) {
+				for(Attachment a: list) {		// list : 삭제하고 새로 추가한 파일들
 					a.setAttBno(c.getConNo());
 					for(int i = 0; i < delLevel.size(); i++) {
-						int level = delLevel.get(i);
-						System.out.println(delLevel.size());
-						
+						int level = delLevel.get(i);			// delLevel : fno들
 						if(level >= 0 && level <= 4) {
 							a = list.get(i);
 							a.setAttFno(level + 1);
+
 							HashMap<String, Object> map = new HashMap<String, Object>();
 							map.put("attFno", a.getAttFno());
 							map.put("conNo", c.getConNo());
@@ -334,10 +348,8 @@ public class ConsignmentController {
 			
 				updateConsignmentResult = cService.updateConsignment(c);
 				int updateAttmResult = 0;
-				System.out.println(list.isEmpty());
 				if(!list.isEmpty()) {
 					updateAttmResult = cService.insertAttm(list);
-					System.out.println(list);
 				}
 				
 //				if(updateConsignmentResult + updateAttmResult == list.size()+1) {

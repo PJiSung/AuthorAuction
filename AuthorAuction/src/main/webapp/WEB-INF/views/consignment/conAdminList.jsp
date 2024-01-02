@@ -9,13 +9,6 @@
   <meta http-equiv="imagetoolbar" content="no">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
-  <meta name="title" content="웹사이트">
-  <meta name="description" content="웹사이트입니다.">
-  <meta name="keywords" content="키워드,키워드,키워드">
-  <meta property="og:title" content="웹사이트">
-  <meta property="og:description" content="웹사이트입니다">
-  <meta property="og:image" content="https://웹사이트/images/opengraph.png">
-  <meta property="og:url" content="https://웹사이트">
   <title>관리자 위탁 내역 | 침대</title>
   <link rel="stylesheet" href="consignment/css/setting.css">
   <link rel="stylesheet" href="consignment/css/plugin.css">
@@ -547,9 +540,9 @@
 	/*  */
 	
 	
-=======
-<script type="text/javascript">
->>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
+	
+	
+	
 	<!-- 상세보기로 이동 -->
 	const userDetail = (conNo) =>{												
 		location.href="selectUser.adco?conNo=" + conNo + "&page=" + ${pi.currentPage};

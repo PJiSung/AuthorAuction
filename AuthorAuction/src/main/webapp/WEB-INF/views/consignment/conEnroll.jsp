@@ -9,13 +9,7 @@
   <meta http-equiv="imagetoolbar" content="no">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
-  <meta name="title" content="웹사이트">
-  <meta name="description" content="웹사이트입니다.">
-  <meta name="keywords" content="키워드,키워드,키워드">
-  <meta property="og:title" content="웹사이트">
-  <meta property="og:description" content="웹사이트입니다">
-  <meta property="og:image" content="https://웹사이트/images/opengraph.png">
-  <meta property="og:url" content="https://웹사이트">
+
   <title>위탁 문의 등록 | 침대</title>
   <link rel="stylesheet" href="consignment/css/setting.css">
   <link rel="stylesheet" href="consignment/css/plugin.css">
@@ -146,20 +140,6 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="3">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
-	                  
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group" data-order="4">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">구매서류</a>
 	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
