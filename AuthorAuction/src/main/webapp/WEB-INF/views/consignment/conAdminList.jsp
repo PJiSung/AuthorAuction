@@ -17,6 +17,7 @@
   <meta property="og:image" content="https://웹사이트/images/opengraph.png">
   <meta property="og:url" content="https://웹사이트">
   <title>관리자 위탁 내역 | 침대</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <link rel="stylesheet" href="consignment/css/setting.css">
   <link rel="stylesheet" href="consignment/css/plugin.css">
   <link rel="stylesheet" href="consignment/css/template.css">
@@ -547,9 +548,6 @@
 	/*  */
 	
 	
-=======
-<script type="text/javascript">
->>>>>>> branch 'main' of https://github.com/PJiSung/AuthorAuction.git
 	<!-- 상세보기로 이동 -->
 	const userDetail = (conNo) =>{												
 		location.href="selectUser.adco?conNo=" + conNo + "&page=" + ${pi.currentPage};
@@ -662,7 +660,7 @@
 	              </thead>
 	              <tbody>
 		             <c:forEach items="${list}" var="c"> 
-		                <tr onclick="userDetail(this.id)" id="${c.conNo}">
+		                <tr>
 		                  <td class="tableset-mobile"   onclick="javascript:event.stopPropagation();">
 		                   <!-- <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">	-->
 		                    <input id="${c.conNo}" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
@@ -676,7 +674,7 @@
 		                  <td class="tableset-order05">${ c.conProduct }</td>
 		                  <td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
 		                  <td class="tableset-order05">${ c.conHope }</td>
-<%-- 		                  	<td class="tableset-order05">${ c.conDelStatus }</td> --%>
+
 		                  
 		                  <c:if test="${ c.conDelStatus == 'Y' }">
 		                  	<td class="tableset-order05">Y</td>
@@ -685,7 +683,7 @@
 		                  	<td class="tableset-order05">N</td>
 		                  </c:if>
 		                  
-<%-- 		                  <td class="tableset-order05">${ c.conAdmStatus }</td> --%>
+
 		                  
 		                  <c:if test="${ c.conAdmStatus == 'N'}">
 			                  <td class="tableset-order05">N</td>
