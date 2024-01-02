@@ -92,7 +92,6 @@ public class ArtsController {
 		w.setMemId(loginid);
 		w.setProNo(proNo);
 		
-		
 		int countwis = aService.selectWish(w);
 		
 		model.addAttribute("p", p);
@@ -131,6 +130,23 @@ public class ArtsController {
 		
 		int result = aService.insertOrder(order); 
 		
+		
+		
+		HashMap<String,Object> rmap = new HashMap<String,Object>();
+		
+		
+		
+		rmap.put("address", postcode+"@"+address);
+		rmap.put("receiverPhone", receiverPhone);
+		rmap.put("receiver", receiver);
+		rmap.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
+		rmap.put("ordNo", order.getOrdNo());
+		
+		int resultadd = aService.insertAddress(rmap);
+		
+		
+		
+		
 		for(int i =0; i<pronofororder.length; i++) {
 			
 			HashMap<String,Object> map = new HashMap<String,Object>();
@@ -142,6 +158,10 @@ public class ArtsController {
 			int resultweq = aService.insertOrderDetail(map);
 			
 		}
+		
+		
+		
+		
 		
 		
 		
@@ -203,6 +223,8 @@ public class ArtsController {
 		
 		
 		
+		
+		
 		return "장바구니에 상품이 추가되었습니다.";
 	}
 	
@@ -223,6 +245,78 @@ public class ArtsController {
 		return "arts/directpayment";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("directpayresult.ar")
+	public String directpayresult(Model model, HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
+			@RequestParam("address") String address,@RequestParam("receiver") String receiver,@RequestParam("receiverPhone") String receiverPhone,
+			@RequestParam("wisAmountfororder") int[] wisAmountfororder, @RequestParam("pronofororder") int[] pronofororder,@RequestParam("pointBonus") int pointBonus) {
+		
+		
+		HashMap<String, Object> pm = new HashMap<String,Object>();
+		pm.put("pointBonus", pointBonus);
+		pm.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
+		pm.put("usedPoint",order.getOrdPoPrice());
+		
+		
+		int pointresult = aService.updatepointBonus(pm);
+		
+		int result = aService.insertOrder(order); 
+		
+		
+		
+		HashMap<String,Object> rmap = new HashMap<String,Object>();
+		
+		
+		
+		rmap.put("address", postcode+"@"+address);
+		rmap.put("receiverPhone", receiverPhone);
+		rmap.put("receiver", receiver);
+		rmap.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
+		rmap.put("ordNo", order.getOrdNo());
+		
+		int resultadd = aService.insertAddress(rmap);
+		
+		
+		
+		
+		for(int i =0; i<pronofororder.length; i++) {
+			
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("ordNo", order.getOrdNo());
+			map.put("proNos", (Integer)pronofororder[i]);
+			map.put("odtNum", (Integer)wisAmountfororder[i]);
+			
+			int resultqq = aService.updateProductamount(map);
+			int resultweq = aService.insertOrderDetail(map);
+			
+		}
+		
+		
+		
+		
+		
+		model.addAttribute("orderNo", order.getOrdNo());
+		model.addAttribute("OrdSumPrice", order.getOrdCaPrice());
+		model.addAttribute("ordPoPrice", order.getOrdPoPrice());
+		model.addAttribute("pointBonus", pointBonus);
+		model.addAttribute("address", address);
+		model.addAttribute("receiver", receiver);
+		
+		
+    	
+		return "arts/payresult";
+	}
 	
 	
 }

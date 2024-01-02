@@ -156,8 +156,8 @@
 	
 	
 	<insert id="insertOrder">
-		insert into orders values(#{ordNo},SYSDATE,'Y',#{ordMessage},#{ordPoPrice},#{ordCaPrice},
-		${ordPoPrice}+${ordCaPrice},#{ordMethod},#{memId},0)
+		insert into orders values(#{ordNo},SYSDATE,DEFAULT,#{ordMessage},#{ordPoPrice},#{ordCaPrice},
+		${ordPoPrice}+${ordCaPrice},#{ordMethod},#{memId},#{ordNo})
 	
 	</insert>
 	
@@ -196,5 +196,12 @@
 		where PRO_NO = #{proNos}
 	
 	</update>	
+	
+	<insert id = "insertAddress">
+	
+		insert into address values(#{ordNo},#{ordNo},#{receiver},#{address},#{receiverPhone},'N',#{memId})
+	
+	</insert>
+	
 </mapper>
 

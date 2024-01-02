@@ -114,4 +114,12 @@ public class ArtsServiceImpl implements ArtsService {
 		
 		return aDAO.updateProductamount(map);
 	}
+	
+	
+	@Override
+	public int insertAddress(HashMap<String, Object> rmap) {
+		
+		return aDAO.insertAddress(rmap);
+		
+	}
 }

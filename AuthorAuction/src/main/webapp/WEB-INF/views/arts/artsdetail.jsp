@@ -585,14 +585,20 @@
             </li>
           </ul>
         </div>
-        <div class="contents-container container-md" id = "detaildiv">
-          <div class="imageset">
+        
+        
+        
+        <div class="contents-container container-md" id = "detaildiv" style = "display:flex;">
+          <div class="imageset" style = "width: 50%; height: 50%;">
             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
           </div>
-          <div class="imageset">
-            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
+          <div style = "border: 1px solid red; width: 50%; display: flex; align-items:center; justify-content:center;">
+          	<span>작품 명:</span><span>${p.proName}</span>
           </div>
         </div>
+        
+        
+        
          <div class="contents-container container-md" id = "qnadiv">
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
@@ -601,6 +607,7 @@
             <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
           </div>
         </div>
+        
          <div class="contents-container container-md" id = "reviewdiv">
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
@@ -609,6 +616,7 @@
             <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
           </div>
         </div>
+        
          <div class="contents-container container-md" id = "delidiv">
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
@@ -622,7 +630,6 @@
         
         </div>
       </div>
-    </div>
     <!-- [E]basic-N52 -->
   </main>
   
@@ -653,8 +660,9 @@
 	font-size: 25px;
 	cursor: pointer;" onclick = "share('off')">&times;</span>
 	
-	<button class="sns_share_btn" onclick="copy_to_clipboard()">클립보드에 복사</button>
+
 		<input id = "snsaddress" type = "text" readonly style = "width: 100%;">
+			<span onclick="copy_to_clipboard()" style = "cursor:pointer; position: absolute; right: 37.5%; top: 56.18%;"><img src = "sunwoo/icons/copyicon.png" style = "width: 20px;"></span>
 	<div>
 	
       <!-- Kakao -->
@@ -846,6 +854,7 @@ window.getSelection().removeAllRanges();
 window.getSelection().addRange(r);
 document.execCommand('copy');
 window.getSelection().removeAllRanges();
+alert('클립보드에 복사되었습니다');
 }
 
 </script>
@@ -866,7 +875,7 @@ window.getSelection().removeAllRanges();
 			    url: 'addtowishlist.ar',
 			    type: 'GET',
 			    data: {
-			    	memId: ${loginid},
+			    	memId: '${loginid}',
 			    	proNo: proNo,
 			    	wisAmount: wisAmount
 			    },
