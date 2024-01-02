@@ -125,7 +125,7 @@ public class ConsignmentController {
 		int ranNum = (int)(Math.random()*100000);		
 		
 		String originFileName = upload.getOriginalFilename();
-		String[] forNum = originFileName.split(".");
+		String[] forNum = originFileName.split("\\.");
 		String newName = forNum[0] + "." +i + forNum[1];
 		
 		String renameFileName = sdf.format(time) + ranNum + newName.substring(originFileName.lastIndexOf("."));
