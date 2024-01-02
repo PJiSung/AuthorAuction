@@ -26,4 +26,10 @@ public interface MemberService {
 	Address selectAddress(int addNo);
 
 	int updateAddress(Address a);
+
+	int deleteMember(String memId);
+
+	int deleteAddress(int addNo);
+
+	int updateMember(Member m);
 }

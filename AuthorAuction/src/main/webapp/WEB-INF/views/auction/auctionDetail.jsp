@@ -47,64 +47,64 @@
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
-    <div id="content-allOver-cover" style="width: 70%; margin:auto; margin-top: 2%; height:100%">
-        <div id="content-left"style="width:49%; background-color:yellow; display: inline-block;">
-            <div>
-                <img src="image/치즈 냥이.jpg" style="width: 100%; border: 1px black solid; height: 80%;">
-             </div>
-         </div>
-
-         <div id="contentRightCover" style="width:49%; display: inline-block; border: 1px black solid;">
-            <div id="content-right"style="width: 100%; height:100%">
-                <div style="text-align: right; margin: 1% 1% 5%;">
-                    <span>남은 경매 시간</span> <span id="remainingTime"></span>
-                </div>
-                <div style="margin: 5% 0 5% 2%;">
-                    <span>LOT NUMBER ${ auction.aucNo }</span>
-                </div>
-                <div style="margin: 5% 0 5% 2%;">
-                    <span style="font-size: xx-large; font-weight: 1000;">${ auction.conAuthor }</span>
-                </div>
-                <div style="margin: 5% 0 5% 2%;">
-                    <span style="font-size: large; font-weight: 500;">${ auction.conProduct }</span>
-                </div>
-                <div style="margin: 5% 0 5% 2%; width: 100%; padding-right: 2%;">
-                	<div>
-                    	<div style="height: 100%; width: 98%; min-height: 200%;">
-							가로 : <span>${ auction.conWidth }</span> x 세로 : <span>${ auction.conHeight }</span>          	
-                     	</div>
-                    </div>
-                </div>
-                <hr style="margin-left: 2%; width: 98%;">
-                <span>
-                    <span style="text-align: left; display: inline-block; margin-left: 2%;">경매 시작가</span>
-                    <span style=" float: right; margin-right: 2%;"><fmt:formatNumber value="${ auction.aucStartPrice }" pattern="#,##0" /> 포인트</span>
-                </span>
-                <br clear="all">
-                <hr style="margin-left: 2%; width: 98%;">
-                <span>
-                    <span style="text-align: left; display: inline-block; margin-left: 2%;">현재 입찰가</span>
-                    <span style=" float: right; margin-right: 2%;" id="nowPrice"></span>
-                </span>
-                <br clear="all">
-                <hr style="margin-left: 2%; width: 98%;">
-                <span>
-                    <span style="text-align: left; display: inline-block; margin-left: 2%;">경매 마감 시간</span>
-                    <span style=" float: right; margin-right: 2%;">${ auction.aucFinishDate }</span>
-                </span>
-                <br clear="all">
-                <hr style="margin-left: 2%; width: 98%;">
-                <span style="border: 1px black solid; margin-left: 2.8%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block;">낙찰 수수료</span>
-                <span id="priceTagBtn" style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block">경매 호가표</span>
-                <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 5%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block" id="likeBtn">관심 목록 추가</span>
-                <div id="checkId" style="width: 96.5%; border: 1px black solid; text-align: center; margin-top: 2%; height: 6.5%; margin-left: 3.4%; padding-top: 3%; padding-bottom: 3%;"></div>
-            </div>
+    <div id="content-allOver-cover" style="width: 70%; margin:auto; margin-top: 2%; display: flex; height:100%">
+        <div id="content-left"style="width:49%; background-color:yellow; display:inline-block;">
+        	<img src="image/치즈 냥이.jpg" style="width: 100%; border: 1px black solid; height: 80%;">
+        	<img src="image/치즈 냥이.jpg" style="margin:2% 10% 0 20%; width: 100px; border: 1px black solid; height: 100px; display: inline-block;">
+            <img src="image/치즈 냥이.jpg" style="margin:2% 15% 0 10%; width: 100px; border: 1px black solid; height: 100px; display: inline-block;">
         </div>
-        <div id="picturePlace" style="width: 45%; background: pink;">
-            <img src="image/치즈 냥이.jpg" style="width: 130px; border: 1px black solid; height: 130px; display: inline-block;">
-            <img src="image/치즈 냥이.jpg" style="width: 130px; border: 1px black solid; height: 130px; display: inline-block;">
+
+         <div id="contentRightCover" style="width:49%; display: inline-block;">
+	         <div style="border: 1px black solid;">
+		        <div style="text-align: right; margin: 1% 1% 1%;">
+		            <span>남은 경매 시간</span> <span id="remainingTime"></span>
+		        </div>
+		        <div style="margin: 2% 0 2% 2%;">
+		            <span>LOT NUMBER ${ auction.aucNo }</span>
+		        </div>
+		        <div style="margin: 4.825% 0 2% 2%;">
+		            <span style="font-size: xx-large; font-weight: 1000;">${ auction.conAuthor }</span>
+		        </div>
+		        <div style="margin: 4.825% 0 2% 2%;">
+		            <span style="font-size: large; font-weight: 500;">${ auction.conProduct }</span>
+		        </div>
+		        <div style="margin: 4.9% 0 2% 2%; width: 100%; padding-right: 2%;">
+		        	<div>
+		            	<div style="height: 100%; width: 98%; min-height: 200%;">
+							가로 : <span>${ auction.conWidth }</span><br>
+							세로 : <span>${ auction.conHeight }</span>          	
+		             	</div>
+		            </div>
+		        </div>
+		        <hr style="margin-left: 2%; width: 98%;">
+		        <span>
+		            <span style="text-align: left; display: inline-block; margin-left: 2%;">경매 시작가</span>
+		            <span style=" float: right; margin-right: 2%;"><fmt:formatNumber value="${ auction.aucStartPrice }" pattern="#,##0" /> 원</span>
+		        </span>
+		        <br clear="all">
+		        <hr style="margin-left: 2%; width: 98%;">
+		        <span>
+		            <span id= "nowPriceWord" style="text-align: left; display: inline-block; margin-left: 2%;">현재 입찰가</span>
+		            <span style=" float: right; margin-right: 2%;" id="nowPrice"></span>
+		        </span>
+		        <br clear="all">
+		        <hr style="margin-left: 2%; width: 98%;">
+		        <span>
+		            <span style="text-align: left; display: inline-block; margin-left: 2%;">경매 마감 시간</span>
+		            <span style=" float: right; margin-right: 2%;">${ auction.aucFinishDate }</span>
+		        </span>
+		        <br clear="all">
+		        <hr style="margin-left: 2%; width: 98%;">
+		        <span style="border: 1px black solid; margin-left: 6%; width: 28%; text-align: center; height: 8%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block;">낙찰 수수료</span>
+		        <span id="priceTagBtn" style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 8%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block">경매 호가표</span>
+		        <span style="border: 1px black solid; margin-left: 2%; width: 28%; text-align: center; height: 8%; padding-top: 2%; padding-bottom: 1.5%; display: inline-block" id="likeBtn">관심 목록 추가</span>
+		        <div id="checkId" style="width: 96.5%; border: 1px black solid; text-align: center; margin-top: 2%; height: 9%; margin-left: 3.4%; padding-top: 3%; padding-bottom: 3%;"></div>
+	        </div>
         </div>
     </div>
+     <div id="picturePlace" style="width: 45%; background: pink;">
+            
+        </div>
         
         <!-- 호가표 모달창 -->
     <div id="priceTag">
@@ -112,8 +112,8 @@
     		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">호가표</h2>
 		    <table style="margin:auto; border-collapse: collapse; text-align: center; width:80%;">
 		    	<tr class="trLine">
-		    		<th style="width:65%; margin-left: 30%">현재가 구간(포인트)</th>
-		    		<th style="width:35%">호가 단위(포인트)</th>
+		    		<th style="width:65%; margin-left: 30%">현재가 구간(원)</th>
+		    		<th style="width:35%">호가 단위(원)</th>
 		    	</tr>
 		    	<tr class="trLine">
 		    		<td>30만 미만</td>
@@ -176,14 +176,14 @@
 	    			<div style="width:48%; text-align: center; display:inline-block;" id="minPrice"></div>
     			</div>
     			<div style="margin-bottom:5%;">
-	    			<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">보유 포인트</div>
+	    			<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">보유한 금액</div>
 	    			<div style="width:48%; text-align: center; display:inline-block;" id="possession"><fmt:formatNumber value="${ loginUser.memBalance }" pattern="#,##0" /> 원</div>
     			</div>
     			
     			<div style="margin-top:5%;margin-bottom:2%;">
-    				<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">입찰 포인트</div>
-    				<input type="number" value="" id="myInputPoint" pattern="\d*" style="margin-left:4%; width:30%; text-align: center;"> 포인트
-    				<div style="text-align: center; margin-top:2%;"><button style="background: gray; color:white;" onclick="alert('포인트 충전 url 내놔')">포인트 충전</button></div><!--  온클릭 로케이션 -->
+    				<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">입찰할 금액</div>
+    				<input type="number" value="" id="myInputPoint" pattern="\d*" style="margin-left:4%; width:30%; text-align: center;"> 원
+    				<div style="text-align: center; margin-top:2%;"><button style="background: gray; color:white;" onclick="alert('포인트 충전 url 내놔')">금액 충전</button></div><!--  온클릭 로케이션 -->
     			</div>
     		</div>
     		<div style="text-align: right; margin-top:2%; margin-right:5%;">
@@ -197,7 +197,7 @@
         
 	<jsp:include page="../common/footer.jsp"/>
 
-
+	<!-- 현재 입찰가를 낙찰 금액으로 변경 -->
 
 	<script>
         window.onload = function(){
@@ -216,6 +216,7 @@
         	let remainingTime = document.getElementById("remainingTime");
         	const nowPriceInDB = parseInt("${ auction.aucFinishPrice }");
         	const possession = document.getElementById("possession");
+        	const nowPriceWord = document.getElementById('nowPriceWord')
         	/* 모달창 컨트롤 */
         	priceTagBtn.addEventListener('click',function(){
         		priceTag.style.display='block';
@@ -226,13 +227,70 @@
         	
         	closeBidModal.addEventListener('click',function(){
         		bidModal.style.display="none";
-        		if(nowPrice.innerText == "현재 입찰 없음"){
+        		if(nowPrice.innerText == "0 원"){
     				myInputPoint.value = '${ auction.aucStartPrice }';
     			}else{
-    				myInputPoint.value = '${ auction.aucFinishPrice }';
+    				if(jsonObject == null){
+	    				const aucFinishPrice = parseInt('${ auction.aucFinishPrice }');
+	    				let minIncrement = 0;
+	    				let minPoint = 0;
+	    				
+	    				
+	    				switch (true) {
+	    				  case aucFinishPrice < 300000:
+	    				    minIncrement = 20000;
+	    				    break;
+	    				  case aucFinishPrice < 1000000:
+	    				    minIncrement = 50000;
+	    				    break;
+	    				  case aucFinishPrice < 5000000:
+	    				    minIncrement = 100000;
+	    				    break;
+	    				  case aucFinishPrice < 10000000:
+	    				    minIncrement = 200000;
+	    				    break;
+	    				  case aucFinishPrice < 30000000:
+	    				    minIncrement = 1000000;
+	    				    break;
+	    				  case aucFinishPrice < 50000000:
+	    				    minIncrement = 2000000;
+	    				    break;
+	    				  case aucFinishPrice < 200000000:
+	    				    minIncrement = 5000000;
+	    				    break;
+	    				  case aucFinishPrice < 500000000:
+	    				    minIncrement = 1000000;
+	    				    break;
+	    				  default:
+	    				    minIncrement = 20000000;
+	    				}
+	    				
+	    				minPoint = aucFinishPrice + minIncrement;
+	    				
+	    				const formatMinPoint = minPoint.toLocaleString();
+	
+	    				myInputPoint.setAttribute("min", aucFinishPrice + minIncrement);
+	    				myInputPoint.value = aucFinishPrice + minIncrement;
+	    				minPrice.innerText = formatMinPoint.concat(' 원');
+	    				
+	    			}
     			}
         	})
         	
+        	//들어왔을시 좋아요 체크
+        	$.ajax({
+        		url:'checkLike.ac',
+        		type:'post',
+        		data:{aucNo:'${auction.aucNo}'},
+        		success: data =>{
+        			if(data != 0){
+        				likeBtn.innerText = '관심목록 삭제';
+                		likeBtn.style.background = 'black';
+                		likeBtn.style.color = 'white';
+        			}
+        		},
+        		error: data => console.log(data)
+        	})
         	
         	function bidding(){
         		bidModal.style.display="block";
@@ -243,6 +301,32 @@
         	if(${ !empty loginUser }){
 				check.innerText = "입찰하기";
 				check.addEventListener('click', bidding);
+				likeBtn.addEventListener('click',function(){
+					if(checkId.innerText != '경매 종료'){
+						$.ajax({
+							url:'interest.ac',
+							type:'post',
+							data:{aucNo:'${ auction.aucNo }'},
+							success: data =>{
+								console.log(data)
+								if(data == 'insert'){
+									likeBtn.innerText = '관심목록 삭제';
+									likeBtn.style.background = 'black';
+									likeBtn.style.color = 'white';
+								}else{
+									likeBtn.innerText = '관심목록 추가';
+									likeBtn.style.background = 'white';
+									likeBtn.style.color = 'black';
+								}
+							},
+							error: data => console.log(data)
+							
+						})
+					}else{
+						alert('종료된 경매입니다')
+					}
+				})
+				
         	}else{
         		check.innerText = "로그인 후 입찰 가능합니다";
         		check.addEventListener('click',function(){
@@ -254,7 +338,6 @@
     				}
     			})
         	}
-        	
         	
         	//남은 경매시간 계속 갱신 및 경매 종료시 입찰 기능 삭제
             const dateObject = new Date('${ auction.aucFinishDate }');
@@ -278,6 +361,7 @@
 				remainingTime.innerText = '경매 종료';
 				check.innerText = '경매 종료'
 				check.removeEventListener('click',bidding);
+				nowPriceWord.innerText = '최종 낙찰가';
 			}
 			
 			let timer = setInterval(() => {
@@ -300,26 +384,20 @@
 					remainingTime.innerText = '경매 종료';
 					check.innerText = '경매 종료'
 					check.removeEventListener('click',bidding);
-					
-					/* if(${empty loginUser}){ // 없어도 되는지 확인
-						remainingTime.innerText = '경매 종료';
-						check.innerText = '경매 종료'
-						check.removeEventListener('click',bidding);
-					} */
+					nowPriceWord.innerText = '최종 낙찰가';
 				}
 			}, 1000);
 			
-			
 			// 상태에 따른 최소 입찰가 및 최초 기본 입찰가 변경
-			if(${ auction.aucFinishPrice eq null }){
-				nowPrice.innerText = "현재 입찰 없음";
-				modalNowPrice.innerText = "현재 입찰 없음";
-				minPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucStartPrice }"/> 포인트';
+			if(${ auction.aucFinishPrice eq 0 }){
+				nowPrice.innerText = "0 원"; 
+				modalNowPrice.innerText = "0 원";
+				minPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucStartPrice }"/> 원';
 				myInputPoint.setAttribute("min", ${ auction.aucStartPrice })
 				myInputPoint.value= '${ auction.aucStartPrice }';
 			}else{
-				nowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }"/> 포인트';
-				modalNowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }"/> 포인트';
+				nowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원';
+				modalNowPrice.innerHTML = '<fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원';
 				
 				const aucFinishPrice = parseInt('${ auction.aucFinishPrice }');
 				let minIncrement = 0;
@@ -362,45 +440,6 @@
 				myInputPoint.setAttribute("min", aucFinishPrice + minIncrement);
 				myInputPoint.value = aucFinishPrice + minIncrement;
 				minPrice.innerText = formatMinPoint.concat(' 원');
-				
-				
-				/* if('${ auction.aucFinishPrice }' < parseInt(300000)){
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 20000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 20000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 20000 }'/> 포인트"
-				}else if('${ auction.aucFinishPrice }' >= parseInt(300000) &&'${ auction.aucFinishPrice }' < parseInt(1000000)){
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 50000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 50000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 50000 }'/> 포인트"
-				}else if('${ auction.aucFinishPrice }' >= parseInt(1000000) &&'${ auction.aucFinishPrice }' < parseInt(5000000)){
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 100000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 100000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 100000 }'/> 포인트"
-				}else if('${ auction.aucFinishPrice }' >= parseInt(5000000) &&'${ auction.aucFinishPrice }' < parseInt(10000000)){
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 200000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 200000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 200000 }'/> 포인트"
-				}else if('${ auction.aucFinishPrice }' >= parseInt(10000000) &&'${ auction.aucFinishPrice }' < parseInt(30000000)){
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 1000000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 1000000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 1000000 }'/> 포인트"
-				}else if('${ auction.aucFinishPrice }' >= parseInt(30000000) &&'${ auction.aucFinishPrice }' < parseInt(50000000)){
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 2000000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 2000000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 2000000 }'/> 포인트"
-				}else if('${ auction.aucFinishPrice }' >= parseInt(50000000) &&'${ auction.aucFinishPrice }' < parseInt(200000000)){
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 5000000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 5000000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 5000000 }'/> 포인트"
-				}else if('${ auction.aucFinishPrice }' >= parseInt(200000000) &&'${ auction.aucFinishPrice }' < parseInt(500000000)){
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 1000000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 1000000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 1000000 }'/> 포인트"
-				}else {
-					myInputPoint.setAttribute("min", ${ auction.aucFinishPrice + 20000000})
-					myInputPoint.value= ${ auction.aucFinishPrice + 20000000};
-					minPrice.innerHTML = "<fmt:formatNumber value='${ auction.aucFinishPrice + 20000000 }'/> 포인트"
-				} */
 			}
 			
 			//입찰 버튼 눌렀을때 반응
@@ -410,28 +449,27 @@
 					myInputPoint.value = '';
 				}else{
 					if(parseInt(myInputPoint.value) > '${ loginUser.memBalance }'){
-						if(confirm('보유하신 포인트가 부족합니다, \n충전 페이지로 이동하시겠습니까?')){
+						if(confirm('보유하신 금액이 부족합니다, \n충전 페이지로 이동하시겠습니까?')){
 							alert("충전 url 입력")
 							/* location.href="#"; */
 						}
 					}else{
-						if(nowPrice.innerText == "현재 입찰 없음") {
+						if(nowPrice.innerText == "0 원") {
 							if(parseInt(myInputPoint.value) < '${ auction.aucStartPrice}'){
 								alert('최소입찰가보다 작게 입찰할 수 없습니다');
 							}else if(confirm("입찰하시고 나면 취소하실 수 없습니다\n그래도 입찰시겠습니까?")){
 								$.ajax({
 									url: 'insertBid.ac',
 									type: 'post',
-									data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
+									data:{bidMoney:myInputPoint.value, aucNo:'${ auction.aucNo}'},
 									success: data =>{
 										console.log(data);
 										let jsonObject = JSON.parse(data)
 										const aucFinishPriceJs = jsonObject[0].aucFinishPrice;
 										const memBalanceJs = jsonObject[0].memBalance;
-										
+										console.log(jsonObject);
 										if(data != 'fail'){
 											alert("입찰에 성공하였습니다.") //에이젝스로 새로 갱신
-											
 											bidModal.style.display = 'none';
 											nowPrice.innerText = aucFinishPriceJs.toLocaleString().concat(" 원");
 											modalNowPrice.innerText = aucFinishPriceJs.toLocaleString().concat(" 원");
@@ -495,9 +533,8 @@
 								$.ajax({
 									url: 'insertBid.ac',
 									type: 'post',
-									data:{bidMoney:myInputPoint.value, aucNo:${ auction.aucNo}},
+									data:{bidMoney:myInputPoint.value, aucNo:'${ auction.aucNo}'},
 									success: data =>{
-										console.log(data);
 										let jsonObject = JSON.parse(data)
 										const aucFinishPriceJs = jsonObject[0].aucFinishPrice;
 										const memBalanceJs = jsonObject[0].memBalance;
@@ -565,7 +602,6 @@
 					}
 				}
 			})
-			
 		}
     </script>
 </body>

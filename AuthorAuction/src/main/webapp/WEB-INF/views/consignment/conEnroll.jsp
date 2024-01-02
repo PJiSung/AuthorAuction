@@ -230,6 +230,7 @@
 		document.getElementById('moveBoard').addEventListener('click', () =>{
 			form.submit();
 		})
+		
 	</script>
 
 

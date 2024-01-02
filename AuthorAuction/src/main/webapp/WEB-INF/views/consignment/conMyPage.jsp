@@ -23,13 +23,13 @@
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
 
-
 <script>
 	const consignmentDetail = (conNo) =>{												<!-- 상세보기로 이동 -->
 		location.href="selectConsignment.co?conNo=" + conNo + "&page=" + ${pi.currentPage};
 	}
 </script>
 </head>
+
 
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -45,7 +45,7 @@
             
 			<div class="date-box">
  				<div class="date">
-	              	<form action="list.co" method="post" class="listForm">
+	              	<form action="searchList.co" class="listForm">
 						<span><a>조회 기간</a></span>
 						<span>
 						  <input type="date" class="con_startdate">
@@ -102,7 +102,10 @@
 	                  <td>${ c.conProduct }</td>
 	                  <td>${ c.conWidth }*${ c.conHeight }cm</td>
 	                  <td>${ c.conHope }</td>
+	                  
 	                  <td>${ c.conAdmStatus }</td>
+	                
+	                  
 	                </tr>
               	</c:forEach>  
               </tbody>

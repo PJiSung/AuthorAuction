@@ -462,19 +462,19 @@ ul,li,ol{
 		
 		
 
-			<div style = "width: 50%; text-align:center; border-bottom: 1px solid #888; border-top: 1px solid #888; padding-bottom: 1%; padding-top: 1%; margin: 0 auto; margin-top: 5% "><h2>주문 완료</h2></div>
+			<div style = "width: 50%; text-align:center; border-bottom: 1px solid #888; border-top: 1px solid #888; padding-bottom: 1%; padding-top: 1%; margin: 0 auto; margin-top: 5% "><h2>주문 번호: ${orderNo}</h2></div>
 			<div style = "width: 50%; border-bottom: 1px solid #888; margin: 0 auto; height: 60vh; ">
 				<div style = "display:flex; height: 15%; align-items:center; width: 60%; border-bottom: 1px solid #aaa; margin: 0 auto;">
 					<div style = "display:flex; align-items:center; height: 100%; width: 30%; justify-content: center;"><h4>구매자</h4></div>
-					<div style = "display:flex; align-items:center; height: 100%; width: 70%; justify-content: center;">김용우</div>
+					<div style = "display:flex; align-items:center; height: 100%; width: 70%; justify-content: center;">${loginUser.memName}</div>
 				</div>
 				<div style = "display:flex; height: 15%; align-items:center; width: 60%; border-bottom: 1px solid #aaa; margin: 0 auto;">
-					<div style = "display:flex; align-items:center; height: 100%; width: 30%; justify-content: center;"><h4>이메일</h4></div>
-					<div style = "display:flex; align-items:center; height: 100%; width: 70%; justify-content: center;">rladyddn@naver.com</div>
+					<div style = "display:flex; align-items:center; height: 100%; width: 30%; justify-content: center;"><h4>받는이</h4></div>
+					<div style = "display:flex; align-items:center; height: 100%; width: 70%; justify-content: center;">${receiver}</div>
 				</div>
 				<div style = "display:flex; height: 15%; align-items:center; width: 60%;  margin: 0 auto;">
-					<div style = "display:flex; align-items:center; height: 100%; width: 30%; justify-content: center;"><h4>결제방식</h4></div>
-					<div style = "display:flex; align-items:center; height: 100%; width: 70%; justify-content: center;">신용카드(신한 32**********)</div>
+					<div style = "display:flex; align-items:center; height: 100%; width: 30%; justify-content: center;"><h4>배송 주소</h4></div>
+					<div style = "display:flex; align-items:center; height: 100%; width: 70%; justify-content: center;">${address}</div>
 				</div>
 				<div style = "border-top: 1px solid #aaa; height: 55%; display:flex; align-items:center;">
 					<div style = "height: 100%; width: 40%; display:flex; align-items: center; justify-content: center;">
@@ -484,17 +484,16 @@ ul,li,ol{
 					</div>
 					<div style = "height: 100%; width: 40%;  text-align: right; display:flex; flex-direction: column; justify-content:center;">
 								<div style = "height:15%;"><h3>총 상품가격 :</h3></div>		
-								<div style = "height:15%;"><h3>총 배송비 :</h3></div>		
-								<div style = "height:15%;"><h3>적립금 사용 :</h3></div>		
+								<div style = "height:15%;"><h3>적립 포인트 :</h3></div>		
+								<div style = "height:15%;"><h3>사용 포인트 :</h3></div>		
 								<div style = "height:15%;"><h1>총 결제금액 :</h1></div>
 					
 					</div>
 					<div style = "height: 100%; width: 20%;  text-align: right; display:flex; flex-direction: column; align-items:center; justify-content:center;">
-								<div style = "height:15%;">400,000원</div>		
-								<div style = "height:15%;">50,000원</div>		
-								<div style = "height:15%;">30,000원</div>		
-								<div style = "height:15%;"><h4>420,000원</h4></div>		
-					
+								<div style = "height:15%;">${OrdSumPrice}원</div>		
+								<div style = "height:15%;">${pointBonus}p</div>		
+								<div style = "height:15%;">${ordPoPrice}p</div>		
+								<div style = "height:15%;"><h4>${OrdSumPrice}원</h4></div>		
 					</div>
 				
 				</div>
@@ -502,6 +501,7 @@ ul,li,ol{
 			
 			
 			</div>
+			<div style = "background-color: black; color: white; text-align:center; width: 30%; height: 30%; margin-top: 15%; margin: 0 auto; cursor:pointer;" onclick = "location.href = 'artslist.ar'">미술품 목록으로 돌아가기</div>
 
 
 

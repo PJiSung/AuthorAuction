@@ -6,6 +6,37 @@
 	<select id="getListCount" resultType = "_int">
 			select count(*)
 			from product
+			where 1=1
+			<if test="keyword != null">
+			and (PRO_NAME like '%'||#{keyword}||'%'
+			or PRO_WRITER like '%'||#{keyword}||'%')
+			</if>
+			<if test="materiallist != null">
+			and PRO_MATERIAL IN 
+				 <foreach collection = "materiallist" item = "material" open="(" separator="," close=")">
+		 			#{material}
+				</foreach>
+			</if>	
+		<if test="minPrice != 0">
+		and PRO_PRICE <![CDATA[ >=]]> #{minPrice} 
+		</if>
+		<if test="maxPrice != 0">
+		and PRO_PRICE <![CDATA[ <= ]]> #{maxPrice} 
+		</if>
+		<if test="minHeight != 0">
+		and PRO_HEIGHT <![CDATA[ >= ]]> #{minHeight} 
+		</if>
+		<if test="maxHeight != 0">
+		and PRO_HEIGHT <![CDATA[ <= ]]> #{maxHeight} 
+		</if>
+		<if test="minWidth != 0">
+		and PRO_WIDTH <![CDATA[ >= ]]> #{minWidth} 
+		</if>
+		<if test="maxWidth != 0">
+		and PRO_WIDTH <![CDATA[ <= ]]> #{maxWidth} 
+		</if>
+		
+		
 		
 	</select>
 	
@@ -14,8 +45,49 @@
 		
 		SELECT *
 		FROM PRODUCT
-		order by pro_no desc
+		where PRO_AMOUNT >0 
+			<if test="keyword != null">
+			and (PRO_NAME like '%'||#{keyword}||'%'
+			or PRO_WRITER like '%'||#{keyword}||'%')
+			</if>
+			<if test="materiallist != null">
+			and PRO_MATERIAL IN 
+				 <foreach collection = "materiallist" item = "material" open="(" separator="," close=")">
+		 			#{material}
+				</foreach>
+			</if>	
+		<if test="minPrice != 0">
+		and PRO_PRICE <![CDATA[ >=]]> #{minPrice} 
+		</if>
+		<if test="maxPrice != 0">
+		and PRO_PRICE <![CDATA[ <= ]]> #{maxPrice} 
+		</if>
+		<if test="minHeight != 0">
+		and PRO_HEIGHT <![CDATA[ >= ]]> #{minHeight} 
+		</if>
+		<if test="maxHeight != 0">
+		and PRO_HEIGHT <![CDATA[ <= ]]> #{maxHeight} 
+		</if>
+		<if test="minWidth != 0">
+		and PRO_WIDTH <![CDATA[ >= ]]> #{minWidth} 
+		</if>
+		<if test="maxWidth != 0">
+		and PRO_WIDTH <![CDATA[ <= ]]> #{maxWidth} 
+		</if>
+		
+		<choose>
+			<when test="order == 'high'"> order by pro_price desc </when>
+	    	<when test="order == 'low'"> order by pro_price asc </when>
+			<otherwise>order by pro_no desc</otherwise>
+		</choose>
+		
+	
 	</select>
+	
+	
+	
+	
+	
 	
 	<resultMap type="Product" id="promap">
 		<id column="PRO_NO" property="proNo"/>
@@ -70,7 +142,6 @@
 	<delete id="deletewis">
 		delete from wishlist
 		where MEM_ID = #{memId} and PRO_NO = #{proNo}
-	
 	</delete>
 		
 		
@@ -81,6 +152,49 @@
 		 	#{proNo}
 		</foreach>
 	</delete>
+	
+	
+	
+	<insert id="insertOrder">
+		insert into orders values(#{ordNo},SYSDATE,'Y',#{ordMessage},#{ordPoPrice},#{ordCaPrice},
+		${ordPoPrice}+${ordCaPrice},#{ordMethod},#{memId},0)
+	
+	</insert>
+	
+	<delete id="deletewisAll">
+		delete from wishlist
+		where MEM_ID = #{loginid}
+	</delete>
+	
+	
+	<insert id="insertOrderDetail">
+		insert into order_detail values(#{ordNo},#{proNos},#{odtNum})
+	
+	</insert>
+	
+	<insert id="addtowishlist">
+		insert into wishlist values(#{memId}, #{proNo}, #{wisAmount})
+	</insert>
 		
+	<select id="selectWish" resultType = "_int">
+		select count(*)
+		from wishlist
+		where MEM_ID = #{memId} and PRO_NO = #{proNo}
+	
+	</select>
+	
+	
+	<update id="updatepointBonus">
+		update member set MEM_BALANCE = (SELECT MEM_BALANCE from member where MEM_ID = #{memId})-#{usedPoint}+#{pointBonus}
+		where mem_id = #{memId}
+		
+	</update>
+	
+	
+	<update id="updateProductamount">
+		update product set PRO_AMOUNT = (select PRO_AMOUNT from product where PRO_NO = #{proNos})-#{odtNum}
+		where PRO_NO = #{proNos}
+	
+	</update>	
 </mapper>
 

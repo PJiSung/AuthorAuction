@@ -100,7 +100,7 @@ const submitBtn = () =>{
 	    
 	    const invalidFields = document.querySelectorAll('input:invalid');
 	    invalidFields.forEach(field => {
-	      field.style.border = '1px solid red';
+	      field.style.borderBottom = '1px solid red';
 	    });
 		return;  
 	}

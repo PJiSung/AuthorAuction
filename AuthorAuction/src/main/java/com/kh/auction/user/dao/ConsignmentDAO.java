@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 
 @Mapper
@@ -25,18 +26,54 @@ public interface ConsignmentDAO {
 
 	ArrayList<Consignment> searchList(HashMap<String, String> map, RowBounds rowBounds);
 
+//	Consignment selectConsignment(int conNo, String id);
 	Consignment selectConsignment(int conNo);
 
 	ArrayList<Attachment> selectAttmConsignmentList(int conNo);
+	
+	int updateConAdmStatus(int conNo);
+	
+	Member selectMember(int conNo);
 
 	ArrayList<Consignment> selectConsignmentList(String memId, RowBounds rowBounds);
 
 	int deleteConsignment(int conNo);
 
 	int statusNConsignment(int conNo);
+	
+	
+	
+	int deleteAttm(ArrayList<String> delRename);
+	
+	void updateAttmFno(String memId);
 
+	void updateAttmLevel(String memId);
 
+	int updateConsignment(Consignment c);
 
+	
+
+	
+	
+	
+	
+	//////////////////////////////////////////////////////////////////
+
+	
+	
+	int getListCount2(String memId);
+	
+	ArrayList<Consignment> selectUserList(String memId, RowBounds rowBounds);
+
+	Consignment selectUser(int conNo);
+
+	ArrayList<Consignment> selectAttmUserList(int conNo);
+
+	void checkDelete(String[] deleteIds);
+
+	int searchCount2(HashMap<String, String> map);
+
+	ArrayList<Consignment> searchList2(HashMap<String, String> map, RowBounds rowBounds);
 
 
 }

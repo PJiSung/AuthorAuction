@@ -31,6 +31,7 @@
 	<link rel="stylesheet" href="sunwoo/rosacss/rosamain.css">
 	<link rel="stylesheet" href="sunwoo/rosacss/rosastyle.css">
   
+   <script src = "sunwoo/jquery/jquery-3.7.1.min.js"></script>
   
   
   
@@ -449,11 +450,12 @@
         <div class="contents-container container-md">
           <div class="contents-left">
             <div class="contents-thumbnail">
-              <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_1.png" alt="썸네일이미지">
+              <img class="contents-thumbimg" src="sunwoo/proimages/${p.proImage}" alt="썸네일이미지">
             </div>
+            <div style = "overflow:auto;">
             <ul class="contents-thumblist">
               <li class="contents-thumbitem">
-                <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_1.png" alt="썸네일이미지">
+                <img class="contents-thumbimg" src="sunwoo/proimages/${p.proImage}" alt="썸네일이미지">
               </li>
               <li class="contents-thumbitem">
                 <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_2.png" alt="썸네일이미지">
@@ -464,13 +466,15 @@
               <li class="contents-thumbitem">
                 <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_4.png" alt="썸네일이미지">
               </li>
+              
             </ul>
+            </div>
           </div>
           
           <div class="contents-right">
             <div class="contents-right-group">
               <div class="contents-brand">
-                <a href="javascript:void(0);">${p.proNo}</a>
+                <a href="javascript:void(0);" id = "proNo">${p.proNo}</a>
                 <div class="contents-brand-group">
                   <button class="contents-btn btn-like-line">
                     <img src="sunwoo/icons/ico_like_black_line.svg" alt="하트 라인 아이콘">
@@ -505,15 +509,16 @@
               <ul class="contents-right-list">
                 <li class="contents-right-item">
                   <strong>포인트적립</strong>
+                  <c:if test="${loginUser != null}">
+                  <span id = "creditpoint">dd</span><small>&nbsp;p</small>
+                  </c:if>
+                  <c:if test="${loginUser == null}">
                   <span>로그인시 포인트적립이 가능합니다</span>
+                  </c:if>
                 </li>
                 <li class="contents-right-item">
                   <strong>배송정보</strong>
                   <span>무료배송</span>
-                </li>
-                <li class="contents-right-item">
-                  <strong>판매자정보</strong>
-                  <span>템하피부몰</span>
                 </li>
               </ul>
             </div>
@@ -543,8 +548,8 @@
               </div>
             </div>
             <div class="contents-btn-group">
-              <button class="btnset btnset-line" type="button">장바구니</button>
-              <button class="btnset" type="button">구매하기</button>
+              <button class="btnset btnset-line" type="button" onclick = "addtowishlist()">장바구니</button>
+              <button class="btnset" type="button" onclick = "directPay()">구매하기</button>
             </div>
           </div>
         </div>
@@ -557,32 +562,64 @@
         <div class="tabset tabset-fluid">
           <ul class="tabset-list container-md">
             <li class="tabset-item">
-              <a class="tabset-link active" href="javascript:void(0)">
+              <a class="tabset-link active" onclick= "showdetail('detaildiv')" style = "cursor:pointer;">
                 <span>상세정보</span>
+        
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" href="javascript:void(0)">
+              <a class="tabset-link" onclick= "showdetail('qnadiv')" style = "cursor:pointer;">
                 <span>상품문의</span>
               </a>
             </li>
             
             <li class="tabset-item">
-              <a class="tabset-link" href="javascript:void(0)">
+              <a class="tabset-link" onclick= "showdetail('reviewdiv')" style = "cursor:pointer;">
                 <span>리뷰</span>
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" href="javascript:void(0)">
+              <a class="tabset-link" onclick= "showdetail('delidiv')" style = "cursor:pointer;">
                 <span>배송/교환/반품안내</span>
               </a>
             </li>
           </ul>
         </div>
-        <div class="contents-container container-md">
+        <div class="contents-container container-md" id = "detaildiv">
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+          </div>
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
           </div>
+        </div>
+         <div class="contents-container container-md" id = "qnadiv">
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+          </div>
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
+          </div>
+        </div>
+         <div class="contents-container container-md" id = "reviewdiv">
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+          </div>
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
+          </div>
+        </div>
+         <div class="contents-container container-md" id = "delidiv">
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+          </div>
+          <div class="imageset">
+            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
+          </div>
+        </div>
+        
+        	
+        
         </div>
       </div>
     </div>
@@ -616,8 +653,8 @@
 	font-size: 25px;
 	cursor: pointer;" onclick = "share('off')">&times;</span>
 	
-	<button class="sns_share_btn" onclick="">SNS공유</button>
-		<input id = "snsaddress" type = "text" readonly style = "width: 50%;">
+	<button class="sns_share_btn" onclick="copy_to_clipboard()">클립보드에 복사</button>
+		<input id = "snsaddress" type = "text" readonly style = "width: 100%;">
 	<div>
 	
       <!-- Kakao -->
@@ -687,9 +724,9 @@
   	
 
   	function checkamount(){
-  		var num = document.getElementsByClassName('contents-amount-num')[0].innerText;
+  		var num = parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText);
 
-  		if(num+2>amount){
+  		if(num+1>amount){
   			alert('주문가능 수량을 초과했습니다');
   			document.getElementsByClassName('contents-amount-num')[0].innerText = num-1;
   		}
@@ -699,30 +736,45 @@
   </script>
   
   <script>
+  
+	
+	
   		//총 결제 금액 스크립트
   		const originalprice = parseInt(document.getElementsByClassName('contents-price')[0].children[0].innerText);
   		document.getElementsByClassName('contents-price')[0].children[0].innerText = originalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   		
   		document.getElementsByClassName('contents-price')[1].children[0].innerText= originalprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   		
+		//포인트 적립 가격 변동 스크립트
+		const originalPoint = ${loginUser.graBonus}/100 * originalprice;
+		const newPoint = parseInt(Math.round((originalPoint/10)) * 10);
+		document.getElementById('creditpoint').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		
 		function pricechage(btn){
 			var newprice = originalprice*(parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText));
-			
+			var newnewPoint = newPoint*(parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText));
 			switch(btn.className){
 					
 				case "contents-btn btn-plus": 
-					newprice = newprice+originalprice;  break;
+					newprice = newprice+originalprice;  
+					newnewPoint = newnewPoint+newPoint; break;
 				case "contents-btn btn-minus":
 					
 					if(parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText) != 1){
 					newprice = newprice-originalprice;  
+					newnewPoint = newnewPoint-newPoint;
 					}
 					break;
 			
 				}
 			document.getElementsByClassName('contents-price')[1].children[0].innerText = newprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+			document.getElementById('creditpoint').innerText = newnewPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		}		
+		
+		
+		
+		
+		
   
   </script>
   
@@ -780,9 +832,136 @@
 	  const url = "https://sample.com/index.php";
 	  window.open("https://telegram.me/share/url?url=" + uri + "&text=" + text);
 }
+
+
+
+
+//클립보드에 링크 복사 스크립트
+
+
+function copy_to_clipboard(){
+var r = document.createRange();
+r.selectNode(document.getElementById('snsaddress'));
+window.getSelection().removeAllRanges();
+window.getSelection().addRange(r);
+document.execCommand('copy');
+window.getSelection().removeAllRanges();
+}
+
 </script>
 
   
+  <script>
+  	
+  		//장바구니에 물건 담든 스크립트
+  
+  		function addtowishlist(){
+  			
+  			if(${countwis} == 0){	
+  				
+  			const proNo = parseInt(document.getElementById('proNo').innerText);
+  			var wisAmount = parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText);
+  			
+  		  $.ajax({
+			    url: 'addtowishlist.ar',
+			    type: 'GET',
+			    data: {
+			    	memId: ${loginid},
+			    	proNo: proNo,
+			    	wisAmount: wisAmount
+			    },
+			    success: function onData (msg) {
+			        alert(msg);
+			        var btn = document.getElementsByClassName('btnset-line')[0];
+			  		 btn.style.backgroundColor = "#bbb";
+			  		 btn.style.cursor = 'not-allowed';
+			  		 
+			    },
+			    error: function onError (error) {
+			        console.error(error);
+			    }
+			});
+  		}else{
+  			
+  			alert('장바구니에 이미 상품이 있습니다.');
+  		}
+  	}	
+  
+  </script>
+  
+  <script>
+  		//장바구니 버튼 바꾸기 스크립트
+  	
+  		if(${countwis} != 0){
+  			
+  	   var btn = document.getElementsByClassName('btnset-line')[0];
+  		 btn.style.backgroundColor = "#bbb";
+  		 btn.style.cursor = 'not-allowed';
+  	
+  	}
+  
+  </script>
+  
+  <script>
+  
+  
+  	//바로 구매
+  	function directPay(){
+  		
+  		var amount = parseInt(document.getElementsByClassName('contents-amount-num')[0].innerText);
+  		
+  		location.href = 'directPayment.ar?proNo='+${p.proNo}+"&amount="+amount;
+  		
+  		
+  	}
+  
+  
+  </script>
+  
+  <script>
+   var  delidiv = document.getElementById('delidiv')
+  var reviewdiv = document.getElementById('reviewdiv')
+  var qnadiv = document.getElementById('qnadiv')
+  var detaildiv = document.getElementById('detaildiv')
+  
+ 	 delidiv.style.display = "none";
+  	reviewdiv.style.display = "none";
+  	qnadiv.style.display = "none";
+  
+  	function showdetail(kind){
+  
+  		switch(kind){
+  		
+  		case 'delidiv': delidiv.style.display = "block";
+  		reviewdiv.style.display = "none";
+  		qnadiv.style.display = "none";
+  		detaildiv.style.display = "none";
+  					break;	
+  		
+  		case 'reviewdiv': reviewdiv.style.display = "block";
+  		delidiv.style.display = "none";
+  		qnadiv.style.display = "none";
+  		detaildiv.style.display = "none";
+  					break;	
+  		
+  		case 'qnadiv': qnadiv.style.display = "block";
+  		reviewdiv.style.display = "none";
+  		delidiv.style.display = "none";
+  		detaildiv.style.display = "none";
+  					break;	
+  		
+  		case 'detaildiv': detaildiv.style.display = "block";
+  		reviewdiv.style.display = "none";
+  		qnadiv.style.display = "none";
+  		delidiv.style.display = "none";
+  					break;	
+  		
+  		}
+  		
+  	}
+  
+  
+  </script>
   
   
   <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->

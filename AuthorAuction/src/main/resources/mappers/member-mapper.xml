@@ -21,7 +21,7 @@
 	
 	<select id="login">
 		SELECT *
-		FROM MEMBER
+		FROM MEMBER join grade on(GRA_NAME = MEM_RATING)
 		WHERE MEM_ID = #{memId} AND MEM_STATUS = 'Y'
 	</select>
 	
@@ -78,5 +78,36 @@
 		UPDATE ADDRESS
 		SET ADD_NAME = #{addName}, ADD_RECIPIENT = #{addRecipient}, ADD_ADDRESS = #{addAddress}, ADD_PHONE = #{addPhone}, ADD_DEFAULT = #{addDefault}
 		WHERE ADD_NO = #{addNo}
+	</update>
+	
+	<update id="deleteMember">
+		UPDATE MEMBER
+		SET MEM_STATUS = 'N'
+		WHERE MEM_ID = #{memId}
+	</update>
+	
+	<delete id="deleteAddress">
+		DELETE ADDRESS
+		WHERE ADD_NO = #{addNo}
+	</delete>
+	
+	<update id="updateMember">
+		UPDATE MEMBER
+		<if test="memNickName != null">
+			SET MEM_NICKNAME = #{memNickName}
+		</if>
+		<if test="memName != null">
+			SET MEM_NAME = #{memName}
+		</if>
+		<if test="memEmail != null">
+			SET MEM_EMAIL = #{memEmail} 
+		</if>
+		<if test="memPhone != null">
+			SET MEM_PHONE = #{memPhone}
+		</if>
+		<if test="memAddress != null">
+			SET MEM_ADDRESS = #{memAddress}
+		</if>
+		WHERE MEM_ID = #{memId}
 	</update>
 </mapper>

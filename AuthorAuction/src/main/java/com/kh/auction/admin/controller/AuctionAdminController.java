@@ -7,15 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.kh.auction.common.config.Pagination;
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
+import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.service.AuctionService;
 
 @Controller
-public class AdminController {
+public class AuctionAdminController {
 	
 	@Autowired
 	private AuctionService aService;
@@ -81,9 +87,63 @@ public class AdminController {
 		System.out.println(aList);
 		return "";
 		
-		
-		
 	}
 	
+	@ResponseBody
+	@PostMapping("getConsignmentInfo.adac")
+	public HashMap<String, Object> getConsignmentInfo(@RequestParam("conNo") int conNo) {
+		
+		HashMap<String, Object> hm = new HashMap<>(); 
+		
+		Consignment consignment = aService.getConsignmentInfo(conNo);
+		ArrayList<Attachment> attachment = aService.getAttachment(conNo);
+		
+		Gson gson = new Gson();
+		
+		String consignmentJson = gson.toJson(consignment);
+		String attachmentJson = gson.toJson(attachment);
+		
+		hm.put("consignment", consignmentJson);
+		hm.put("attachmentList", attachmentJson);
+		
+		return hm;
+	}
+	
+	
+	@GetMapping("enrollAuction.adac")
+	public String moveToEnrollAuction() {
+		return "/auction/enrollAuction";
+	}
+	
+	@ResponseBody
+	@PostMapping("insertAuction.adac")
+	public String insertAuction(@ModelAttribute Auction auction, Model model) {
+		//문의 글 번호로 경매 등록 - 경매가 아직 등록이 안되어 있기 때문에 경매 번호에 문의 글 번호 담음
+		auction.setAucStartDate(auction.getAucStartDate() +" 00:00:00");
+		auction.setAucFinishDate(auction.getAucFinishDate() + " 23:59:59");
+		int result = aService.insertAuction(auction);
+		
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	
+	@GetMapping("editAuction.adac")
+	public String moveToEditAuction() {
+		return "/auction/editAuction";
+	}
+	
+	@GetMapping("endAuction.adac")
+	public String moveToEndAuctioin() {
+		return "/auction/endAuction";
+	}
+	
+	@GetMapping("scheduledAuction.adac")
+	public String moveToScheduledAuction() {
+		return "/auction/scheduledAuction";
+	}
 	
 }

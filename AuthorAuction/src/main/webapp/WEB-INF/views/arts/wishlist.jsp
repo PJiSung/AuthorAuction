@@ -42,7 +42,6 @@ ul,li,ol{
 
 
 
-
 </style>
 	
 </head>
@@ -535,7 +534,15 @@ ul,li,ol{
 	  			<h2 style ="margin-left: 10%; width:70%;">적립혜택</h2>
 	  			<a style ="color:#0B83E6; cursor:pointer;"><small>마이페이지</small></a>
 	  		</div>
-	  		<div style = "padding-left: 10%; height: 20%; border-bottom: 1px dotted #666;">골드 +10%;</div>
+	  		
+	  		
+	  		<div style = "display:flex; align-items:center; height: 7.5%;">
+	  		 <div style = "width: 60%; padding-left: 10%; font-size: 23px;">포인트 적립</div>
+	  		  <div><h2 id = "pointBonus">0</h2></div>
+	  		 <div><small> p</small></div>
+	  		 </div>
+	  		 
+	  		<div style = "padding-left: 10%; height: 10%; border-bottom: 1px dotted #666;"></div>
 	  		<div style = "display:flex; align-items:center; height: 20%;">
 	  			<h2 style ="margin-left: 10%;">결제 예정금액	</h2>
 	  		</div>
@@ -551,7 +558,7 @@ ul,li,ol{
 	  		</div>
 	  	</div>
 	  
-	  	<div style = "position:absolute; bottom: 0%; color: #fff; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; background-color: black; cursor:pointer;" onclick = "location.href = 'payment.ar'">
+	  	<div style = "position:absolute; bottom: 0%; color: #fff; background-color:black; width: 100%; height: 15%; display: flex; align-items:center; justify-content:center; word-break:break-all; cursor:pointer;" onclick = "paymentar()" id = "gotopaybtn">
 	  		<h2>총 ${wlistsize}개 주문하기</h2>
 	  	</div>
 	  </div>
@@ -641,7 +648,6 @@ ul,li,ol{
 			    	wisAmount: wisAmount
 			    },
 			    success: function onData (msg) {
-			        alert(msg);
 			        data.parentElement.nextElementSibling.children[0].innerText = (wisAmount*proPrice).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
 			    },
 			    error: function onError (error) {
@@ -705,9 +711,47 @@ ul,li,ol{
   </script>
   
   
+  <script>
   
   
   
+  	//결제창으로 넘어가는 스크립트
+  	function paymentar(){
+  		
+  		
+  		if(${wlistsize} != 0){
+  			location.href = 'payment.ar?';
+  		}else{
+  			alert('최소 1개 이상의 물건을 선택해주십시오.');
+  		}
+  	}
+  	
+  	
+  	//장바구니 물건 없을 떄 결제 버튼 회색으로 만들기 스크립트
+  	if(${wlistsize} == 0){
+  	   var btn = document.getElementById('gotopaybtn');
+  	 btn.style.backgroundColor = "gray";
+  	 btn.style.cursor = 'not-allowed';
+  	
+  	}
+  	
+  
+  </script>
+  
+  <script>
+  
+  	//포인트 업데이트 스크립트
+  function updatePointPrice(){
+	 var totalbill = parseInt(document.getElementById('totalbill').innerText.replace(/,/g,""));
+	 var originalPoint = ${loginUser.graBonus}/100 * totalbill;
+	 var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
+  	document.getElementById('pointBonus').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+  	
+  }
+  	
+		
+		setInterval(updatePointPrice, 100);
+  </script>
   
   
   

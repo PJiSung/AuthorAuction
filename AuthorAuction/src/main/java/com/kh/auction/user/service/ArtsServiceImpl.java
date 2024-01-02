@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.auction.user.dao.ArtsDAO;
+import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
@@ -20,14 +21,14 @@ public class ArtsServiceImpl implements ArtsService {
 	ArtsDAO aDAO;
 	
 	@Override
-	public ArrayList<Product> selectArtslist(PageInfo pi){
+	public ArrayList<Product> selectArtslist(PageInfo pi,HashMap<String, Object> map){
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return aDAO.selectArtslist(rowBounds);
+		return aDAO.selectArtslist(rowBounds,map);
 	}
 	
 	@Override
@@ -37,9 +38,9 @@ public class ArtsServiceImpl implements ArtsService {
 	}
 
 	@Override
-	public int getlistCount() {
+	public int getlistCount(HashMap<String, Object> map) {
 		
-		return aDAO.getListCount();
+		return aDAO.getListCount(map);
 	}
 	
 	@Override
@@ -66,5 +67,51 @@ public class ArtsServiceImpl implements ArtsService {
 	public int deletewishlist(HashMap<String, Object> map) {
 		
 		return aDAO.deletewishlist(map);
+	}
+	
+	@Override
+	public int insertOrder(Order order) {
+		
+		return aDAO.insertOrder(order);
+	}
+	
+	@Override
+	public int deletewisAll(String loginid) {
+		
+		return aDAO.deletewisAll(loginid);
+	}
+	
+	@Override
+	public int insertOrderDetail(HashMap<String, Object> map) {
+		
+		
+		return aDAO.insertOrderDetail(map);
+	}
+	
+	@Override
+	public int addtowishlist(Wishlist addwis) {
+		
+		return aDAO.addtowishlist(addwis);
+	}
+	
+	@Override
+	public int selectWish(Wishlist w) {
+		
+		
+		return aDAO.selectWish(w);
+	}
+	
+	@Override
+	public int updatepointBonus(HashMap<String, Object> pm) {
+		
+		
+		return aDAO.updatepointBonus(pm);
+	}
+	
+	@Override
+	public int updateProductamount(HashMap<String, Object> map) {
+		
+		
+		return aDAO.updateProductamount(map);
 	}
 }

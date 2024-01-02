@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.auction.user.dao.AuctionDAO;
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
+import com.kh.auction.user.model.vo.Consignment;
 
 @Service
 public class AuctionServiceImpl implements AuctionService{
@@ -15,7 +17,7 @@ public class AuctionServiceImpl implements AuctionService{
 	@Autowired
 	private AuctionDAO aDAO;
 	
-	@Override //진행중인 경매를 가지고옴
+	@Override //진행중인 모든 경매를 가지고옴
 	public ArrayList<Auction> getAllAuction() {
 		return aDAO.getAllAuction();
 	}
@@ -30,23 +32,71 @@ public class AuctionServiceImpl implements AuctionService{
 		return aDAO.getAdminSearchList(hm);
 	}
 
-	@Override //입찰 - ajax 이용한 입찰 + insert all을 이용해서 입찰내역 및 경매의 내용 변경
+	@Override //입찰 - ajax 이용해 환불한후에 바로 경매금액 업데이트 및 입찰내역 업데이트 입찰자 금액감소
 	public int insertBid(HashMap<String, Object> hm) {
+		
+		
+		//입찰전 환불을 위해서 이전 경매의 정보를 다 들고옴
+		int aucNo = (int) hm.get("aucNo");
+		Auction beforeAuction = aDAO.getAuctionDetail(aucNo);
+		hm.put("beforeBidMoney", (int)beforeAuction.getAucFinishPrice());
+		hm.put("beforeId", (String)beforeAuction.getAucMemId());
+		
+		
+		//경매금액 업데이트
 		int updateAuctionPrice = aDAO.insertBid(hm);
 		
 		if(updateAuctionPrice > 0) {
-			//입찰 성공시에 입찰내역 업데이트
-			int insertBiddingDetail = aDAO.insertBiddingDetail(hm);
-			
-			//전 입찰자에게 금액 복구			
-			aDAO.updateMoneyUnsold(hm);
+			//유찰된 금액 환불
+			if(hm.get("beforeId") != null) {
+				aDAO.returnUnsold(hm);
+			}
 			
 			//입찰성공시에 금액 감소 
 			aDAO.updateMoneyInsertBid(hm);
 			
-			return insertBiddingDetail;
-		}else {
-			return updateAuctionPrice;
+			//입찰 성공시에 입찰내역 업데이트
+			aDAO.insertBiddingDetail(hm);
+			
 		}
+		
+		return updateAuctionPrice;
+	}
+
+	@Override //상세페이지 이동시 관심 목록 여부 확인
+	public int likeCheck(HashMap<String, Object> hm) {
+		return aDAO.likeCheck(hm);
+	}
+
+	@Override //관심목록 업데이트
+	public String updateInterest(HashMap<String, Object> hm) {
+		if(aDAO.likeCheck(hm) < 1) {
+			aDAO.insertLike(hm);
+			return "insert";
+		}else {
+			aDAO.deleteLike(hm);
+			return "delete";
+		}
+		
+	}
+
+	@Override //경매 내부의 사진을 들고옴
+	public ArrayList<Attachment> getAuctionAttachment(int aucNo) {
+		return aDAO.getAuctionAttachment(aucNo);
+	}
+
+	@Override //문의 글 번호로 경매 등록 - 경매가 아직 등록이 안되어 있기 때문에 경매 번호에 문의 글 번호 담음
+	public int insertAuction(Auction auction) {
+		return aDAO.insertAuction(auction);
+	}
+
+	@Override //문의 글 번호로 문의 글 내용들고옴
+	public Consignment getConsignmentInfo(int conNo) {
+		return aDAO.getConsignmentInfo(conNo);
+	}
+
+	@Override //문의 글 번호로 문의 글에 등록된 사진들을 들고옴
+	public ArrayList<Attachment> getAttachment(int conNo) {
+		return aDAO.getAttachment(conNo);
 	}
 }

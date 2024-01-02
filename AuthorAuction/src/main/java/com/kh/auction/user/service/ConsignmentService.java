@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 
 public interface ConsignmentService {
@@ -22,13 +23,52 @@ public interface ConsignmentService {
 	// 마이페이지 검색
 	ArrayList<Consignment> searchList(HashMap<String, String> map, PageInfo pi);
 	// 상세조회
+
+//	Consignment selectConsignment(int conNo, String id);
 	Consignment selectConsignment(int conNo);
 	// 상세조회 첨부 리스트
 	ArrayList<Attachment> selectAttmConsignmentList(int conNo);
+	// 관리자 열람여부
+	int updateConAdmStatus(int conNo);	
+	// 상세조회 멤버 가져옴
+	Member selectMember(int conNo);
 	// 글 삭제
 	int deleteConsignment(int conNo);
 	// 글 삭제
 	int statusNConsignment(int conNo);
-
-
+	
+	
+	
+	
+	// 글 수정
+	int deleteAttm(ArrayList<String> delRename);
+	// 수정 어쩌고저쩌고	
+	void updateAttmFno(String memId);
+	// 수정 어쩌고2	
+	void updateAttmLevel(String memId);
+	// 수정 어쩌고 3	
+	int updateConsignment(Consignment c);
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////////////////////////////////////////
+	
+	// 관리자 리스트
+	int getListCount2(String memId);
+	// 관리자 리스트
+	ArrayList<Consignment> selectUserList(String memId, PageInfo pi);
+	// 관리자 상세조회
+	Consignment selectUser(int conNo);
+	// 관리자 첨부 상세조회
+	ArrayList<Consignment> selectAttmUserList(int conNo);
+	// 관리자 체크 삭제
+	void checkDelete(String[] deleteIds);
+	// 관리자 검색
+	int searchCount2(HashMap<String, String> map);
+	// 관리자 검색
+	ArrayList<Consignment> searchList2(HashMap<String, String> map, PageInfo pi);
+	
 }

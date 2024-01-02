@@ -27,7 +27,7 @@ public class MainController {
 		return "index";
 	}
 	
-	@GetMapping("/chat")
+	@GetMapping("chat")
 	public String chat(@RequestParam(value = "roomNumber", defaultValue = "1") String roomNumber, Model model) {
 		model.addAttribute("roomNumber", roomNumber);
 		return "common/chat";
