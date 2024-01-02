@@ -10,7 +10,12 @@ public class Review {
 	private Date revCreateDate;
 	private Date revModifyDate;
 	private String revStatus;
+	private String hasAttm;
 	private String memId;
+	private int proNo;
+	private String proName;
+	private String proWriter;
+	private String proImage;
 	private String memNickName;
 	private String memFileName;
 	
@@ -109,12 +114,53 @@ public class Review {
 		this.memFileName = memFileName;
 	}
 
+	public int getProNo() {
+		return proNo;
+	}
+
+	public void setProNo(int proNo) {
+		this.proNo = proNo;
+	}
+
+	public String getProName() {
+		return proName;
+	}
+
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+
+	public String getProWriter() {
+		return proWriter;
+	}
+
+	public void setProWriter(String proWriter) {
+		this.proWriter = proWriter;
+	}
+
+	public String getProImage() {
+		return proImage;
+	}
+
+	public void setProImage(String proImage) {
+		this.proImage = proImage;
+	}
+
+	public String getHasAttm() {
+		return hasAttm;
+	}
+
+	public void setHasAttm(String hasAttm) {
+		this.hasAttm = hasAttm;
+	}
+
 	@Override
 	public String toString() {
 		return "Review [revNo=" + revNo + ", revContent=" + revContent + ", revCount=" + revCount + ", revLike="
 				+ revLike + ", revCreateDate=" + revCreateDate + ", revModifyDate=" + revModifyDate + ", revStatus="
-				+ revStatus + ", memId=" + memId + ", memNickName=" + memNickName + ", memFileName=" + memFileName
-				+ "]";
+				+ revStatus + ", hasAttm=" + hasAttm + ", memId=" + memId + ", proNo=" + proNo + ", proName=" + proName
+				+ ", proWriter=" + proWriter + ", proImage=" + proImage + ", memNickName=" + memNickName
+				+ ", memFileName=" + memFileName + "]";
 	}
-
+	
 }
