@@ -110,4 +110,16 @@
 		</if>
 		WHERE MEM_ID = #{memId}
 	</update>
+	
+	<update id="updateMemImg">
+		UPDATE MEMBER
+		SET MEM_FILENAME = #{memFileName}
+		WHERE MEM_ID = #{memId}
+	</update>
+	
+	<update id="deleteMemImg">
+		UPDATE MEMBER
+		SET MEM_FILENAME = NULL
+		WHERE MEM_ID = #{memId}
+	</update>
 </mapper>

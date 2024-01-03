@@ -31,7 +31,7 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4); /* 배경 투명도 조절 */
+  background-color: rgba(0, 0, 0, 0.4); 
 }
 
 .modal-content {
@@ -42,8 +42,8 @@
   background-color: #fefefe;
   padding: 20px;
   border: 1px solid #888;
-  width: 100%; /* 가로 크기 조절 */
-  max-width: 550px; /* 최대 가로 크기 설정 */
+  width: 100%; 
+  max-width: 550px; 
 }
 
 .close {

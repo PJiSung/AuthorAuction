@@ -1,6 +1,10 @@
 package com.kh.auction.member.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Random;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.auction.member.service.MemberService;
@@ -453,5 +458,78 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	@PostMapping("updateMemImg")
+	@ResponseBody
+	public String updateMemImg(@RequestParam("file") MultipartFile file, HttpSession session) {
+		if(!file.isEmpty()) {
+			String id = ((Member)session.getAttribute("loginUser")).getMemId();
+			String sessionFile = ((Member)session.getAttribute("loginUser")).getMemFileName();
+			if(sessionFile != null) {
+				deleteFile(sessionFile);
+			}
+			String reName = saveFile(file, id);
+			Member m = new Member();
+			m.setMemId(id);
+			m.setMemFileName(reName);
+			int result = mService.updateMemImg(m);
+			if(result > 0) {
+				((Member)session.getAttribute("loginUser")).setMemFileName(reName);
+				return reName;
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	@PostMapping("deleteMemImg")
+	@ResponseBody
+	public int deleteMemImg(HttpSession session) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemId();
+		String file = ((Member)session.getAttribute("loginUser")).getMemFileName();
+		deleteFile(file);
+		int result = mService.deleteMemImg(id);
+		if(result > 0) {
+			((Member)session.getAttribute("loginUser")).setMemFileName(null);
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
+	public String saveFile(MultipartFile file, String id) {
+		String root = "C:\\";
+		String savaPath = root + "\\uploadFiles";
+		
+		File folder = new File(savaPath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		String originFileName = file.getOriginalFilename();
+		String renameFileName = id + originFileName.substring(originFileName.lastIndexOf("."));
+		
+		String renamePath = folder + "\\" + renameFileName;
+		try {
+			file.transferTo(new File(renamePath));
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return renameFileName;
+	}
+	
+	public void deleteFile(String fileName) {
+		String root = "C:\\";
+		String savaPath = root + "\\uploadFiles";
+		
+		File f = new File(savaPath + "\\" + fileName);
+		if(f.exists()) {
+			f.delete();
+		}
 	}
 }

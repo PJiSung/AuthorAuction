@@ -208,6 +208,20 @@ img:hover{
 	background-color:gray;
 	cursor: pointer;
 }
+
+/* 프로필 사진 */
+.imgDiv {
+	display: inline-block;
+	width: 120px;
+	height: 120px;
+	border-radius: 70%;
+	overflow: hidden;
+}
+.profileImg {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
 </style>
 <script>
 
@@ -382,6 +396,12 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 			if(beforeIndex != null){
 				tds[beforeIndex].innerHTML = beforeData;
 			}
+		}
+		
+		//모달
+		let modal = document.getElementById("myModal");
+		if(!modal.style.display == ""){
+			closeModal();
 		}
 		
 	},{capture: true})  
@@ -685,44 +705,68 @@ const changeMemImg = () =>{
 
 const showModal = () =>{
 	let modal = document.getElementById('myModal');
+	let imgSrc = document.getElementById('imgSrc').value;
+	let changeBtn = document.getElementById('changeBtn');
+	let deleteBtn = document.getElementById('deleteBtn');
 	modal.style.display = 'block';
+	if (imgSrc == "") {
+	    deleteBtn.style.display = 'none';
+	} else {
+		deleteBtn.style.display = 'block';
+		changeBtn.style.display = 'block';
+	}
 }
 
 const closeModal = (value) =>{
 	let modal = document.getElementById('myModal');
 	modal.style.display = 'none';
-	if(value == 1){
-		let inputElement = document.getElementById('file');
-		let selectedFile = inputElement.files[0];
-	    if (selectedFile) {
-	        let formData = new FormData();
-	        formData.append('file', selectedFile);
-	        $.ajax({
-	          url: 'updateMemImg',
-	          type: 'POST',
-	          data: formData,
-	          processData: false,
-	          contentType: false,
-	          success: function (data) {
-	            console.log('파일 업로드 성공');
-	          },
-	          error: function () {
-	            console.error('파일 업로드 실패');
-	          }
-	        });
-      } else {
-        console.error('파일을 선택하세요.');
+	let img = document.querySelector(".imgDiv img");
+	let checkImg = document.getElementById('imgSrc');
+	if(value == 1){ //파일수정
+		let inputElement = document.createElement('input');
+		inputElement.type = "file";
+	    inputElement.click();
+
+	    inputElement.addEventListener('change', function () {
+	        let selectedFile = inputElement.files[0];
+
+	        if (selectedFile) {
+	            let formData = new FormData();
+	            formData.append('file', selectedFile);
+
+	            $.ajax({
+	                url: 'updateMemImg',
+	                type: 'POST',
+	                data: formData,
+	                processData: false,
+	                contentType: false,
+	                success: (data) =>{
+	                	if(data != null){
+	                		checkImg.value = data;
+	                    	img.src = data;
+	                	}
+	                },
+	                error : data => console.log(data)
+	            });
+	        }
+	    });
+      } else if(value == 2) { //파일삭제
+    	  $.ajax({
+              url: 'deleteMemImg',
+              type: 'POST',
+              success: (data) =>{
+            	  checkImg.value = "";
+                  img.src = "member/images/defaultProfile.svg";
+              },
+              error : data => console.log(data)
+          });
       }
-	}
 }
 
 </script>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
-<form action="updateMemImg" method="post" enctype="multipart/form-data" id="updateImgForm">
-	<input type="file" id="file">
-</form> 
 <main class="th-layout-main">
 <div class="glamping-N11" data-bid="dPLqnSJf34" id="">
     <div class="contents-container">
@@ -745,7 +789,6 @@ const closeModal = (value) =>{
           </li>
         </ul>
       </div>
-      
       <div class="tabs">
       <div class="myInfo">
 	    <div class="profile">
@@ -753,12 +796,15 @@ const closeModal = (value) =>{
 	    	<table>
 	    		<tr>
 					<td>
+					<div class="imgDiv">
+					    <input type="hidden" id="imgSrc" value="${ loginUser.memFileName }">
 						<c:if test="${ loginUser.memFileName eq null }">
 							<img src="member/images/defaultProfile.svg">
 						</c:if>
 						<c:if test="${ loginUser.memFileName ne null }">
-							
+							<img src="${ loginUser.memFileName }">
 						</c:if>
+					</div>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</td>
 					<td>${ loginUser.memId }<br><h3><input type="text" value="${ loginUser.memNickName }"></h3></td> 			
@@ -895,14 +941,14 @@ const closeModal = (value) =>{
   </div>
 </main>
 <div id="myModal" class="modal">
-  <div class="modal-content">
-  	<div class="change" onclick="closeModal(1)">
-    	프로필 사진 수정
-  	</div>
-  	<div class="delete" onclick="closeModal(2)">
-    	프로필 사진 삭제
-  	</div>
-  </div>
+	<div class="modal-content">
+		<div id="changeBtn" onclick="closeModal(1)">
+		 	프로필 사진 수정
+		</div>
+		<div id="deleteBtn" onclick="closeModal(2)">
+		 	프로필 사진 삭제
+		</div>
+	</div>
 </div>
 </body>
 </html>
