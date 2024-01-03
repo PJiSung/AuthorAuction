@@ -99,4 +99,9 @@ public class AuctionServiceImpl implements AuctionService{
 	public ArrayList<Attachment> getAttachment(int conNo) {
 		return aDAO.getAttachment(conNo);
 	}
+
+	@Override
+	public ArrayList<Auction> getMyInterestList(String id) {
+		return aDAO.getMyInterestList(id);
+	}
 }

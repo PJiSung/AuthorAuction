@@ -51,6 +51,17 @@ public class AuctionAdminController {
 								@RequestParam(value="page", defaultValue="1") int page, Model model) {
 		HashMap<String, String> hm = new HashMap<>();
 		
+		System.out.println(content);
+		
+		System.out.println(auctionStatus);
+		System.out.println(aucSS+"1");
+		System.out.println(aucSE+"2");
+		System.out.println(aucFS+"3");
+		System.out.println(aucFE+"4");
+		
+		
+		
+		
 		if(auctionStatus != null) {
 			hm.put("auctionStatus", auctionStatus);
 		}
@@ -76,14 +87,18 @@ public class AuctionAdminController {
 		//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
 		ArrayList<Auction> aList = aService.getAdminSearchList(hm);
 		
-		PageInfo pi = Pagination.getPageInfo(page, aList.size(), 5);
+		PageInfo pi = Pagination.getPageInfo(page, aList.size(), 10);
 		
 		model.addAttribute("aList", aList);
+		model.addAttribute("total", aList.size());
 		model.addAttribute("auctionStatus", auctionStatus);
 		model.addAttribute("pi", pi);
 		
 		System.out.println(aList);
-		return "";
+		
+		
+		
+		return "/auction/adminInquiry";
 		
 	}
 	
@@ -106,7 +121,6 @@ public class AuctionAdminController {
 		
 		return hm;
 	}
-	
 	
 	@GetMapping("enrollAuction.adac")
 	public String moveToEnrollAuction() {
