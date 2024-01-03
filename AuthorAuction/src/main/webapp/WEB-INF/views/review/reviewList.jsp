@@ -781,6 +781,7 @@ body.modal-open {
 	        	delConfirmButton.addEventListener('click', () =>{
 	        		revDetailForm.action = 'deleteReply.rv';
 	        		revDetailForm.submit();
+	        		
 	        	});
 	        });
 			

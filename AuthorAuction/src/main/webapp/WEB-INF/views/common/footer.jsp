@@ -74,7 +74,6 @@
 	    </div>
 	 </footer>
 	<script src="main/js/setting.js"></script>
-	<script src="main/js/plugin.js"></script>
 	<script src="main/js/template.js"></script>
 	<script src="main/js/common.js"></script>
 	<script src="main/js/script.js"></script>
