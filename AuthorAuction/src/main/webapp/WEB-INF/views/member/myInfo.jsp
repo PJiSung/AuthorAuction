@@ -140,10 +140,16 @@ font{
 .myInfo tr td:last-child{
 	width:70%;
 }
+table{
+	width:100%;
+}
+table tr{
+	width:100%;
+}
 input[type=text]{
 	border:none;
     height: 30px;
-    width: 160%;
+    width: 100%;
     
 }
 input[type=text]:hover{
@@ -153,6 +159,54 @@ input[type=text]:hover{
 input[type=text]:focus{
 	border-bottom: 2px solid black;
 	outline: none;
+}
+img:hover{
+	cursor: pointer;
+}
+
+/* 모달 */
+.modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 50%;
+  width: 50%;
+  height: auto;
+  overflow: auto;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  border: 1px solid #888;
+  width: 25%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal .modal-content div{
+	height: 60px;
+	line-height : 60px;
+	width: 100%;
+}
+.modal .modal-content div:hover{
+	background-color:gray;
+	cursor: pointer;
 }
 </style>
 <script>
@@ -165,9 +219,8 @@ window.onload = () =>{
 	checkPwd();
 	checkRePwd();
 	changeMember();
+	changeMemImg();
 }
-
-
 
 tab = '${tab}';
 const tab2 = () =>{
@@ -298,6 +351,7 @@ function sample6_execDaumPostcode() {
             document.getElementById('sample6_postcode').value = data.zonecode;
             document.getElementById("sample6_address").value = addr;
             document.getElementById("sample6_detailAddress").focus();
+            
         }
     }).open();
 } 
@@ -305,34 +359,36 @@ function sample6_execDaumPostcode() {
 const changeMember = () =>{
 let tds = document.querySelectorAll(".myInfo tr td:last-child");
 	
-	/* document.querySelector('body').addEventListener('click', (event) =>{
-		if(beforeIndex != null && tds[beforeIndex].innerHTML != beforeData && event.target.tagName != 'INPUT'){
-			tds[beforeIndex].innerHTML = beforeData;
-		}
-	}) */
-	
-	
 	document.querySelector('body').addEventListener('click', (event) =>{
 		
 		let target = event.target;
-		
-		console.log(target);
-		while (target != 'TR') {
-			target = target.parentNode;
-		}
-		
-		if(beforeIndex != null){
-			let trElement = tds[beforeIndex].parentNode;
-			console.log(trElement);
-			console.log(target);
-			if(trElement != target){
+		if(beforeIndex != null && (target.tagName == 'TD' || target.tagName == 'INPUT')){
+			if(beforeIndex == 2 || beforeIndex == 3 || beforeIndex == 4){
+				while (target.tagName != 'TABLE') {
+					target = target.parentElement;
+					while (target.tagName != 'TR') {
+						target = target.parentElement;
+					} 
+				}
+			}else{
+				while (target.tagName != 'TR') {
+					target = target.parentElement;
+				}
+			}
+			if(tds[beforeIndex].parentNode != target){
+				tds[beforeIndex].innerHTML = beforeData;
+			}
+		}else if(beforeIndex != null){
+			if(beforeIndex != null){
 				tds[beforeIndex].innerHTML = beforeData;
 			}
 		}
-	}) 
+		
+	},{capture: true})  
 	
 	for(let i=0; i<tds.length; i++){
 		tds[i].addEventListener("click", function(){
+			
 			if(beforeIndex != i){
 				if(beforeIndex != null && tds[beforeIndex].innerHTML != beforeData){
 					tds[beforeIndex].innerHTML = beforeData;
@@ -342,12 +398,17 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 					beforeData = this.innerHTML;
 					beforeIndex = i;
 					if(i == 0){
-						console.log(i);
 						let nickName = this.querySelector("h3");
 						nickName.innerHTML = '<input type="text" class="updateData" value="'+nickName.querySelector("input").value+'">'
+						let input = nickName.querySelector("input");
+						input.focus();
+						input.selectionStart = input.selectionEnd = input.value.length;
 						
 					}else if(i == 1){
 						this.innerHTML = '<input type="text" class="updateData" value="'+this.querySelector("input").value+'">'
+						let input = this.querySelector("input");
+						input.focus();
+						input.selectionStart = input.selectionEnd = input.value.length;
 						
 					}else if(i == 2){
 						const table = document.createElement("table");
@@ -398,6 +459,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						this.append(table);
 						
 					}else if(i == 4){
+						console.log(this.parentElement);
 						const addArr = document.getElementById("address").value.split("@");
 						const table = document.createElement("table");
 						const tr1 = document.createElement("tr");
@@ -411,6 +473,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						const tr2 = document.createElement("tr");
 						tr2.setAttribute("colspan", "2");
 						const addAdd = document.createElement("td");
+						addAdd.colSpan = 2;
 						addAdd.innerHTML = '<input type="text" id="sample6_address" value="'+ addArr[1] +'" readonly="readonly">';
 						tr2.append(addAdd);
 						
@@ -519,7 +582,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 					}
 				}
 			}
-		});
+		},{capture: true});
 	}
 }
 
@@ -613,10 +676,53 @@ const checkNum2 = (value) =>{
 	}
 }
 
+const changeMemImg = () =>{
+	const img = document.querySelector(".profile tr td:first-child img");
+	img.addEventListener("click", function(){
+		showModal();
+	});
+}
+
+const showModal = () =>{
+	let modal = document.getElementById('myModal');
+	modal.style.display = 'block';
+}
+
+const closeModal = (value) =>{
+	let modal = document.getElementById('myModal');
+	modal.style.display = 'none';
+	if(value == 1){
+		let inputElement = document.getElementById('file');
+		let selectedFile = inputElement.files[0];
+	    if (selectedFile) {
+	        let formData = new FormData();
+	        formData.append('file', selectedFile);
+	        $.ajax({
+	          url: 'updateMemImg',
+	          type: 'POST',
+	          data: formData,
+	          processData: false,
+	          contentType: false,
+	          success: function (data) {
+	            console.log('파일 업로드 성공');
+	          },
+	          error: function () {
+	            console.error('파일 업로드 실패');
+	          }
+	        });
+      } else {
+        console.error('파일을 선택하세요.');
+      }
+	}
+}
+
 </script>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
+<form action="updateMemImg" method="post" enctype="multipart/form-data" id="updateImgForm">
+	<input type="file" id="file">
+</form> 
 <main class="th-layout-main">
 <div class="glamping-N11" data-bid="dPLqnSJf34" id="">
     <div class="contents-container">
@@ -755,8 +861,8 @@ const checkNum2 = (value) =>{
 			<div class="content-container">
 				<div class="form-wrap">
 					<div class="form-header">
-						<h6 class="form-tit">비밀번호 변경</h6>
-					</div>
+	                  <h6 class="form-tit">비밀번호 변경</h6>
+	               </div>
 					<div class="form-body">
 				        <form action="updatePwd" method="post" id="updatePwForm">
 							<div class="category">
@@ -782,12 +888,21 @@ const checkNum2 = (value) =>{
 			</div>
 		</div>
 		
-	</main>
+		</main>
 	    </div>
 		<jsp:include page="../common/footer.jsp"/>
     </div>
   </div>
 </main>
-
+<div id="myModal" class="modal">
+  <div class="modal-content">
+  	<div class="change" onclick="closeModal(1)">
+    	프로필 사진 수정
+  	</div>
+  	<div class="delete" onclick="closeModal(2)">
+    	프로필 사진 삭제
+  	</div>
+  </div>
+</div>
 </body>
 </html>

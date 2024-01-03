@@ -189,7 +189,7 @@ const encodeBase64 = (data) =>{
 					</div>
 				</div>
 		<!-- [E]bloomcity-N10 -->
-	</main>
+			</main>
 		  </div>
 		</div>
 		<!-- [E]blank-AwLQfZpog0 -->
