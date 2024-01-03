@@ -32,10 +32,10 @@
       <div class="header-center">
         <ul class="header-member">
           <li>
-            <a href="javascript:void(0)">로그인</a>
+            <a href="loginView">로그인</a>
           </li>
           <li>
-            <a href="javascript:void(0)">회원가입</a>
+            <a href="authenticationView">회원가입</a>
           </li>
         </ul>
         <ul class="header-gnblist">
@@ -45,7 +45,7 @@
             </a>
             <ul class="header-sublist">
               <li class="header-subitem">
-                <a class="header-sublink" href="${contextPath}/home.jsp">
+                <a class="header-sublink" href="">
                   <span>온라인 경매</span>
                 </a>
               </li>
@@ -113,7 +113,7 @@
       </div>
       <div class="header-right">
         <div class="header-utils">
-          <a href=""><span class="header-gnblink">LOGIN</span></a>
+          <a href="loginView"><span class="header-gnblink">LOGIN</span></a>
           <!-- <a href=""><span class="header-gnblink">LOGOUT</span></a>  -->
           <div class="dropdown btn-user header-utils-btn">
             <img src="main/icons/ico_user_black.svg" class="dropbtn" alt="유저 아이콘">
@@ -122,12 +122,12 @@
                   <tr>
                      <td class="profile">
                         <div class="profilePic">
-                           <img src="main/mainPic/profilePic.jpg" alt="프로필 사진" class="profileImg">
+                           <img src="${ loginUser.memFileName }" alt="프로필 사진" class="profileImg">
                         </div>
                      </td>
                      <td style="line-height: 20px; cursor: pointer;" onclick="location.href='';">
                         <div class="userText"><b>계정 관리</b></div>
-                        <div class="userText">aaaaaa7817</div>
+                        <div class="userText">${ loginUser.memId }</div>
                      </td>
                   </tr>
                   <tr>
@@ -298,10 +298,10 @@
           </h4>
           <ul class="fullmenu-member">
             <li>
-              <a href="javascript:void(0)">로그인</a>
+              <a href="loginView">로그인</a>
             </li>
             <li>
-              <a href="javascript:void(0)">회원가입</a>
+              <a href="authenticationView">회원가입</a>
             </li>
           </ul>
         </div>

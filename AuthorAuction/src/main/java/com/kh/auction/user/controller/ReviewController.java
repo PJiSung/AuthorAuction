@@ -385,6 +385,16 @@ public class ReviewController {
 	}
 	
 	@ResponseBody
+	@GetMapping("selectReviewLike.rv")
+	public String selectReviewLike(@RequestParam("revNo") int revNo) {
+		
+		int likeCount = rService.selectReviewLike(revNo);
+		System.out.println(likeCount);
+		
+		return String.valueOf(likeCount);
+	}
+	
+	@ResponseBody
 	@GetMapping("updateReviewCount.rv")
 	public String updateReviewCount(@RequestParam("revNo") int revNo) {
 		

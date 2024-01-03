@@ -17,8 +17,7 @@
 <link rel="stylesheet" href="main/css/template.css">
 <link rel="stylesheet" href="main/css/common.css">
 <link rel="stylesheet" href="main/css/main.css">
-<link rel="stylesheet" href="main/css/style.css">
-<c:set value="${ pageContext.servletContext.contextPath }" var="contextPath" scope="application" />
+<link rel="stylesheet" href="main/css/style.css?ver=1">
 <title>AUTHOR AUCTION</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>

@@ -793,22 +793,9 @@ body.modal-open {
         		revDetailForm.submit();
 			})
 			
-			const rList = "${rList}";
 			const aList = "${aList}";
 			const lList = "${lList}";
 			const allRlist = "${allRlist}";
-			
-			const reviewArr = rList.replace(/\[Review /g, '').replace(/Review/g, '').replace(/\[/g, '').split("], ");
-			const reviewList = reviewArr.map(reviews => {
-				const review = reviews.split(', ');
-	
-				const reviewMap = {};
-				review.forEach(keyValue => {
-					const [key, value] = keyValue.split('=');
-					reviewMap[key.trim()] = value.trim();
-				});
-				return reviewMap;
-			});
 			
 			const attmArr = aList.replace(/\[Attachment /g, '').replace(/Attachment/g, '').replace(/\]]/g, '').replace(/\[/g, '').split("], ");
 			const attmList = attmArr.map(attachments => {
@@ -866,13 +853,14 @@ body.modal-open {
 							url: 'updateReviewCount.rv',
 							data:{revNo: revNo},
 							success: data =>{
-								console.log(data);
 								const count = document.querySelector('#reviewCount');
 								count.innerText = data;
 							}
 						})
 					};
 					
+					const lineLikebut = document.getElementById('reviewLikeUp');
+					const fillLikebut = document.getElementById('reviewLikeDown');
 					
 					for(const r of allRList){
 						if(r.revNo == revNo){
@@ -886,6 +874,32 @@ body.modal-open {
 							document.getElementById('reviewLike').innerText = r.revLike;
 							document.getElementById('proImage').src = r.proImage;
 						}
+						
+						$.ajax({
+							url: 'selectReviewLike.rv',
+							data:{revNo: revNo},
+							success: data =>{
+								const like = document.querySelector('#reviewLike');
+								like.innerText = data;
+								
+								for (const l of rLikeList) {
+								    if (l.MEM_ID == '${loginUser.memId}' && l.REV_NO == revNo && revNo == r.revNo) {
+								        lineLikebut.style.display = 'none';
+								        fillLikebut.style.display = 'block';
+			
+								        fillLikebut.addEventListener('click', () => {
+								            lineLikebut.style.display = 'block';
+								            fillLikebut.style.display = 'none';
+								        });
+								        
+								        lineLikebut.addEventListener('click', () => {
+								            lineLikebut.style.display = 'none';
+								            fillLikebut.style.display = 'block';
+								        });
+								    };
+								};
+							}
+						});
 						
 						const selectImagDiv = document.querySelector('#selectImagDiv');
 						const reviewImgUl = document.querySelector('#reviewImgUl');
@@ -921,25 +935,6 @@ body.modal-open {
 							updateDeleteDiv.style.display = 'none';
 						}
 						
-						const lineLikebut = document.getElementById('reviewLikeUp');
-						const fillLikebut = document.getElementById('reviewLikeDown');
-
-						for (const l of rLikeList) {
-						    if (l.MEM_ID == '${loginUser.memId}' && l.REV_NO == revNo && revNo == r.revNo) {
-						        lineLikebut.style.display = 'none';
-						        fillLikebut.style.display = 'block';
-
-						        fillLikebut.addEventListener('click', () => {
-						            lineLikebut.style.display = 'block';
-						            fillLikebut.style.display = 'none';
-						        });
-						        
-						        lineLikebut.addEventListener('click', () => {
-						            lineLikebut.style.display = 'none';
-						            fillLikebut.style.display = 'block';
-						        });
-						    };
-						};
 						
 						if(r.proNo == proNo && r.revNo != revNo){
 							for(const a of attmList){
@@ -955,19 +950,25 @@ body.modal-open {
 					}
 					
 					// 좋아요
-					document.getElementById('reviewLikeUp').addEventListener('click', function(){
-						$.ajax({
-							url: 'insertReviewLike.rv',
-							data:{memId: '${loginUser.memId}', revNo: revNo},
-							success: data =>{
-								console.log(data);
-								const like = document.querySelector('#reviewLike');
-								like.innerText = data;
-							}
-						})
+					lineLikebut.addEventListener('click', function(){
+						if('${loginUser.memId}' != memId){
+							$.ajax({
+								url: 'insertReviewLike.rv',
+								data:{memId: '${loginUser.memId}', revNo: revNo},
+								success: data =>{
+									console.log(data);
+									const like = document.querySelector('#reviewLike');
+									like.innerText = data;
+								}
+							})
+						} else{
+							alert('작성하신 글을 [좋아요] 버튼을 누를 수 없습니다.');
+							lineLikebut.style.display = 'block';
+				            fillLikebut.style.display = 'none';
+						}
 					});
-					
-					document.getElementById('reviewLikeDown').addEventListener('click', function(){
+						
+					fillLikebut.addEventListener('click', function(){
 						$.ajax({
 							url: 'deleteReviewLike.rv',
 							data:{memId: '${loginUser.memId}', revNo: revNo},
@@ -978,6 +979,7 @@ body.modal-open {
 							}
 						})
 					});
+					
 				});
 				
 			};
