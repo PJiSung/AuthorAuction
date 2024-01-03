@@ -339,68 +339,13 @@ public class ArtsController {
 	
 	
 	
-	
+	@ResponseBody
 	@GetMapping("pointpayresult.ar")
-	public String pointpayresult(Model model, HttpSession session, @RequestParam("imp_uid") String imp_uid, Order order,@RequestParam("postcode") int postcode,
-			@RequestParam("address") String address,@RequestParam("receiver") String receiver,@RequestParam("receiverPhone") String receiverPhone,
-			@RequestParam("wisAmountfororder") int[] wisAmountfororder, @RequestParam("pronofororder") int[] pronofororder,@RequestParam("pointBonus") int pointBonus) {
-		
-		
-		HashMap<String, Object> pm = new HashMap<String,Object>();
-		pm.put("pointBonus", pointBonus);
-		pm.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
-		pm.put("usedPoint",order.getOrdPoPrice());
-		
-		
-		int pointresult = aService.updatepointBonus(pm);
-		
-		int result = aService.insertOrder(order); 
-		
-		
-		
-		HashMap<String,Object> rmap = new HashMap<String,Object>();
-		
-		
-		
-		rmap.put("address", postcode+"@"+address);
-		rmap.put("receiverPhone", receiverPhone);
-		rmap.put("receiver", receiver);
-		rmap.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
-		rmap.put("ordNo", order.getOrdNo());
-		
-		int resultadd = aService.insertAddress(rmap);
-		
-		
-		
-		
-		for(int i =0; i<pronofororder.length; i++) {
-			
-			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("ordNo", order.getOrdNo());
-			map.put("proNos", (Integer)pronofororder[i]);
-			map.put("odtNum", (Integer)wisAmountfororder[i]);
-			
-			int resultqq = aService.updateProductamount(map);
-			int resultweq = aService.insertOrderDetail(map);
-			
-		}
-		
-		
-		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
-		
-		
-		int resultwis = aService.deletewisAll(loginid);
-		
-		model.addAttribute("orderNo", order.getOrdNo());
-		model.addAttribute("OrdSumPrice", order.getOrdCaPrice());
-		model.addAttribute("ordPoPrice", order.getOrdPoPrice());
-		model.addAttribute("pointBonus", pointBonus);
-		model.addAttribute("address", address);
-		model.addAttribute("receiver", receiver);
+	public String pointpayresult(Model model, @RequestParam("memId") String memId, @RequestParam("amount") int amount) {
 		
 		
     	
-		return "arts/payresult";
+		return amount+"포인트가 충전되었습니다";
 	}
 	
 	

@@ -783,7 +783,7 @@ input.check_btn:checked + label:before{
 		
 		if(count>0 && pcount>0){
 			
-			if(document.getElementById('pointinput').value > 1000){
+			if(document.getElementById('pointinput').value >= 1000){
 				requestpay();
 			}else{
 				alert('1000원 이상부터 충전 가능합니다');
@@ -818,7 +818,6 @@ input.check_btn:checked + label:before{
 	 
 	 const amount = parseInt(document.getElementById('pointinput').value);
 	 
-	 
 	 const ordernum = Math.floor(Math.random()*1000000000*new Date().getMilliseconds());
 		
 		
@@ -836,8 +835,19 @@ input.check_btn:checked + label:before{
 		
 	    if (rsp.success) {
 	    	
-	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginUser.memId}
-	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus;
+	    	
+	    	$.ajax({
+	    		url: "pointpayresult.ar"
+	    		method: "POST";
+	    		data:{
+	    			amount: amount,
+	    			memId: ${loginUser.memId}
+	    			
+	    		}
+	    		
+	    		
+	    		
+	    	})
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청
