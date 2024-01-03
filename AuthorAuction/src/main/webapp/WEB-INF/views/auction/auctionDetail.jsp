@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,9 +50,7 @@
 	<jsp:include page="../common/header.jsp"/>
     <div id="content-allOver-cover" style="width: 70%; margin:auto; margin-top: 2%; display: flex; height:100%">
         <div id="content-left"style="width:49%; background-color:yellow; display:inline-block;">
-        	<img src="image/치즈 냥이.jpg" style="width: 100%; border: 1px black solid; height: 80%;">
-        	<img src="image/치즈 냥이.jpg" style="margin:2% 10% 0 20%; width: 100px; border: 1px black solid; height: 100px; display: inline-block;">
-            <img src="image/치즈 냥이.jpg" style="margin:2% 15% 0 10%; width: 100px; border: 1px black solid; height: 100px; display: inline-block;">
+        	<img src="${ auction.attRename }" style="width: 100%; border: 1px black solid; height: 100%;">
         </div>
 
          <div id="contentRightCover" style="width:49%; display: inline-block;">
@@ -102,12 +101,23 @@
 	        </div>
         </div>
     </div>
-     <div id="picturePlace" style="width: 45%; background: pink;">
-            
-        </div>
+    <div id="picturePlace" style="width: 70%; display:flex; margin:auto;">
+    	<c:forEach items="${ attachmentList }" var="attachmentList">
+    		<img src="${ attachmentList.attRename }" style="width: 100px; border: 1px black solid; height: 100px; margin: 0.5% 0 0 11%;">
+    	</c:forEach>
+    </div>
+    <br>
+    <div style="background:pink; width:34.3%; margin-left: 15%;">
+    	<h1>작품 설명</h1>
+    	<p>
+    		${ auction.conEtc } 가나다라마바사아자차카타 파하가나다 라마바 사아자차카타 파하가나 다라마바사아자차 카타파하 가나다라마바사아 자차카타 파하가나다라마바 사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하
+    	</p>
+    </div>
+    
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         
         <!-- 호가표 모달창 -->
-    <div id="priceTag">
+    <div id="priceTag" style="display: none;">
   		<div class="modal-content" style="width:30%;">
     		<h2 style="text-align: center; background-color: navy; color: white; height: 50px; padding-top: 10px;">호가표</h2>
 		    <table style="margin:auto; border-collapse: collapse; text-align: center; width:80%;">

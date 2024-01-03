@@ -382,20 +382,6 @@
 	                  <div class="fileset fileset-lg fileset-label">
 	                    <label>
 	                      <div class="fileset-body">
-	                        <div class="fileset-group" >
-	                          <a style="display: inline-block; width: 15%; text-align: center;">구매서류</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" id="fileInput" name="file" accept="image/*" required>
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
-	                  
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
 	                        <div class="fileset-group">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
 	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
@@ -420,8 +406,6 @@
 						        <img style="width: 100%; height: 100%;" class="contents-thumbimg" src="${a.attRename}" id="delete-${ a.attRename }/${a.attFno}" alt="등록된 사진">
 						        <input type="hidden" name="deleteAttm" value="none">
 						      </li>
-						        <button class="deleteBtn" style="margin: 1% 2% 10% 1%; background:white; border: 1px solid white;">X</button>
-
 						    </c:forEach>
 						  </ul>
 						</div>
@@ -488,7 +472,7 @@
 
 	<script>
 		window.onload = () => {
-			
+			console.log(document.querySelectorAll("input")[13].value == "");
 			console.log('${pi}')
 			
 			/*
@@ -525,13 +509,80 @@
 			})
 			
 			const deleteAttmInputs = document.querySelectorAll('input[name="deleteAttm"]');
-			let nonNoneCount = 0;
-			document.getElementById('submitAttm').addEventListener('click', function(){
-				for (const input of deleteAttmInputs) {
+			
+			
+			
+				const img = document.querySelectorAll("img[class='contents-thumbimg']");
+				const imgArr = ["","","",""];
+				
+				for(const [index, selectImg] of img.entries()){
+					selectImg.addEventListener('click',function(){
+						if(imgArr[index] == "") {
+							imgArr[index] =  selectImg.src;
+						}else{
+							imgArr[index] = "";
+						}
+					})
+				}
+				
+				console.log(imgArr);
+				
+				let nonNoneCount = 0;
+				document.getElementById('submitAttm').addEventListener('click', function(){
+					console.log(imgArr);
+				/* console.log(document.querySelectorAll("input[class='fileset-input']"));
+				console.log(document.querySelectorAll(".active")); */
+				const files = document.getElementsByClassName("fileset-group")[0];
+				const exist = [];
+				for(let i = 0; i < 4; i++){
+					if(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active")){
+						exist.push(i);
+					}
+				}
+				
+				for(let i = 0; i<imgArr.length; i++){
+					if(imgArr[i] != "" && !exist.includes(i)){
+						nonNoneCount++;
+					}
+				}	
+					
+				if(nonNoneCount > 0){
+					alert("사진의 갯수는 반드시 4개를 넣어주셔야 합니다");
+				}else{
+					
+					const sendData = {
+							exist: exist,
+							imgArr:imgArr
+					} 
+					
+					jsonData = JSON.stringify(sendData);
+					
+					$.ajax({
+						url:'updateConsignment.co',
+						type:'post',
+						data:jsonData,
+						contentType:"application/json",
+						success: (data) =>{
+							console.log(data);
+						},
+						error: data => console.log(data)
+							
+					})
+				
+				//location.href="updateConsignment.co?deleteAttm=" + imgArr;
+			}	
+		})
+				
+				
+				
+				
+				/* for (const input of deleteAttmInputs) {
+					console.log(input);
 				  if (input.value == 'none') {
 				    nonNoneCount++;
 				  }
-				}
+				  console.log("nonNoneCount : "+nonNoneCount); */
+			//	}
 				
 				const fileInputs = document.querySelectorAll('.fileset-group input[type="file"]');
 				// 총 파일 개수 초기화
@@ -559,7 +610,7 @@
 			            alert('기존 이미지 삭제 버튼이 클릭되었습니다.');
 			        });
 			    }
-			})
+			}
 
 			// 사진 삭제시 첨부창 추가  	
 			/* 
@@ -573,7 +624,6 @@
 			});   
 			*/
 			
-		}		
 	</script>
 
 

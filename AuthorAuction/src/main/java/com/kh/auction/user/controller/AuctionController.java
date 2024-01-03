@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.member.service.MemberService;
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
@@ -34,7 +34,6 @@ public class AuctionController {
 	
 	@GetMapping("auctionList.ac") 
 	public String moveToAuctionList(@RequestParam(value="page", defaultValue="1") int page, Model model) {
-		int currentPage = page;
 		
 		//진행중인 경매의 모든 경매리스트를 가지고옴
 		ArrayList<Auction> auctionList = aService.getAllAuction();
@@ -42,7 +41,7 @@ public class AuctionController {
 		System.out.println(auctionList);
 		
 		//가지고온 경매리스트의 갯수(size)가 총 갯수
-		PageInfo pi = Pagination.getPageInfo(currentPage, auctionList.size(), 12);
+		PageInfo pi = Pagination.getPageInfo(page, auctionList.size(), 12);
 	
 		model.addAttribute("pi",pi);
 		model.addAttribute("total", auctionList.size());
@@ -57,15 +56,13 @@ public class AuctionController {
 		//경매 번호를 가지고 세부내용을 들고옴
 		Auction auction = aService.getAuctionDetail(aucNo);
 		//경매 내부의 사진을 들고옴
-		/*
-		 * ArrayList<Attachment> aList = aService.getAuctionAttachment(aucNo);
-		 * System.out.println(aList);
-		 */
+		
+		ArrayList<Attachment> attachmentList = aService.getAuctionAttachment(aucNo);
+		 
 		model.addAttribute("auction",auction);
 		model.addAttribute("page", page);
+		model.addAttribute("attachmentList",attachmentList);
 		
-		
-//		model.addAttribute("",);
 		return "/auction/auctionDetail";
 	}
 	

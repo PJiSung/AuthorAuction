@@ -389,8 +389,12 @@ public class ReviewController {
 	public String updateReviewCount(@RequestParam("revNo") int revNo) {
 		
 		int result = rService.updateReviewCount(revNo);
+		int count = 0;
+		if(result > 0) {
+			count = rService.getReviewCount(revNo);
+		}
 		
-		return result == 1 ? "success" : "fail";
+		return String.valueOf(count);
 	}
 
 }

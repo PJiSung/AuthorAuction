@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,10 +102,14 @@
 	                  <td>${ c.conAuthor }</td>
 	                  <td>${ c.conProduct }</td>
 	                  <td>${ c.conWidth }*${ c.conHeight }cm</td>
-	                  <td>${ c.conHope }</td>
+	                  <td><fmt:formatNumber type="number" value="${ c.conHope }"/>원</td>
 	                  
-	                  <td>${ c.conAdmStatus }</td>
-	                
+	                  <c:if test="${ c.conDelStatus == 'Y' }">
+		              	<td class="tableset-order05">Y</td>
+		              </c:if>
+		              <c:if test="${ c.conDelStatus == 'N' }">
+		              	<td class="tableset-order05">N</td>
+		              </c:if>
 	                  
 	                </tr>
               	</c:forEach>  

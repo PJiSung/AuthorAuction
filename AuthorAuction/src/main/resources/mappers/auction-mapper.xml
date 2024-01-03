@@ -15,7 +15,6 @@
 		where to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') >= to_timestamp(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') and
         		to_timestamp(sysdate, 'YYYY-MM-DD HH24:MI:SS') <= to_timestamp(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS')
         order by auc_no desc
-        
 		]]>
 	</select>
 	
@@ -34,7 +33,10 @@
 	<select id="getAuctionAttachment" resultType="Attachment">
 		select *
 		from attachment
-		where att_bno = #{aucNo} and att_status = 'Y' and att_category = 2 and (att_fno = 2 or att_fno = 3)
+		where att_bno = (select auc_cno
+                        from auction
+                        where auc_no = #{aucNo}) and att_status = 'Y' and att_category = 2 and (att_fno = 2 or att_fno = 3)
+		order by att_fno
 	</select>
 	
 	<update id="insertBid">

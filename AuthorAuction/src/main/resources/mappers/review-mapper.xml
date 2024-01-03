@@ -166,8 +166,14 @@
 	
 	<update id="updateReviewCount">
 		update review
-		set rev_count = + 1
+		set rev_count = rev_count + 1
 		where rev_no = #{revNo}
 	</update>
+	
+	<select id="getReviewCount" resultType="_int">
+		select rev_count
+		from review
+		where rev_no = #{revNo}
+	</select>
 	
 </mapper>
