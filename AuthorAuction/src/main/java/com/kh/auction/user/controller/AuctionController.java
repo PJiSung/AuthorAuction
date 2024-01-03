@@ -136,7 +136,11 @@ public class AuctionController {
 	}
 	
 	@GetMapping("myInterest.ac")
-	public String moveToMyInterest() {
+	public String moveToMyInterest(Model model) {
+		
+		String id = ((Member)model.getAttribute("loginUser")).getMemId();
+		//ArrayList<Auction> aList = aService.getMyInterestList(id);
+		
 		return "/auction/likeList";
 	}
 	

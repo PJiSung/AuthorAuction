@@ -130,15 +130,16 @@
 		where con_No=#{conNo}
 	</update>
 	
-	<update id="updateAttmFno" parameterType="java.util.HashMap">															<!-- 들어오는 사진 순서 지정 -->
+	<update id="updateAttmFno" parameterType="java.util.HashMap">						<!-- 들어오는 사진 순서 지정 -->
 		update attachment
 		set att_fno=#{attFno}
 		where att_bno=#{conNo}
 	</update>
 	
-	
-	
-	
+	<select id="selectAuctionMList" resultType="map">									<!-- 수락 / 거절 auction 가져옴 -->
+		select  auc_start_date, auc_finish_date, auc_cno, auc_mem_id
+		from consignment join auction on(con_no = auc_cno)
+	</select>
 	
 	
 	
@@ -153,6 +154,7 @@
 	<select id="selectUserList" resultType="Consignment">								<!-- 관리자 리스트 -->
 		select *
 		from consignment
+			 join auction on(con_No=auc_No)
 		order by con_del_status desc, con_adm_status, con_con_status, con_no desc
 	</select>
 

@@ -38,5 +38,9 @@ public interface AuctionService {
 
 	//문의 글 번호로 문의 글에 등록된 사진들을 들고옴
 	ArrayList<Attachment> getAttachment(int conNo);
+
+	
+	//아이디로 내 관심 목록 들고옴
+	ArrayList<Auction> getMyInterestList(String id);
 	
 }

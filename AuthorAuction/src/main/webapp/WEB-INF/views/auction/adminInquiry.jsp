@@ -17,13 +17,13 @@
 	    <div id="coverAll" style="width: 100%; height: 100%;">
 	        <div style="width: 70%; height: 100%; margin: auto; margin-top: 1%; border: 1px black solid; padding: 1% 0 1% 0;">
 	            <div style="width: 20%; display: inline-block; margin-left: 3%;">
-	                <input type="radio" class="auctionStatus" name="auctionStatus" id="scheduled" value="scheduled"><label for="scheduled">진행 예정 경매</label>
+	                <input type="checkBox" class="auctionStatus" name="scheduled" id="scheduled" value="scheduled"><label for="scheduled">진행 예정 경매</label>
 	            </div>
 	            <div style="width: 20%; display: inline-block;">
-	                <input type="radio" class="auctionStatus" name="auctionStatus" id="onGoing" value="onGoing"><label for="onGoing">진행 중인 경매</label>
+	                <input type="checkBox" class="auctionStatus" name="ongoing" id="ongoing" value="ongoing"><label for="ongoing">진행 중인 경매</label>
 	            </div>
 	            <div style="width: 20%; display: inline-block;">
-	                <input type="radio" class="auctionStatus" name="auctionStatus" id="end" value="end"><label for="end">종료된 경매</label>
+	                <input type="checkBox" class="auctionStatus" name="end" id="end" value="end"><label for="end">종료된 경매</label>
 	            </div>
 	            <div style="width: 35%; display: inline-block;">
 	                <select name="searchType">
@@ -50,19 +50,18 @@
 	            </div>
 	        </div>
 	        
-	        <jsp:useBean id="now" class="java.util.Date"/>
 	        <div style="width: 70%;  margin: auto; margin-top: 2%; margin-bottom: 2%;">
-	        	<div style="margin-bottom: 1%"><span>현재 진행중인 경매</span>총 ${ total } 개</div>
+	        	<div style="margin-bottom: 1%"><span>현재 진행중인 경매</span>&nbsp;총 ${ total } 개</div>
 	            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
 	                <div style="width: 16.5%; display: inline-block;  margin-top: 1%; margin-bottom: 1%;">경매 번호</div>
 	                <div style="width: 16.5%; display: inline-block;">작품 사진</div>
 	                <div style="width: 16.5%; display: inline-block;">작가 명</div>
 	                <div style="width: 16.5%; display: inline-block;">작품 명</div>
 	                <div style="width: 16.5%; display: inline-block;">경매 기간</div>
-	                <div style="width: 16.5%; display: inline-block;">현재 입찰 금액</div>
+	                <div style="width: 16.5%; display: inline-block;">입찰 금액</div>
 	            </div>
 	            <c:forEach items="${ aList }" var="auction">
-		            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 1px black solid; ">
+		            <div class="auction" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 1px black solid; cursor:pointer;">
 						<div style="width: 16.5%; display: inline-block; ">${ auction.aucNo }</div>
 		                <div style="width: 16.5%; height: 100%; display: inline-block;">
 		                    <img src="image/치즈 냥이.jpg" style="height: 30%; width: 30%;">
@@ -83,6 +82,7 @@
 		window.onload = () =>{
 			const auctionTerm = document.getElementById("auctionTerm");
 			const checkAuctionPeriod = document.getElementById("checkAuctionPeriod");
+			const auction = document.querySelectorAll("div[class='auction']");
 			console.log(document.querySelectorAll("input[type='text']"));
 			
 			
@@ -100,6 +100,14 @@
 					 document.querySelectorAll("input[type='text']")[i].value= "";
 				}
 			})
+			
+			for(const list of auction){
+				list.addEventListener('click',function(){
+					console.log(this.children[0].innerText);
+					
+				})
+			}
+			
 		}
 	</script>
 </body>

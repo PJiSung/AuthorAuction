@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,13 +10,6 @@
   <meta http-equiv="imagetoolbar" content="no">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
-  <meta name="title" content="웹사이트">
-  <meta name="description" content="웹사이트입니다.">
-  <meta name="keywords" content="키워드,키워드,키워드">
-  <meta property="og:title" content="웹사이트">
-  <meta property="og:description" content="웹사이트입니다">
-  <meta property="og:image" content="https://웹사이트/images/opengraph.png">
-  <meta property="og:url" content="https://웹사이트">
   <title>관리자 위탁 내역 | 침대</title>
   <link rel="stylesheet" href="consignment/css/setting.css">
   <link rel="stylesheet" href="consignment/css/plugin.css">
@@ -81,6 +75,35 @@
 		border-radius: 5px;
 		cursor:pointer;
 	}
+	
+	
+	
+	
+	 .tabset .tabset-list {
+    justify-content: flex-start;
+    }
+    
+element.style {
+    gap: 1rem;
+}
+.contents-sort-sel {
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.contents-sort-sel {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}    
+    
+table{
+	width:100%;
+}
+table tr{
+	width:100%;
+}
+    
   </style>
   
   <script type="text/javascript">
@@ -763,6 +786,39 @@
             </div>
             <br><br>
           </div>
+          
+
+	   
+	   
+			<div class="container">
+			  <div class="tabset tabset-text">
+			    <ul class="tabset-list" style="margin-bottom: 30px; justify-content: right;">
+			      <li class="tabset-item">
+			        <a class="tabset-link active" href="javascript:void(0)">
+			          <span>전체</span>
+			        </a>
+			      </li>
+			      <li class="tabset-item">
+			        <a class="tabset-link" href="javascript:void(0)">
+			          <span>등록된 문의</span>
+			        </a>
+			      </li>
+			      <li class="tabset-item">
+			        <a class="tabset-link" href="javascript:void(0)">
+			          <span>삭제된 문의</span>
+			        </a>
+			      </li>
+			    </ul>
+			  </div>
+			</div>
+          
+          
+          
+          
+          
+          
+          
+          
           <form action="list.adco" method="post" class="listForm">
 	          <div class="tableset">
 	            <table class="tableset-table table">
@@ -791,9 +847,10 @@
 	                </tr>
 	              </thead>
 	              <tbody id="tbody">
-		             <c:forEach items="${list}" var="c"> 
+		             <c:forEach items="${cList}" var="c"> 
 		                <tr>
 		                  <td class="tableset-mobile"   onclick="javascript:event.stopPropagation();">
+		                  <input type="hidden" value="${ c.conNo }" name="conNo">
 		                   <!-- <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">	-->
 		                    <input id="${c.conNo}" value="${ c.conNo }" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
 		                  </td>
@@ -805,8 +862,7 @@
 		                  <td class="tableset-order05">${ c.conAuthor }</td>
 		                  <td class="tableset-order05">${ c.conProduct }</td>
 		                  <td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
-		                  <td class="tableset-order05">${ c.conHope }</td>
-<%-- 		                  	<td class="tableset-order05">${ c.conDelStatus }</td> --%>
+		                  <td><fmt:formatNumber type="number" value="${ c.conHope }"/>원</td>
 		                  
 		                  <c:if test="${ c.conDelStatus == 'Y' }">
 		                  	<td class="tableset-order05">Y</td>
@@ -815,7 +871,6 @@
 		                  	<td class="tableset-order05">N</td>
 		                  </c:if>
 		                  
-<%-- 		                  <td class="tableset-order05">${ c.conAdmStatus }</td> --%>
 		                  
 		                  <c:if test="${ c.conAdmStatus == 'N'}">
 			                  <td class="tableset-order05">N</td>
@@ -824,32 +879,43 @@
 			                  <td class="tableset-order05">Y</td>
 		                  </c:if>
 		                  
-		                  <c:if test="${c.conConStatus == 'N'}">
-			                  <td class="tableset-order01">
-			                   <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
+			              <td class="tableset-order01">
+			                  <c:if test="${c.conConStatus == 'N'}">
+			                    <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
 			                    	<intput type="button" onclick="openEnrollModal(this);">수락	
 			                    </div>
 			                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">
 			                    	거절
 			                    </div> 
-			                  </td>
-		                  </c:if>
-						  <c:if test="${c.conConStatus == 'Y'}">
-						  	<c:if test="">
-						  	  <td>진행중</td>	
-						  	</c:if>
-						  	<c:if test="">
-						  	  <td>예정</td>	
-						  	</c:if>
-						  	<c:if test="">
-						  	  <td>종료</td>	
-						  	</c:if>
-						  </c:if>
+			                  </c:if>
+			                  
+							  <c:if test="${c.conConStatus == 'Y'}">
+								<c:forEach items="${ aList }" var="a">
+									<c:set var="now" value="<%=new java.util.Date()%>" />
+					                 <fmt:formatDate var="nowDate" value="${now}" pattern="yyyy-MM-dd HH:mm:ss" />
+					                 <fmt:formatDate var="startDate" value="${a.AUC_START_DATE}" pattern="yyyy-MM-dd HH:mm:ss" />
+					                 <fmt:formatDate var="endDate" value="${a.AUC_FINISH_DATE}" pattern="yyyy-MM-dd HH:mm:ss" />
+									 <c:if test="${ a.AUC_CNO == c.conNo}">
+									  	<c:if test="${ startDate > nowDate}">
+									  	  경매 진행 예정	
+									  	</c:if>
+									  	<c:if test="${ startDate < nowDate && endDate > nowDate}">
+									  	  경매 진행중	
+									  	</c:if>
+									  	<c:if test="${ startDate < nowDate && endDate < nowDate}">
+									  	  종료된 경매	
+									  	</c:if>
+									  </c:if>
+								  
+		               			</c:forEach>
+							  </c:if>
+			                  
+			                  <c:if test="${c.conConStatus == 'D'}">거절</c:if>
+	                  	  </td>
+	                  	  
 		                  
-		                  
-		                  <td><input type="hidden" value="${ c.conNo }" name="conNo"></td>
 		                </tr>
-	                </c:forEach>
+		              </c:forEach>  
 	              </tbody>
 	            </table>
 	            <input class="btnset btnset-lg" value="선택 삭제" type="button" id="deleteBtn();" name="deleteBtn" onclick="minus()">
@@ -941,7 +1007,6 @@
 
       </div>
     </div>
-    <!-- [E]hooms-N48 -->
   </main>
 <jsp:include page="../common/footer.jsp"/>    
   

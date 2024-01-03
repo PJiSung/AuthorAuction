@@ -203,5 +203,15 @@
 	
 	</insert>
 	
+	
+	<update	id= "updatePoint">
+	
+	update member 
+	set MEM_BALANCE = (select MEM_BALANCE from member where MEM_ID = #{memId})+#{amount}
+	where MEM_ID = #{memId}
+	
+	
+	</update>
+	
 </mapper>
 

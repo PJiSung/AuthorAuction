@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Attachment;
+import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
@@ -26,7 +27,6 @@ public interface ConsignmentDAO {
 
 	ArrayList<Consignment> searchList(HashMap<String, String> map, RowBounds rowBounds);
 
-//	Consignment selectConsignment(int conNo, String id);
 	Consignment selectConsignment(int conNo);
 
 	ArrayList<Attachment> selectAttmConsignmentList(int conNo);
@@ -41,7 +41,7 @@ public interface ConsignmentDAO {
 
 	int statusNConsignment(int conNo);
 	
-	
+///////////////////////////////////////////////////////////////////////////////////////
 	
 	int deleteAttm(ArrayList<String> delRename);
 	
@@ -72,6 +72,8 @@ public interface ConsignmentDAO {
 	int searchCount2(HashMap<String, String> map);
 
 	ArrayList<Consignment> searchList2(HashMap<String, String> map, RowBounds rowBounds);
+
+	ArrayList<HashMap<String, Object>> selectAuctionMList();
 
 
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -317,6 +318,47 @@ public class ArtsController {
     	
 		return "arts/payresult";
 	}
+	
+	
+	
+	
+	@RequestMapping("pointpayment.ar")
+	public String pointpayment() {
+		
+		
+		return "arts/pointpayment";
+	}
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("pointpayresult.ar")
+	public String pointpayresult(Model model, HttpSession session, @RequestParam("amount") int amount, @RequestParam("imp_uid") String imp_uid){
+		
+		
+		
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		
+		
+		map.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
+		map.put("amount", amount);
+		
+		int result = aService.updatePoint(map);
+		
+		model.addAttribute("imp_uid", imp_uid);
+		model.addAttribute("amount", amount);
+		model.addAttribute("originalPoint", ((Member)session.getAttribute("loginUser")).getMemBalance());
+		
+		return "arts/pointpayresult";
+		
+	}
+	
+	
+	
+	
 	
 	
 }

@@ -75,6 +75,10 @@
 .form-wrap{
     font-size: 16px !important; /* 기본 글꼴 크기 설정 */
 }
+.checkset .checkset-input.input-round + .checkset-label::before {
+	font-size: 3.6rem !important;
+}
+
 </style>
 <script>
 window.onload = () =>{
