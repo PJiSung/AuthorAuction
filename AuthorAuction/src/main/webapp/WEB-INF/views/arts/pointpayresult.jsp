@@ -476,9 +476,9 @@ ul,li,ol{
 					
 					</div>
 					<div style = "height: 50%; width: 20%;  text-align: right; display:flex; flex-direction: column; align-items:center; justify-content:center;">
-								<div style = "height:15%;">${originalPoint}원</div>		
+								<div style = "height:15%;">${originalPoint}<small>p</small></div>		
 								<div style = "height:15%;">${amount}<small>p</small></div>		
-								<div style = "height:15%;"><h4>${loginUser.memBalance}원</h4></div>		
+								<div style = "height:15%;"><h4>${amount+originalPoint}<small>p</small></h4></div>		
 					</div>
 				
 				</div>

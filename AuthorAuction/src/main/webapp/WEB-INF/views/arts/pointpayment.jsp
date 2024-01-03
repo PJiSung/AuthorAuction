@@ -575,7 +575,7 @@ input.check_btn:checked + label:before{
 							<div style = "width: 50%; border-right: 1px solid #aaa; height: 100%; display:flex; align-items: center;">
 								<input type = "radio" id="creditcard" style = "width: 40px;" name = "paymethod" class = "paymethod"><label for = "creditcard"><h4>신용카드</h4></label>
 							</div>
-							<div style = "width: 50%; border-right: 1px solid #aaa; height: 100%; display:flex; align-items: center;">
+							<div style = "width: 50%; height: 100%; display:flex; align-items: center;">
 								<input type = "radio" id="mootongjang" style = "width: 40px;" name = "paymethod" class = "paymethod"><label for = "mootongjang"><h4>무통장 입금</h4></label>
 							</div>
 							
@@ -866,20 +866,7 @@ input.check_btn:checked + label:before{
 		
 	    if (rsp.success) {
 	    	
-	    	
-	    	  $.ajax({
-				    url: 'pointpayresult.ar',
-				    type: 'GET',
-				    data: {
-				    	amount: amount
-				    },
-				    success: function onData (msg) {
-				    	alert(msg);
-				    },
-				    error: function onError (error) {
-				        console.error(error);
-				    }
-				});
+	    	location.href = "pointpayresult.ar?amount="+amount+"&imp_uid="+rsp.imp_uid;
 	    	
 	    	
 	    	

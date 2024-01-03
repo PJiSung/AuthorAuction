@@ -335,9 +335,8 @@ public class ArtsController {
 	
 	
 	
-	@ResponseBody
 	@GetMapping("pointpayresult.ar")
-	public String pointpayresult(HttpSession session, @RequestParam("amount") int amount, @RequestParam("imp_uid") String imp_uid){
+	public String pointpayresult(Model model, HttpSession session, @RequestParam("amount") int amount, @RequestParam("imp_uid") String imp_uid){
 		
 		
 		
@@ -347,9 +346,12 @@ public class ArtsController {
 		map.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
 		map.put("amount", amount);
 		
-		
 		int result = aService.updatePoint(map);
-    	
+		
+		model.addAttribute("imp_uid", imp_uid);
+		model.addAttribute("amount", amount);
+		model.addAttribute("originalPoint", ((Member)session.getAttribute("loginUser")).getMemBalance());
+		
 		return "arts/pointpayresult";
 		
 	}
