@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.auction.user.dao.AuctionDAO">
 
+	<select id="getAllOngingAuctionNum">
+		select count(*)
+			from auction
+		    join (select *
+		    		from consignment 
+		    			join attachment on (con_no = att_bno)
+		    		where att_category = 2 and att_fno = 1) on (auc_cno = con_no)
+		where sysdate between auc_start_date and auc_finish_date
+	</select>
+
 	<select id="getAllAuction" resultType="Auction">
 		<![CDATA[
 		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
@@ -78,12 +88,19 @@
 	</delete>
 	
 	<select id="getMyInterestList">
-		select *
-		from bidding_interest
-			join auction
+		select a.auc_No, att_Rename, con_Author, con_Product, to_char(auc_start_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_Date, to_char(auc_Finish_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_Finish_Date, nvl(auc_Finish_Price, 0) as auc_Finish_Price
+		from bidding_interest b
+			join auction a on (a.auc_no = b.auc_no)
+            join consignment on (a.auc_no = con_no)
+            join attachment p on (auc_cno = att_bno)
+            where b.mem_id = #{id} and att_fno = 0
 	</select>
 	
-	
+	<select id="getAllInterestBidNum" resultType="int">
+		select count(*)
+		from bidding_interest
+		where mem_id = #{id}
+	</select>
 	
 	
 	<!-- adimin -->

@@ -3,6 +3,7 @@ package com.kh.auction.user.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.kh.auction.user.dao.AuctionDAO;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.PageInfo;
 
 @Service
 public class AuctionServiceImpl implements AuctionService{
@@ -17,9 +19,15 @@ public class AuctionServiceImpl implements AuctionService{
 	@Autowired
 	private AuctionDAO aDAO;
 	
-	@Override //진행중인 모든 경매를 가지고옴
-	public ArrayList<Auction> getAllAuction() {
-		return aDAO.getAllAuction();
+	@Override //진행중인 경매의 개수를 가져옴
+	public int getAllOngingAuctionNum() {
+		return aDAO.getAllOngingAuctionNum();
+	}
+	
+	@Override //진행중인 모든 경매를 가져옴
+	public ArrayList<Auction> getAllAuction(PageInfo pi) {
+		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
+		return aDAO.getAllAuction(rowBounds);
 	}
 
 	@Override //경매 번호로 경매 세부내용을 들고옴
@@ -100,8 +108,14 @@ public class AuctionServiceImpl implements AuctionService{
 		return aDAO.getAttachment(conNo);
 	}
 
-	@Override
-	public ArrayList<Auction> getMyInterestList(String id) {
-		return aDAO.getMyInterestList(id);
+	@Override //아이디로 내 관심 목록 들고옴
+	public ArrayList<Auction> getMyInterestList(String id, PageInfo pi) {
+		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
+		return aDAO.getMyInterestList(id, rowBounds);
+	}
+
+	@Override //내 관심경매의 개수를 들고옴
+	public int getAllInterestBidNum(String id) {
+		return aDAO.getAllInterestBidNum(id);
 	}
 }

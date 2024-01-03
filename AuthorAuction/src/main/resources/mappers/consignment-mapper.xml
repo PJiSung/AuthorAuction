@@ -154,7 +154,6 @@
 	<select id="selectUserList" resultType="Consignment">								<!-- 관리자 리스트 -->
 		select *
 		from consignment
-			 join auction on(con_No=auc_No)
 		order by con_del_status desc, con_adm_status, con_con_status, con_no desc
 	</select>
 

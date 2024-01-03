@@ -6,11 +6,15 @@ import java.util.HashMap;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.PageInfo;
 
 public interface AuctionService {
+	
+	//진행중인 총 경매의 수를 들고옴
+	int getAllOngingAuctionNum();
 
-	//진행중인 경매를 가지고옴 - 재활용해 총 갯수/페이징에도 사용
-	ArrayList<Auction> getAllAuction();
+	//진행중인 경매를 가지고옴
+	ArrayList<Auction> getAllAuction(PageInfo pi);
 
 	//경매 번호로 해당 경매정보 가지고 옴
 	Auction getAuctionDetail(int aucNo);
@@ -39,8 +43,10 @@ public interface AuctionService {
 	//문의 글 번호로 문의 글에 등록된 사진들을 들고옴
 	ArrayList<Attachment> getAttachment(int conNo);
 
-	
 	//아이디로 내 관심 목록 들고옴
-	ArrayList<Auction> getMyInterestList(String id);
+	ArrayList<Auction> getMyInterestList(String id, PageInfo pi);
+
+	//내 관심 경매의 개수를 가지고 옴
+	int getAllInterestBidNum(String id);
 	
 }

@@ -35,13 +35,13 @@ public class AuctionController {
 	@GetMapping("auctionList.ac") 
 	public String moveToAuctionList(@RequestParam(value="page", defaultValue="1") int page, Model model) {
 		
+		//진행중인 경매의 수를 가져옴
+		int ongoingAuctionNum = aService.getAllOngingAuctionNum();
+		
+		PageInfo pi = Pagination.getPageInfo(page, ongoingAuctionNum, 12);
+		
 		//진행중인 경매의 모든 경매리스트를 가지고옴
-		ArrayList<Auction> auctionList = aService.getAllAuction();
-		
-		System.out.println(auctionList);
-		
-		//가지고온 경매리스트의 갯수(size)가 총 갯수
-		PageInfo pi = Pagination.getPageInfo(page, auctionList.size(), 12);
+		ArrayList<Auction> auctionList = aService.getAllAuction(pi);
 	
 		model.addAttribute("pi",pi);
 		model.addAttribute("total", auctionList.size());
@@ -136,10 +136,20 @@ public class AuctionController {
 	}
 	
 	@GetMapping("myInterest.ac")
-	public String moveToMyInterest(Model model) {
+	public String moveToMyInterest(@RequestParam(value="page", defaultValue="1") int currentPage, Model model) {
 		
 		String id = ((Member)model.getAttribute("loginUser")).getMemId();
-		//ArrayList<Auction> aList = aService.getMyInterestList(id);
+		
+		//내 관심 경매의 개수를 가져옴 
+		int myInterestNum = aService.getAllInterestBidNum(id);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, myInterestNum, 5);
+		
+		//아이디로 내 관심 목록 들고옴
+		ArrayList<Auction> aList = aService.getMyInterestList(id, pi);
+		
+		model.addAttribute("aList", aList);
+		model.addAttribute("pi", pi);
 		
 		return "/auction/likeList";
 	}

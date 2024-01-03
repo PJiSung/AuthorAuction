@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
@@ -12,8 +13,11 @@ import com.kh.auction.user.model.vo.Consignment;
 @Mapper 
 public interface AuctionDAO {
 	
+	// 진행중인 모든 경매의 수를 가지고옴
+	int getAllOngingAuctionNum();
+	
 	//진행중인 경매를 가지고옴
-	ArrayList<Auction> getAllAuction();
+	ArrayList<Auction> getAllAuction(RowBounds rowBounds);
 
 	//경매 번호로 경매 세부내용을 들고옴
 	Auction getAuctionDetail(int aucNo);
@@ -55,5 +59,9 @@ public interface AuctionDAO {
 	ArrayList<Attachment> getAttachment(int conNo);
 	
 	//아이디로 내 관심 목록을 들고옴
-	ArrayList<Auction> getMyInterestList(String id);
+	ArrayList<Auction> getMyInterestList(String id, RowBounds rowBounds);
+
+	//내 관심 경매의 수를 가져옴
+	int getAllInterestBidNum(String id);
+
 }
