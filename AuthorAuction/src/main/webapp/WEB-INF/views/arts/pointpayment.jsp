@@ -508,7 +508,7 @@ input.check_btn:checked + label:before{
 
 	</div>		
 			
-		<div style = " border-bottom: 1px solid #888; width: 60vw; margin-left: 5vw; height: 1500px; display:flex; margin: 0 auto; justify-content:center;">
+		<div style = " border-bottom: 1px solid #888; width: 60vw; margin-left: 5vw; height: 1525px; display:flex; margin: 0 auto; justify-content:center;">
 				<div style = " margin-top: 2.5vh;">
 					<div style = " height: 25vw; width: 100%;">
 						<div style = "display:flex; align-items: center;  height: 15%; ">
@@ -575,6 +575,9 @@ input.check_btn:checked + label:before{
 							<div style = "width: 50%; border-right: 1px solid #aaa; height: 100%; display:flex; align-items: center;">
 								<input type = "radio" id="creditcard" style = "width: 40px;" name = "paymethod" class = "paymethod"><label for = "creditcard"><h4>신용카드</h4></label>
 							</div>
+							<div style = "width: 50%; border-right: 1px solid #aaa; height: 100%; display:flex; align-items: center;">
+								<input type = "radio" id="mootongjang" style = "width: 40px;" name = "paymethod" class = "paymethod"><label for = "mootongjang"><h4>무통장 입금</h4></label>
+							</div>
 							
 							
 						</div>
@@ -583,28 +586,29 @@ input.check_btn:checked + label:before{
 						</div>
 						<div style = "width: 80%;  display:flex; align-items: center;">
 								<div>
-									<input type = "radio"><label>10,000<small>p</small></label>
+									<input type = "radio" name = "chargeprice" id = "10000" class = "chargeprice" value = "10000"><label for = "10000">10,000<small>p</small></label>
 								</div>
 								<div style = "margin-left: 10%;">
-									<input type = "radio"><label>10,000<small>p</small></label>
+									<input type = "radio" name = "chargeprice" id = "50000" class = "chargeprice" value = "50000"><label for = "50000">50,000<small>p</small></label>
 								</div>
 								<div style = "margin-left: 10%;">
-									<input type = "radio"><label>10,000<small>p</small></label>
+									<input type = "radio" name = "chargeprice" id = "100000" class = "chargeprice" value = "100000"><label for = "100000">100,000<small>p</small></label>
 								</div>
 								<div style = "margin-left: 10%;">
-									<input type = "radio"><label>10,000<small>p</small></label>
+									<input type = "radio" name = "chargeprice" id = "200000" class = "chargeprice" value = "200000"><label for = "200000">200,000<small>p</small></label>
 								</div>
 								<div style = "margin-left: 10%;">
-									<input type = "radio"><label>10,000<small>p</small></label>
+									<input type = "radio" name = "chargeprice" id = "500000" class = "chargeprice" value = "500000"><label for = "500000">500,000<small>p</small></label>
 								</div>
 								<div style = "margin-left: 10%;">
-									<input type = "radio"><label>10,000<small>p</small></label>
+									<input type = "radio" name = "chargeprice" id = "1000000" class = "chargeprice" value = "1000000"><label for = "1000000">1,000,000<small>p</small></label>
 								</div>
 								
 							</div>
 							<div style = "display:flex; margin-top: 5%;">
 								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555"><h5>직접 입력</h5></div>
 								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #aaa; width: 40%;"><input type = "number" min="1000" max="${w.wisAmount*w.proPrice}" step = "1000" id = "pointinput"></div>
+								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555">총: &nbsp;<p id = "finalpoint">0</p><small>p</small></div>
 							</div> 
 						<div style = "display:flex; align-items: center; color: #aaa; height: 15%;">
 								결제 전, 금액을 꼭 확인해주세요.
@@ -654,195 +658,16 @@ input.check_btn:checked + label:before{
  <script src="sunwoo/jquery/jquery-3.7.1.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<script>
-    function sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                
-                } 
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                console.log(data.zonecode);
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
-            }
-        }).open();
-    }
-</script>
   
   
   
-<script>
-	
-	//이메일 자동 채우기 스크립트 
-	document.getElementById('emaildomain').value = document.getElementById('emaildomainselect').value
-	
-	function selectEmailChange(value){
-		
-		document.getElementById('emaildomain').value = value;
-	}
-	
-	function fullfill(){
-		
-		if(document.getElementById('emaildomain').value != document.getElementById('emaildomainselect').value){
-			document.getElementById('emaildomainselect').options[6].selected = true;
-		}
-
-	}
-</script>
   
   
-<script>
-	//주문자 정보와 동일 스크립트
-	var deliveryinfo = document.getElementsByClassName('deliveryinfo');
-	var ordererinfo = document.getElementsByClassName('ordererinfo');
-	function checkequalordered(value){
-		
-		
-		if(value.checked == true){
-			
-			deliveryinfo[0].value = ordererinfo[0].value;
-			deliveryinfo[4].value = ordererinfo[1].value;
-			deliveryinfo[5].value = ordererinfo[2].value;
-			deliveryinfo[6].value = ordererinfo[3].value;
-			
-			
-		}else{
-			deliveryinfo[0].value = '';
-			deliveryinfo[4].options[0].selected = true;
-			deliveryinfo[5].value = '';
-			deliveryinfo[6].value = '';
-			
-		}
-}
-	
-	window.onload=()=>{
-		
-		for(d of deliveryinfo){
-			d.addEventListener('change', ()=>{
-			
-				checkmemberequal.checked = false;
-				
-			})
-		}	
-			
-	}
-
-</script>  
-
-
-<script>
-
-	//배송 메세지 스크립트
-	var messagetext = document.getElementById('messagetext');
-	var messagetextlength = document.getElementById('messagetextlength');
-	
-	messagetext.style.display = "none";
-	messagetextlength.style.display = "none";
-	
-	function selectmessage(data){
-		
-		if(data.options[6].selected ==true){
-			
-			messagetext.style.display = "block";
-			messagetextlength.style.display = "block";
-			
-		}else{
-			
-			messagetext.value = "";
-			messagetextlength.innerText = "";
-			
-			messagetext.style.display = "none";
-			messagetextlength.style.display = "none";
-		}
-		
-	}
-
-	$(document).ready(function(){
-		
-		$("#messagetext").keyup(function(e) {
-			var content = $(this).val();
-			$("#messagetextlength").text("(" + content.length + "/ 50)"); //실시간 글자수 카운팅
-			if (content.length > 50) {
-				Alert("최대 50자까지 입력 가능합니다.");
-				$(this).val(content.substring(0, 50));
-				$('#messagetextlength').html("(200 / 최대 200자)");
-			}
-		});
-
-		
-	});
-
-</script>
 
 
 
-<script>
 
-$(document).ready(function(){
 
-	$('.questiondeliver').hover(function(){
-	 if(document.getElementById('qqq').style.display == "none"){
-		 document.getElementById('qqq').style.display = "block";
-	 }else{
-		
-		 document.getElementById('qqq').style.display = "none";
-		 
-	 }
-		
-	});
-
-});
-
-</script>
-  
-  
-  <script>
-  
-//   	배송지 조회 스크립트
-	document.getElementsByClassName('sns_share')[0].style.display = "none";
-  	
-  	function popadd(condition){
-  		
-  		if(condition == 'on'){
-  			document.getElementsByClassName('sns_share')[0].style.display = "block";
-  			
-  		}else{
-  			document.getElementsByClassName('sns_share')[0].style.display = "none";
-  		}
-  		
-  	}
-  
-  
-  
-  </script>
 
 
   <script>
@@ -873,45 +698,7 @@ $(document).ready(function(){
   
   
   <script>
-  	//총 상품 금액 스크립트
-  	function updateproTotalPrice(){	
-  		
-  	var prototal=0;
-  		
-  		for(p of document.getElementsByClassName('proprices')){
-  	  		
-  			prototal = prototal + parseInt(p.innerText.replace(/,/g,""));
-  	  		
-  	  	}
-  		
-  		document.getElementById('propribill').innerText = prototal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  	}
-  	
-  	updateproTotalPrice();
-  	
-  	
-  //총 금액 스크립트
-		
-	document.getElementById('totalbill').innerText = 
-	document.getElementById('propribill').innerText;
-	
-  
- 	//포인트 금액 및 총 금액 스크립트
- 	const totalbill = document.getElementById('totalbill').innerText;
-		$("#pointinput").keyup(function(e) {
-			var content = $(this).val();
-			$("#pointprice").text('-'+content.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); //실시간 포인트 
-			$("#totalbill").text( (parseInt(totalbill.replace(/,/g,""))+parseInt(document.getElementById('pointprice').innerText.replace(/,/g,""))).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
-			if (content > ${loginUser.memBalance}) {
-				alert('잔여 포인트보다 더 사용할 수 없습니다');
-				$(this).val(0);
-				$("#pointprice").text(0);
-				$("#totalbill").text(totalbill);
-			}
-		});
  	
- 	
-		
 		//포인트에 문자 못들어가게 막는 스크립트
 		$("#pointinput").keyup(function(e) {
 			var content = $(this).val();
@@ -919,76 +706,101 @@ $(document).ready(function(){
 			$(this).val(content.replace(regex, ""));
 		});
 		
+		
+		//충전할 포인트 선택하면 칸에 자동으로 들어가는 스크립트
+		$('input[name="chargeprice"]').change(function(){
+			
+			$('#pointinput').val($(this).val());
+			
+			document.getElementById('finalpoint').innerText = $('#pointinput').val().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+			
+	});
 	
-	
+		
+		
+		
+		
+		//직접 포인트 입력하면 체크해제되는 스크립트
+		$("#pointinput").keyup(function(e) {
+				for(c of document.getElementsByClassName('chargeprice')){
+					
+					if(c.checked == true){
+						c.checked = false;
+					}
+				}
+				
+				
+				document.getElementById('finalpoint').innerText = $('#pointinput').val().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+		});
+		
+		//직접 포인트 변경되면 체크해제되는 스크립트
+		$("#pointinput").change(function(e) {
+				for(c of document.getElementsByClassName('chargeprice')){
+					
+					if(c.checked == true){
+						c.checked = false;
+					}
+				}	
+				document.getElementById('finalpoint').innerText = $('#pointinput').val().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+		});
+		
+		
   
   </script>
 
 
-
-  <script>
-  
-  		//비어있는 곳 체크 확인
-  		
- 	function checkall(){
- 		
- 		var count = 0;
- 		
- 		for(var i=0; i<=3; i++){
- 			
- 			if(i<=3 && document.getElementsByClassName('deliveryinfo')[i].value.trim() == ''){
- 				
- 				alert(document.getElementsByClassName('deliveryinfo')[i].placeholder+' 입력해 주십시오.');
- 				
- 				break;
- 				
- 			}
- 			count++;
- 		}
- 		
- 			
- 		
- 		if(count == 4 && !document.getElementsByClassName('paymethod')[0].checked){
- 				
- 				alert('결제 수단을 선택해주세요.')
- 			}
- 				
- 		if(count == 4 && document.getElementsByClassName('paymethod')[0].checked ){
- 			
- 				requestpay();
- 			}
- 		}
-  
-  
-  
-  </script>
 
 
 <script>
 
-	function test(){
-		const receiver = document.getElementsByClassName('deliveryinfo')[0].value.trim();
+	//전부 체크 됐는지 확인하는 스크립트
+	function directPay(){
 		
-		const receiverPhone = 
-		document.getElementsByClassName('deliveryinfo')[4].value +  '-' + 
-		document.getElementsByClassName('deliveryinfo')[5].value.trim() + '-' +
-		document.getElementsByClassName('deliveryinfo')[6].value.trim();
+		var count = 0;
+		var pcount = 0;
 		
-		alert(receiverPhone);
+		for(p of document.getElementsByClassName("paymethod")){
+			
+			
+			if(p.checked == true){
+				
+				count++;
+			}
+				
+			
+		}
+		
+		if(count ==0){
+			alert('결제 수단을 선택해주세요');
+		}
+		
+		
+		if(count >0 && document.getElementById('pointinput').value ==''){
+			alert('충전할 포인트를 입력해주세요');
+		}else{
+			pcount++;
+		} 
+		
+		if(count>0 && pcount>0){
+			
+			if(document.getElementById('pointinput').value > 1000){
+				requestpay();
+			}else{
+				alert('1000원 이상부터 충전 가능합니다');
+			}
+		}
+		
+		
 	}
 
 
 
-
 </script>
 
-<script>
-		
-</script>
 
 
 <!-- jQuery -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+
 <!-- iamport.payment.js -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
   
@@ -1002,57 +814,12 @@ $(document).ready(function(){
  function requestpay(){
 	 
 	 //물건가격 
-	 const amount = parseInt(document.getElementById('totalbill').innerText.replace(/,/g,""))
+	 
+	 
+	 const amount = parseInt(document.getElementById('pointinput').value);
+	 
+	 
 	 const ordernum = Math.floor(Math.random()*1000000000*new Date().getMilliseconds());
-	 const ordererName = document.getElementsByClassName('ordererinfo')[0].value;
-	 const phoneNum = document.getElementsByClassName('ordererinfo')[1].value +  '-' + 
-		document.getElementsByClassName('ordererinfo')[2].value.trim() + '-' +
-		document.getElementsByClassName('ordererinfo')[3].value.trim();
-	 
-	 const email = document.getElementById('emailforward').value.trim()+'@'+document.getElementById('emaildomain').value.trim();
-	 const address = document.getElementById('sample6_address').value.trim()+' '+
-		document.getElementById('sample6_detailAddress').value.trim();
-	 const postcode = document.getElementById('sample6_postcode').value.trim();
-	 
-	 var deliveryMsg = "";
-
-		if(document.getElementById('messel').options[0].selected){
-			
-			deliveryMsg = 'none';
-		}
-		else if(document.getElementById('messel').options[6].selected){
-			
-			deliveryMsg = document.getElementById('messagetext').value.trim();
-		}
-		else{
-			deliveryMsg = document.getElementById('messel').value;
-		}
-		
-	 var ordPoPrice = document.getElementById('pointprice').innerText == '0' ? 0 : parseInt(document.getElementById('pointprice').innerText.replace(/,/g,"").split('-')[1]);
-	 
-	 
-	 const receiver = document.getElementsByClassName('deliveryinfo')[0].value.trim();
-		
-		const receiverPhone = 
-		document.getElementsByClassName('deliveryinfo')[4].value +  '-' + 
-		document.getElementsByClassName('deliveryinfo')[5].value.trim() + '-' +
-		document.getElementsByClassName('deliveryinfo')[6].value.trim();
-		
-		var pronofororder = [];
-		var wisAmountfororder= [];
-		
-		for(pro of document.getElementsByClassName('pronofororder')){
-			
-			pronofororder.push(parseInt(pro.value));
-			
-		}
-		
-		for(wisa of document.getElementsByClassName('wisAmountfororder')){
-			
-			wisAmountfororder.push(parseInt(wisa.innerText));
-		}
-		
-		var pointBonus = parseInt(document.getElementById('pointBonus').innerText.replace(/,/g,""));
 		
 		
 		
@@ -1063,11 +830,8 @@ $(document).ready(function(){
 	    merchant_uid: ordernum, // 상점에서 관리하는 주문 번호
 	    name : '주문명:결제테스트',
 	    amount : amount,
-	    buyer_email : email,
-	    buyer_name : ordererName,
-	    buyer_tel : phoneNum,
-	    buyer_addr : address,
-	    buyer_postcode : postcode
+	    
+	    
 	}, function(rsp) {
 		
 	    if (rsp.success) {
@@ -1096,15 +860,7 @@ $(document).ready(function(){
  }
 </script>
 
-<script>
 
-	//적립 포인트 채우기 스크립트
-var totalprice = parseInt(document.getElementById('totalbill').innerText.replace(/,/g,""));
-var originalPoint = ${loginUser.graBonus}/100 * totalprice;
-var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
-	document.getElementById('pointBonus').innerText = newPoint.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
-
-</script>
 
 
 
