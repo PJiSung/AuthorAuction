@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.auction.user.model.vo.Attachment;
+import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
@@ -24,7 +25,9 @@ public interface ConsignmentService {
 	ArrayList<Consignment> searchList(HashMap<String, String> map, PageInfo pi);
 	// 상세조회
 
-//	Consignment selectConsignment(int conNo, String id);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	Consignment selectConsignment(int conNo);
 	// 상세조회 첨부 리스트
 	ArrayList<Attachment> selectAttmConsignmentList(int conNo);
@@ -50,8 +53,6 @@ public interface ConsignmentService {
 	
 	
 	
-	
-	
 	////////////////////////////////////////////////////////////////////////////////
 	
 	// 관리자 리스트
@@ -68,5 +69,12 @@ public interface ConsignmentService {
 	int searchCount2(HashMap<String, String> map);
 	// 관리자 검색
 	ArrayList<Consignment> searchList2(HashMap<String, String> map, PageInfo pi);
+	// 수락 / 거절
+	ArrayList<HashMap<String, Object>> selectAuctionMList();
+	
+	
+	
+	
+	
 	
 }

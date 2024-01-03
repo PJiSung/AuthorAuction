@@ -294,7 +294,7 @@ public class ConsignmentController {
 			}
 		}
 		
-		//for(int i = 0; i < files.size(); i++) { MultipartFile upload = files.get(i);
+//		for(int i = 0; i < files.size(); i++) { MultipartFile upload = files.get(i);
 		
 		
 		//if(!upload.getOriginalFilename().equals("")) {

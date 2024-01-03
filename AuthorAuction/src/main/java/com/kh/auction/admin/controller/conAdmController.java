@@ -1,6 +1,8 @@
 package com.kh.auction.admin.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +39,12 @@ public class conAdmController {
 		int currentPage = page;
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		ArrayList<Consignment> list = cService.selectUserList(memId, pi);
+		ArrayList<Consignment> cList = cService.selectUserList(memId, pi);
+		ArrayList<HashMap<String, Object>> aList = cService.selectAuctionMList();
 		
-		if(list != null) {
-			model.addAttribute("list", list);
+		if(cList != null) {
+			model.addAttribute("cList",cList);
+			model.addAttribute("aList", aList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("loc", request.getRequestURI());
 			

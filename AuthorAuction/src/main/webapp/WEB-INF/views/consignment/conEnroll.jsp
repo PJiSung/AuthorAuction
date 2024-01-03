@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
 
-  <title>위탁 문의 등록 | 침대</title>
+  <title>위탁 문의 등록</title>
   <link rel="stylesheet" href="consignment/css/setting.css">
   <link rel="stylesheet" href="consignment/css/plugin.css">
   <link rel="stylesheet" href="consignment/css/template.css">
