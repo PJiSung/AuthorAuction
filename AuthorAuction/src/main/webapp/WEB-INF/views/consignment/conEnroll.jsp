@@ -112,7 +112,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="1">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
+	                          <input type="file" class="fileset-input" name="frontFile1" style="width: 83%;" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -126,7 +126,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="2">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
+	                          <input type="file" class="fileset-input" name="frontFile2" style="width: 83%;" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -140,7 +140,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="3">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
+	                          <input type="file" class="fileset-input" name="frontFile3" style="width: 83%;" name="file" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -154,7 +154,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="5">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
+	                          <input type="file" class="fileset-input" name="frontFile4" style="width: 83%;" name="file" required accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -196,8 +196,138 @@
   </main>
 <jsp:include page="../common/footer.jsp"/>
 
+<script>
+const form = document.getElementById('attmForm');
+let hasNonImageFile = false;  // Declare the variable outside the event listener
 
-	<script>
+document.getElementById('submitAttm').addEventListener('click', (event) => {
+    const files = document.getElementsByName('frontFile');
+    let hasImageFile = false;
+
+    for (const file of files) {
+        if (file.value !== '') {
+            const fileType = file.value.split('.').pop().toLowerCase();
+            if (['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
+                hasImageFile = true;
+            } else {
+                hasNonImageFile = true;
+                break;  // Stop checking if a non-image file is found
+            }
+        }
+    }
+
+    if (hasNonImageFile || !hasImageFile) {
+        event.preventDefault();
+        alert('이미지 파일만 선택할 수 있습니다.');
+    } else {
+        form.submit();
+    }
+});
+
+document.getElementById('moveBoard').addEventListener('click', (event) => {
+    event.preventDefault();
+    
+    // The rest of your code remains unchanged
+    // ...
+
+    if (!hasNonImageFile) {
+        document.getElementById('modalSet1').style.display = 'block';
+        document.querySelector('.modalset-dim').style.display = 'block';
+    } else {
+        document.getElementById('modalSet1').style.display = 'none';
+        document.querySelector('.modalset-dim').style.display = 'none';
+    }
+});
+
+// Add these lines for debugging
+console.log('hasNonImageFile:', hasNonImageFile);
+console.log('modalSet1 display:', document.getElementById('modalSet1').style.display);
+
+</script>
+
+
+
+  <!-- [E]basic-N4 -->
+  <script src="consignment/js/setting.js"></script>
+  <script src="consignment/js/plugin.js"></script>
+  <script src="consignment/js/template.js"></script>
+  <script src="consignment/js/common.js"></script>
+  <script src="consignment/js/script.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+<!-- 																					(이미지X  등록X), 이미지O 등록X
+<script>
+    const form = document.getElementById('attmForm');
+
+    document.getElementById('submitAttm').addEventListener('click', (event) => {
+        const files = document.getElementsByName('frontFile');
+        let hasImageFile = false;
+        let hasNonImageFile = false;
+
+        for (const file of files) {
+            if (file.value !== '') {
+                const fileType = file.value.split('.').pop().toLowerCase();
+                if (['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
+                    hasImageFile = true;
+                } else {
+                    hasNonImageFile = true;
+                    break;  // Stop checking if a non-image file is found
+                }
+            }
+        }
+
+        if (hasNonImageFile || !hasImageFile) {
+            event.preventDefault();
+            alert('이미지 파일만 선택할 수 있습니다.');
+        } else {
+            form.submit();
+        }
+    });
+
+    document.getElementById('moveBoard').addEventListener('click', (event) => {
+        event.preventDefault();
+        const files = document.getElementsByName('frontFile');
+        let hasNonImageFile = false;
+
+        for (const file of files) {
+            if (file.value !== '') {
+                const fileType = file.value.split('.').pop().toLowerCase();
+                if (!['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
+                    hasNonImageFile = true;
+                    break;
+                }
+            }
+        }
+
+        if (!hasNonImageFile) {
+            document.getElementById('modalSet1').style.display = 'block';
+            document.querySelector('.modalset-dim').style.display = 'block';
+        } else {
+            document.getElementById('modalSet1').style.display = 'none';
+            document.querySelector('.modalset-dim').style.display = 'none';
+        }
+    });
+</script>
+-->
+
+
+
+
+
+
+
+
+
+
+<!-- 																					이미지O  등록O, 이미지X 등록O
+	<script>		
 		const form = document.getElementById('attmForm');
 		document.getElementById('submitAttm').addEventListener('click', () =>{
 			const files = document.getElementsByName('file');
@@ -219,13 +349,62 @@
 		})
 		
 	</script>
+-->
 
 
-  <!-- [E]basic-N4 -->
-  <script src="consignment/js/setting.js"></script>
-  <script src="consignment/js/plugin.js"></script>
-  <script src="consignment/js/template.js"></script>
-  <script src="consignment/js/common.js"></script>
-  <script src="consignment/js/script.js"></script>
-  </body>
-</html>
+
+<!-- 																			이미지X 등록O, 이미지O 등록O, 저장X
+<script>
+    const form = document.getElementById('attmForm');
+
+    document.getElementById('submitAttm').addEventListener('click', (event) => {
+        const files = document.getElementsByName('frontFile');
+        let hasNonImageFile = false;
+
+        for (const file of files) {
+            if (file.value !== '') {
+                const fileType = file.value.split('.').pop().toLowerCase();
+                if (!['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
+                    hasNonImageFile = true;
+                    break;
+                }
+            }
+        }
+
+        if (hasNonImageFile) {
+            event.preventDefault();
+            alert('이미지 파일만 선택할 수 있습니다.');
+        } else {
+            form.submit();
+        }
+    });
+
+    document.getElementById('moveBoard').addEventListener('click', (event) => {
+        event.preventDefault();
+        const files = document.getElementsByName('frontFile');
+        let hasNonImageFile = false;
+
+        for (const file of files) {
+            if (file.value !== '') {
+                const fileType = file.value.split('.').pop().toLowerCase();
+                if (!['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
+                    hasNonImageFile = true;
+                    break;
+                }
+            }
+        }
+
+        if (!hasNonImageFile) {
+            document.getElementById('modalSet1').style.display = 'block';
+            document.querySelector('.modalset-dim').style.display = 'block';
+        } else {
+            document.getElementById('modalSet1').style.display = 'none';
+            document.querySelector('.modalset-dim').style.display = 'none';
+        }
+    });
+    
+ // Add these lines for debugging
+    console.log('hasNonImageFile:', hasNonImageFile);
+    console.log('modalSet1 display:', document.getElementById('modalSet1').style.display);
+</script>
+-->
