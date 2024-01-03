@@ -326,7 +326,6 @@ public class ArtsController {
 	public String pointpayment() {
 		
 		
-		
 		return "arts/pointpayment";
 	}
 	
@@ -336,16 +335,23 @@ public class ArtsController {
 	
 	
 	
-	
-	
-	
 	@ResponseBody
 	@GetMapping("pointpayresult.ar")
-	public String pointpayresult(Model model, @RequestParam("memId") String memId, @RequestParam("amount") int amount) {
+	public String pointpayresult(HttpSession session, @RequestParam("amount") int amount, @RequestParam("imp_uid") String imp_uid){
 		
 		
+		
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		
+		
+		map.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
+		map.put("amount", amount);
+		
+		
+		int result = aService.updatePoint(map);
     	
-		return amount+"포인트가 충전되었습니다";
+		return "arts/pointpayresult";
+		
 	}
 	
 	

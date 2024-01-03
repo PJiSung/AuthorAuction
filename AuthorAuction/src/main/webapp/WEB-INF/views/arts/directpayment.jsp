@@ -1285,7 +1285,7 @@ $(document).ready(function(){
 		
 	    if (rsp.success) {
 	    	
-	    	location.href = "directpayresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId="+${loginUser.memId}
+	    	location.href = "directpayresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId=${loginUser.memId}"
 	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우

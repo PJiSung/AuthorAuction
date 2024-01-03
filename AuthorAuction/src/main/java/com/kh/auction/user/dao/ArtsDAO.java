@@ -43,5 +43,7 @@ public interface ArtsDAO {
 	int updateProductamount(HashMap<String, Object> map);
 
 	int insertAddress(HashMap<String, Object> rmap);
+
+	int updatePoint(HashMap<String, Object> map);
 	
 }

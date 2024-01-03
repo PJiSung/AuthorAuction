@@ -500,7 +500,7 @@ input.check_btn:checked + label:before{
 		
 		
 		
-		<div id  ="selectdiv" style = "width: 60vw;  height: 6vh; display: flex; align-items: center; justify-content:center; 	
+		<div id  ="selectdiv" style = "width: 60vw;  height: 10vh; display: flex; align-items: center; justify-content:center; 	
  	font-size: 17px;
  	color: #333; border-bottom: 1px solid #aaa; margin: 0 auto; margin-top: 2%;" >
  	
@@ -508,7 +508,7 @@ input.check_btn:checked + label:before{
 
 	</div>		
 			
-		<div style = " border-bottom: 1px solid #888; width: 60vw; margin-left: 5vw; height: 1525px; display:flex; margin: 0 auto; justify-content:center;">
+		<div style = " border-bottom: 1px solid #888; width: 60vw; margin-left: 5vw; height: 1575px; display:flex; margin: 0 auto; justify-content:center;">
 				<div style = " margin-top: 2.5vh;">
 					<div style = " height: 25vw; width: 100%;">
 						<div style = "display:flex; align-items: center;  height: 15%; ">
@@ -584,6 +584,8 @@ input.check_btn:checked + label:before{
 						<div style = "display:flex; align-items: center;  height: 25%; ">
 								<h2>충전금액</h2>						
 						</div>
+					
+						
 						<div style = "width: 80%;  display:flex; align-items: center;">
 								<div>
 									<input type = "radio" name = "chargeprice" id = "10000" class = "chargeprice" value = "10000"><label for = "10000">10,000<small>p</small></label>
@@ -606,12 +608,17 @@ input.check_btn:checked + label:before{
 								
 							</div>
 							<div style = "display:flex; margin-top: 5%;">
-								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555"><h5>직접 입력</h5></div>
-								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #aaa; width: 40%;"><input type = "number" min="1000" max="${w.wisAmount*w.proPrice}" step = "1000" id = "pointinput"></div>
-								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555">총: &nbsp;<p id = "finalpoint">0</p><small>p</small></div>
+								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555; width: 33%; "><h5>직접 입력</h5></div>
+								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #aaa; width: 33%;"><input type = "number" step = "1000" id = "pointinput"></div>
+								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555; width: 33%;">기존 포인트: &nbsp; <p class = "popopo">${loginUser.memBalance}</p><small>&nbsp;p</small></div>
 							</div> 
-						<div style = "display:flex; align-items: center; color: #aaa; height: 15%;">
-								결제 전, 금액을 꼭 확인해주세요.
+							<hr>
+								<div style = "display:flex; height: 15%;">
+								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  width: 50%; font-weight: bold;">충전 할 포인트: &nbsp;<p id = "finalpoint" class = "popopo">0</p><small>&nbsp;p</small></div>
+								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;   width: 50%; font-weight: bold;" >충전 후 포인트: &nbsp;<p id = "totalpoint" class = "popopo">0</p><small>&nbsp;p</small></div>
+								</div>
+						<div style = "display:flex; align-items: center; color: #aaa; height: 10%; justify-content:center;">
+								결제 전, 최종 금액을 꼭 확인해주세요.
 						</div>
 						 
 					</div>		
@@ -671,13 +678,20 @@ input.check_btn:checked + label:before{
 
 
   <script>
+ 	
+  //결제 후 포인트 넣기 스크립트
+  document.getElementById('totalpoint').innerText= ${loginUser.memBalance} + $('#pointinput').val()
   
 	//천단위 콤마 스크립트
-	for(p of document.getElementsByClassName('proprices')){
+	function tochun(){
+	for(p of document.getElementsByClassName('popopo')){
 		
 		p.innerText = p.innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		
 	}
+  }
+  
+  tochun();
   
   </script>
   
@@ -712,7 +726,11 @@ input.check_btn:checked + label:before{
 			
 			$('#pointinput').val($(this).val());
 			
-			document.getElementById('finalpoint').innerText = $('#pointinput').val().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+			document.getElementById('finalpoint').innerText = $('#pointinput').val();
+			
+			document.getElementById('totalpoint').innerText= ${loginUser.memBalance} + parseInt($('#pointinput').val());
+			
+			tochun();
 			
 	});
 	
@@ -729,8 +747,14 @@ input.check_btn:checked + label:before{
 					}
 				}
 				
+				document.getElementById('finalpoint').innerText = $('#pointinput').val();
 				
-				document.getElementById('finalpoint').innerText = $('#pointinput').val().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				
+				
+				document.getElementById('totalpoint').innerText= ${loginUser.memBalance} + parseInt($('#pointinput').val());
+				
+				tochun();
+				
 		});
 		
 		//직접 포인트 변경되면 체크해제되는 스크립트
@@ -741,8 +765,14 @@ input.check_btn:checked + label:before{
 						c.checked = false;
 					}
 				}	
-				document.getElementById('finalpoint').innerText = $('#pointinput').val().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				document.getElementById('finalpoint').innerText = $('#pointinput').val();
+				
+				document.getElementById('totalpoint').innerText= ${loginUser.memBalance} + parseInt($('#pointinput').val());
+				
+				tochun();
 		});
+		
+		
 		
 		
   
@@ -799,6 +829,8 @@ input.check_btn:checked + label:before{
 
 
 
+
+
 <!-- jQuery -->
 
 <!-- iamport.payment.js -->
@@ -817,11 +849,10 @@ input.check_btn:checked + label:before{
 	 
 	 
 	 const amount = parseInt(document.getElementById('pointinput').value);
-	 
+
 	 const ordernum = Math.floor(Math.random()*1000000000*new Date().getMilliseconds());
-		
-		
-		
+	 
+	 
 	 
  IMP.request_pay({
 	    pg : 'html5_inicis',
@@ -829,25 +860,28 @@ input.check_btn:checked + label:before{
 	    merchant_uid: ordernum, // 상점에서 관리하는 주문 번호
 	    name : '주문명:결제테스트',
 	    amount : amount,
-	    
+	    buyer_email : '${loginUser.memEmail}'
 	    
 	}, function(rsp) {
 		
 	    if (rsp.success) {
 	    	
 	    	
-	    	$.ajax({
-	    		url: "pointpayresult.ar"
-	    		method: "POST";
-	    		data:{
-	    			amount: amount,
-	    			memId: ${loginUser.memId}
-	    			
-	    		}
-	    		
-	    		
-	    		
-	    	})
+	    	  $.ajax({
+				    url: 'pointpayresult.ar',
+				    type: 'GET',
+				    data: {
+				    	amount: amount
+				    },
+				    success: function onData (msg) {
+				    	alert(msg);
+				    },
+				    error: function onError (error) {
+				        console.error(error);
+				    }
+				});
+	    	
+	    	
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청

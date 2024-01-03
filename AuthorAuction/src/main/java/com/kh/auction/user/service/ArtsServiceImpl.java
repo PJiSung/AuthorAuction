@@ -122,4 +122,13 @@ public class ArtsServiceImpl implements ArtsService {
 		return aDAO.insertAddress(rmap);
 		
 	}
+	
+	
+	@Override
+	public int updatePoint(HashMap<String, Object> map) {
+		
+		
+		
+		return aDAO.updatePoint(map);
+	}
 }
