@@ -712,7 +712,7 @@ input.check_btn:checked + label:before{
 <!-- 				</div>	 -->
 				
 				
-				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh; margin-bottom: 20%;">
+				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh; margin-bottom: 10%;">
 					<div style = "height: 100%; width: 100%;">
 						<div style = "display:flex; align-items: center;height: 9.375%;  ">
 								<h2>결제방법</h2>
@@ -727,7 +727,7 @@ input.check_btn:checked + label:before{
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : ${loginUser.memBalance}p)</div>
 							</div>
 						</div>
-								배송일은 주문일 기준 2~3일 소요됩니다
+								<div>배송일은 주문일 기준 2~3일 소요됩니다</div>
 					</div>
 				</div>	
 					

@@ -693,7 +693,7 @@
 	<h3>게시물 공유</h3>
 	<div style = "margin-top: 5%;">
 		<input id = "snsaddress" type = "text" readonly style = "width: 100%;">
-			<span onclick="copy_to_clipboard()" style = "cursor:pointer; position: absolute; right: 37.5%; top: 58.2%;"><img src = "sunwoo/icons/copyicon.png" style = "width: 20px;"></span>
+			<span onclick="copy_to_clipboard()" style = "cursor:pointer; position: absolute; right: 41%; top: 56.7%;"><img src = "sunwoo/icons/copyicon.png" style = "width: 20px;"></span>
 			</div>
 	<div style = "margin: 0 auto; text-align:center; margin-top: 5%;">
 	
