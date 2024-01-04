@@ -25,7 +25,7 @@
                     <div class="seeWhich" style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;" id="scheduled">종료 경매</div>
                 </div>
                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
-                    <div style="width: 14%; display: inline-block;  margin-top: 1%; margin-bottom: 1%;"><input type="checkbox" id="allCheck"> 전체 선택</div>
+                    <div style="width: 14%; display: inline-block;  margin-top: 1%; margin-bottom: 1%;"><input type="checkbox" id="allCheck" name="allCheck"><label for="allCheck">전체 선택</label></div>
                     <div style="width: 14%; display: inline-block;  margin-top: 1%; margin-bottom: 1%;">경매 번호</div>
                     <div style="width: 14%; display: inline-block;">작품 사진</div>
                     <div style="width: 14%; display: inline-block;">작가 명</div>
@@ -85,7 +85,7 @@
 	                </div>
                 </c:forEach>
                 <div id="deleteBtnPlace" style="width: 100%; height: 100%; text-align: right; margin-top: 1%;">
-                	<button style="width:5%;" id="qwe">체크</button><button style="width:5%;">삭제</button>
+                	<button style="width:5%;" onclick="deleteLike();">삭제</button>
                 </div>
             </div>
         </div>
@@ -118,23 +118,56 @@
        			}
        		}
             
-            count
-            
             let checkCount = 0;
-          	for(const checkBox of document.querySelectorAll("input[type='checkbox']")){
+          	for(const checkBox of document.querySelectorAll("input[class='eachCheck']")){
 				checkBox.addEventListener('click',function(){
 					
 					if(checkBox.checked){
-						check++;
+						checkCount++;
 					}else{
-						
+						checkCount--;
+					}
+					
+					if(checkCount == document.querySelectorAll("input[class='eachCheck']").length){
+						document.getElementById("allCheck").checked = true;
+					}else{
+						document.getElementById("allCheck").checked = false;
 					}
 				})
-          	}  
+          	} 
           	
-          	
-          
+          	document.getElementById("allCheck").addEventListener('click',function(){
+          		if(document.getElementById("allCheck").checked){
+          			for(const each of document.querySelectorAll("input[class='eachCheck']")){
+          				each.checked = true;
+          				checkCount = document.querySelectorAll("input[class='eachCheck']").length;
+          			}
+          		}else{
+          			for(const each of document.querySelectorAll("input[class='eachCheck']")){
+          				each.checked = false;
+          				checkCount = 0;
+          			}
+          		}
+          	})
         }
+		
+		const deleteLike = () =>{
+			let checkedNum = [];
+			for(let checkedBox of document.querySelectorAll("input[class='eachCheck']")){
+				if(checkedBox.checked){
+					checkedNum.push(checkedBox.parentElement.nextElementSibling.innerText);
+				}
+			}
+			$.ajax({
+				url:'interest.ac',
+				type:'post',
+				data:{checkedNum:checkedNum},
+				success: (data) =>{
+					console.log(data)
+				},
+				error: data => console.log(data)
+			})
+		}
 
         
         

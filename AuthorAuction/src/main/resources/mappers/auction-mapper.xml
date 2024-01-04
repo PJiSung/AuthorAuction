@@ -75,17 +75,23 @@
 	<select id="likeCheck" resultType="int">
 		select count(*)
 		from bidding_interest
-		where auc_no = #{aucNo} and mem_id = #{id}
+		where mem_id = #{id} and auc_no in
+		 <foreach collection="aucNo" item="aucNo" open="(" separator="," close=")">
+			#{aucNo}
+		</foreach> 	
 	</select>
 	
 	<insert id="insertLike">
 		insert into bidding_interest values(#{aucNo}, #{id})
 	</insert>
 	
-	<delete id="deleteLike">
+	<delete id="deleteLike" parameterType="java.util.Map">
 		delete from bidding_interest 
-		where auc_no = #{aucNo} and mem_id = #{id}
-	</delete>
+		where mem_id = #{id} and auc_no in
+		<foreach collection="aucNo" item="aucNo" open="(" separator="," close=")">
+			#{aucNo}
+		</foreach> 
+	</delete> 
 	
 	<select id="getMyInterestList">
 		select a.auc_No, att_Rename, con_Author, con_Product, to_char(auc_start_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_Date, to_char(auc_Finish_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_Finish_Date, nvl(auc_Finish_Price, 0) as auc_Finish_Price

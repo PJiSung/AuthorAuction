@@ -28,8 +28,8 @@ public interface AuctionService {
 	//상세 페이지 이동시 관심 목록 등록 확인
 	int likeCheck(HashMap<String, Object> hm);
 
-	//관심목록 업데이트
-	String updateInterest(HashMap<String, Object> hm);
+	//관심목록 업데이트 + 마이페이지 여러개 삭제
+	String updateInterest(HashMap<String, Object> hm, String result);
 	
 	//경매 내부의 사진을 들고옴
 	ArrayList<Attachment> getAuctionAttachment(int aucNo);
