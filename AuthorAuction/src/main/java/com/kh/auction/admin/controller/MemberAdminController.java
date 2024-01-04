@@ -34,7 +34,7 @@ public class MemberAdminController {
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Member> list = mService.selectMemberList(memId, pi);
-		
+		 
 		if(list != null) {
 			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
