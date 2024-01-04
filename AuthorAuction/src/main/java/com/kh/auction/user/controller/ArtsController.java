@@ -47,7 +47,7 @@ public class ArtsController {
 	}
 	
 	@GetMapping("artslist.ar")
-	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request, @ModelAttribute Keyword keyword, @RequestParam(value = "materiallist", required = false) String[] materiallist, @RequestParam(value = "order", required = false) String order) {
+	public String ArtsList(Model model, @RequestParam(value = "page", defaultValue = "1") int page,HttpServletRequest request, @ModelAttribute Keyword keyword, @RequestParam(value = "materiallist", required = false) String[] materiallist, @RequestParam(value = "order", required = false) String order, @RequestParam(value = "viewarts",defaultValue = "12") int viewarts) {
 		
 		
 		HashMap<String, Object> map = new HashMap<String,Object>();
@@ -66,13 +66,40 @@ public class ArtsController {
 		
 		int listCount = aService.getlistCount(map);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
+		ArrayList<Product> plist = null;
+		PageInfo pi = null;
+		if(viewarts == 12) {
+			
+			pi = Pagination.getPageInfo(currentPage, listCount, 12);
+			
+			if(page > pi.getMaxPage()) {
+				 pi.setCurrentPage(pi.getMaxPage());
+			 	}
+			if(page< pi.getStartPage()) {
+				pi.setCurrentPage(pi.getStartPage());
+			}
 		
-		ArrayList<Product> plist = aService.selectArtslist(pi,map);
+		plist = aService.selectArtslist(pi,map);
+		
+		}
+		else if(viewarts == 30) {
+			
+		 pi = Pagination.getPageInfo(currentPage, listCount, 30);
+			
+		 if(page > pi.getMaxPage()) {
+			 pi.setCurrentPage(pi.getMaxPage());
+		 	}
+		 if(page< pi.getStartPage()) {
+				pi.setCurrentPage(pi.getStartPage());
+			}
+			plist = aService.selectArtslist(pi,map);
+			
+		}
+		
 		model.addAttribute("order", order);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("materiallist", materiallist);
-		model.addAttribute("plistsize", plist.size());
+		model.addAttribute("plistsize", listCount);
 		model.addAttribute("plist", plist);
 		model.addAttribute("loc", request.getRequestURI());
 		model.addAttribute("pi", pi);

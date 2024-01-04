@@ -527,8 +527,8 @@
                       <div class="accordset-content">
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명" id = "keyword">
-                            <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명" id = "keyword" class = "enterbtn">
+                            <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" id = "keybtn" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -541,9 +541,9 @@
                       <div class="accordset-content">
                         <div class="radioset" style = "flex-direction: column;">
                           <span class="radioset-text"></span>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상" id = "minPrice">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상" id = "minPrice" class = "enterbtn">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하" id = "maxPrice">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하" id = "maxPrice" class = "enterbtn">
                             <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
@@ -577,7 +577,7 @@
                         </div>
                           <div class="checkset" style = "flex-direction:column;">
                            <span class="checkset-text"></span>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료" id = "materialinput">
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료" id = "materialinput" class = "enterbtn">
                             <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
@@ -591,13 +591,13 @@
                       <div class="accordset-content">
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
-                          	<input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 가로길이(cm)" class = "width">
+                          	<input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 가로길이(cm)" class = "width enterbtn">
                           	<div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 가로길이(cm)" class = "width">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 가로길이(cm)" class = "width enterbtn">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; "></div>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 세로길이(cm)" class = "height">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 세로길이(cm)" class = "height enterbtn">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
-                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 세로길이(cm)" class = "height">
+                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 세로길이(cm)" class = "height enterbtn">
                           <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
@@ -627,20 +627,20 @@
 <!--                       </div> -->
 <!--                     </div> -->
 <!--                   </div> -->
-                  <div class="accordset-item active">
-                    <div class="accordset-header">
-                      <button class="accordset-button btn" type="button">혜택</button>
-                    </div>
-                    <div class="accordset-body">
-                      <div class="accordset-content">
-                        <div class="checkset">
-                          <input id="checkset-6-1" class="checkset-input input-round" type="checkbox" value="" checked="">
-                          <label class="checkset-label" for="checkset-6-1"></label>
-                          <span class="checkset-text">무료배송</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+<!--                   <div class="accordset-item active"> -->
+<!--                     <div class="accordset-header"> -->
+<!--                       <button class="accordset-button btn" type="button">혜택</button> -->
+<!--                     </div> -->
+<!--                     <div class="accordset-body"> -->
+<!--                       <div class="accordset-content"> -->
+<!--                         <div class="checkset"> -->
+<!--                           <input id="checkset-6-1" class="checkset-input input-round" type="checkbox" value="" checked=""> -->
+<!--                           <label class="checkset-label" for="checkset-6-1"></label> -->
+<!--                           <span class="checkset-text">무료배송</span> -->
+<!--                         </div> -->
+<!--                       </div> -->
+<!--                     </div> -->
+<!--                   </div> -->
                 </div>
               </div>
               <div style = "display:flex; align-items:center; justify-content:center;">
@@ -672,17 +672,17 @@
                     </ul>
                   </div>
                   <div class="selectset selectset-round selectset-sm">
-                    <button class="selectset-toggle btn" type="button">
-                      <span>12개씩 보기</span>
+                    <button class="selectset-toggle btn" type="button" id = "12btn">
+                      <span id = "viewartsview">12개씩 보기</span>
                     </button>
                     <ul class="selectset-list">
                       <li class="selectset-item">
-                        <button class="selectset-link btn" type="button" data-value="12개씩 보기">
+                        <button class="selectset-link btn" type="button" data-value="12개씩 보기" onclick = "viewarts(12)">
                           <span>12개씩 보기</span>
                         </button>
                       </li>
                       <li class="selectset-item">
-                        <button class="selectset-link btn" type="button" data-value="30개씩 보기">
+                        <button class="selectset-link btn" type="button" data-value="30개씩 보기" onclick = "viewarts(30)">
                           <span>30개씩 보기</span>
                         </button>
                       </li>
@@ -696,6 +696,11 @@
               
               
               <div class="contents-list">
+              <c:if test="${plistsize == 0 }">
+              	<div style = "display:flex; align-items:center; justify-content:center;  margin: 0 auto; height: 50vh;" id = "noitemdiv">
+              	<h1>검색 결과가 없습니다.</h1>
+              	</div>
+              </c:if>
               <c:forEach items = "${plist}" var = "p">
                 <a href="artsDetail.ar?proNo=${p.proNo}" class="cardset cardset-shopping">
                   <figure class="cardset-figure">
@@ -813,7 +818,7 @@
                 </div>
                 <div class="pagiset-list">
                   <c:forEach var = "page" begin = "${pi.startPage}" end ="${pi.endPage}" >
-                  <a class= "${pi.currentPage == page} ? pagiset-link active-fill : pagiset-link"  onclick = "paging(${page})" style = "cursor:pointer">${page}</a>
+                  <a class= "pagiset-link ${pi.currentPage eq page ? 'active-fill' : ''}" onclick = "paging(${page})" style = "cursor:pointer">${page}</a>
                   </c:forEach>
                 </div>
                 <div class="pagiset-ctrl">
@@ -1151,7 +1156,6 @@
 		  return urlObject.href;
 		}
   
-  
  	function paging(data){
  		
 		
@@ -1160,11 +1164,13 @@
   		var originalURL = window.location.href;
 	  	var parametersToRemove = ["page"];
 	  	var modifiedURL = removeURLParameters(originalURL, parametersToRemove);
-	  		
+	  					
+	  	
  		switch(data){
  		
  		case 'first':
  			
+ 			if(document.getElementById('noitemdiv') == null && ${pi.currentPage != 1}){
  			if(URLSearch.size == 0){
  				location.href = modifiedURL + "?page="+${pi.startPage}; break;
  			}else if( URLSearch.size == 1 && URLSearch.get('page')){
@@ -1172,8 +1178,13 @@
  			}else{
  				location.href = modifiedURL + "&page="+${pi.startPage}; break;
  			}
+ 			}
  			break;
  		case 'forward':
+ 			
+ 			
+ 			if(document.getElementById('noitemdiv') == null && ${pi.currentPage != 1}){
+ 			
  			if(URLSearch.size == 0){
  				location.href = modifiedURL + "?page="+${pi.currentPage-1}; break;
  			}else if( URLSearch.size == 1 && URLSearch.get('page')){
@@ -1181,8 +1192,12 @@
  			}else{
  				location.href = modifiedURL + "&page="+${pi.currentPage-1}; break;
  			}
+ 			}
+ 			
  			break;
  		case 'next':
+ 			
+ 			if(document.getElementById('noitemdiv') == null && ${pi.currentPage != pi.maxPage}){
  			if(URLSearch.size == 0){
  				location.href = modifiedURL + "?page="+${pi.currentPage+1}; break;
  			}else if( URLSearch.size == 1 && URLSearch.get('page')){
@@ -1190,14 +1205,18 @@
  			}else{
  				location.href = modifiedURL + "&page="+${pi.currentPage+1}; break;
  			}
+ 			
+ 			}
  			break;
  		case 'last':	
+ 			if(document.getElementById('noitemdiv') == null && ${pi.currentPage != pi.maxPage}){
  			if(URLSearch.size == 0){
  				location.href = modifiedURL + "?page="+${pi.maxPage}; break;
  			}else if( URLSearch.size == 1 && URLSearch.get('page')){
  				location.href = modifiedURL + "?page="+${pi.maxPage}; break;
  			}else{
  				location.href = modifiedURL + "&page="+${pi.maxPage}; break;
+ 			}
  			}
  			break;
  		
@@ -1219,14 +1238,113 @@
  		
  	}
   
- 	
- 	
- 	
- 	  
+  
+  
+  </script>
+  
+  
+  <script>
+  
+  
+  function removeURLParameters(url, parametersToRemove) {
+	  var urlObject = new URL(url);
+	  var params = new URLSearchParams(urlObject.search);
+
+	  parametersToRemove.forEach(function (param) {
+	    params.delete(param);
+	  });
+
+	  urlObject.search = params.toString();
+
+	  return urlObject.href;
+	}
+  
+  
+  
+  
+  	function viewarts(data){
+  	
+  		var URLSearch = new URLSearchParams(location.search);
+  		
+  		var originalURL = window.location.href;
+  		var parametersToRemove = ["viewarts"];
+	  	var modifiedURL = removeURLParameters(originalURL, parametersToRemove);
+  		
+	
+  		switch(data){
+  		
+  		case 12:  
+  			
+  			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?viewarts=12"; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('viewarts')){
+ 				location.href = modifiedURL + "?viewarts=12"; break;
+ 			}else{
+ 				location.href = modifiedURL + "&viewarts=12"; break;
+ 			}
+ 			break;
+  		
+  		
+  		
+  		case 30: 
+  			
+  			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?viewarts=30"; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('viewarts')){
+ 				location.href = modifiedURL + "?viewarts=30"; break;
+ 			}else{
+ 				location.href = modifiedURL + "&viewarts=30"; break;
+ 			}
+  			
+  			
+  			
+  			
+  			
+  			
+  			
+  			break;
+  		}
+  	}
+  
+  
+  </script>
+  
+  <script>
+  
+var URLSearch = new URLSearchParams(location.search);
+  		
+	
+  		
+  			
+ 			if(URLSearch.get('viewarts') == 12){
+ 				document.getElementById('viewartsview').innerText = "12개씩 보기";
+ 			}
+ 			else if(URLSearch.get('viewarts') == 30){
+ 				
+ 				document.getElementById('viewartsview').innerText = "30개씩 보기"
+ 			}
   
   
   
   </script>
+  
+  
+  <script>
+  	//엔터만 눌러도 적용되게끔
+  	
+  	
+    $(".enterbtn").keyup(function(event) {
+        if (event.which === 13) {
+        	conditionfunc('keyword');
+        }
+    });
+  
+  
+  
+  
+  </script>
+  
+  
   
   
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->

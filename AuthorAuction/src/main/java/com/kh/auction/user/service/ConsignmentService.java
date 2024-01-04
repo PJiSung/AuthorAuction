@@ -40,12 +40,13 @@ public interface ConsignmentService {
 	
 	
 	// 글 수정
-	int deleteAttm(ArrayList<String> delRename);
+	int deleteAttm(String[] imgArr);
 	// 수정 어쩌고저쩌고	
 	void updateAttmFno(HashMap<String, Object> map);
 	// 수정 어쩌고2	
 	int updateConsignment(Consignment c);
-	
+	// 수정 어쩌고3
+	int updateAttmFno(Attachment a);
 	
 	
 	

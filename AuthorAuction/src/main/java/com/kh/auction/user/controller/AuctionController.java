@@ -1,7 +1,9 @@
 package com.kh.auction.user.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,15 +121,36 @@ public class AuctionController {
 			return 0;
 	}
 	
+	
+	//열 유형이 부적합합니다 = 맵퍼에서 문제 있음 맵퍼 찾기 (insert시 문제 발생)
 	@ResponseBody
-	@PostMapping("interest.ac") //ajax 관심 목록 업데이트
-	public String updateInterest(@RequestParam("aucNo") int aucNo, Model model) {
-		String id = ((Member)model.getAttribute("loginUser")).getMemId();
+	@PostMapping("interest.ac") //ajax 관심 목록 업데이트 + 마이페이지 여러개 삭제
+	public String updateInterest(@RequestParam(value="aucNo", required=false) Integer aucNo, Model model, @RequestParam(value="checkedNum", required=false) int[] checkedNum) {
+		String result = null;
 		HashMap<String, Object> hm = new HashMap<>();
+		List<Integer> aucNos = new ArrayList<>();
+		String id = ((Member)model.getAttribute("loginUser")).getMemId();
 		hm.put("id", id);
-		hm.put("aucNo", aucNo);
-		String result = aService.updateInterest(hm);
+		System.out.println("aucNo : " + aucNo);
+		System.out.println("checkedNum : " + Arrays.toString(checkedNum));
+		if(checkedNum == null) {
+			result = "forCheck";
+			System.out.println(result);
+			aucNos.add(aucNo);
+			System.out.println("aucNos : " + aucNos);
+			hm.put("aucNo", aucNos);
+			result = aService.updateInterest(hm,result);
+			
+		}else {
+			result = "delete";
+			for(int i = 0; i < checkedNum.length; i++) {
+				aucNos.add(i, checkedNum[i]);
+			}
+			hm.put("aucNo", aucNos);
+			result = aService.updateInterest(hm,result);
+		}
 		return result;
+		
 	}
 	
 	@GetMapping("myBidList.ac")

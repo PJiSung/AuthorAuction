@@ -528,7 +528,7 @@ ul,li,ol{
 		
 	</div>	
 	
-	  <div style = "background-color: #fafafa; position: fixed; top: 25vh; width: 25%; right: 5%; height: 60vh; z-index: 5;">
+	  <div style = "background-color: #fafafa; position: fixed; top: 25vh; width: 25%; right: 5%; height: 50vh; z-index: 5;">
 	  	<div style = " height: 85%;">
 	  		<div style = "display:flex; align-items:center; height: 20%;">
 	  			<h2 style ="margin-left: 10%; width:70%;">적립혜택</h2>
@@ -547,12 +547,12 @@ ul,li,ol{
 	  			<h2 style ="margin-left: 10%;">결제 예정금액	</h2>
 	  		</div>
 	  		<div style = "display:flex; align-items:center;">
-	  			 <div style = "width: 60%; padding-left: 10%;">상품금액</div>
+	  			 <div style = "width: 60%; padding-left: 10%; font-size: 22px;">상품금액</div>
 	  			 <div><h3 id = "propribill">0</h3></div>
 	  			 <div><small> 원</small></div>
 	  		</div>
 	  		<div style = "display:flex; align-items:center; height: 40%;">
-	  			 <div style = "width: 60%; padding-left: 10%; color:red;">합계</div>
+	  			 <div style = "width: 60%; padding-left: 10%; color:red; font-size: 22px;">합계</div>
 	  			 <div><h1 id = "totalbill" style = "color:red;">0</h1></div>
 	  			 <div><small> 원</small></div>
 	  		</div>

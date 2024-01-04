@@ -508,7 +508,7 @@ input.check_btn:checked + label:before{
 
 	</div>		
 			
-		<div style = " border-bottom: 1px solid #888; width: 60vw; margin-left: 5vw; height: 1575px; display:flex; margin: 0 auto; justify-content:center;">
+		<div style = " border-bottom: 1px solid #888; width: 60vw; margin-left: 5vw; height: 1850px; display:flex; margin: 0 auto; justify-content:center;">
 				<div style = " margin-top: 2.5vh;">
 					<div style = " height: 25vw; width: 100%;">
 						<div style = "display:flex; align-items: center;  height: 15%; ">

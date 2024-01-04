@@ -29,11 +29,7 @@ public class AuctionAdminController {
 	@GetMapping("adminInquiry.adac")
 	public String moveToAdminInquiry(@RequestParam(value="page", defaultValue="1") int page, Model model) {
 		
-		
-		
-		
 		int allOngingAuctionNum = aService.getAllOngingAuctionNum();
-		
 		
 		PageInfo pi = Pagination.getPageInfo(page, allOngingAuctionNum, 10);
 		
