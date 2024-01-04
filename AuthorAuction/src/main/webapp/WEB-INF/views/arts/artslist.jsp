@@ -527,8 +527,8 @@
                       <div class="accordset-content">
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명" id = "keyword">
-                            <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "작가명 또는 작품명" id = "keyword" class = "enterbtn">
+                            <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" id = "keybtn" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
                     </div>
@@ -541,9 +541,9 @@
                       <div class="accordset-content">
                         <div class="radioset" style = "flex-direction: column;">
                           <span class="radioset-text"></span>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상" id = "minPrice">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이상" id = "minPrice" class = "enterbtn">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하" id = "maxPrice">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "이하" id = "maxPrice" class = "enterbtn">
                             <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
@@ -577,7 +577,7 @@
                         </div>
                           <div class="checkset" style = "flex-direction:column;">
                            <span class="checkset-text"></span>
-                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료" id = "materialinput">
+                          <input type="text" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "재료" id = "materialinput" class = "enterbtn">
                             <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
@@ -591,13 +591,13 @@
                       <div class="accordset-content">
                         <div class="checkset" style = "flex-direction: column;">
                           <span class="checkset-text"></span>
-                          	<input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 가로길이(cm)" class = "width">
+                          	<input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 가로길이(cm)" class = "width enterbtn">
                           	<div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 가로길이(cm)" class = "width">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 가로길이(cm)" class = "width enterbtn">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; "></div>
-                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 세로길이(cm)" class = "height">
+                          <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최소 세로길이(cm)" class = "height enterbtn">
                           <div style = "display:flex; align-items:center; justify-content:center; height: 40px; ">~</div>
-                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 세로길이(cm)" class = "height">
+                           <input type="number" style = "border: 1px solid #aaa; text-align:center; height: 40px;" placeholder = "최대 세로길이(cm)" class = "height enterbtn">
                           <button style = "background-color:black; margin-top: 10%; border: none;  height: 40px; width: 40%; color: white;" onclick = "conditionfunc('keyword')">적용</button>
                         </div>
                       </div>
@@ -627,20 +627,20 @@
 <!--                       </div> -->
 <!--                     </div> -->
 <!--                   </div> -->
-                  <div class="accordset-item active">
-                    <div class="accordset-header">
-                      <button class="accordset-button btn" type="button">혜택</button>
-                    </div>
-                    <div class="accordset-body">
-                      <div class="accordset-content">
-                        <div class="checkset">
-                          <input id="checkset-6-1" class="checkset-input input-round" type="checkbox" value="" checked="">
-                          <label class="checkset-label" for="checkset-6-1"></label>
-                          <span class="checkset-text">무료배송</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+<!--                   <div class="accordset-item active"> -->
+<!--                     <div class="accordset-header"> -->
+<!--                       <button class="accordset-button btn" type="button">혜택</button> -->
+<!--                     </div> -->
+<!--                     <div class="accordset-body"> -->
+<!--                       <div class="accordset-content"> -->
+<!--                         <div class="checkset"> -->
+<!--                           <input id="checkset-6-1" class="checkset-input input-round" type="checkbox" value="" checked=""> -->
+<!--                           <label class="checkset-label" for="checkset-6-1"></label> -->
+<!--                           <span class="checkset-text">무료배송</span> -->
+<!--                         </div> -->
+<!--                       </div> -->
+<!--                     </div> -->
+<!--                   </div> -->
                 </div>
               </div>
               <div style = "display:flex; align-items:center; justify-content:center;">
@@ -818,7 +818,7 @@
                 </div>
                 <div class="pagiset-list">
                   <c:forEach var = "page" begin = "${pi.startPage}" end ="${pi.endPage}" >
-                  <a class= "${pi.currentPage eq page} ? pagiset-link active-fill : pagiset-link" onclick = "paging(${page})" style = "cursor:pointer">${page}</a>
+                  <a class= "pagiset-link ${pi.currentPage eq page ? 'active-fill' : ''}" onclick = "paging(${page})" style = "cursor:pointer">${page}</a>
                   </c:forEach>
                 </div>
                 <div class="pagiset-ctrl">
@@ -1323,6 +1323,22 @@ var URLSearch = new URLSearchParams(location.search);
  				
  				document.getElementById('viewartsview').innerText = "30개씩 보기"
  			}
+  
+  
+  
+  </script>
+  
+  
+  <script>
+  	//엔터만 눌러도 적용되게끔
+  	
+  	
+    $(".enterbtn").keyup(function(event) {
+        if (event.which === 13) {
+        	conditionfunc('keyword');
+        }
+    });
+  
   
   
   
