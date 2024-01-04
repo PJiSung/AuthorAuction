@@ -154,7 +154,7 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return cDAO.searchList2(map, rowBounds);
 	}
-	// 수락 / 거절
+	// 수락 / 거절(멤버 가져옴)
 	@Override
 	public ArrayList<HashMap<String, Object>> selectAuctionMList() {
 		return cDAO.selectAuctionMList();

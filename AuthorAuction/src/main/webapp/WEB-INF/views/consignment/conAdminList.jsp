@@ -764,11 +764,11 @@ table tr{
              	<form action="searchList.adco" class="searchForm">
 	                <span><a>조회 기간</a></span>
 	                <span>
-					  <input type="date" class="con_startdate">
+					  <input type="date" class="con_startdate" name="strDate">
 					</span>
 					~
 					<span>
-					  <input type="date" class="con_enddate" style="margin-left:20px;">
+					  <input type="date" class="con_enddate" name="endDate" style="margin-left:20px;">
 					</span>
 	                <span>
 	                  <a>검색어</a>

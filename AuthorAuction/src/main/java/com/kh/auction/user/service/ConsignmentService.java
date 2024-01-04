@@ -24,10 +24,6 @@ public interface ConsignmentService {
 	// 마이페이지 검색
 	ArrayList<Consignment> searchList(HashMap<String, String> map, PageInfo pi);
 	// 상세조회
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 	Consignment selectConsignment(int conNo);
 	// 상세조회 첨부 리스트
 	ArrayList<Attachment> selectAttmConsignmentList(int conNo);
@@ -69,7 +65,7 @@ public interface ConsignmentService {
 	int searchCount2(HashMap<String, String> map);
 	// 관리자 검색
 	ArrayList<Consignment> searchList2(HashMap<String, String> map, PageInfo pi);
-	// 수락 / 거절
+	// 수락 / 거절(멤버 가져옴)
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
 	
 	

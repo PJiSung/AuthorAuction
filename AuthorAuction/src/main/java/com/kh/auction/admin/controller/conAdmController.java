@@ -92,20 +92,24 @@ public class conAdmController {
 	@GetMapping("searchList.adco")
 	public String searchAdminConsignment(@RequestParam("select") String select,
 										 @RequestParam("keyword") String keyword, Model model,
-										 @RequestParam(value="page", defaultValue="1") int page) {
+						 @RequestParam(value="page", defaultValue="1") int page,
+										 @RequestParam(value="strDate", required = false)String strDate,
+										 @RequestParam(value="endDate", required = false)String endDate) {
 										// keyword : 입력한 검색어 / select : select에서 가져오는 기준
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("select", select);
 		map.put("keyword", keyword);
+		map.put("strDate", strDate);
+		map.put("endDate", endDate);
 		
 		int listCount = cService.searchCount2(map);
-		
 		int currentPage = page;
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		ArrayList<Consignment> list = cService.searchList2(map, pi);
 		
-		if(list != null) {
-			model.addAttribute("list", list);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Consignment> cList = cService.searchList2(map, pi);
+		
+		if(cList != null) {
+			model.addAttribute("cList", cList);
 			model.addAttribute("pi", pi);
 			
 			return "consignment/conAdminList";
