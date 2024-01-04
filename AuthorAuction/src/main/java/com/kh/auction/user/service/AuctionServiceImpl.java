@@ -78,19 +78,22 @@ public class AuctionServiceImpl implements AuctionService{
 
 	@Override //관심목록 업데이트 + 마이페이지 여러개 삭제
 	public String updateInterest(HashMap<String, Object> hm, String result) {
-		if(result.equals("forCheck")) {
+		switch (result) {
+		case "forCheck":
 			//현 상태에 따라 업데이트
 			if(aDAO.likeCheck(hm) < 1) {
+				System.out.println("service : " + aDAO.likeCheck(hm));
 				aDAO.insertLike(hm);
 				return "insert";
 			}else {
+				System.out.println("service2 : " + aDAO.deleteLike(hm));
 				aDAO.deleteLike(hm);
 				return "delete";
 			}
-		}else {
+		default:
 			//마이페이지 여러개 삭제
 			aDAO.deleteLike(hm);
-			return "delete";
+			return "deleteMypage";
 		}
 	}
 

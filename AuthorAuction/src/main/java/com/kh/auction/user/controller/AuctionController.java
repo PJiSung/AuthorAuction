@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.google.gson.Gson;
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.member.service.MemberService;
 import com.kh.auction.user.model.vo.Attachment;
@@ -111,28 +112,29 @@ public class AuctionController {
 		
 		if(m != null) {
 			HashMap<String, Object> hm = new HashMap<>();
+			List<Integer> aucNos = new ArrayList<>();
 			id = m.getMemId();
-			hm.put("aucNo", aucNo);
 			hm.put("id", m.getMemId());
+			aucNos.add(aucNo);
+			hm.put("aucNo", aucNos);
 			likeCheck = aService.likeCheck(hm);
 			model.addAttribute("likeCheck", likeCheck);
 			return likeCheck;
+		}else {
+			return likeCheck;
 		}
-			return 0;
 	}
 	
 	
 	//열 유형이 부적합합니다 = 맵퍼에서 문제 있음 맵퍼 찾기 (insert시 문제 발생)
 	@ResponseBody
 	@PostMapping("interest.ac") //ajax 관심 목록 업데이트 + 마이페이지 여러개 삭제
-	public String updateInterest(@RequestParam(value="aucNo", required=false) Integer aucNo, Model model, @RequestParam(value="checkedNum", required=false) int[] checkedNum) {
+	public String updateInterest(@RequestParam(value="aucNo", required=false) Integer aucNo, Model model, @RequestParam(value="checkedNum[]", required=false) int[] checkedNum, @RequestParam(value="page", defaultValue = "1") int currentPage) {
 		String result = null;
 		HashMap<String, Object> hm = new HashMap<>();
 		List<Integer> aucNos = new ArrayList<>();
 		String id = ((Member)model.getAttribute("loginUser")).getMemId();
 		hm.put("id", id);
-		System.out.println("aucNo : " + aucNo);
-		System.out.println("checkedNum : " + Arrays.toString(checkedNum));
 		if(checkedNum == null) {
 			result = "forCheck";
 			System.out.println(result);
@@ -144,12 +146,34 @@ public class AuctionController {
 		}else {
 			result = "delete";
 			for(int i = 0; i < checkedNum.length; i++) {
-				aucNos.add(i, checkedNum[i]);
+				aucNos.add(checkedNum[i]);
 			}
 			hm.put("aucNo", aucNos);
 			result = aService.updateInterest(hm,result);
 		}
-		return result;
+		
+		if(result.equals("deleteMypage")) {
+			System.out.println("deleteMypage");
+			int myInterestNum = aService.getAllInterestBidNum(id);
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, myInterestNum, 5);
+			
+			//아이디로 내 관심 목록 들고옴
+			ArrayList<Auction> aList = aService.getMyInterestList(id, pi);
+			
+			Gson gson = new Gson();
+			
+			 String jsonAList = gson.toJson(aList);
+		     String jsonPi = gson.toJson(pi);
+
+		     // 직접 JSON 문자열 조합
+		     String resultJson = "{\"aList\":" + jsonAList + ",\"pi\":" + jsonPi + "}";
+			
+			return resultJson;
+		}else {
+			System.out.println("dㅁㄴㅇㅁㄴㅇ");
+			return result;
+		}
 		
 	}
 	
@@ -158,7 +182,7 @@ public class AuctionController {
 		return "/auction/myAuction";
 	}
 	
-	@GetMapping("myInterest.ac")
+	@GetMapping("myInterest.ac") //관심페이지로 이동
 	public String moveToMyInterest(@RequestParam(value="page", defaultValue="1") int currentPage, Model model) {
 		
 		String id = ((Member)model.getAttribute("loginUser")).getMemId();

@@ -82,7 +82,11 @@
 	</select>
 	
 	<insert id="insertLike">
-		insert into bidding_interest values(#{aucNo}, #{id})
+		insert into bidding_interest values 
+		<foreach collection="aucNo" item="aucNo" open="(" close="," >
+        	#{aucNo}
+    	</foreach>
+    	 #{id})
 	</insert>
 	
 	<delete id="deleteLike" parameterType="java.util.Map">
@@ -97,7 +101,7 @@
 		select a.auc_No, att_Rename, con_Author, con_Product, to_char(auc_start_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_Date, to_char(auc_Finish_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_Finish_Date, nvl(auc_Finish_Price, 0) as auc_Finish_Price
 		from bidding_interest b
 			join auction a on (a.auc_no = b.auc_no)
-            join consignment on (a.auc_no = con_no)
+            join consignment on (a.auc_cno = con_no)
             join attachment p on (auc_cno = att_bno)
             where b.mem_id = #{id} and att_fno = 0
 	</select>

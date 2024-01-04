@@ -294,7 +294,8 @@
         		data:{aucNo:'${auction.aucNo}'},
         		success: data =>{
         			if(data != 0){
-        				likeBtn.innerText = '관심목록 삭제';
+        				console.log(data);
+        				likeBtn.innerText = '관심 목록 삭제';
                 		likeBtn.style.background = 'black';
                 		likeBtn.style.color = 'white';
         			}
@@ -320,11 +321,11 @@
 							success: data =>{
 								console.log(data)
 								if(data == 'insert'){
-									likeBtn.innerText = '관심목록 삭제';
+									likeBtn.innerText = '관심 목록 삭제';
 									likeBtn.style.background = 'black';
 									likeBtn.style.color = 'white';
 								}else{
-									likeBtn.innerText = '관심목록 추가';
+									likeBtn.innerText = '관심 목록 추가';
 									likeBtn.style.background = 'white';
 									likeBtn.style.color = 'black';
 								}
