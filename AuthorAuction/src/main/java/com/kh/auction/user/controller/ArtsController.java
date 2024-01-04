@@ -99,7 +99,7 @@ public class ArtsController {
 		model.addAttribute("order", order);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("materiallist", materiallist);
-		model.addAttribute("plistsize", plist.size());
+		model.addAttribute("plistsize", listCount);
 		model.addAttribute("plist", plist);
 		model.addAttribute("loc", request.getRequestURI());
 		model.addAttribute("pi", pi);

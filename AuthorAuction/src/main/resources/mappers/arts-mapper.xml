@@ -6,7 +6,7 @@
 	<select id="getListCount" resultType = "_int">
 			select count(*)
 			from product
-			where 1=1
+			where PRO_AMOUNT >0 
 			<if test="keyword != null">
 			and (PRO_NAME like '%'||#{keyword}||'%'
 			or PRO_WRITER like '%'||#{keyword}||'%')
