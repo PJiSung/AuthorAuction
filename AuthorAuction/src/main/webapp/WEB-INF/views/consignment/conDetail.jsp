@@ -247,14 +247,14 @@
 
 <body>
 <jsp:include page="../common/header.jsp"/>
-  <main class="th-layout-main ">
+	<main class="th-layout-main ">
     <!-- [S]hooms-N58 -->
-    <div class="hooms-N58" data-bid="eO2cM2h3g10" id="">
-      <div class="contents-container container-md">
-        <div class="tabset tabset-solid">
-        </div>
-      </div>
-    </div>
+	<div class="hooms-N58" data-bid="eO2cM2h3g10" id="">
+		<div class="contents-container container-md">
+		  <div class="tabset tabset-solid">
+		  </div>
+		</div>
+	</div>
     <!-- [E]hooms-N58 -->
     <!-- [S]hooms-N39 -->
 	<div class="hooms-N39" data-bid="ka2cm2jQlm2" id="">
@@ -264,201 +264,194 @@
 			    <a class="textset-tit" style="font-size: 40px;">위탁 문의 내역(수정)</a>
 			</div>
           
-          	<form action="updateBoard.co"  enctype="multipart/form-data" method="post" id="attmForm">
+          	<form action="updateBoard.co" enctype="multipart/form-data" method="post" id="attmForm">
           	
           	<input type="hidden" name="memId" value="${ loginUser.memId }">
           	<input type="hidden" name="conNo" value="${ c.conNo }">
           	<input type="hidden" name="page" value="${ pi.currentPage }">
-	          <div class="dhead">
-	            <div>
-	              <h2>위탁 정보 수정</h2>
-	            </div>
+			<div class="dhead">
+				<div>
+				  <h2>위탁 정보 수정</h2>
+				</div>
 	            <div class="contents-form-middle">
-	              <div class="inputset inputset-lg inputset-label">
-	                <label>
-	                  <span>
-	                    <h6 class="inputset-tit"> 위탁자 이름 </h6>
-	                  </span>
-	                  <span>
-	                    <input type="text" class="inputset-input form-control" value="${ m.memName }" name="memName" aria-label="내용" readonly>
-	                  </span>
-	                </label>
-	                <label>
-	                  <h6 class="inputset-tit"> 주소 </h6>
-	                  <input type="text" class="inputset-input form-control" value="${ fn:split(m.memAddress, '@')[0] } ${ fn:split(m.memAddress, '@')[1] } ${ fn:split(m.memAddress, '@')[2] }${ fn:split(m.memAddress, '@')[3] }" name="memAddress" aria-label="내용" required="" readonly>
-	                </label>
-	              </div>
-	              <div class="inputset inputset-lg inputset-label">
-	                <label>
-	                  <h6 class="inputset-tit"> 연락처 </h6>
-	                  <input type="tel" class="inputset-input form-control" value="${m.memPhone}" name="memPhone" aria-label="내용" readonly>
-	                </label>
-	                <label>
-	                  <h6 class="inputset-tit"> 이메일 </h6>
-	                  <input type="text" class="inputset-input form-control" value="${m.memEmail}"name="memEmail" aria-label="내용" readonly>
-	                </label>
-	              </div>
+					<div class="inputset inputset-lg inputset-label">
+						<label>
+							<span>
+								<h6 class="inputset-tit"> 위탁자 이름 </h6>
+							</span>
+							<span>
+								<input type="text" class="inputset-input form-control" value="${ m.memName }" name="memName" aria-label="내용" readonly>
+							</span>
+						</label>
+			            <label>
+							<h6 class="inputset-tit"> 주소 </h6>
+							<input type="text" class="inputset-input form-control" value="${ fn:split(m.memAddress, '@')[0] } ${ fn:split(m.memAddress, '@')[1] } ${ fn:split(m.memAddress, '@')[2] }${ fn:split(m.memAddress, '@')[3] }" name="memAddress" aria-label="내용" required="" readonly>
+			            </label>
+	              	</div>
+	              	<div class="inputset inputset-lg inputset-label">
+		                <label>
+							<h6 class="inputset-tit"> 연락처 </h6>
+							<input type="tel" class="inputset-input form-control" value="${m.memPhone}" name="memPhone" aria-label="내용" readonly>
+		                </label>
+		                <label>
+		                  	<h6 class="inputset-tit"> 이메일 </h6>
+		                  	<input type="text" class="inputset-input form-control" value="${m.memEmail}"name="memEmail" aria-label="내용" readonly>
+		                </label>
+	              	</div>
 	            </div>
-	          </div>
-	          <div class="dbody">
-	            <div class="inputset inputset-lg inputset-label">
-	              <label>
-	                <div>
-	                  <h2> 위탁작품 정보 </h2>
-	                </div>
-	                <div class="body">
-	                  <label style="margin-left: 15rem;">
-	                    <a style="display:inline-block; width: 15%; text-align: center;">작가명</a>
-	                    <input type="text" class="inputset-input form-control" value="${c.conAuthor}" name="conAuthor" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-	                    <br><br>
-	                    <a style="display:inline-block; width: 15%; text-align: center;">작품명</a>
-	                    <input type="text" class="inputset-input form-control" value="${c.conProduct}" name="conProduct" aria-label="내용" required="" style="width: 70rem; display:inline-block">
-	                    <br><br>
-	                    <a style=" display:inline-block; width: 15%; text-align: center;">작품의 크기(cm)</a>
-	                    <input type="text" class="inputset-input form-control" value="${c.conWidth}" aria-label="내용" required="" name="conWidth" style="width: 34rem; display:inline-block"> X <input type="text" name="conHeight" class="inputset-input form-control" value="${c.conHeight}" aria-label="내용" required="" style="width: 34rem; display:inline-block">
-	                    <br><br>
-	                    <a style="display:inline-block; width: 15%; text-align: center;">제작연도</a>
-	                    <input type=" text" class="inputset-input form-control" value="${c.conYear}" aria-label="내용" required="" name="conYear" style="width: 70rem; display:inline-block">
-	                    <br><br>
-	                    <a style=" display: inline-block; width: 15%; text-align: center;">희망가</a>
-	                    <input type="text" class="inputset-input form-control" value="${c.conHope}" aria-label="내용" required="" name="conHope" style="width: 70rem; display: inline-block">
-	                    <br><br>
-	                    <div>
-	                      <label style="display: inline-block; width: 15%; text-align: center;">출처 / 기타</label>
-	                      <textarea name="conEtc" class="inputset-textarea" required="" style="display: inline-block; width: 60%; vertical-align: middle; resize: none;">${c.conEtc }</textarea>
-	                    </div>
-	                  </label>
-	                </div>
-	              </label>
+	        </div>
+	        <div class="dbody">
+				<div class="inputset inputset-lg inputset-label">
+					<label>
+		                <div>
+		                  <h2> 위탁작품 정보 </h2>
+		        		</div>
+			            <div class="body">
+							<label style="margin-left: 15rem;">
+								<a style="display:inline-block; width: 15%; text-align: center;">작가명</a>
+			                    <input type="text" class="inputset-input form-control" value="${c.conAuthor}" name="conAuthor" aria-label="내용" required="" style="width: 70rem; display:inline-block">
+			                    <br><br>
+			                    <a style="display:inline-block; width: 15%; text-align: center;">작품명</a>
+			                    <input type="text" class="inputset-input form-control" value="${c.conProduct}" name="conProduct" aria-label="내용" required="" style="width: 70rem; display:inline-block">
+			                    <br><br>
+			                    <a style=" display:inline-block; width: 15%; text-align: center;">작품의 크기(cm)</a>
+			                    <input type="text" class="inputset-input form-control" value="${c.conWidth}" aria-label="내용" required="" name="conWidth" style="width: 34rem; display:inline-block"> X <input type="text" name="conHeight" class="inputset-input form-control" value="${c.conHeight}" aria-label="내용" required="" style="width: 34rem; display:inline-block">
+			                    <br><br>
+			                    <a style="display:inline-block; width: 15%; text-align: center;">제작연도</a>
+			                    <input type=" text" class="inputset-input form-control" value="${c.conYear}" aria-label="내용" required="" name="conYear" style="width: 70rem; display:inline-block">
+			                    <br><br>
+			                    <a style=" display: inline-block; width: 15%; text-align: center;">희망가</a>
+			                    <input type="text" class="inputset-input form-control" value="${c.conHope}" aria-label="내용" required="" name="conHope" style="width: 70rem; display: inline-block">
+			                    <br><br>
+			                    <div>
+			                      <label style="display: inline-block; width: 15%; text-align: center;">출처 / 기타</label>
+			                      <textarea name="conEtc" class="inputset-textarea" required="" style="display: inline-block; width: 60%; vertical-align: middle; resize: none;">${c.conEtc }</textarea>
+			                    </div>
+							</label>
+						</div>
+					</label>
 	            </div>
-	          </div>
-	          <div>
-	            <h2>작품 이미지</h2>
-	          </div>
-	          <div class="dfoot" style="margin-bottom: 2rem;">
-	            <div class="inputset inputset-lg inputset-label">
-	              <label style="margin-left: 14rem;">
-	                <div>
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
-	                  
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
-	                  
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
-	                  
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
-	                          <input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
-	                  
-	                  
-	                
+			</div>
+	        <div>
+				<h2>작품 이미지</h2>
+	        </div>
+			<div class="dfoot" style="margin-bottom: 2rem;">
+				<div class="inputset inputset-lg inputset-label">
+					<label style="margin-left: 14rem;">
+			    <div>
+					<div class="fileset fileset-lg fileset-label">
+						<label>
+							<div class="fileset-body">
+								<div class="fileset-group">
+								 	<a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
+								 	<input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
+									<button class="fileset-cancel"></button>
+								</div>
+							  	<span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
+							</div>
+						</label>
+					</div>
+			        <br>
+			        
+			        <div class="fileset fileset-lg fileset-label">
+						<label>
+				            <div class="fileset-body">
+								<div class="fileset-group">
+									<a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
+									<input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
+									<button class="fileset-cancel"></button>
+								</div>
+								<span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
+				            </div>
+			          	</label>
+			        </div>
+			        <br>
+			        
+			        <div class="fileset fileset-lg fileset-label">
+						<label>
+							<div class="fileset-body">
+								<div class="fileset-group">
+									<a style="display: inline-block; width: 15%; text-align: center;">서명</a>
+									<input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
+									<button class="fileset-cancel"></button>
+								</div>
+							  	<span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
+							</div>
+						</label>
+			        </div>
+			        <br>
+          
+					<div class="fileset fileset-lg fileset-label">
+						<label>
+							<div class="fileset-body">
+								<div class="fileset-group">
+									<a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
+									<input type="file" class="fileset-input" style="width: 83%;" name="file" required accept="image/*">
+									<button class="fileset-cancel"></button>
+								</div>
+							  	<span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
+							</div>
+						</label>
+					</div>
+					<br>
 	                  
 	                 <!-- 여기가 이미지 뜨는 곳 -->
-		             <div class="originPic">
-		              <div class="contents-container container-md">
-					    <div class="contents-left">
-						  <ul class="contents-thumblist">
-						    <c:forEach items="${list}" var="a">
-						      <li class="contents-thumbitem">
-						        <img style="width: 100%; height: 100%;" class="contents-thumbimg" src="${a.attRename}" id="delete-${ a.attRename }/${a.attFno}" alt="등록된 사진">
-						        <input type="hidden" name="deleteAttm" value="none">
-						      </li>
-						    </c:forEach>
-						  </ul>
-						</div>
-					  </div>
-	                </div>
+					<div class="originPic">
+						<div class="contents-container container-md">
+							<div class="contents-left">
+								<ul class="contents-thumblist">
+									<c:forEach items="${list}" var="a">
+										<li class="contents-thumbitem">
+											<img style="width: 100%; height: 100%;" class="contents-thumbimg" src="${a.attRename}" id="delete-${ a.attRename }/${a.attFno}" alt="등록된 사진">
+											<input type="hidden" name="deleteAttm" value="none">
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+ 						</div>
+					</div>
 	                
-	                
-	                
-	                <c:if test="${ loginUser.memIsAdmin == 'N' }">
-		             <c:if test="${ c.conAdmStatus == 'N' }">
-			          <div class="contents-sign">
-			           <button class="btnset modalset-btn" type="button" id="submitAttm">수정완료</button>
-			           <button class="btnset modalset-btn" type="button" id="delete">삭제</button>
-			          </div>
-		             </c:if>
-	                </c:if>
+					<c:if test="${ loginUser.memIsAdmin == 'N' }">
+						<c:if test="${ c.conAdmStatus == 'N' }">
+							<div class="contents-sign">
+								<button class="btnset modalset-btn" type="button" id="submitAttm">수정완료</button>
+								<button class="btnset modalset-btn" type="button" id="delete">삭제</button>
+							</div>
+						</c:if>
+					</c:if>
 	                <c:if test="${ loginUser.memIsAdmin == 'Y' }">
-	                 <div class="contents-sign">
-			          <button class="btnset modalset-btn" type="button" id="submitAttm">수정완료</button>
-			          <button class="btnset modalset-btn" type="button" id="delete">삭제</button>
-			         </div>
+						<div class="contents-sign">
+							<button class="btnset modalset-btn" type="button" id="submitAttm">수정완료</button>
+							<button class="btnset modalset-btn" type="button" id="delete">삭제</button>
+						</div>
 	                </c:if>
 	                
+					<div id="modalSet1" class="modalset">
+						<div class="modal-header">
+							<h6 class="modal-title">수정이 완료되었습니다.</h6>
+						</div>
+						<div class="modal-body">
+							<p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btnset btnset-confirm">확인</button>
+						</div>
+					</div>
 	                
-	            	
-	                <div id="modalSet1" class="modalset">
-	                  <div class="modal-header">
-	                    <h6 class="modal-title">수정이 완료되었습니다.</h6>
-	                  </div>
-	                  <div class="modal-body">
-	                    <p>
-	                  </div>
-	                  <div class="modal-footer">
-	                    <button type="button" class="btnset btnset-confirm">확인</button>
-	                  </div>
-	                </div>
-	                
-	                <div id="modalSet2" class="modalset">
-	                  <div class="modal-header">
-	                    <h6 class="modal-title">삭제하시겠습니까?</h6>
-	                  </div>
-	                  <div class="modal-body">
-	                    <p>
-	                  </div>
-	                  <div class="modal-footer">
-	                    <button type="reset" class="btnset btnset-ghost modal-close">취소</button>
-	                    <button type="button" class="btnset btnset-confirm" id="deleteConfirm">확인</button>
-	                  </div>
-	                </div>
+					<div id="modalSet2" class="modalset">
+						<div class="modal-header">
+							<h6 class="modal-title">삭제하시겠습니까?</h6>
+						</div>
+						<div class="modal-body">
+						  <p>
+						</div>
+						<div class="modal-footer">
+							<button type="reset" class="btnset btnset-ghost modal-close">취소</button>
+							<button type="button" class="btnset btnset-confirm" id="deleteConfirm">확인</button>
+						</div>
+					</div>
 	                <div class="modalset-dim"></div>
-	              </label>
+	              	</label>
 	              <a style="display: inline-block; width: 15%; text-align: center;"></a>
 	            </div><a style="display: inline-block; width: 15%; text-align: center;">
 	            </a>
@@ -474,13 +467,6 @@
 
 	<script>
 		window.onload = () => {
-			
-			/*
-			const consignmentDetail = (conNo) =>{													<!-- 상세보기로 이동 -->
-				location.href="selectConsignment.co?conNo=" + conNo + "&page=" + ${pi.currentPage};
-			}
-			*/
-			
 			// 글 삭제
 			const form = document.getElementById('attmForm');										
 			document.getElementById('deleteConfirm').addEventListener('click', () =>{
@@ -510,131 +496,89 @@
 			
 			const deleteAttmInputs = document.querySelectorAll('input[name="deleteAttm"]');
 			
+			const img = document.querySelectorAll("img[class='contents-thumbimg']");
+			const imgArr = [];
 			
-			
-				const img = document.querySelectorAll("img[class='contents-thumbimg']");
-				const imgArr = [];
-				
-				for(const [index, selectImg] of img.entries()){
-					selectImg.addEventListener('click',function(){
-						if(imgArr[index] == null) {
-							imgArr[index] =  selectImg.src;
-						}else{
-							imgArr[index] = "null";
-						}
-					})
-				}
-				
-				
-				let nonNoneCount = 0;
-				document.getElementById('submitAttm').addEventListener('click', function(){
-				/* console.log(document.querySelectorAll("input[class='fileset-input']"));
-				console.log(document.querySelectorAll(".active")); */
-				const files = document.getElementsByClassName("fileset-group")[0];
-				const exist = [];
-				const multiFile = [];
-				
-				let formData = new FormData();
-				for(let i = 0; i < 4; i++){
-					if(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active")){
-						multiFile.push(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active").files[0]);
-						exist.push(i);
+			for(const [index, selectImg] of img.entries()){
+				selectImg.addEventListener('click',function(){
+					if(imgArr[index] == null) {
+						imgArr[index] =  selectImg.src;
+					}else{
+						imgArr[index] = "null";
 					}
-				}
-				for(let i=0 ; i<multiFile.length; i++){
-					formData.append("files", multiFile[i]);
-				}
-				for(let i = 0; i<exist.length; i++){
-					formData.append("exist", exist[i]);
-				}
-				for(let i = 0; i<imgArr.length; i++){
-					formData.append("imgArr", imgArr[i]);
-				}
+				})
+			}
 				
-				let conNo = document.getElementsByName("conNo")[0];
-				formData.append("conNo", conNo.value);
-				
+			let nonNoneCount = 0;
+			document.getElementById('submitAttm').addEventListener('click', function(){
+
+			const files = document.getElementsByClassName("fileset-group")[0];
+			const exist = [];
+			const multiFile = [];
+			
+			let formData = new FormData();
+			for(let i = 0; i < 4; i++){
+				if(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active")){
+					multiFile.push(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active").files[0]);
+					exist.push(i);
+				}
+			}
+			for(let i=0 ; i<multiFile.length; i++){
+				formData.append("files", multiFile[i]);
+			}
+			
+			for(let i = 0; i<exist.length; i++){
+				formData.append("exist", exist[i]);
+			}
+			
+			for(let i = 0; i<imgArr.length; i++){
+				formData.append("imgArr", imgArr[i]);
+			}
+			
+			let conNo = document.getElementsByName("conNo")[0];
+			formData.append("conNo", conNo.value);
 					
-				/* if(nonNoneCount > 0){
-					alert("사진의 갯수는 반드시 4개를 넣어주셔야 합니다");
-				}else{ */
-					
-					/* const sendData = {
-							exist: exist,
-							imgArr:imgArr,
-							formData:formData
-					}  */
-					
-					/* jsonData = JSON.stringify(sendData);
-					console.log(jsonData) */
-					
-					$.ajax({
-						url:'updateConsignment.co',
-						type:'post',
-						data: formData,
-						contentType:false,
-						processData:false,
-						success: (data) =>{
-							if(data == "success"){
-								console.log(data);
-								let form = document.getElementById("attmForm");
-								form.submit();
-							}
-						},
-						error: data => console.log(data)
-							
-					})
-					
-				
-				//location.href="updateConsignment.co?deleteAttm=" + imgArr;
-			//}	
+				$.ajax({
+					url:'updateConsignment.co',
+					type:'post',
+					data: formData,
+					contentType:false,
+					processData:false,
+					success: (data) =>{
+						if(data == "success"){
+							console.log(data);
+							let form = document.getElementById("attmForm");
+							form.submit();
+						}
+					},
+					error: data => console.log(data)
+						
+				})
 		})
 				
+		const fileInputs = document.querySelectorAll('.fileset-group input[type="file"]');
+		// 총 파일 개수 초기화
+		let totalNewFileCount = 0;
+		// 각 파일 입력란을 순회하면서 파일 개수 더하기
+		fileInputs.forEach((input) => {
+		  totalNewFileCount += input.files.length;
+		});
 				
-				
-				
-				/* for (const input of deleteAttmInputs) {
-					console.log(input);
-				  if (input.value == 'none') {
-				    nonNoneCount++;
-				  }
-				  console.log("nonNoneCount : "+nonNoneCount); */
-			//	}
-				
-				const fileInputs = document.querySelectorAll('.fileset-group input[type="file"]');
-				// 총 파일 개수 초기화
-				let totalNewFileCount = 0;
-				// 각 파일 입력란을 순회하면서 파일 개수 더하기
-				fileInputs.forEach((input) => {
-				  totalNewFileCount += input.files.length;
-				});
-				
-				/* const totalFileCount = nonNoneCount + totalNewFileCount;
-				if(totalFileCount != 5){
-					alert('이미지는 반드시 4개여야 합니다. (현재' + totalFileCount + '개)');
-					nonNoneCount = 0;
-				} else {
-					form.action = 'updateConsignment.co';
-					form.submit();
-				}
-				 */
-				// 기존 이미지 삭제 버튼 이벤트
-			    const deleteButtons = document.querySelectorAll('.deleteBtn');
-			    for (const deleteButton of deleteButtons) {
-			        deleteButton.addEventListener('click', function () {
-			            alert('기존 이미지 삭제 버튼이 클릭되었습니다.');
-			        });
-			    }
-			}
-
-			
+		// 기존 이미지 삭제 버튼 이벤트
+	    const deleteButtons = document.querySelectorAll('.deleteBtn');
+	    for (const deleteButton of deleteButtons) {
+	        deleteButton.addEventListener('click', function () {
+	            alert('기존 이미지 삭제 버튼이 클릭되었습니다.');
+	        });
+	    }
+	}
 	</script>
 
 
-  <script src="consignment/js/setting.js"></script>
-  <script src="consignment/js/plugin.js"></script>
-  <script src="consignment/js/template.js"></script>
-  <script src="consignment/js/common.js"></script>
-  <script src="consignment/js/script.js"></script>
+	<script src="consignment/js/setting.js"></script>
+	<script src="consignment/js/plugin.js"></script>
+	<script src="consignment/js/template.js"></script>
+	<script src="consignment/js/common.js"></script>
+	<script src="consignment/js/script.js"></script>
 </body>
 </html>
