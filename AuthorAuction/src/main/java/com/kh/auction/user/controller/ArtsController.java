@@ -69,7 +69,15 @@ public class ArtsController {
 		ArrayList<Product> plist = null;
 		PageInfo pi = null;
 		if(viewarts == 12) {
+			
 			pi = Pagination.getPageInfo(currentPage, listCount, 12);
+			
+			if(page > pi.getMaxPage()) {
+				 pi.setCurrentPage(pi.getMaxPage());
+			 	}
+			if(page< pi.getStartPage()) {
+				pi.setCurrentPage(pi.getStartPage());
+			}
 		
 		plist = aService.selectArtslist(pi,map);
 		
@@ -78,6 +86,12 @@ public class ArtsController {
 			
 		 pi = Pagination.getPageInfo(currentPage, listCount, 30);
 			
+		 if(page > pi.getMaxPage()) {
+			 pi.setCurrentPage(pi.getMaxPage());
+		 	}
+		 if(page< pi.getStartPage()) {
+				pi.setCurrentPage(pi.getStartPage());
+			}
 			plist = aService.selectArtslist(pi,map);
 			
 		}
