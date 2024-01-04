@@ -195,20 +195,28 @@ public class ReviewController {
 	}
 	
 	@GetMapping("searchReview.rv")
-	public String searchReview(@RequestParam("keyword") String keyword,
-							   @RequestParam("category") String category,
+	public String searchReview(@RequestParam(value="keyword", required = false) String keyword,
+							   @RequestParam(value="category", required = false) String category,
+							   @RequestParam(value="selectedSort", required = false) String selectedSort,
 							   @RequestParam(value="page", defaultValue="1") int page,
 							   Model model) {
 
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("keyword", keyword.trim());
+		
+		if(keyword != null) {
+			map.put("keyword", keyword.trim());
+		}
+		
 		map.put("category", category);
+		map.put("selectedSort", selectedSort);
 		int listCount = rService.getSearchListCount(map);
 		
 		PageInfo pi = Pagination.getPageInfo(page, listCount, 9);
-		
 		ArrayList<Review> rList = rService.searchReview(map, pi);
 		ArrayList<Attachment> aList = rService.selectAttmList(null);
+		
+		System.out.println(rList);
+		System.out.println(aList);
 		
 		if(rList != null) {
 			if(!rList.isEmpty()) {

@@ -59,33 +59,70 @@
 	
 	<select id="getSearchListCount" resultType="_int">
 		select count(*)
-		from product
-		<if test="'category' == '전체'">
-			where pro_name like '%'||#{keyword}||'%' or pro_writer like '%'||#{keyword}'%'
-		</if>
-		<if test="'category' == '작품명'">
-			where pro_name like '%'||#{keyword}||'%'
-		</if>
-		<if test="'category' == '작가명'">
-			where pro_writer like '%'||#{keyword}||'%'
-		</if>
+    	from (select rev_no, rev_content, rev_modify_date, pro_no, pro_name, pro_writer, pro_image,
+            		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like
+      		  from review r join product using (pro_no)
+   		<where>
+        	pro_no = pro_no and rev_status = 'Y'
+      		<if test="category != null and keyword != null">
+      			<choose>
+      				<when test="category == '전체'">
+			            and (pro_name like '%'||#{keyword}||'%' or pro_writer like '%'||#{keyword}||'%')
+      				</when>
+      				<when test="category == '작품명'">
+			            and pro_name like '%'||#{keyword}||'%'
+      				</when>
+      				<when test="category == '작가명'">
+			            and pro_writer like '%'||#{keyword}||'%'
+      				</when>
+      			</choose>
+      		</if>
+   		</where>
+   		)
+        <if test="selectedSort != null">
+        	<choose>
+	        	<when test="selectedSort == 'latest'">
+	        		order by rev_modify_date desc
+	        	</when>
+	        	<when test="selectedSort == 'recommend'">
+	        		order by rev_like desc
+	        	</when>
+        	</choose>
+        </if>
 	</select>
 	
-	<select id="searchReview" resultType="Review">
-    	select rev_no, pro_no, pro_name, pro_writer, pro_image
-    	from review join product using(pro_no)
-    	<where>
-	        pro_no = pro_no
-	        <if test="category == '전체'">
-	            and (pro_name like '%'||#{keyword}||'%' or pro_writer like '%'||#{keyword}||'%')
-	        </if>
-	        <if test="category == '작품명'">
-	            and pro_name like '%'||#{keyword}||'%'
-	        </if>
-	        <if test="category == '작가명'">
-	            and pro_writer like '%'||#{keyword}||'%'
-	        </if>
-    	</where>
+	<select id="searchReview" parameterType="map" resultType="Review">
+    	select *
+    	from (select rev_no, rev_content, rev_modify_date, pro_no, pro_name, pro_writer, pro_image,
+            		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like
+      		  from review r join product using (pro_no)
+   		<where>
+        	pro_no = pro_no and rev_status = 'Y'
+      		<if test="category != null and keyword != null">
+      			<choose>
+      				<when test="category == '전체'">
+			            and (pro_name like '%'||#{keyword}||'%' or pro_writer like '%'||#{keyword}||'%')
+      				</when>
+      				<when test="category == '작품명'">
+			            and pro_name like '%'||#{keyword}||'%'
+      				</when>
+      				<when test="category == '작가명'">
+			            and pro_writer like '%'||#{keyword}||'%'
+      				</when>
+      			</choose>
+      		</if>
+   		</where>
+   		)
+        <if test="selectedSort != null">
+        	<choose>
+	        	<when test="selectedSort == 'latest'">
+	        		order by rev_modify_date desc
+	        	</when>
+	        	<when test="selectedSort == 'recommend'">
+	        		order by rev_like desc
+	        	</when>
+        	</choose>
+        </if>
 	</select>
 	
 	<update id="deleteReview">

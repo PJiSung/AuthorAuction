@@ -364,7 +364,6 @@ body.modal-open {
 	margin-left: 5px;
 }
 
-
 </style>
 </head>
 <body>
@@ -389,14 +388,14 @@ body.modal-open {
 								<div class="tabset tabset-text" style="width: 120px;">
 									<ul class="tabset-list">
 										<li class="tabset-item">
-											<a class="tabset-link active" onclick="selectSort('latest')"> 
+											<div class="tabset-link active" id="lastetSort"> 
 												<span>최신순</span>
-											</a>
+											</div>
 										</li>
 										<li class="tabset-item">
-											<a class="tabset-link" onclick="selectSort('recommend')"> 
+											<div class="tabset-link" id="recommendSort"> 
 												<span>추천순</span>
-											</a>
+											</div>
 										</li>
 									</ul>
 								</div>
@@ -422,8 +421,9 @@ body.modal-open {
 										</li>
 									</ul>
 								</div>
-								<form id="search-form" action="searchReview.rv">
+								<form id="search-form" method="get">
 									<input type="hidden" name="category" id="selectedCat">
+									<input type="hidden" id="selectedSort" name="selectedSort">
 									<input type="text" id="search-input" placeholder=" Search" name="keyword">
 									<button>
 										<img alt="검색 버튼" src="main/icons/ico_seach_black.svg">
@@ -699,12 +699,27 @@ body.modal-open {
 		window.onload = () =>{
 			const selectedButs = document.querySelectorAll('.selectset-link');
 			document.getElementById('selectedCat').value = '전체';
+			document.getElementById('selectedSort').value = 'latest';
 			
 			for(let i = 0; i < selectedButs.length; i++){
 				selectedButs[i].addEventListener('click', function() {
 					document.getElementById('selectedCat').value = this.value;
 				});
 			}
+			
+			const selectedSort = document.getElementById('selectedSort');
+			const searchSortForm = document.getElementById('search-form');
+			document.getElementById('lastetSort').addEventListener('click', function(){
+				selectedSort.value = 'latest';
+				searchSortForm.action = 'searchReview.rv';
+				searchSortForm.submit();
+			});
+			
+			document.getElementById('recommendSort').addEventListener('click', function(){
+				selectedSort.value = 'recommend';
+				searchSortForm.action = 'searchReview.rv';
+				searchSortForm.submit();
+			});
 			
 			const replyDiv = document.getElementById('replyDiv');
 			document.getElementById('reviewReplyBut').addEventListener('click', () =>{
@@ -733,13 +748,13 @@ body.modal-open {
 			   let modal = document.getElementById('myModal');
 			   modal.style.display = 'block';
 			   document.body.classList.add('modal-open');
-			}
+			};
 
 			const closeModal = () =>{
 			   let modal = document.getElementById('myModal');
 			   modal.style.display = 'none';
 			   document.body.classList.remove('modal-open');
-			}
+			};
 			
 			document.getElementById("closeSelectRevMd").addEventListener('click', ()=>{
 				closeModal();
@@ -753,14 +768,14 @@ body.modal-open {
 	            let dim = document.querySelector('.modalset-dim');
 	            modal.classList.add('modalset-active');
 	            dim.style.display = 'block';
-	        }
+	        };
 
 	        const closeDelModal = () => {
 	            let modal = document.getElementById('modalSet1');
 	            let dim = document.querySelector('.modalset-dim');
 	            modal.classList.remove('modalset-active');
 	            dim.style.display = 'none';
-	        }
+	        };
 	        
 	        
 	        const delModalBody = document.querySelector('.modal-body').querySelector('p');
@@ -810,10 +825,11 @@ body.modal-open {
 					return attmMap;
 				});
 			
+			
 			const rLikeArr = lList.replace(/\[{/g, '').replace(/\{/g, '').replace(/\}]/g, '').split("}, ");
 			const rLikeList = rLikeArr.map(reviewLikes => {
 					const likeCount = reviewLikes.split(', ');
-		
+					
 					const rLikeMap = {};
 					likeCount.forEach(keyValue => {
 						const [key, value] = keyValue.split('=');
@@ -864,7 +880,7 @@ body.modal-open {
 					const fillLikebut = document.getElementById('reviewLikeDown');
 					
 					for(const r of allRList){
-						if(r.revNo == revNo){
+						if(r.revNo == revNo){ 
 							document.getElementById('productName').innerText = r.proName;
 							document.getElementById('reviewCount').innerText = "조회수 " + r.revCount;
 							document.getElementById('productWriter').innerText = r.proWriter;
