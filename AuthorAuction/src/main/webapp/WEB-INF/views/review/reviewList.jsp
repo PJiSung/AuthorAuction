@@ -382,55 +382,55 @@ body.modal-open {
 						<div class="addReview" id="goWriteReviewButton">등록</div>
 					</div>
 					<div class="contents-body">
-						<div class="contents-sort">
-							<p class="contents-sort-total">미술품 리뷰 게시판 설명 솰라랄랄입니다.</p>
-							<div class="contents-sort-sel" style="gap: 1rem">
-								<div class="tabset tabset-text" style="width: 120px;">
-									<ul class="tabset-list">
-										<li class="tabset-item">
-											<div class="tabset-link active" id="lastetSort"> 
-												<span>최신순</span>
-											</div>
-										</li>
-										<li class="tabset-item">
-											<div class="tabset-link" id="recommendSort"> 
-												<span>추천순</span>
-											</div>
-										</li>
-									</ul>
-								</div>
-								<div class="selectset selectset-round selectset-lg" style="min-width: 12px;">
-									<button class="selectset-toggle btn" type="button" style="height: 40px; width: 100px;">
-										<span>전체</span>
-									</button>
-									<ul class="selectset-list" style="width: 100px;">
-										<li class="selectset-item">
-											<button class="selectset-link btn" type="button" value="전체">
-												<span>전체</span>
-											</button>
-										</li>
-										<li class="selectset-item">
-											<button class="selectset-link btn" type="button" value="작품명">
-												<span>작품명</span>
-											</button>
-										</li>
-										<li class="selectset-item">
-											<button class="selectset-link btn" type="button" value="작가명">
-												<span>작가명</span>
-											</button>
-										</li>
-									</ul>
-								</div>
-								<form id="search-form" method="get">
+						<form class="contents-sort" action="sortSearchForm" method="get" id="sortSearchForm">
+								<p class="contents-sort-total">미술품 리뷰 게시판 설명 솰라랄랄입니다.</p>
+								<div class="contents-sort-sel" style="gap: 1rem">
+									<div class="tabset tabset-text" style="width: 120px;">
+										<ul class="tabset-list">
+											<li class="tabset-item">
+												<div class="tabset-link active" id="lastetSort"> 
+													<span>최신순</span>
+												</div>
+											</li>
+											<li class="tabset-item">
+												<div class="tabset-link" id="recommendSort"> 
+													<span>추천순</span>
+												</div>
+											</li>
+										</ul>
+									</div>
+									<div class="selectset selectset-round selectset-lg" style="min-width: 12px;">
+										<button class="selectset-toggle btn" type="button" style="height: 40px; width: 100px;">
+											<span>전체</span>
+										</button>
+										<ul class="selectset-list" style="width: 100px;">
+											<li class="selectset-item">
+												<button class="selectset-link btn" type="button" value="전체">
+													<span>전체</span>
+												</button>
+											</li>
+											<li class="selectset-item">
+												<button class="selectset-link btn" type="button" value="작품명">
+													<span>작품명</span>
+												</button>
+											</li>
+											<li class="selectset-item">
+												<button class="selectset-link btn" type="button" value="작가명">
+													<span>작가명</span>
+												</button>
+											</li>
+										</ul>
+									</div>
 									<input type="hidden" name="category" id="selectedCat">
 									<input type="hidden" id="selectedSort" name="selectedSort">
-									<input type="text" id="search-input" placeholder=" Search" name="keyword">
-									<button>
-										<img alt="검색 버튼" src="main/icons/ico_seach_black.svg">
-									</button>
-								</form>
-							</div>
-						</div>
+									<div id="search-form">
+										<input type="text" id="search-input" placeholder=" Search" name="keyword">
+										<button>
+											<img alt="검색 버튼" src="main/icons/ico_seach_black.svg">
+										</button>
+									</div>
+								</div>
+						</form>
 
 						<div class="contents-list">
 							<c:forEach items="${ rList }" var="r">
@@ -707,19 +707,31 @@ body.modal-open {
 				});
 			}
 			
-			const selectedSort = document.getElementById('selectedSort');
-			const searchSortForm = document.getElementById('search-form');
+			const selectSort = document.getElementById('selectedSort');
+			const sortSearchForm = document.getElementById('sortSearchForm');
 			document.getElementById('lastetSort').addEventListener('click', function(){
-				selectedSort.value = 'latest';
-				searchSortForm.action = 'searchReview.rv';
-				searchSortForm.submit();
+				selectSort.value = 'latest';
+				sortSearchForm.action = 'searchReview.rv';
+				sortSearchForm.submit();
 			});
 			
 			document.getElementById('recommendSort').addEventListener('click', function(){
-				selectedSort.value = 'recommend';
-				searchSortForm.action = 'searchReview.rv';
-				searchSortForm.submit();
+				selectSort.value = 'recommend';
+				sortSearchForm.action = 'searchReview.rv';
+				sortSearchForm.submit();
 			});
+			
+			const urlSearchParams = new URLSearchParams(window.location.search);
+			const selectedSort = urlSearchParams.get('selectedSort');
+			const lastetSort = document.getElementById('lastetSort');
+			const recommendSort = document.getElementById('recommendSort');
+			if (selectedSort == 'recommend') {
+				recommendSort.classList.add('active');
+				lastetSort.classList.remove('active');
+			} else if(selectedSort == 'latest') {
+				recommendSort.classList.remove('active');
+				lastetSort.classList.add('active');
+			}
 			
 			const replyDiv = document.getElementById('replyDiv');
 			document.getElementById('reviewReplyBut').addEventListener('click', () =>{
@@ -738,7 +750,7 @@ body.modal-open {
 						alert('리뷰 등록 가능한 작품이 없습니다.');
 					}
 				} else{
-					alert('로그인 후 이용 등록 가능합니다.');
+					alert('리뷰는 로그인 후 등록 가능합니다.');
 					location.href='login';
 				}
 			});
@@ -776,7 +788,6 @@ body.modal-open {
 	            modal.classList.remove('modalset-active');
 	            dim.style.display = 'none';
 	        };
-	        
 	        
 	        const delModalBody = document.querySelector('.modal-body').querySelector('p');
 	        const revDetailForm = document.getElementById('reviewDetailForm');
@@ -979,7 +990,7 @@ body.modal-open {
 								}
 							})
 						} else{
-							alert('작성하신 글을 [좋아요] 버튼을 누를 수 없습니다.');
+							alert('작성하신 글은 [좋아요] 버튼을 누를 수 없습니다.');
 							lineLikebut.style.display = 'block';
 				            fillLikebut.style.display = 'none';
 						}

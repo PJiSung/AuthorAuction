@@ -214,6 +214,8 @@ public class ReviewController {
 		PageInfo pi = Pagination.getPageInfo(page, listCount, 9);
 		ArrayList<Review> rList = rService.searchReview(map, pi);
 		ArrayList<Attachment> aList = rService.selectAttmList(null);
+		ArrayList<Review> allRlist = rService.selectReviewAllList();
+		ArrayList<HashMap<String, Object>> lList = rService.reviewLikeList();
 		
 		System.out.println(rList);
 		System.out.println(aList);
@@ -223,6 +225,8 @@ public class ReviewController {
 				model.addAttribute("pi", pi);
 				model.addAttribute("rList", rList);
 				model.addAttribute("aList", aList);
+				model.addAttribute("allRlist", allRlist);
+				model.addAttribute("lList", lList);
 				return "review/reviewList";
 			} else {
 				return "review/reviewList";

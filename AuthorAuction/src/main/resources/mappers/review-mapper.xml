@@ -60,8 +60,10 @@
 	<select id="getSearchListCount" resultType="_int">
 		select count(*)
     	from (select rev_no, rev_content, rev_modify_date, pro_no, pro_name, pro_writer, pro_image,
-            		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like
+            		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like,
+            		 case when a.att_no is not null then 'Y' else 'N' end as has_attm
       		  from review r join product using (pro_no)
+      		  				left join attachment a on r.rev_no = a.att_bno
    		<where>
         	pro_no = pro_no and rev_status = 'Y'
       		<if test="category != null and keyword != null">
@@ -94,8 +96,10 @@
 	<select id="searchReview" parameterType="map" resultType="Review">
     	select *
     	from (select rev_no, rev_content, rev_modify_date, pro_no, pro_name, pro_writer, pro_image,
-            		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like
+            		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like,
+            		 case when a.att_no is not null then 'Y' else 'N' end as has_attm
       		  from review r join product using (pro_no)
+      		  				left join attachment a on r.rev_no = a.att_bno
    		<where>
         	pro_no = pro_no and rev_status = 'Y'
       		<if test="category != null and keyword != null">
