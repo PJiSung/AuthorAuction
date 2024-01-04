@@ -30,7 +30,7 @@
 	<button onclick="location.href='scheduledAuction.adac'">예정 경매</button>
 	
     <div id="containerCover" style="width: 70%; margin: auto; margin-top: 1%;">
-        <div style=" background-color: pink;">
+        <div style="">
             <div id="searchLine">
                 <span><span>전체 경매</span><span>${ total }</span> 개</span>
                 <div style="float: right; width: 80%; text-align: right;">
@@ -51,7 +51,7 @@
                 <c:forEach items="${ aList }" var="auction">
                 	 <div class="auction" id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center; margin: 0 1.5% 0 2.1%">
                 	 <img src="${ auction.attRename }" style="width: 100%; height: 100%;">
-                        <span>${ auction.conProduct }</span><br><span>${ auction.aucFinishPrice }</span><br><span>${ fn:split(auction.aucStartDate, " ")[0] } ~ ${ fn:split(auction.aucFinishDate, " ")[0] }</span>
+                        <span>${ auction.conProduct }</span><br><span>현재 입찰 금액 : ${ auction.aucFinishPrice }</span><br><span>${ fn:split(auction.aucStartDate, " ")[0] } ~ ${ fn:split(auction.aucFinishDate, " ")[0] }</span>
                         <input type="hidden" value="${ auction.aucNo }">
                     </div>
                 </c:forEach>
