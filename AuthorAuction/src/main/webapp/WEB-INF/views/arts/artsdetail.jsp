@@ -476,12 +476,12 @@
               <div class="contents-brand">
                 <a href="javascript:void(0);" id = "proNo">${p.proNo}</a>
                 <div class="contents-brand-group">
-                  <button class="contents-btn btn-like-line">
-                    <img src="sunwoo/icons/ico_like_black_line.svg" alt="하트 라인 아이콘">
-                  </button>
-                  <button class="contents-btn btn-like-fill">
-                    <img src="sunwoo/icons/ico_like_black_fill.svg" alt="하트 채워진 아이콘">
-                  </button>
+<!--                   <button class="contents-btn btn-like-line"> -->
+<!--                     <img src="sunwoo/icons/ico_like_black_line.svg" alt="하트 라인 아이콘"> -->
+<!--                   </button> -->
+<!--                   <button class="contents-btn btn-like-fill"> -->
+<!--                     <img src="sunwoo/icons/ico_like_black_fill.svg" alt="하트 채워진 아이콘"> -->
+<!--                   </button> -->
                   <button class="contents-btn" onclick = "share('on')">
                     <img src="sunwoo/icons/ico_share_black.svg" alt="공유 아이콘">
                   </button>
@@ -618,7 +618,7 @@
          			<br><br>
          			<h1>교환 및 반품 배송비는 어떻게 되나요?</h1>
          		</div>
-         		<div style = "display:flex; align-items:center; justify-content:center; flex-direction:column; font-size: 25px; margin-top: 5%; margin-bottom: 5%;">
+         		<div style = "display:flex; align-items:center; justify-content:center; flex-direction:column; font-size: 25px; margin-top: 10%; margin-bottom: 10%;">
          			<h1>A.</h1>
          			<br><br>
          			<ul>
