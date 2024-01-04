@@ -672,17 +672,17 @@
                     </ul>
                   </div>
                   <div class="selectset selectset-round selectset-sm">
-                    <button class="selectset-toggle btn" type="button">
-                      <span>12개씩 보기</span>
+                    <button class="selectset-toggle btn" type="button" id = "12btn">
+                      <span id = "viewartsview">12개씩 보기</span>
                     </button>
                     <ul class="selectset-list">
                       <li class="selectset-item">
-                        <button class="selectset-link btn" type="button" data-value="12개씩 보기">
+                        <button class="selectset-link btn" type="button" data-value="12개씩 보기" onclick = "viewarts(12)">
                           <span>12개씩 보기</span>
                         </button>
                       </li>
                       <li class="selectset-item">
-                        <button class="selectset-link btn" type="button" data-value="30개씩 보기">
+                        <button class="selectset-link btn" type="button" data-value="30개씩 보기" onclick = "viewarts(30)">
                           <span>30개씩 보기</span>
                         </button>
                       </li>
@@ -696,6 +696,11 @@
               
               
               <div class="contents-list">
+              <c:if test="${plistsize == 0 }">
+              	<div style = "display:flex; align-items:center; justify-content:center;  margin: 0 auto; height: 50vh;" id = "noitemdiv">
+              	<h1>검색 결과가 없습니다.</h1>
+              	</div>
+              </c:if>
               <c:forEach items = "${plist}" var = "p">
                 <a href="artsDetail.ar?proNo=${p.proNo}" class="cardset cardset-shopping">
                   <figure class="cardset-figure">
@@ -813,7 +818,7 @@
                 </div>
                 <div class="pagiset-list">
                   <c:forEach var = "page" begin = "${pi.startPage}" end ="${pi.endPage}" >
-                  <a class= "${pi.currentPage == page} ? pagiset-link active-fill : pagiset-link"  onclick = "paging(${page})" style = "cursor:pointer">${page}</a>
+                  <a class= "${pi.currentPage eq page} ? pagiset-link active-fill : pagiset-link" onclick = "paging(${page})" style = "cursor:pointer">${page}</a>
                   </c:forEach>
                 </div>
                 <div class="pagiset-ctrl">
@@ -1151,7 +1156,6 @@
 		  return urlObject.href;
 		}
   
-  
  	function paging(data){
  		
 		
@@ -1160,11 +1164,13 @@
   		var originalURL = window.location.href;
 	  	var parametersToRemove = ["page"];
 	  	var modifiedURL = removeURLParameters(originalURL, parametersToRemove);
-	  		
+	  					
+	  	
  		switch(data){
  		
  		case 'first':
  			
+ 			if(document.getElementById('noitemdiv') == null && ${pi.currentPage != 1}){
  			if(URLSearch.size == 0){
  				location.href = modifiedURL + "?page="+${pi.startPage}; break;
  			}else if( URLSearch.size == 1 && URLSearch.get('page')){
@@ -1172,8 +1178,13 @@
  			}else{
  				location.href = modifiedURL + "&page="+${pi.startPage}; break;
  			}
+ 			}
  			break;
  		case 'forward':
+ 			
+ 			
+ 			if(document.getElementById('noitemdiv') == null && ${pi.currentPage != 1}){
+ 			
  			if(URLSearch.size == 0){
  				location.href = modifiedURL + "?page="+${pi.currentPage-1}; break;
  			}else if( URLSearch.size == 1 && URLSearch.get('page')){
@@ -1181,8 +1192,12 @@
  			}else{
  				location.href = modifiedURL + "&page="+${pi.currentPage-1}; break;
  			}
+ 			}
+ 			
  			break;
  		case 'next':
+ 			
+ 			if(document.getElementById('noitemdiv') == null && ${pi.currentPage != pi.maxPage}){
  			if(URLSearch.size == 0){
  				location.href = modifiedURL + "?page="+${pi.currentPage+1}; break;
  			}else if( URLSearch.size == 1 && URLSearch.get('page')){
@@ -1190,14 +1205,18 @@
  			}else{
  				location.href = modifiedURL + "&page="+${pi.currentPage+1}; break;
  			}
+ 			
+ 			}
  			break;
  		case 'last':	
+ 			if(document.getElementById('noitemdiv') == null && ${pi.currentPage != pi.maxPage}){
  			if(URLSearch.size == 0){
  				location.href = modifiedURL + "?page="+${pi.maxPage}; break;
  			}else if( URLSearch.size == 1 && URLSearch.get('page')){
  				location.href = modifiedURL + "?page="+${pi.maxPage}; break;
  			}else{
  				location.href = modifiedURL + "&page="+${pi.maxPage}; break;
+ 			}
  			}
  			break;
  		
@@ -1219,14 +1238,97 @@
  		
  	}
   
- 	
- 	
- 	
- 	  
+  
+  
+  </script>
+  
+  
+  <script>
+  
+  
+  function removeURLParameters(url, parametersToRemove) {
+	  var urlObject = new URL(url);
+	  var params = new URLSearchParams(urlObject.search);
+
+	  parametersToRemove.forEach(function (param) {
+	    params.delete(param);
+	  });
+
+	  urlObject.search = params.toString();
+
+	  return urlObject.href;
+	}
+  
+  
+  
+  
+  	function viewarts(data){
+  	
+  		var URLSearch = new URLSearchParams(location.search);
+  		
+  		var originalURL = window.location.href;
+  		var parametersToRemove = ["viewarts"];
+	  	var modifiedURL = removeURLParameters(originalURL, parametersToRemove);
+  		
+	
+  		switch(data){
+  		
+  		case 12:  
+  			
+  			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?viewarts=12"; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('viewarts')){
+ 				location.href = modifiedURL + "?viewarts=12"; break;
+ 			}else{
+ 				location.href = modifiedURL + "&viewarts=12"; break;
+ 			}
+ 			break;
+  		
+  		
+  		
+  		case 30: 
+  			
+  			if(URLSearch.size == 0){
+ 				location.href = modifiedURL + "?viewarts=30"; break;
+ 			}else if( URLSearch.size == 1 && URLSearch.get('viewarts')){
+ 				location.href = modifiedURL + "?viewarts=30"; break;
+ 			}else{
+ 				location.href = modifiedURL + "&viewarts=30"; break;
+ 			}
+  			
+  			
+  			
+  			
+  			
+  			
+  			
+  			break;
+  		}
+  	}
+  
+  
+  </script>
+  
+  <script>
+  
+var URLSearch = new URLSearchParams(location.search);
+  		
+	
+  		
+  			
+ 			if(URLSearch.get('viewarts') == 12){
+ 				document.getElementById('viewartsview').innerText = "12개씩 보기";
+ 			}
+ 			else if(URLSearch.get('viewarts') == 30){
+ 				
+ 				document.getElementById('viewartsview').innerText = "30개씩 보기"
+ 			}
   
   
   
   </script>
+  
+  
   
   
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->

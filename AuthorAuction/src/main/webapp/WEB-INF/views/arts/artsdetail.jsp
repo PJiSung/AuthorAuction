@@ -612,13 +612,49 @@
           </div>
         </div>
         
-         <div class="contents-container container-md" id = "delidiv">
-          <div class="imageset">
-            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
-          </div>
-          <div class="imageset">
-            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
-          </div>
+         <div class="contents-container container-md" id = "delidiv" style = "color: #444;">
+         		<div style = "background-color: #333; height: 35vh; color: white; display:flex; align-items:center; justify-content:center; flex-direction:column; font-size: 25px; box-shadow: 0px 5px 10px gray;">
+         			<h1>Q.</h1>
+         			<br><br>
+         			<h1>교환 및 반품 배송비는 어떻게 되나요?</h1>
+         		</div>
+         		<div style = "display:flex; align-items:center; justify-content:center; flex-direction:column; font-size: 25px; margin-top: 5%; margin-bottom: 5%;">
+         			<h1>A.</h1>
+         			<br><br>
+         			<ul>
+         					<li style="list-style-type: circle;"><h3>단순변심의 경우</h3></li>
+         					<br>
+         					<p>상품 수령일로부터 7일이내 교환/반품이 가능하며, 반송택배비는 고객 부담입니다.</p>
+         					<br><br>
+         					<p>반품 시 상품 및 무료증정 사은품은 모두 반품해주셔야 합니다.</p>
+         					<br><br>
+         					<p>제주도 및 도서산간지역은 추가 요금이 발생합니다.</p>
+         					<br><br>
+         					<p>-제주도 추가 배송비 : 3,000원 / 도서산간지역 추가 배송비: 5,000원</p>
+         					<br><br>
+         					<li style="list-style-type: circle;"><h3>상품 불량 오배송인 경우</h3></li>
+         					<br>
+         					<p>상품 수령일로부터 7일이내 교환/반품이 가능하며, 택배비는 어서옥션에서 부담합니다.</p>
+         					<p>(상품 불량을 증명할 수 있는 사진 첨부는 필수입니다.)</p>
+         					<br>
+         					<hr>
+         					<br>
+         					<li style="list-style-type: circle;"><h3>반품 택배비 안내</h3></li>
+         					<br>
+         					<p>-유료 배송으로 받은 경우: 편도택배비 3,000원(반송배송비 3,000원) 고객부담</p>
+         					<br><br>
+         					<p>-무료 배송으로 받은 경우: 왕복택배비 6,000원(초기배송비 3,000원 + 반송배송비 3,000원) 고객부담</p>
+         					<br>
+         					<small>(제주도 추가 배송비: 3,000원 / 도서산간지역 추가 배송비: 5,000원)</small>
+         					<br><br><br>
+         					<li style="list-style-type: circle;"><h3>교환 택배비 안내</h3></li>
+         					<br>
+         					<p>-왕복택배비 6,000원(반송배송비 3,000원+교환상품배송비 3,000원) 고객부담</p>
+							<p>(그 외에 교환 상품 추가 결제 비용은 홈페이지 아래의 계좌번호 입금 또는 고객센터에 문의해주세요.)</p>
+						         				
+         			</ul>
+         		</div>
+         
         </div>
         
         	
