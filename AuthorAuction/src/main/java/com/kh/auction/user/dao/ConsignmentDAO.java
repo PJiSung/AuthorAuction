@@ -41,15 +41,9 @@ public interface ConsignmentDAO {
 
 	int statusNConsignment(int conNo);
 	
-///////////////////////////////////////////////////////////////////////////////////////
-	
-	int deleteAttm(String[] delRename);
-	
-	void updateAttmFno(HashMap<String, Object> map);
-
 	int updateConsignment(Consignment c);
 
-	
+	int updateAttmFno(Attachment a);
 
 	
 	
@@ -75,7 +69,7 @@ public interface ConsignmentDAO {
 
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
 
-	int updateAttmFno(Attachment a);
+	
 
 
 }

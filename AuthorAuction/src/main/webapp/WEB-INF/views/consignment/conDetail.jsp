@@ -553,12 +553,6 @@
 				
 				let conNo = document.getElementsByName("conNo")[0];
 				formData.append("conNo", conNo.value);
-				for(let i = 0; i<imgArr.length; i++){
-					if(imgArr[i] != "" && !exist.includes(i)){
-						nonNoneCount++;
-					}
-				}
-				
 				
 					
 				/* if(nonNoneCount > 0){

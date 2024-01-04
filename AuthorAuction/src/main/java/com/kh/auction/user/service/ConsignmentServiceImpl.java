@@ -87,19 +87,12 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	public int statusNConsignment(int conNo) {
 		return cDAO.statusNConsignment(conNo);
 	}
-	
-	
-	
-	
-	// 글 수정
+	// 글 수정(첨부)
 	@Override
-	public int deleteAttm(String[] delRename) {
-		return cDAO.deleteAttm(delRename);
+	public int updateAttmFno(Attachment a) {
+		return cDAO.updateAttmFno(a);
 	}
-	@Override
-	public void updateAttmFno(HashMap<String, Object> map) {
-		cDAO.updateAttmFno(map);
-	}
+	// 글 수정(글)
 	@Override
 	public int updateConsignment(Consignment c) {
 		return cDAO.updateConsignment(c);
@@ -159,10 +152,7 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	public ArrayList<HashMap<String, Object>> selectAuctionMList() {
 		return cDAO.selectAuctionMList();
 	}
-	@Override
-	public int updateAttmFno(Attachment a) {
-		return cDAO.updateAttmFno(a);
-	}
+	
 	
 	
 	

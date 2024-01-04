@@ -216,19 +216,19 @@ public class ConsignmentController {
 	// 상세조회
 	@GetMapping("selectConsignment.co")
 	public String selectConsignment(@RequestParam("conNo") int conNo, HttpSession session, Model model,
-			@RequestParam(value = "page", defaultValue = "1") int Page) {
+									@RequestParam(value = "page", defaultValue = "1") int Page) {
 
 		String isAdmin = ((Member) session.getAttribute("loginUser")).getMemIsAdmin();
 
 		if (isAdmin.equals("Y")) {
 			int result = cService.updateConAdmStatus(conNo);
-			System.out.println(result);
 		}
+		
 		Member m = cService.selectMember(conNo);
 		Consignment c = cService.selectConsignment(conNo); // 게시글 정보 조회
+		
 		// 게시글의 첨부파일 목록 조회
 		ArrayList<Attachment> list = cService.selectAttmConsignmentList(conNo);
-
 		PageInfo pi = Pagination.getPageInfo(Page, conNo, Page);
 
 		// 조회된 게시글이 null이 아닌 경우에만 모델에 추가하고 상세조회 페이지로 이동
@@ -257,7 +257,7 @@ public class ConsignmentController {
 		}
 	}
 
-	// 글 수정
+	// 글 수정(첨부)
 	@ResponseBody
 	@PostMapping("updateConsignment.co")
 	public String updateAttm(
@@ -266,47 +266,48 @@ public class ConsignmentController {
 			@RequestParam(value = "exist", required=false) int[] exist,
 			@RequestParam(value = "imgArr", required=false) String[] imgArr,
 			@RequestParam(value = "conNo", required=false) int conNo) {
+		
 		// // 파일 새로 추가
 		ArrayList<Attachment> list = new ArrayList<>(); // list : 새로추가할 파일들
-		
-		
-		
+
 		//exist : 추가될 인덱스 번호
 		//imgArr : 삭제 파일명
 		int updateResult = 0;
-			  for(int i = 0; i < files.length; i++) { 
-				  MultipartFile upload = files[i];
-				  if(!upload.getOriginalFilename().equals("")) {
-					  String rename = saveFile(upload, exist[i]);
-					  if(rename != null) { 
-						  Attachment a = new Attachment();
-						  a.setAttRename(rename);
-						  a.setAttFno(exist[i]);
-						  a.setAttBno(conNo);
-						  list.add(a); 
-						  updateResult = cService.updateAttmFno(a);
-					  } 
-				  } 
-			  }
-			  for(int i=0; i<imgArr.length; i++) {
-				  if(!imgArr[i].equals("undefined") && !imgArr[i].equals("null")) {
-					  deleteFile(imgArr[i]);
-				  }
-			  }
+		for(int i = 0; i < files.length; i++) { 
+			MultipartFile upload = files[i];
+			if(!upload.getOriginalFilename().equals("")) {
+				String rename = saveFile(upload, exist[i]);
+				if(rename != null) { 
+					Attachment a = new Attachment();
+					a.setAttRename(rename);
+					a.setAttFno(exist[i]);
+					a.setAttBno(conNo);
+					list.add(a); 
+					updateResult = cService.updateAttmFno(a);
+				} 
+			} 
+	    }
+		
+		for(int i=0; i<imgArr.length; i++) {
+			if(!imgArr[i].equals("undefined") && !imgArr[i].equals("null")) {
+				deleteFile(imgArr[i]);
+			}
+		}
 		if(updateResult > 0) {
 			return "success";
-		}else {
+		} else {
 			return "fail";
 		}
 	}
 	
+	// 글 수정(글)
 	@PostMapping("updateBoard.co")
 	public String updateBoard(Consignment c, RedirectAttributes ratt) {
 		int result = cService.updateConsignment(c);
 		if(result > 0) {
 			ratt.addAttribute("conNo", c.getConNo());
 			return "redirect:selectConsignment.co";
-		}else {
+		} else {
 			throw new Exception("수정 실패");
 		}
 	}

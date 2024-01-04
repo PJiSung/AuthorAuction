@@ -35,17 +35,9 @@ public interface ConsignmentService {
 	int deleteConsignment(int conNo);
 	// 글 삭제
 	int statusNConsignment(int conNo);
-	
-	
-	
-	
-	// 글 수정
-	int deleteAttm(String[] imgArr);
-	// 수정 어쩌고저쩌고	
-	void updateAttmFno(HashMap<String, Object> map);
-	// 수정 어쩌고2	
+	// 글 수정(글)
 	int updateConsignment(Consignment c);
-	// 수정 어쩌고3
+	// 글 수정(첨부)
 	int updateAttmFno(Attachment a);
 	
 	

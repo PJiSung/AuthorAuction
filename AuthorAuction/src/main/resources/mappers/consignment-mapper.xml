@@ -111,34 +111,25 @@
 		where att_bno = #{conNo}
 	</update>
 	
-	
-
-
-	
-	
-	<update id="updateConsignment">														<!-- 내용 수정 -->
+	<update id="updateConsignment">														<!-- 글 내용(첨부) 수정 -->
 		update consignment
 		set con_author=#{conAuthor}, con_product=#{conProduct}, con_Width=#{conWidth}, con_height=#{conHeight},
 			con_year=#{conYear}, con_hope=#{conHope}, con_etc=#{conEtc}, con_create_date = sysdate
 		where con_No=#{conNo}
 	</update>
 	
-<!-- 	<update id="updateAttmFno" parameterType="java.util.HashMap">						들어오는 사진 순서 지정
+	<update id="updateAttmFno">															<!-- 글 수정 -->
 		update attachment
-		set att_fno=#{attFno}
-		where att_bno=#{conNo}
-	</update> -->
-	
+		set att_rename = #{attRename}
+		where att_bno=#{attBno} and att_fno = #{attFno}
+	</update>
+
 	<select id="selectAuctionMList" resultType="map">									<!-- 수락 / 거절 auction 가져옴 -->
 		select  auc_start_date, auc_finish_date, auc_cno, auc_mem_id
 		from consignment join auction on(con_no = auc_cno)
 	</select>
 	
-	<update id="updateAttmFno">
-		update attachment
-		set att_rename = #{attRename}
-		where att_bno=#{attBno} and att_fno = #{attFno}
-	</update>
+	
 	
 	<!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  --><!--  -->
 	
