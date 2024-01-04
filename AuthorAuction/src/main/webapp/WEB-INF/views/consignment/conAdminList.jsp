@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  
+   
   <style type="text/css">
   	table{
 		width:100%;

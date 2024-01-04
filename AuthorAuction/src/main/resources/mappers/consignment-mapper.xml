@@ -177,7 +177,7 @@
 	</select>							
 
 	<select id="selectUser" resultType="Consignment">									<!-- 관리자 상세조회 -->
-		select *
+		select * 
 		from consignment
 		where con_no=#{conNo}
 	</select>

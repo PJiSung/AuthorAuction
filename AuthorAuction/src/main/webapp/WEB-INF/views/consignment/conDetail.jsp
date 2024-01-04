@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="consignment/css/template.css">
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
-<style>
+<style> 
 #attmForm .contents-thumbimg:hover{
 	filter: brightness(75%);
 }
