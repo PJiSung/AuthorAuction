@@ -2,12 +2,14 @@ package com.kh.auction.member.service;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.auction.member.dao.MemberDAO;
 import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.model.vo.PageInfo;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -116,6 +118,20 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int deleteMemImg(String id) {
 		return mDao.deleteMemImg(id);
+	}
+
+	@Override
+	public int getListCount(String memId) {
+		return mDao.getListCount(memId);
+	}
+
+	@Override
+	public ArrayList<Member> selectMemberList(String memId, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mDao.selectMemberList(memId, rowBounds);
 	}
 	
 }

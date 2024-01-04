@@ -3,6 +3,7 @@ package com.kh.auction.member.dao;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
@@ -41,4 +42,8 @@ public interface MemberDAO {
 	int updateMemImg(Member m);
 
 	int deleteMemImg(String id);
+
+	int getListCount(String memId);
+
+	ArrayList<Member> selectMemberList(String memId, RowBounds rowBounds);
 }

@@ -122,4 +122,17 @@
 		SET MEM_FILENAME = NULL
 		WHERE MEM_ID = #{memId}
 	</update>
+	
+	<select id="getListCount" resultType="_int"> 
+		SELECT count(*)
+		FROM MEMBER
+	</select>
+	
+	<select id="selectMemberList" resultType="Member">
+		SELECT *
+		FROM MEMBER
+		order by MEM_STATUS desc, MEM_DATE desc
+	</select>
+	
+	
 </mapper>

@@ -526,10 +526,11 @@ public class MemberController {
 	public void deleteFile(String fileName) {
 		String root = "C:\\";
 		String savaPath = root + "\\uploadFiles";
-		
 		File f = new File(savaPath + "\\" + fileName);
 		if(f.exists()) {
 			f.delete();
 		}
 	}
+	
+	// 
 }

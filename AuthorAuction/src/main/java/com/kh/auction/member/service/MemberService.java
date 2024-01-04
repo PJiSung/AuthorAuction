@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.model.vo.PageInfo;
 
 public interface MemberService {
 
@@ -36,4 +37,8 @@ public interface MemberService {
 	int updateMemImg(Member m);
 
 	int deleteMemImg(String id);
+
+	int getListCount(String memId);
+
+	ArrayList<Member> selectMemberList(String memId, PageInfo pi);
 }
