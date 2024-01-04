@@ -29,10 +29,16 @@ public class AuctionAdminController {
 	@GetMapping("adminInquiry.adac")
 	public String moveToAdminInquiry(@RequestParam(value="page", defaultValue="1") int page, Model model) {
 		
-		//관리자 조회 페이지 접근시 기본적으로 진행중인 경매만 보이도록 설정
-		ArrayList<Auction> auctionList = aService.getAllAuction();
 		
-		PageInfo pi = Pagination.getPageInfo(page, auctionList.size(), 10);
+		
+		
+		int allOngingAuctionNum = aService.getAllOngingAuctionNum();
+		
+		
+		PageInfo pi = Pagination.getPageInfo(page, allOngingAuctionNum, 10);
+		
+		//관리자 조회 페이지 접근시 기본적으로 진행중인 경매만 보이도록 설정
+		ArrayList<Auction> auctionList = aService.getAllAuction(pi);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("aList", auctionList);
