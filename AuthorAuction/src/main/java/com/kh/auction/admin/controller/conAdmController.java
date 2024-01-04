@@ -114,7 +114,6 @@ public class conAdmController {
 		}
 		
 	}
-	// 수락 / 거절 페이지 이동
 	
 	
 	

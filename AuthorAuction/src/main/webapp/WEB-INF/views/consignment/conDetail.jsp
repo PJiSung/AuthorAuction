@@ -264,7 +264,9 @@
 			    <a class="textset-tit" style="font-size: 40px;">위탁 문의 내역(수정)</a>
 			</div>
           
-          	<form action="updateConsignment.co" method="post" enctype="multipart/form-data" id="attmForm">
+          	<form action="updateBoard.co"  enctype="multipart/form-data" method="post" id="attmForm">
+          	
+          	<input type="hidden" name="memId" value="${ loginUser.memId }">
           	<input type="hidden" name="conNo" value="${ c.conNo }">
           	<input type="hidden" name="page" value="${ pi.currentPage }">
 	          <div class="dhead">
@@ -472,8 +474,6 @@
 
 	<script>
 		window.onload = () => {
-			console.log(document.querySelectorAll("input")[13].value == "");
-			console.log('${pi}')
 			
 			/*
 			const consignmentDetail = (conNo) =>{													<!-- 상세보기로 이동 -->
@@ -513,64 +513,87 @@
 			
 			
 				const img = document.querySelectorAll("img[class='contents-thumbimg']");
-				const imgArr = ["","","",""];
+				const imgArr = [];
 				
 				for(const [index, selectImg] of img.entries()){
 					selectImg.addEventListener('click',function(){
-						if(imgArr[index] == "") {
+						if(imgArr[index] == null) {
 							imgArr[index] =  selectImg.src;
 						}else{
-							imgArr[index] = "";
+							imgArr[index] = "null";
 						}
 					})
 				}
 				
-				console.log(imgArr);
 				
 				let nonNoneCount = 0;
 				document.getElementById('submitAttm').addEventListener('click', function(){
-					console.log(imgArr);
 				/* console.log(document.querySelectorAll("input[class='fileset-input']"));
 				console.log(document.querySelectorAll(".active")); */
 				const files = document.getElementsByClassName("fileset-group")[0];
 				const exist = [];
+				const multiFile = [];
+				
+				let formData = new FormData();
 				for(let i = 0; i < 4; i++){
 					if(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active")){
+						multiFile.push(document.getElementsByClassName("fileset-group")[i].querySelector(".fileset-input.active").files[0]);
 						exist.push(i);
 					}
 				}
+				for(let i=0 ; i<multiFile.length; i++){
+					formData.append("files", multiFile[i]);
+				}
+				for(let i = 0; i<exist.length; i++){
+					formData.append("exist", exist[i]);
+				}
+				for(let i = 0; i<imgArr.length; i++){
+					formData.append("imgArr", imgArr[i]);
+				}
 				
+				let conNo = document.getElementsByName("conNo")[0];
+				formData.append("conNo", conNo.value);
 				for(let i = 0; i<imgArr.length; i++){
 					if(imgArr[i] != "" && !exist.includes(i)){
 						nonNoneCount++;
 					}
-				}	
+				}
+				
+				
 					
-				if(nonNoneCount > 0){
+				/* if(nonNoneCount > 0){
 					alert("사진의 갯수는 반드시 4개를 넣어주셔야 합니다");
-				}else{
+				}else{ */
 					
-					const sendData = {
+					/* const sendData = {
 							exist: exist,
-							imgArr:imgArr
-					} 
+							imgArr:imgArr,
+							formData:formData
+					}  */
 					
-					jsonData = JSON.stringify(sendData);
+					/* jsonData = JSON.stringify(sendData);
+					console.log(jsonData) */
 					
 					$.ajax({
 						url:'updateConsignment.co',
 						type:'post',
-						data:jsonData,
-						contentType:"application/json",
+						data: formData,
+						contentType:false,
+						processData:false,
 						success: (data) =>{
-							console.log(data);
+							if(data == "success"){
+								console.log(data);
+								let form = document.getElementById("attmForm");
+								form.submit();
+							}
 						},
 						error: data => console.log(data)
 							
 					})
+					
 				
 				//location.href="updateConsignment.co?deleteAttm=" + imgArr;
-			}	
+			//}	
 		})
 				
 				
@@ -591,18 +614,16 @@
 				fileInputs.forEach((input) => {
 				  totalNewFileCount += input.files.length;
 				});
-				console.log('새로 추가된 파일 입력란의 파일 개수:', totalNewFileCount);
-				console.log(nonNoneCount);
 				
-				const totalFileCount = nonNoneCount + totalNewFileCount;
+				/* const totalFileCount = nonNoneCount + totalNewFileCount;
 				if(totalFileCount != 5){
-					alert('이미지는 반드시 5개여야 합니다. (현재' + totalFileCount + '개)');
+					alert('이미지는 반드시 4개여야 합니다. (현재' + totalFileCount + '개)');
 					nonNoneCount = 0;
 				} else {
 					form.action = 'updateConsignment.co';
 					form.submit();
 				}
-				
+				 */
 				// 기존 이미지 삭제 버튼 이벤트
 			    const deleteButtons = document.querySelectorAll('.deleteBtn');
 			    for (const deleteButton of deleteButtons) {
@@ -612,17 +633,6 @@
 			    }
 			}
 
-			// 사진 삭제시 첨부창 추가  	
-			/* 
-			document.getElementById('delete-${ a.attRename }/${a.attFno}').addEventListener('click', () => {
-	  			const newDiv = document.createElement('div');
-	  		  	newDiv.className = 'fileset fileset-lg fileset-label';
-
-	  		  	const newHTML = '<label><div class="fileset-body"><div class="fileset-group"><input type="file" class="fileset-input" name="file"><button class="fileset-cancel"></button></div><span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span></div></label>';
-	  		  	newDiv.innerHTML = newHTML;
-	  		  	document.getElementById('addFileDiv').appendChild(newDiv);
-			});   
-			*/
 			
 	</script>
 

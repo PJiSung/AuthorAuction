@@ -93,7 +93,7 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	
 	// 글 수정
 	@Override
-	public int deleteAttm(ArrayList<String> delRename) {
+	public int deleteAttm(String[] delRename) {
 		return cDAO.deleteAttm(delRename);
 	}
 	@Override
@@ -158,6 +158,10 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	@Override
 	public ArrayList<HashMap<String, Object>> selectAuctionMList() {
 		return cDAO.selectAuctionMList();
+	}
+	@Override
+	public int updateAttmFno(Attachment a) {
+		return cDAO.updateAttmFno(a);
 	}
 	
 	
