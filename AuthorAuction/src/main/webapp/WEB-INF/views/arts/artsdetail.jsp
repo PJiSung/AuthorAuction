@@ -583,12 +583,20 @@
         
         
         
-        <div class="contents-container container-md" id = "detaildiv" style = "display:flex;">
-          <div class="imageset" style = "width: 50%; height: 50%;">
+        <div class="contents-container container-md" id = "detaildiv" >
+          <div class="imageset" style = "width: 50%; height: 50%; margin: 0 auto;">
             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
           </div>
-          <div style = "border: 1px solid red; width: 50%; display: flex; align-items:center; justify-content:center;">
-          	<span>작품 명:</span><span>${p.proName}</span>
+          
+          
+          <div style = " margin: 0 auto; margin-top: 5%;">
+          	<div style = " text-align:center; margin-bottom: 5%;"><span style = "font-size: 40px; font-weight: bold;">품명 : </span><span style = "font-size: 40px; "> ${p.proName}</span></div>
+          	<div style = " text-align:center; margin-bottom: 5%;"><span style = "font-size: 40px; font-weight: bold;">작가 : </span><span style = "font-size: 40px; "> ${p.proWriter}</span></div>
+          	<div style = " text-align:center; margin-bottom: 5%;"><span style = "font-size: 40px; font-weight: bold;">재료 : </span><span style = "font-size: 40px; "> ${p.proMaterial}</span></small></div>
+          	<div style = "text-align:center; margin-bottom: 5%;"><span style = "font-size: 40px; font-weight: bold;">가로 : </span><span style = "font-size: 40px; "> ${p.proWidth}</span><small>(cm)</small></div>
+          	<div style = " text-align:center; margin-bottom: 5%;"><span style = "font-size: 40px; font-weight: bold;">세로 : </span><span style = "font-size: 40px; "> ${p.proHeight}</span><small>(cm)</small></div>
+          	<div style = " text-align:center;"><span style = "font-size: 40px; font-weight: bold;">제작년도 : </span><span style = "font-size: 40px; "> ${p.proDate}</span></div>
+          
           </div>
         </div>
         
@@ -603,14 +611,6 @@
           </div>
         </div>
         
-         <div class="contents-container container-md" id = "reviewdiv">
-          <div class="imageset">
-            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
-          </div>
-          <div class="imageset">
-            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
-          </div>
-        </div>
         
          <div class="contents-container container-md" id = "delidiv" style = "color: #444;">
          		<div style = "background-color: #333; height: 35vh; color: white; display:flex; align-items:center; justify-content:center; flex-direction:column; font-size: 25px; box-shadow: 0px 5px 10px gray;">
@@ -662,6 +662,11 @@
         </div>
       </div>
     <!-- [E]basic-N52 -->
+    
+  
+
+
+
   </main>
   
   
@@ -795,7 +800,7 @@
   	//게시물 공유 스크립트
   	
   	document.getElementsByClassName('sns_share')[0].style.display = "none";
-  	document.getElementById('snsaddress').value = window.location.href;
+  	document.getElementById('snsaddress').value = " " + window.location.href;
   	
   	function share(condition){
   		
@@ -928,30 +933,32 @@ alert('클립보드에 복사되었습니다');
   </script>
   
   <script>
-   var  delidiv = document.getElementById('delidiv')
-  var qnadiv = document.getElementById('qnadiv')
-  var detaildiv = document.getElementById('detaildiv')
+   var  delidiv = document.getElementById('delidiv');
+   var  qnadiv = document.getElementById('qnadiv');
+  var detaildiv = document.getElementById('detaildiv');
   
  	 delidiv.style.display = "none";
-  	reviewdiv.style.display = "none";
-  	qnadiv.style.display = "none";
+ 	qnadiv.style.display = "none";
   
   	function showdetail(kind){
   
   		switch(kind){
   		
-  		case 'delidiv': delidiv.style.display = "block";
+  		case 'delidiv': 
+  		delidiv.style.display = "block";
   		qnadiv.style.display = "none";
   		detaildiv.style.display = "none";
   					break;	
   		
   		
-  		case 'qnadiv': qnadiv.style.display = "block";
-  		delidiv.style.display = "none";
-  		detaildiv.style.display = "none";
+  		case 'qnadiv': 
+  			qnadiv.style.display = "block";
+  			detaildiv.style.display = "none";
+  			delidiv.style.display = "none";
   					break;	
   		
-  		case 'detaildiv': detaildiv.style.display = "block";
+  		case 'detaildiv': 
+  	  detaildiv.style.display = "block";
   		qnadiv.style.display = "none";
   		delidiv.style.display = "none";
   					break;	
@@ -962,6 +969,9 @@ alert('클립보드에 복사되었습니다');
   
   
   </script>
+  
+  
+  
   
   
   <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
