@@ -3,6 +3,7 @@ package com.kh.auction.user.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
@@ -41,6 +42,8 @@ public interface ArtsService {
 	int insertAddress(HashMap<String, Object> rmap);
 
 	int updatePoint(HashMap<String, Object> map);
+
+	ArrayList<Address> selectAddresslist(String memId);
 
 
 

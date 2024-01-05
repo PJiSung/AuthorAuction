@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
@@ -45,5 +46,7 @@ public interface ArtsDAO {
 	int insertAddress(HashMap<String, Object> rmap);
 
 	int updatePoint(HashMap<String, Object> map);
+
+	ArrayList<Address> selectAddresslist(String memId);
 	
 }

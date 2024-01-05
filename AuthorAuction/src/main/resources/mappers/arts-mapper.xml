@@ -213,5 +213,13 @@
 	
 	</update>
 	
+	
+	<select id = "selectAddresslist">
+	select * 
+	from address
+	where MEM_ID = #{memId}
+	
+	</select>
+	
 </mapper>
 

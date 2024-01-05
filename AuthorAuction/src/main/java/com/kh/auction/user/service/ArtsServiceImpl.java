@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.auction.user.dao.ArtsDAO;
+import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
@@ -130,5 +131,15 @@ public class ArtsServiceImpl implements ArtsService {
 		
 		
 		return aDAO.updatePoint(map);
+	}
+	
+	
+	
+	@Override
+	public ArrayList<Address> selectAddresslist(String memId){
+		
+		
+		return aDAO.selectAddresslist(memId);
+		
 	}
 }

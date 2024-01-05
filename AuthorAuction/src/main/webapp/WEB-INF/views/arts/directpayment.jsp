@@ -721,7 +721,7 @@ input.check_btn:checked + label:before{
 							</div>
 							<div style = "width: 80%; height: 100%; display:flex; align-items: center;">
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #555"><h5>포인트 사용</h5></div>
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "number" min="1000" max="${w.wisAmount*w.proPrice}" step = "1000" id = "pointinput"></div> 
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "text" id = "pointinput" value = 0></div> 
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : ${loginUser.memBalance}p)</div>
 							</div>
 						</div>
@@ -1052,6 +1052,43 @@ $(document).ready(function(){
   		}
   		
   	}
+  	
+  	
+  	
+  	
+  	
+  	
+	//배송지 스크립트
+  	
+  	document.getElementsByClassName('delilist')[1].style.display = "none";
+  	
+  	console.log(document.getElementsByClassName('addrelist'));
+  	
+  	for(a of document.getElementsByClassName('addrelist')){
+  	
+  		a.addEventListener('change', function(){
+				
+  				switch(this.id){
+  				
+  				
+  				case 'recentaddre':
+  					document.getElementsByClassName('delilist')[1].style.display = "block";
+  					document.getElementsByClassName('delilist')[0].style.display = "none";
+  					
+  					break;
+  				case 'defaultaddre':
+  					document.getElementsByClassName('delilist')[0].style.display = "block";
+  					document.getElementsByClassName('delilist')[1].style.display = "none";
+  					
+  					break;
+  					
+  				}
+  		
+  		});
+  	
+  	}
+  	
+  	
   
   
   
@@ -1072,15 +1109,15 @@ $(document).ready(function(){
   
   
   <script>
-  	//포인트 백단위로 입력시키기 스크립트
+//   	//포인트 백단위로 입력시키기 스크립트
   	
-  	$("#pointinput").keyup(function(e) {
-  			var n = $(this).val(); 
-  			 n = Math.floor(n/10) * 10;
-  			 if(n>=10){
-  		     $(this).val(n);
-  			 }
-		});
+//   	$("#pointinput").keyup(function(e) {
+//   			var n = $(this).val(); 
+//   			 n = Math.floor(n/10) * 10;
+//   			 if(n>=10){
+//   		     $(this).val(n);
+//   			 }
+// 		});
   
   </script>
   
@@ -1109,29 +1146,41 @@ $(document).ready(function(){
 	document.getElementById('propribill').innerText;
 	
   
- 	//포인트 금액 및 총 금액 스크립트
+	//포인트 금액 및 총 금액 스크립트
  	const totalbill = document.getElementById('totalbill').innerText;
+ 	
+ 	
 		$("#pointinput").keyup(function(e) {
-			var content = $(this).val();
+			if(isNaN(document.getElementById('pointinput').value)   || document.getElementById('pointinput').value.trim() == "" ){
+				$("#pointprice").text(0);
+				$("#pointinput").val(0);
+				document.getElementById('totalbill').innerText = 
+	 				document.getElementById('propribill').innerText;
+				
+			};
+			
+			var content = parseInt($(this).val());
+			
 			$("#pointprice").text('-'+content.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); //실시간 포인트 
 			$("#totalbill").text( (parseInt(totalbill.replace(/,/g,""))+parseInt(document.getElementById('pointprice').innerText.replace(/,/g,""))).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+			
+			
 			if (content > ${loginUser.memBalance}) {
-				alert('잔여 포인트보다 더 사용할 수 없습니다');
+				alert('보유 포인트보다 더 사용할 수 없습니다');
 				$(this).val(0);
 				$("#pointprice").text(0);
 				$("#totalbill").text(totalbill);
+				
 			}
-		});
- 	
- 	
+			else if(content > parseInt(totalbill.replace(/,/g,"")) ){
+				alert('상품 가격보다 더 사용할 수 없습니다.');
+				$(this).val(parseInt(totalbill.replace(/,/g,"")) );
+				$("#pointprice").text('-'+parseInt(totalbill.replace(/,/g,"")).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+				$("#totalbill").text(0);
+			}
 		
-		//포인트에 문자 못들어가게 막는 스크립트
-		$("#pointinput").keyup(function(e) {
-			var content = $(this).val();
-			var regex = /[^0-9]/g;	
-			$(this).val(content.replace(regex, ""));
+			
 		});
-		
 	
 	
   

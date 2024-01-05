@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.common.config.Pagination;
+import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Keyword;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.Order;
@@ -136,8 +137,26 @@ public class ArtsController {
 		
 		ArrayList<Wishlist> wlist = aService.selectWishlist(((Member)session.getAttribute("loginUser")).getMemId());
 		
-		model.addAttribute("wlist", wlist);
+		ArrayList<Address> alist = aService.selectAddresslist(((Member)session.getAttribute("loginUser")).getMemId());
 		
+		
+		for(int i=0; i<alist.size(); i++) {
+			
+			if(alist.get(i).getAddDefault().equals("Y")) {
+				
+				Address a = alist.get(0);
+				Address b = alist.get(i);
+				
+				alist.set(0,b);
+				alist.set(i, a);
+			}
+			
+		}
+			
+		
+		
+		model.addAttribute("wlist", wlist);
+		model.addAttribute("alist", alist);
 		
 		return "arts/payment";
 	}

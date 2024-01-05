@@ -77,6 +77,17 @@ input.check_btn:checked + label:before{
   }
 
 
+.deadd{
+
+background-color:red;
+}
+.nodeadd{
+	background-color: blue;
+
+}
+
+
+
 
 </style>
 
@@ -591,7 +602,7 @@ input.check_btn:checked + label:before{
 									
 							</div>
 							<div style = " display:flex; align-items: center; height: 100%; width: 20%; justify-content: center; ">
-								<input type = "text" placeholder = "우편번호" style = "width: 90%; height: 55%; border: 1px solid #aaa; text-align:center;" id ="sample6_postcode" class= "deliveryinfo" >
+								<input type = "text" placeholder = "우편번호" style = "width: 90%; height: 55%; border: 1px solid #aaa; text-align:center;" id ="sample6_postcode" class= "deliveryinfo" readonly>
 							</div>
 							
 							
@@ -603,12 +614,12 @@ input.check_btn:checked + label:before{
 						</div>
 						<div style = " display:flex; align-items: center;height: 15.625%;">
 							<div style = " display:flex; align-items: center; height: 100%; width: 50%;">
-								<input type = "text" placeholder = "기본 주소" style = "width: 100%; height: 55%; border: 1px solid #aaa; text-align:center;" id = "sample6_address" class= "deliveryinfo">
+								<input type = "text" placeholder = "기본 주소" style = "width: 100%; height: 55%; border: 1px solid #aaa; text-align:center;" id = "sample6_address" class= "deliveryinfo" readonly>
 							</div>
 						</div>
 						<div style = " display:flex; align-items: center;height: 15.625%;">
 							<div style = " display:flex; align-items: center; height: 100%; width: 50%;">
-								<input type = "text" placeholder = "상세 주소 및 상세 건물명" style = "width: 100%; height: 55%; border: 1px solid #aaa; text-align:center;" id = "sample6_detailAddress" class= "deliveryinfo">
+								<input type = "text" placeholder = "상세 주소 및 상세 건물명" style = "width: 100%; height: 55%; border: 1px solid #aaa; text-align:center;" id = "sample6_detailAddress" class= "deliveryinfo" readonly>
 							</div>
 						</div>
 						<div style = " display:flex; align-items: center;height: 15.625%;">
@@ -804,8 +815,8 @@ input.check_btn:checked + label:before{
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.4);">
 	
-	<div style = "width: 500px;
-	height: 500px;
+	<div style = "width: 800px;
+	height: 1000px;
 	padding: 30px 30px;
 	margin: 0 auto;
 	border: 1px solid #777;
@@ -818,25 +829,41 @@ input.check_btn:checked + label:before{
 	cursor: pointer;" onclick = "popadd('off')">&times;</span>
 	
 	<div style = "display: flex; align-items:center; justify-content: center; height: 25%;">
-			<span><input type = "radio" name = "addre" id = "defaultaddre" checked><label for = "defaultaddre">기본 배송지</label></span>
+			<span><input type = "radio" name = "addre" class = "addrelist" id = "defaultaddre" checked><label for = "defaultaddre">기본 배송지</label></span>
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<span><input type = "radio" name = "addre" id = "recentaddre"><label for = "recentaddre">최근 배송지</label></span>
+			<span><input type = "radio" name = "addre" class = "addrelist" id = "recentaddre"><label for = "recentaddre">최근 배송지</label></span>
 	</div>
-	<div style = "border: 1px solid #888; height: 75%; overflow:auto;">
+	<div style = "border: 1px solid #888; height: 75%; overflow:auto;" class = "delilist">
+	
+		
+		
+		<c:forEach items = "${alist}" var = "addr">
+			<div style = "border: 1px solid red; height: 30%;" class = "${addr.addDefault eq 'Y' ? 'deadd' : 'nodeadd'}">
+				<div>${addr.addName}	
+					${addr.addRecipient}</div>	
+				<div>${addr.addAddress}</div>	
+				<div>${addr.addPhone}</div>	
+				<div>${addr.addDefault}</div>	
+				<div style = "display:flex; justify-content:right; align-items:center; height: 20%; border: 1px solid green;"><button onclick = "choiceaddress('${addr.addAddress}')">선택</button></div>	
+			</div>
+		</c:forEach>	
+			
+	</div>
+	<div style = "border: 1px solid #888; height: 75%; overflow:auto;" class = "delilist">
 			<div>
-				sajdjsa				
+			ㄴㅁㅇ		
 			</div>
 			<div>
-				sajdjsa				
+			ㄴㅁㅇ			
 			</div>
 			<div>
-				sajdjsa				
+		ㄴㅁㅇ		
 			</div>
 			<div>
-				sajdjsa				
+		ㄴㅇ		
 			</div>
 			<div>
-				sajdjsa				
+			ㅇ		
 			</div>
 	</div>
 	</div>
@@ -905,7 +932,8 @@ input.check_btn:checked + label:before{
                 console.log(data.zonecode);
                 document.getElementById('sample6_postcode').value = data.zonecode;
                 document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
+                // 커서를 상세주소 필드로 이동하고 readonly 해제.
+                 document.getElementById("sample6_detailAddress").readOnly = false;
                 document.getElementById("sample6_detailAddress").focus();
             }
         }).open();
@@ -1055,6 +1083,43 @@ $(document).ready(function(){
   		
   	}
   
+  	
+  	
+  	//배송지 스크립트
+  	
+  	document.getElementsByClassName('delilist')[1].style.display = "none";
+  	
+  	console.log(document.getElementsByClassName('addrelist'));
+  	
+  	for(a of document.getElementsByClassName('addrelist')){
+  	
+  		a.addEventListener('change', function(){
+				
+  				switch(this.id){
+  				
+  				
+  				case 'recentaddre':
+  					document.getElementsByClassName('delilist')[1].style.display = "block";
+  					document.getElementsByClassName('delilist')[0].style.display = "none";
+  					
+  					break;
+  				case 'defaultaddre':
+  					document.getElementsByClassName('delilist')[0].style.display = "block";
+  					document.getElementsByClassName('delilist')[1].style.display = "none";
+  					
+  					break;
+  					
+  				}
+  		
+  		});
+  	
+  	}
+  	
+  	
+  	
+  	
+  	
+  	
   
   
   </script>
@@ -1352,6 +1417,28 @@ var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
 </script>
 
 
+
+<script>
+
+//배달 주소 자동 채우기 스크립트
+	function choiceaddress(address){
+	
+    var addpostcode = address.split('@')[0];
+    var addaddress = address.split('@')[1];
+    var adddetailaddress = address.split('@')[2];
+    
+	document.getElementsByClassName('deliveryinfo')[1].value = addpostcode;
+	document.getElementsByClassName('deliveryinfo')[2].value = addaddress;
+	document.getElementsByClassName('deliveryinfo')[3].value = adddetailaddress;
+	
+	  document.getElementById("sample6_detailAddress").readOnly = true;
+    
+}
+
+
+
+
+</script>
 
 
   
