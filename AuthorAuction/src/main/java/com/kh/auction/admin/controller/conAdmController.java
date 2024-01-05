@@ -1,15 +1,17 @@
 package com.kh.auction.admin.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.user.exception.Exception;
@@ -45,6 +47,7 @@ public class conAdmController {
 		if(cList != null) {
 			model.addAttribute("cList",cList);
 			model.addAttribute("aList", aList);
+			model.addAttribute("total", listCount);
 			model.addAttribute("pi", pi);
 			model.addAttribute("loc", request.getRequestURI());
 			
@@ -62,7 +65,6 @@ public class conAdmController {
 		String isAdmin = ((Member)session.getAttribute("loginUser")).getMemIsAdmin();
 		if(isAdmin.equals("Y")) {
 			int result = cService.updateConAdmStatus(conNo);		// 관리자 열람 여부
-			System.out.println(result);
 		}
 	
 		Member m = cService.selectMember(conNo);
@@ -82,17 +84,22 @@ public class conAdmController {
 		}
 	}
 	// 체크박스 삭제
-	@GetMapping("checkDelete.adco")
-	public String checkDelete(@RequestParam("deleteIds") String[] deleteIds) {
-		cService.checkDelete(deleteIds);
-		
-		return "redirect:list.adco"; 
+	@ResponseBody
+	@PostMapping("checkDelete.adco")
+	public String checkDelete(@RequestParam("deleteIds[]") String[] deleteIds) {
+		int result = cService.checkDelete(deleteIds);
+		System.out.println(Arrays.toString(deleteIds));
+		if(result > 0) {
+			return "success"; 
+		} else {
+			return "fail";
+		}
 	}
 	// 조건 검색
 	@GetMapping("searchList.adco")
 	public String searchAdminConsignment(@RequestParam("select") String select,
 										 @RequestParam("keyword") String keyword, Model model,
-						 @RequestParam(value="page", defaultValue="1") int page,
+										 @RequestParam(value="page", defaultValue="1") int page,
 										 @RequestParam(value="strDate", required = false)String strDate,
 										 @RequestParam(value="endDate", required = false)String endDate) {
 										// keyword : 입력한 검색어 / select : select에서 가져오는 기준
@@ -109,6 +116,8 @@ public class conAdmController {
 		ArrayList<Consignment> cList = cService.searchList2(map, pi);
 		
 		if(cList != null) {
+			System.out.println(listCount);
+			model.addAttribute("total", listCount);
 			model.addAttribute("cList", cList);
 			model.addAttribute("pi", pi);
 			
@@ -119,6 +128,22 @@ public class conAdmController {
 		
 	}
 	
-	
+	// 경매 등록 수락 / 거부
+	@PostMapping("updateConConStatus.adco")
+	@ResponseBody
+	public String updateConConStatus(@ModelAttribute Consignment c, @RequestParam("value") String value) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("value", value);
+		map.put("c", c);
+		
+		int result = cService.updateConConStatus(map);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
 	
 }

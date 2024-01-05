@@ -1,112 +1,109 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="imagetoolbar" content="no">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="format-detection" content="telephone=no">
-  <title>관리자 위탁 내역 | 침대</title>
-  <link rel="stylesheet" href="consignment/css/setting.css">
-  <link rel="stylesheet" href="consignment/css/plugin.css">
-  <link rel="stylesheet" href="consignment/css/template.css">
-  <link rel="stylesheet" href="consignment/css/common.css">
-  <link rel="stylesheet" href="consignment/css/style.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-   
-  <style type="text/css">
-  	table{
-		width:100%;
-		
-	}
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="imagetoolbar" content="no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>관리자 위탁 내역 | 침대</title>
+<link rel="stylesheet" href="consignment/css/setting.css">
+<link rel="stylesheet" href="consignment/css/plugin.css">
+<link rel="stylesheet" href="consignment/css/template.css">
+<link rel="stylesheet" href="consignment/css/common.css">
+<link rel="stylesheet" href="consignment/css/style.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-	th{
+<style type="text/css">
+table {
+	width: 100%;
+}
+
+th {
 	padding: 0 0 0 5%;
-	
-	}
-	td{
-	text-align: center;
-	height:35px;
-	}
-  
-  
-  	.modal{
-		position:fixed;
-		transform: translate(-50%, -50%);
-		top:50%;
-		left:50%;
-		width:100%;
-		height:100%;
-		display:flex;
-	}
-	
-	.modal_content{
-		box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-		background-color:white;
-		padding: 50px 100px;
-		text-align:center;
-		top:50%;
-		left:50%;
-		transform: translateX(-50%);
-		border-radius:10px;
-		position:relative;
-		width:50%;
-	}
-	
-	.modal_overlay{
-		background-color: rgba(0,0,0,0.6);
-		width:100%;
-		height:100%;
-		position:absolute;
-	}
-	
-	#modal_h3{
-		margin:0;
-	}
-	
-	#closeAlertModal{
-		background:black;
-		color:white;
-		float:right;
-		border-radius: 5px;
-		cursor:pointer;
-	}
-	
-	
-	
-	
-	 .tabset .tabset-list {
-    justify-content: flex-start;
-    }
-    
-element.style {
-    gap: 1rem;
 }
-.contents-sort-sel {
-    flex-wrap: wrap;
-    width: 100%;
+
+td {
+	text-align: center;
+	height: 35px;
+}
+
+.modal {
+	position: fixed;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+.modal_content {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px
+		rgba(0, 0, 0, 0.23);
+	background-color: white;
+	padding: 50px 100px;
+	text-align: center;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-radius: 10px;
+	position: relative;
+	width: 50%;
+}
+
+.modal_overlay {
+	background-color: rgba(0, 0, 0, 0.6);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+#modal_h3 {
+	margin: 0;
+}
+
+#closeAlertModal {
+	background: black;
+	color: white;
+	float: right;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.tabset .tabset-list {
+	justify-content: flex-start;
+}
+
+element.style {
+	gap: 1rem;
 }
 
 .contents-sort-sel {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}    
-    
-table{
-	width:100%;
+	flex-wrap: wrap;
+	width: 100%;
 }
-table tr{
-	width:100%;
+
+.contents-sort-sel {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
 }
-    
-  </style>
-  
-  <script type="text/javascript">
+
+table {
+	width: 100%;
+}
+
+table tr {
+	width: 100%;
+}
+</style>
+
+<script type="text/javascript">
 	$(document).ready(function() {
     // 승인여부 수락/거절 상태일 때 승인여부 제외하고 상세내용으로 이동
 	    const $tbody = $("#tbody");
@@ -562,53 +559,96 @@ table tr{
 	/*  */
 	/*  */
 	/*  */
-	
-	
+
 	<!-- 상세보기로 이동 -->
 	const userDetail = (conNo) =>{												
 		location.href="selectUser.adco?conNo=" + conNo + "&page=" + ${pi.currentPage};
 	}
 
     <!-- 전체선택 / 해제 -->
-		conNo =[];
-		<!-- 체크박스 선택 -->
-		const check1 = () =>{
-			const checkboxes = document.querySelectorAll('input[name="check"]');       // 전체 체크박스들
-            const checked = document.querySelectorAll('input[name="check"]:checked')   // 선택된 체크박스
-            const checkAll = document.querySelector('input[name="checkAll"]');         // 전체선택 박스
+	conNo =[];
+	<!-- 체크박스 선택 -->
+	const check1 = () =>{
+		const checkboxes = document.querySelectorAll('input[name="check"]');       // 전체 체크박스들
+        const checked = document.querySelectorAll('input[name="check"]:checked')   // 선택된 체크박스
+        const checkAll = document.querySelector('input[name="checkAll"]');         // 전체선택 박스
+        
+       	for(i=0; i < checked.length; i++){
           
-         	for(i=0; i < checked.length; i++){
-            
-          	}
-          
-          	if(checkboxes.length == checked.length){                           // 체크박스 전체개수 = 선택된 체크박스
-            	checkAll.checked = true;
-          	} else {
-            	checkAll.checked = false;
-          	}
+       	}
+       
+       	if(checkboxes.length == checked.length){                           // 체크박스 전체개수 = 선택된 체크박스
+       		checkAll.checked = true;
+       	} else {
+			checkAll.checked = false;
+       	}
+	}
+   	<!-- 전체 선택 -->
+  	const checkAll1 = () =>{
+    	const checkboxes = document.querySelectorAll("input[type=checkbox]");
+     	for(let i=1; i<checkboxes.length; i++){
+       		checkboxes[i].checked = checkboxes[0].checked;                     // 배열 갯수만큼 체크된 체크박스 = 전체선택 박스
         }
-       	<!-- 전체 선택 -->
-      	const checkAll1 = () =>{
-        	const checkboxes = document.querySelectorAll("input[type=checkbox]");
-         	for(let i=1; i<checkboxes.length; i++){
-           		checkboxes[i].checked = checkboxes[0].checked;                     // 배열 갯수만큼 체크된 체크박스 = 전체선택 박스
-            }
-        } 
-      	<!-- 선택 삭제 -->
-      	const minus = () =>{
-        	const checkboxes = document.querySelectorAll("input[name='check']:checked");
-            const deleteIds = [];
-           
-            for(i=0; i<checkboxes.length; i++){
-               deleteIds[i] = checkboxes[i].id;
-               console.log(deleteIds[i]);
-            }
-            if(deleteIds.length != 0){
-               location.href = "checkDelete.adco?deleteIds="+deleteIds;
-            }
-      };
-      
-      const openEnrollModal = (data) =>{
+    } 
+  	<!-- 선택 삭제 -->
+  	const minus = () =>{
+    	const checkboxes = document.querySelectorAll("input[name='check']:checked");
+        const deleteIds = [];
+     
+        for(i=0; i<checkboxes.length; i++){
+           deleteIds[i] = checkboxes[i].id;
+        }
+        if(deleteIds.length != 0){
+	        $.ajax({
+	        	url: 'checkDelete.adco',
+	        	type: 'post',
+	        	data: {deleteIds: deleteIds},
+	        	success: (data) =>{
+	        		console.log(data)
+	        		if(data == "success"){
+		        		$("#tableset").load(location.href + " #tableset");			
+		        		// 테이블 div / 띄어쓰기 꼭 넣고, url이랑 data변경하고, id로 해야함(★로사 알려줘야함★)
+	        		}
+	        	},
+	        	error: data => console.log(data)
+	        });
+        }
+        
+  	}
+
+	<!-- 거절 alert창	-->
+	const closeEnroll = (conNo, status) =>{
+		alert('경매 등록이 거절되었습니다.');
+		
+		$.ajax ({
+			url: 'updateConConStatus.adco',
+			type: 'post',
+			data: {c: c, value: 'someValue'
+				
+			},
+			success: (data) =>{
+				console.log(data)
+				
+				if(data == "success"){
+					$("#closeEnroll").load(location.href + " #closeEnroll");
+				}
+			},
+			error: data => console.log(data)
+		})
+	} 
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	const openEnrollModal = (data) =>{
 		const $data = $(data);
     	const $enrollModal = $(".modal_overlay").eq(0);
     	const ajaxConProduct = document.getElementById("ajaxConProduct");
@@ -649,371 +689,424 @@ table tr{
 </head>
 
 <body>
-<jsp:include page="../common/header.jsp"/>
+	<jsp:include page="../common/header.jsp" />
 	<!-- 경매 등록 모달 -->
 	<!--  -->
-	<div class="modal_overlay" style="display:none; z-index: 1; height:4000px;">
-		<div id="content-allOver-cover" style="width: 70%; height: 70%; margin:auto; left:12%; position:fixed; z-index: 1;">
-	        <div id="forWidthAndHeight" style="width: 70%; height: 100%; margin: auto; background-color: pink; margin-top: 1%; display:table;">
-	        	<form action="insertAuction.adac" method="post" id="auctionForm">
-		            <div style="margin-left: 5%;">경매 등록 페이지</div>
-		            <div id="workNamePlace" style="margin-left: 5%; width: 100%;">작품명 <input type="text" readonly style="width: 80%;" name="conProduct" id="ajaxConProduct" required></div>
-		            <div id="artistNamePlace" style="margin-left: 5%; width: 100%;">작가명 <input type="text" readonly style="width: 80%;" name="conAuthor" id="ajaxConAuthor" required></div>
-		            <div id="startMoney" style="margin-left: 5%; width: 100%;">시작가 <input type="number" style="width: 80%;" name="aucStartPrice" id="ajaxConHope" required></div>
-		            <div id="startDate" style="margin-left: 5%; width: 40%; display: inline-block;">
-		            	경매 시작일 <input type="text" name="aucStartDate" style="width:50%" readonly required><button type="button" style="position: absolute;" class="openCalender" id="startDateCalendar">달력</button>
-		            	
-		            	<div id="startCalendar" style="border:1px black solid; background:white; width:30%; position:absolute;">
-		            		<div style="text-align: center;">
-		            			<div style="float:left; width: 8%; display:inline-block;"><button id="previous" type="button" style="width:100%; background:white; border:0;">&lt;</button></div>
-		            			<span id="yearPlace"></span>년 <span id="monthPlace"></span>월
-		            			<div style="float:right; width: 8%; display:inline-block;"><button id="next" type="button" style="width:100%; background:white; border:0;">&gt;</button></div>
-		            		</div>
-		            		<table>
-		            			<thead>
-		            				<tr>
-				            			<th>월</th>
-				            			<th>화</th>
-				            			<th>수</th>
-				            			<th>목</th>
-				            			<th>금</th>
-				            			<th>토</th>
-				            			<th>일</th>
-		            				</tr>
-		            			</thead>
-		            			<tbody class="tb_body"></tbody>
-		            		</table>
-		            		<div style="text-align: right;">
-		            			<button type="button" id="selectStart">선택</button> <button type="button" id="closeStart">닫기</button>
-		            		</div>
-		            	</div>
-		            </div>
-		            <div id="endDate" style="width: 40%; float: right; margin-right:5%;">
-		            	경매 종료일<input type="text" name="aucFinishDate" style="width:50%;" readonly required><button type="button" class="openCalender" style="position:absolute;" id="endDateCalendar">달력</button>
-		            	
-		            	<div id="endCalendar" style="border:1px black solid; background:white; width:30%; position:absolute;">
-		            		<div style="text-align: center;">
-		            			<div style="float:left; width: 8%; display:inline-block;"><button id="previousEnd" type="button" style="width:100%; background:white; border:0;">&lt;</button></div>
-		            			<span id="yearPlaceEnd"></span>년 <span id="monthPlaceEnd"></span>월
-		            			<div style="float:right; width: 8%; display:inline-block;"><button id="nextEnd" type="button" style="width:100%; background:white; border:0;">&gt;</button></div>
-		            		</div>
-		            		<table>
-		            			<thead>
-		            				<tr>
-				            			<th>월</th>
-				            			<th>화</th>
-				            			<th>수</th>
-				            			<th>목</th>
-				            			<th>금</th>
-				            			<th>토</th>
-				            			<th>일</th>
-		            				</tr>
-		            			</thead>
-		            			<tbody class="tb_body"></tbody>
-		            		</table>
-		            		<div style="text-align: right;">
-		            			<button type="button" id="selectEnd">선택</button> <button type="button" id="closeEnd">닫기</button>
-		            		</div>
-		            	</div>
-		            </div>
-		            <div style="margin-left: 5%; width: 40%; display: inline-block;">제작 년도<input type="number" name="conYear" id="ajaxConYear"></div>
-		            <div style="width: 100%;">
-		            	<div style="margin-left: 5%; width: 40%; display:inline-block;">가로길이<input type="number" name="conWidth" id="ajaxConWidth" required></div>
-		            	<div style="margin-left: 5%; width: 40%; display:inline-block;">세로길이<input type="number" name="conHeight" id="ajaxConHeight" required></div>
-		            </div>
-		            <div id="explainPlace" style="margin-left: 5%;">
-		                <span>작품 설명</span><br>
-		                <textarea style="width: 91%; resize: none;" name="conEtc" id="ajaxConEtc" required></textarea>
-		            </div>
-		            <div style="margin-left: 5%; width: 100%;">
-		            	<div style="width:25%; display:inline-block; margin-right: 3.125%;">대표 사진<br><span id="presentPic"><img src="image/치즈 냥이.jpg" style="width:100%; height:100%;"></span></div>
-		            	<div style="width:25%; display:inline-block; margin-right: 3.125%; margin-left: 3.125%;">전면 사진<br><span id="firstPic"><img src="image/치즈 냥이.jpg" style="width:100%; height:100%;"></span></div>
-		            	<div style="width:25%; display:inline-block; margin-left: 3.125%;">후면 사진<br><span id="secondPic"><img src="image/치즈 냥이.jpg" style="width:100%; height:100%;"></span></div>
-		            </div>
-		            <div style="width: 100%; text-align: right;">
-		            	<button type="button" id="insertAuctionBtn">등록</button> 
-		            	<button type="button" id="closeAuctionModal" style=" margin-right: 8%;">취소</button>
-		            </div>
-		            <input type="hidden" name="aucNo">
-	            </form>
-	        </div>
-	    </div>
-	    
-	  	<div class="modal" name="alertModal" style="display:none; justify-content: center; align-items: center; z-index: 2;">
-	  		<div class="modal_overlay"></div>
-	  		<div class="modal_content">
-	  			<h5 id="modal_h3">경매 종료일이 경매 시작일보다 이전일 수 없습니다</h5>
-	  			<button id="closeAlertModal"> 닫기 </button>
-	  		</div>
-	  	</div>
-  	</div>
+	<div class="modal_overlay"
+		style="display: none; z-index: 1; height: 4000px;">
+		<div id="content-allOver-cover"
+			style="width: 70%; height: 70%; margin: auto; left: 12%; position: fixed; z-index: 1;">
+			<div id="forWidthAndHeight"
+				style="width: 70%; height: 100%; margin: auto; background-color: pink; margin-top: 1%; display: table;">
+				<form action="insertAuction.adac" method="post" id="auctionForm">
+					<div style="margin-left: 5%;">경매 등록 페이지</div>
+					<div id="workNamePlace" style="margin-left: 5%; width: 100%;">
+						작품명 <input type="text" readonly style="width: 80%;"
+							name="conProduct" id="ajaxConProduct" required>
+					</div>
+					<div id="artistNamePlace" style="margin-left: 5%; width: 100%;">
+						작가명 <input type="text" readonly style="width: 80%;"
+							name="conAuthor" id="ajaxConAuthor" required>
+					</div>
+					<div id="startMoney" style="margin-left: 5%; width: 100%;">
+						시작가 <input type="number" style="width: 80%;" name="aucStartPrice"
+							id="ajaxConHope" required>
+					</div>
+					<div id="startDate"
+						style="margin-left: 5%; width: 40%; display: inline-block;">
+						경매 시작일 <input type="text" name="aucStartDate" style="width: 50%"
+							readonly required>
+						<button type="button" style="position: absolute;"
+							class="openCalender" id="startDateCalendar">달력</button>
+
+						<div id="startCalendar"
+							style="border: 1px black solid; background: white; width: 30%; position: absolute;">
+							<div style="text-align: center;">
+								<div style="float: left; width: 8%; display: inline-block;">
+									<button id="previous" type="button"
+										style="width: 100%; background: white; border: 0;">&lt;</button>
+								</div>
+								<span id="yearPlace"></span>년 <span id="monthPlace"></span>월
+								<div style="float: right; width: 8%; display: inline-block;">
+									<button id="next" type="button"
+										style="width: 100%; background: white; border: 0;">&gt;</button>
+								</div>
+							</div>
+							<table>
+								<thead>
+									<tr>
+										<th>월</th>
+										<th>화</th>
+										<th>수</th>
+										<th>목</th>
+										<th>금</th>
+										<th>토</th>
+										<th>일</th>
+									</tr>
+								</thead>
+								<tbody class="tb_body"></tbody>
+							</table>
+							<div style="text-align: right;">
+								<button type="button" id="selectStart">선택</button>
+								<button type="button" id="closeStart">닫기</button>
+							</div>
+						</div>
+					</div>
+					<div id="endDate"
+						style="width: 40%; float: right; margin-right: 5%;">
+						경매 종료일<input type="text" name="aucFinishDate" style="width: 50%;"
+							readonly required>
+						<button type="button" class="openCalender"
+							style="position: absolute;" id="endDateCalendar">달력</button>
+
+						<div id="endCalendar"
+							style="border: 1px black solid; background: white; width: 30%; position: absolute;">
+							<div style="text-align: center;">
+								<div style="float: left; width: 8%; display: inline-block;">
+									<button id="previousEnd" type="button"
+										style="width: 100%; background: white; border: 0;">&lt;</button>
+								</div>
+								<span id="yearPlaceEnd"></span>년 <span id="monthPlaceEnd"></span>월
+								<div style="float: right; width: 8%; display: inline-block;">
+									<button id="nextEnd" type="button"
+										style="width: 100%; background: white; border: 0;">&gt;</button>
+								</div>
+							</div>
+							<table>
+								<thead>
+									<tr>
+										<th>월</th>
+										<th>화</th>
+										<th>수</th>
+										<th>목</th>
+										<th>금</th>
+										<th>토</th>
+										<th>일</th>
+									</tr>
+								</thead>
+								<tbody class="tb_body"></tbody>
+							</table>
+							<div style="text-align: right;">
+								<button type="button" id="selectEnd">선택</button>
+								<button type="button" id="closeEnd">닫기</button>
+							</div>
+						</div>
+					</div>
+					<div style="margin-left: 5%; width: 40%; display: inline-block;">
+						제작 년도<input type="number" name="conYear" id="ajaxConYear">
+					</div>
+					<div style="width: 100%;">
+						<div style="margin-left: 5%; width: 40%; display: inline-block;">
+							가로길이<input type="number" name="conWidth" id="ajaxConWidth"
+								required>
+						</div>
+						<div style="margin-left: 5%; width: 40%; display: inline-block;">
+							세로길이<input type="number" name="conHeight" id="ajaxConHeight"
+								required>
+						</div>
+					</div>
+					<div id="explainPlace" style="margin-left: 5%;">
+						<span>작품 설명</span><br>
+						<textarea style="width: 91%; resize: none;" name="conEtc"
+							id="ajaxConEtc" required></textarea>
+					</div>
+					<div style="margin-left: 5%; width: 100%;">
+						<div
+							style="width: 25%; display: inline-block; margin-right: 3.125%;">
+							대표 사진<br>
+							<span id="presentPic"><img src="image/치즈 냥이.jpg"
+								style="width: 100%; height: 100%;"></span>
+						</div>
+						<div
+							style="width: 25%; display: inline-block; margin-right: 3.125%; margin-left: 3.125%;">
+							전면 사진<br>
+							<span id="firstPic"><img src="image/치즈 냥이.jpg"
+								style="width: 100%; height: 100%;"></span>
+						</div>
+						<div
+							style="width: 25%; display: inline-block; margin-left: 3.125%;">
+							후면 사진<br>
+							<span id="secondPic"><img src="image/치즈 냥이.jpg"
+								style="width: 100%; height: 100%;"></span>
+						</div>
+					</div>
+					<div style="width: 100%; text-align: right;">
+						<button type="button" id="insertAuctionBtn">등록</button>
+						<button type="button" id="closeAuctionModal"
+							style="margin-right: 8%;">취소</button>
+					</div>
+					<input type="hidden" name="aucNo">
+				</form>
+			</div>
+		</div>
+
+		<div class="modal" name="alertModal"
+			style="display: none; justify-content: center; align-items: center; z-index: 2;">
+			<div class="modal_overlay"></div>
+			<div class="modal_content">
+				<h5 id="modal_h3">경매 종료일이 경매 시작일보다 이전일 수 없습니다</h5>
+				<button id="closeAlertModal">닫기</button>
+			</div>
+		</div>
+	</div>
 	<!--  -->
 	<!--  -->
 
 
-  <main class="th-layout-main">
-    <!-- [S]hooms-N48 -->
-    <div class="hooms-N48" data-bid="no2CLZNtZF5">
-      <div class="contents-inner" style="padding: 6rem 2.4rem 10rem;">
-        <div class="contents-container container-md">
-          <div class="textset">
-            <a class="textset-tit">관리자(위탁 문의 내역)</a>
-            <br><br>
-            <div class="date-box">
-              <div class="date">
-             	<form action="searchList.adco" class="searchForm">
-	                <span><a>조회 기간</a></span>
-	                <span>
-					  <input type="date" class="con_startdate" name="strDate">
-					</span>
-					~
-					<span>
-					  <input type="date" class="con_enddate" name="endDate" style="margin-left:20px;">
-					</span>
-	                <span>
-	                  <a>검색어</a>
-	                  <select style="width: 5%; height: 3rem;" name="select">
-	                    <option>전체</option>
-	                    <option>작가명</option>
-	                    <option>작품명</option>
-	                  </select>
-	                  <input type="text" class="inputText" value="" placeholder="작가명/작품명" name="keyword" aria-label="내용" style="width: 10%;">
-	                </span>
-	                <span><button type="submit" class="admsearch">검색</button></span>
-	                <span><button type="reset" class="admcancel">초기화</button></span>
-	             </form>   
-              </div>
-            </div>
-            <br><br>
-          </div>
-          
+	<main class="th-layout-main">
+		<div class="hooms-N48" data-bid="no2CLZNtZF5">
+			<div class="contents-inner" style="padding: 6rem 2.4rem 10rem;">
+				<div class="contents-container container-md">
+					<div class="textset">
+						<a class="textset-tit">관리자(위탁 문의 내역)</a> <br>
+						<br>
+						<div class="date-box">
+							<div class="date">
+								<form action="searchList.adco" class="searchForm">
+									<span><a>조회 기간</a></span> 
+									<span> 
+										<input type="date" class="con_startdate" name="strDate">
+									</span>
+									 ~ 
+									<span> 
+										<input type="date" class="con_enddate" name="endDate" style="margin-left: 20px;">
+									</span> 
+									<span> 
+										<a>검색어</a> 
+										<select style="width: 5%; height: 3rem;" name="select">
+											<option>전체</option>
+											<option>작가명</option>
+											<option>작품명</option>
+									</select> 
+										<input type="text" class="inputText" value="" placeholder="작가명/작품명" name="keyword" aria-label="내용" style="width: 10%;">
+									</span> 
+									<span><button type="submit" class="admsearch">검색</button></span>
+									<span><button type="reset" class="admcancel">초기화</button></span>
+								</form>
+							</div>
+						</div>
+						<br>
+						<br>
+					</div>
+					<div class="container">
+						<div class="tabset tabset-text">
+							<p class="contents-result">
+								전체<span> ${total}</span>개
+							</p>
+							<ul class="tabset-list"
+								style="margin-bottom: 30px; justify-content: right;">
+								<li class="tabset-item"><a class="tabset-link active"
+									href="javascript:void(0)"> <span>전체</span>
+								</a></li>
+								<li class="tabset-item"><a class="tabset-link"
+									href="javascript:void(0)"> <span>등록된 문의</span>
+								</a></li>
+								<li class="tabset-item"><a class="tabset-link"
+									href="javascript:void(0)"> <span>삭제된 문의</span>
+								</a></li>
+							</ul>
+						</div>
+					</div>
 
-	   
-	   
-			<div class="container">
-			  <div class="tabset tabset-text">
-			    <ul class="tabset-list" style="margin-bottom: 30px; justify-content: right;">
-			      <li class="tabset-item">
-			        <a class="tabset-link active" href="javascript:void(0)">
-			          <span>전체</span>
-			        </a>
-			      </li>
-			      <li class="tabset-item">
-			        <a class="tabset-link" href="javascript:void(0)">
-			          <span>등록된 문의</span>
-			        </a>
-			      </li>
-			      <li class="tabset-item">
-			        <a class="tabset-link" href="javascript:void(0)">
-			          <span>삭제된 문의</span>
-			        </a>
-			      </li>
-			    </ul>
-			  </div>
-			</div>
-          
-          
-          
-          
-          
-          
-          
-          
-          <form action="list.adco" method="post" class="listForm">
-	          <div class="tableset">
-	            <table class="tableset-table table">
-	              <colgroup>
-	                <col>
-	                <col>
-	                <col>
-	                <col>
-	                <col>
-	                <col>
-	                <col>
-	              </colgroup>
-	              <thead class="thead-light thead-border-top">
-	                <tr>
-	                  <th scope="col">
-	                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" id="checkAll" name="checkAll" onclick="checkAll1()">
-	                  </th>
-	                  <th scope="col">회원아이디</th>
-	                  <th scope="col">작가명</th>
-	                  <th scope="col">작품명</th>
-	                  <th scope="col">작품의 크기</th>
-	                  <th scope="col">희망가</th>
-	                  <th scope="col">삭제여부</th>
-	                  <th scope="col">열람여부</th>
-	                  <th scope="col">승인여부</th>
-	                </tr>
-	              </thead>
-	              <tbody id="tbody">
-		             <c:forEach items="${cList}" var="c"> 
-		                <tr>
-		                  <td class="tableset-mobile"   onclick="javascript:event.stopPropagation();">
-		                  <input type="hidden" value="${ c.conNo }" name="conNo">
-		                   <!-- <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">	-->
-		                    <input id="${c.conNo}" value="${ c.conNo }" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
-		                  </td>
-		                  <td class="tableset-tit tableset-order02" style="text-align: center;">
-		                    <a href="javascript:void(0)">
-		                      <span>${c.memId}</span>
-		                    </a>
-		                  </td>
-		                  <td class="tableset-order05">${ c.conAuthor }</td>
-		                  <td class="tableset-order05">${ c.conProduct }</td>
-		                  <td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
-		                  <td><fmt:formatNumber type="number" value="${ c.conHope }"/>원</td>
-		                  
-		                  <c:if test="${ c.conDelStatus == 'Y' }">
-		                  	<td class="tableset-order05">Y</td>
-		                  </c:if>
-		                  <c:if test="${ c.conDelStatus == 'N' }">
-		                  	<td class="tableset-order05">N</td>
-		                  </c:if>
-		                  
-		                  
-		                  <c:if test="${ c.conAdmStatus == 'N'}">
-			                  <td class="tableset-order05">N</td>
-		                  </c:if>
-		                  <c:if test="${ c.conAdmStatus == 'Y'}">
-			                  <td class="tableset-order05">Y</td>
-		                  </c:if>
-		                  
-			              <td class="tableset-order01">
-			                  <c:if test="${c.conConStatus == 'N'}">
-			                    <div class="badgeset badgeset-active" style="width:45%; display: inline-block;">
-			                    	<intput type="button" onclick="openEnrollModal(this);">수락	
-			                    </div>
-			                    <div class="badgeset" style="width:45%; display: inline-block; background: gray;">
-			                    	거절
-			                    </div> 
-			                  </c:if>
-			                  
-							  <c:if test="${c.conConStatus == 'Y'}">
-								<c:forEach items="${ aList }" var="a">
-									<c:set var="now" value="<%=new java.util.Date()%>" />
-					                 <fmt:formatDate var="nowDate" value="${now}" pattern="yyyy-MM-dd HH:mm:ss" />
-					                 <fmt:formatDate var="startDate" value="${a.AUC_START_DATE}" pattern="yyyy-MM-dd HH:mm:ss" />
-					                 <fmt:formatDate var="endDate" value="${a.AUC_FINISH_DATE}" pattern="yyyy-MM-dd HH:mm:ss" />
-									 <c:if test="${ a.AUC_CNO == c.conNo}">
-									  	<c:if test="${ startDate > nowDate}">
-									  	  경매 진행 예정	
-									  	</c:if>
-									  	<c:if test="${ startDate < nowDate && endDate > nowDate}">
-									  	  경매 진행중	
-									  	</c:if>
-									  	<c:if test="${ startDate < nowDate && endDate < nowDate}">
-									  	  종료된 경매	
-									  	</c:if>
-									  </c:if>
-								  
-		               			</c:forEach>
-							  </c:if>
-			                  
-			                  <c:if test="${c.conConStatus == 'D'}">거절</c:if>
-	                  	  </td>
-	                  	  
-		                  
-		                </tr>
-		              </c:forEach>  
-	              </tbody>
-	            </table>
-	            <input class="btnset btnset-lg" value="선택 삭제" type="button" id="deleteBtn();" name="deleteBtn" onclick="minus()">
-	          </div>
-	        </form>
-        </div>
-        
-        <br><br><br>
-        
-		<nav class="pagiset pagiset-line">
-			<c:if test="${ pi.currentPage <= 1 }">
-			   <div class="pagiset-ctrl">
-			      <a class="pagiset-link pagiset-first"> <span
-			         class="visually-hidden">처음</span>
-			      </a>
-			   </div>
-			   <div class="pagiset-ctrl">
-			      <a class="pagiset-link pagiset-prev"> <span
-			         class="visually-hidden">이전</span>
-			      </a>
-			   </div>
-			</c:if>
-			<c:if test="${ pi.currentPage > 1 }">
-			   <div class="pagiset-ctrl">
-			      <c:url var="goFirst" value="${ loc }">
-			         <c:param name="page" value="${ pi.startPage }"></c:param>
-			      </c:url>
-			      <a class="pagiset-link pagiset-first" href="${ goFirst }">
-			         <span class="visually-hidden">처음</span>
-			      </a>
-			   </div>
-			   <div class="pagiset-ctrl">
-			      <c:url var="goBack" value="${ loc }">
-			         <c:param name="page" value="${ pi.currentPage-1 }"></c:param>
-			      </c:url>
-			      <a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
-			         class="visually-hidden">이전</span>
-			      </a>
-			   </div>
-			</c:if>
-			<div class="pagiset-list">
-			   <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }"
-			      var="p">
-			      <c:url var="goNum" value="${ loc }">
-			         <c:param name="page" value="${ p }"></c:param>
-			      </c:url>
-			      <c:choose>
-			         <c:when test="${p eq pi.currentPage}">
-			            <a class="pagiset-link active-fill" href="${ goNum }">${ p }</a>
-			         </c:when>
-			         <c:otherwise>
-			            <a class="pagiset-link" href="${ goNum }">${ p }</a>
-			         </c:otherwise>
-			      </c:choose>
-			   </c:forEach>
-			</div>
-			
-			<c:if test="${ pi.currentPage >= pi.maxPage }">
-			   <div class="pagiset-ctrl">
-			      <a class="pagiset-link pagiset-next"> <span
-			         class="visually-hidden">다음</span>
-			      </a>
-			   </div>
-			   <div class="pagiset-ctrl">
-			      <a class="pagiset-link pagiset-last"> <span
-			         class="visually-hidden">마지막</span>
-			      </a>
-			   </div>
-			</c:if>
-			<c:if test="${ pi.currentPage < pi.maxPage }">
-			   <div class="pagiset-ctrl">
-			      <c:url var="goNext" value="${ loc }">
-			         <c:param name="page" value="${ pi.currentPage+1 }"></c:param>
-			      </c:url>
-			      <a class="pagiset-link pagiset-next" href="${ goNext }"> <span
-			         class="visually-hidden">다음</span>
-			      </a>
-			   </div>
-			   <div class="pagiset-ctrl">
-			      <c:url var="goList" value="${ loc }">
-			         <c:param name="page" value="${ pi.maxPage }"></c:param>
-			      </c:url>
-			      <a class="pagiset-link pagiset-last" href="${ goList }"> <span
-			         class="visually-hidden">마지막</span>
-			      </a>
-			   </div>
-			</c:if>
-		</nav>     
 
-      </div>
-    </div>
-  </main>
-<jsp:include page="../common/footer.jsp"/>    
-  
-  <script src="consignment/js/setting.js"></script>
-  <script src="consignment/js/plugin.js"></script>
-  <script src="consignment/js/template.js"></script>
-  <script src="consignment/js/common.js"></script>
-  <script src="consignment/js/script.js"></script>
+
+
+
+
+
+
+					<form action="list.adco" method="post" class="listForm">
+						<div class="tableset" id="tableset">
+							<table class="tableset-table table">
+								<colgroup>
+									<col>
+									<col>
+									<col>
+									<col>
+									<col>
+									<col>
+									<col>
+								</colgroup>
+								<thead class="thead-light thead-border-top">
+									<tr>
+										<th scope="col"><input id="checkset-b-1-1"
+											class="checkset-input input-fill" type="checkbox"
+											id="checkAll" name="checkAll" onclick="checkAll1()">
+										</th>
+										<th scope="col">회원아이디</th>
+										<th scope="col">작가명</th>
+										<th scope="col">작품명</th>
+										<th scope="col">작품의 크기</th>
+										<th scope="col">희망가</th>
+										<th scope="col">삭제여부</th>
+										<th scope="col">열람여부</th>
+										<th scope="col">승인여부</th>
+									</tr>
+								</thead>
+								<tbody id="tbody">
+									<c:forEach items="${cList}" var="c">
+										<tr>
+											<td class="tableset-mobile" onclick="javascript:event.stopPropagation();">
+												<input type="hidden" value="${ c.conNo }" name="conNo"> <input id="${c.conNo}" value="${ c.conNo }" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
+											</td>
+											<td class="tableset-tit tableset-order02" style="text-align: center;">
+												<a href="javascript:void(0)"> 
+													<span>${c.memId}</span> 
+												</a>
+											</td>
+											<td class="tableset-order05">${ c.conAuthor }</td>
+											<td class="tableset-order05">${ c.conProduct }</td>
+											<td class="tableset-order05">${ c.conWidth }*${ c.conHeight }cm</td>
+											<td><fmt:formatNumber type="number" value="${ c.conHope }" />원</td>
+
+											<c:if test="${ c.conDelStatus == 'Y' }">
+												<td class="tableset-order05">Y</td>
+											</c:if>
+											<c:if test="${ c.conDelStatus == 'N' }">
+												<td class="tableset-order05">N</td>
+											</c:if>
+
+
+											<c:if test="${ c.conAdmStatus == 'N'}">
+												<td class="tableset-order05">N</td>
+											</c:if>
+											<c:if test="${ c.conAdmStatus == 'Y'}">
+												<td class="tableset-order05">Y</td>
+											</c:if>
+
+											<td class="tableset-order01">
+												<c:if test="${c.conConStatus == 'N'}">
+													<div class="badgeset badgeset-active" style="width: 45%; display: inline-block;">
+														<intput type="button" onclick="openEnrollModal(this);">수락
+													</div>
+													<div class="badgeset" style="width:45%; display: inline-block; background: gray;" id="closeEnroll" onclick="closeEnroll()">거절</div>
+												</c:if> 
+												<c:if test="${c.conConStatus == 'Y'}">
+													<c:forEach items="${ aList }" var="a">
+														<c:set var="now" value="<%=new java.util.Date()%>" />
+														<fmt:formatDate var="nowDate" value="${now}"
+															pattern="yyyy-MM-dd HH:mm:ss" />
+														<fmt:formatDate var="startDate"
+															value="${a.AUC_START_DATE}" pattern="yyyy-MM-dd HH:mm:ss" />
+														<fmt:formatDate var="endDate" value="${a.AUC_FINISH_DATE}"
+															pattern="yyyy-MM-dd HH:mm:ss" />
+														<c:if test="${ a.AUC_CNO == c.conNo}">
+															<c:if test="${ startDate > nowDate}">
+														  	  경매 진행 예정	
+														  	</c:if>
+															<c:if test="${ startDate < nowDate && endDate > nowDate}">
+														  	  경매 진행중	
+														  	</c:if>
+															<c:if test="${ startDate < nowDate && endDate < nowDate}">
+														  	  종료된 경매	
+														  	</c:if>
+														</c:if>
+	
+													</c:forEach>
+												</c:if> 
+												<c:if test="${c.conConStatus == 'D'}">거절</c:if>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<input class="btnset btnset-lg" value="선택 삭제" type="button" id="deleteBtn();" name="deleteBtn" onclick="minus()">
+						</div>
+					</form>
+				</div>
+
+				<br>
+				<br>
+				<br>
+
+				<nav class="pagiset pagiset-line" id="pagiset-list">
+					<c:if test="${ pi.currentPage <= 1 }">
+						<div class="pagiset-ctrl">
+							<a class="pagiset-link pagiset-first"> <span
+								class="visually-hidden">처음</span>
+							</a>
+						</div>
+						<div class="pagiset-ctrl">
+							<a class="pagiset-link pagiset-prev"> <span
+								class="visually-hidden">이전</span>
+							</a>
+						</div>
+					</c:if>
+					<c:if test="${ pi.currentPage > 1 }">
+						<div class="pagiset-ctrl">
+							<c:url var="goFirst" value="${ loc }">
+								<c:param name="page" value="${ pi.startPage }"></c:param>
+							</c:url>
+							<a class="pagiset-link pagiset-first" href="${ goFirst }"> <span
+								class="visually-hidden">처음</span>
+							</a>
+						</div>
+						<div class="pagiset-ctrl">
+							<c:url var="goBack" value="${ loc }">
+								<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+							</c:url>
+							<a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
+								class="visually-hidden">이전</span>
+							</a>
+						</div>
+					</c:if>
+					<div class="pagiset-list">
+						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+							<c:url var="goNum" value="${ loc }">
+								<c:param name="page" value="${ p }"></c:param>
+							</c:url>
+							<c:choose>
+								<c:when test="${p eq pi.currentPage}">
+									<a class="pagiset-link active-fill" href="${ goNum }">${ p }</a>
+								</c:when>
+								<c:otherwise>
+									<a class="pagiset-link" href="${ goNum }">${ p }</a>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</div>
+
+					<c:if test="${ pi.currentPage >= pi.maxPage }">
+						<div class="pagiset-ctrl">
+							<a class="pagiset-link pagiset-next"> <span
+								class="visually-hidden">다음</span>
+							</a>
+						</div>
+						<div class="pagiset-ctrl">
+							<a class="pagiset-link pagiset-last"> <span
+								class="visually-hidden">마지막</span>
+							</a>
+						</div>
+					</c:if>
+					<c:if test="${ pi.currentPage < pi.maxPage }">
+						<div class="pagiset-ctrl">
+							<c:url var="goNext" value="${ loc }">
+								<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+							</c:url>
+							<a class="pagiset-link pagiset-next" href="${ goNext }"> <span
+								class="visually-hidden">다음</span>
+							</a>
+						</div>
+						<div class="pagiset-ctrl">
+							<c:url var="goList" value="${ loc }">
+								<c:param name="page" value="${ pi.maxPage }"></c:param>
+							</c:url>
+							<a class="pagiset-link pagiset-last" href="${ goList }"> <span
+								class="visually-hidden">마지막</span>
+							</a>
+						</div>
+					</c:if>
+				</nav>
+
+			</div>
+		</div>
+	</main>
+	<jsp:include page="../common/footer.jsp" />
+
+	<script src="consignment/js/setting.js"></script>
+	<script src="consignment/js/plugin.js"></script>
+	<script src="consignment/js/template.js"></script>
+	<script src="consignment/js/common.js"></script>
+	<script src="consignment/js/script.js"></script>
 </body>
 </html>

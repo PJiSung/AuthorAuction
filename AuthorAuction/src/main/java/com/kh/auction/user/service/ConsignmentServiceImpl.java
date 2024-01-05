@@ -130,8 +130,8 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	}
 	// 관리자 체크 삭제
 	@Override
-	public void checkDelete(String[] deleteIds) {
-		cDAO.checkDelete(deleteIds);
+	public int checkDelete(String[] deleteIds) {
+		return cDAO.checkDelete(deleteIds);
 	}
 	// 관리자 조건 검색
 	@Override
@@ -151,6 +151,11 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	@Override
 	public ArrayList<HashMap<String, Object>> selectAuctionMList() {
 		return cDAO.selectAuctionMList();
+	}
+	// 수락 / 거절(클릭) 상태 변경
+	@Override
+	public int updateConConStatus(HashMap<String, Object> map) {
+		return cDAO.updateConConStatus(map);
 	}
 	
 	
