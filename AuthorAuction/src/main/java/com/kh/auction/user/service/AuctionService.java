@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
+import com.kh.auction.user.model.vo.BiddingDetail;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.PageInfo;
 
@@ -26,7 +27,7 @@ public interface AuctionService {
 	int insertBid(HashMap<String, Object> hm);
 
 	//상세 페이지 이동시 관심 목록 등록 확인
-	int likeCheck(HashMap<String, Object> hm);
+	int checkLike(HashMap<String, Object> hm);
 
 	//관심목록 업데이트 + 마이페이지 여러개 삭제
 	String updateInterest(HashMap<String, Object> hm, String result);
@@ -48,5 +49,14 @@ public interface AuctionService {
 
 	//내 관심 경매의 개수를 가지고 옴
 	int getAllInterestBidNum(String id);
+
+	//내 입찰 경매의 개수를 가지고 옴
+	int getAllMyBidListCount(String id);
+	
+	//내가 입찰한 경매의 목록을 들고옴
+	ArrayList<Auction> getAllMyBidList(String id);
+
+	//내가 입찰한 경매내역을 들고옴
+	ArrayList<BiddingDetail> getAllMyDetail(String id);
 	
 }

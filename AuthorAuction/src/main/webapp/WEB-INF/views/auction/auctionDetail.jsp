@@ -187,7 +187,7 @@
     			</div>
     			<div style="margin-bottom:5%;">
 	    			<div style="width:48%; margin-right: 1%; text-align: center; display:inline-block;">보유한 금액</div>
-	    			<div style="width:48%; text-align: center; display:inline-block;" id="possession"><fmt:formatNumber value="${ loginUser.memBalance }" pattern="#,##0" /> 원</div>
+	    			<div style="width:48%; text-align: center; display:inline-block;" id="possession"><fmt:formatNumber value="${ memBalance }" pattern="#,##0" /> 원</div>
     			</div>
     			
     			<div style="margin-top:5%;margin-bottom:2%;">

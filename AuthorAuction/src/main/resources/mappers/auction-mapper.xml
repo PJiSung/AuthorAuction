@@ -14,7 +14,7 @@
 
 	<select id="getAllAuction" resultType="Auction">
 		<![CDATA[
-		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+		select auc_no, auc_start_price, auc_finish_price ,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
 				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_etc, att_rename
 		from auction
@@ -28,7 +28,7 @@
 	</select>
 	
 	<select id="getAuctionDetail" resultType="Auction">
-		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price, to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+		select auc_no, auc_start_price, auc_finish_price, to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
 				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_etc, att_rename
 		from auction
@@ -52,7 +52,7 @@
 		update auction
 		set auc_finish_price = #{bidMoney}, auc_mem_id = #{id}
 		<![CDATA[
-		where (auc_finish_price < #{bidMoney} or nvl(auc_finish_price,0) < #{bidMoney}) and auc_no = #{aucNo}
+		where (auc_finish_price < #{bidMoney} or auc_finish_price < #{bidMoney}) and auc_no = #{aucNo}
 		]]>
 	</update>
 
@@ -72,7 +72,7 @@
 		insert into bidding_Detail values(bdd_seq.nextval, #{bidMoney}, #{aucNo}, #{id})
 	</insert>
 	
-	<select id="likeCheck" resultType="int">
+	<select id="checkLike" resultType="int">
 		select count(*)
 		from bidding_interest
 		where mem_id = #{id} and auc_no in
@@ -98,7 +98,7 @@
 	</delete> 
 	
 	<select id="getMyInterestList">
-		select a.auc_No, att_Rename, con_Author, con_Product, to_char(auc_start_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_Date, to_char(auc_Finish_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_Finish_Date, nvl(auc_Finish_Price, 0) as auc_Finish_Price
+		select a.auc_No, att_Rename, con_Author, con_Product, to_char(auc_start_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_Date, to_char(auc_Finish_Date, 'YYYY-MM-DD HH24:MI:SS') as auc_Finish_Date, auc_Finish_Price
 		from bidding_interest b
 			join auction a on (a.auc_no = b.auc_no)
             join consignment on (a.auc_cno = con_no)
@@ -112,11 +112,41 @@
 		where mem_id = #{id}
 	</select>
 	
+	<select id="getAllMyBidListCount" resultType="int">
+		select count(*)
+		from bidding_detail
+		where mem_id = #{id}
+	</select>
+	
+	<select id="getAllMyBidList" resultType="Auction">
+		select a.auc_no, auc_start_price, auc_finish_price, to_date(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_date(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
+				con_year, con_etc, att_rename
+		from auction a
+		    join (select *
+		          from consignment 
+		            join attachment on (con_no = att_bno)
+		          where att_category = 2 and att_fno = 1) on (auc_cno = con_no)
+		    join bidding_detail b on (a.auc_no = b.auc_no)
+		where a.auc_no in (select b.auc_no
+		                 	from bidding_detail
+		                 	where b.mem_id = #{id}
+		                  )
+		order by bid_no desc			                  
+	</select> 
+	
+	<select id="getAllMyDetail">
+		select *
+		from bidding_detail
+		where mem_id = #{id}
+		order by bid_no desc
+	</select>
+	
 	
 	<!-- adimin -->
 	
 	<select id="getAdminSearchList" resultType="Auction">
-		select auc_no, auc_start_price, nvl(auc_finish_price,0) as auc_finish_price,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+		select auc_no, auc_start_price, auc_finish_price, to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
 				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_etc, att_rename
 		from auction
@@ -213,7 +243,7 @@
 	
 	
 	<insert id="insertAuction">
-		insert into auction values(auc_seq.nextval, #{aucStartPrice}, null, to_date(#{aucStartDate}, 'YYYY-MM-DD HH24:MI:SS'), to_date(#{aucFinishDate}, 'YYYY-MM-DD HH24:MI:SS'), #{aucNo}, null)
+		insert into auction values(auc_seq.nextval, #{aucStartPrice}, default, to_date(#{aucStartDate}, 'YYYY-MM-DD HH24:MI:SS'), to_date(#{aucFinishDate}, 'YYYY-MM-DD HH24:MI:SS'), #{aucNo}, null)
 	</insert>
 	
 	<select id="getConsignmentInfo">

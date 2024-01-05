@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.auction.user.dao.AuctionDAO;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
+import com.kh.auction.user.model.vo.BiddingDetail;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.PageInfo;
 
@@ -43,7 +44,6 @@ public class AuctionServiceImpl implements AuctionService{
 	@Override //입찰 - ajax 이용해 환불한후에 바로 경매금액 업데이트 및 입찰내역 업데이트 입찰자 금액감소
 	public int insertBid(HashMap<String, Object> hm) {
 		
-		
 		//입찰전 환불을 위해서 이전 경매의 정보를 다 들고옴
 		int aucNo = (int) hm.get("aucNo");
 		Auction beforeAuction = aDAO.getAuctionDetail(aucNo);
@@ -72,8 +72,8 @@ public class AuctionServiceImpl implements AuctionService{
 	}
 
 	@Override //상세페이지 이동시 관심 목록 여부 확인
-	public int likeCheck(HashMap<String, Object> hm) {
-		return aDAO.likeCheck(hm);
+	public int checkLike(HashMap<String, Object> hm) {
+		return aDAO.checkLike(hm);
 	}
 
 	@Override //관심목록 업데이트 + 마이페이지 여러개 삭제
@@ -81,8 +81,8 @@ public class AuctionServiceImpl implements AuctionService{
 		switch (result) {
 		case "forCheck":
 			//현 상태에 따라 업데이트
-			if(aDAO.likeCheck(hm) < 1) {
-				System.out.println("service : " + aDAO.likeCheck(hm));
+			if(aDAO.checkLike(hm) < 1) {
+				System.out.println("service : " + aDAO.checkLike(hm));
 				aDAO.insertLike(hm);
 				return "insert";
 			}else {
@@ -126,5 +126,20 @@ public class AuctionServiceImpl implements AuctionService{
 	@Override //내 관심경매의 개수를 들고옴
 	public int getAllInterestBidNum(String id) {
 		return aDAO.getAllInterestBidNum(id);
+	}
+
+	@Override //내 입찰 경매의 개수를 가지고 옴
+	public int getAllMyBidListCount(String id) {
+		return aDAO.getAllMyBidListCount(id);
+	}
+
+	@Override //내가 입찰한 경매의 목록을 들고옴
+	public ArrayList<Auction> getAllMyBidList(String id) {
+		return aDAO.getAllMyBidList(id);
+	}
+
+	@Override //내가 입찰한 경매내역을 들고옴
+	public ArrayList<BiddingDetail> getAllMyDetail(String id) {
+		return aDAO.getAllMyDetail(id);
 	}
 }

@@ -1,7 +1,6 @@
 package com.kh.auction.user.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.google.gson.Gson;
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.member.service.MemberService;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
+import com.kh.auction.user.model.vo.BiddingDetail;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.service.AuctionService;
@@ -56,6 +55,9 @@ public class AuctionController {
 	@GetMapping("auctionDetail.ac")
 	public String moveToAuctionDetail(@RequestParam("page") int page, @RequestParam("aucNo") int aucNo, Model model) { 
 		
+		//경매 들어가기전에 현재 보유금액을 들고옴
+		int memBalance = mService.login((Member)model.getAttribute("loginUser")).getMemBalance();
+		
 		//경매 번호를 가지고 세부내용을 들고옴
 		Auction auction = aService.getAuctionDetail(aucNo);
 		//경매 내부의 사진을 들고옴
@@ -65,6 +67,7 @@ public class AuctionController {
 		model.addAttribute("auction",auction);
 		model.addAttribute("page", page);
 		model.addAttribute("attachmentList",attachmentList);
+		model.addAttribute("memBalance",memBalance);
 		
 		return "/auction/auctionDetail";
 	}
@@ -108,7 +111,7 @@ public class AuctionController {
 	public int checkLike(@RequestParam("aucNo") int aucNo, Model model) {
 		String id = null;
 		Member m = ((Member)model.getAttribute("loginUser"));
-		int likeCheck = 0;
+		int checkLike = 0;
 		
 		if(m != null) {
 			HashMap<String, Object> hm = new HashMap<>();
@@ -117,16 +120,15 @@ public class AuctionController {
 			hm.put("id", m.getMemId());
 			aucNos.add(aucNo);
 			hm.put("aucNo", aucNos);
-			likeCheck = aService.likeCheck(hm);
-			model.addAttribute("likeCheck", likeCheck);
-			return likeCheck;
+			checkLike = aService.checkLike(hm);
+			model.addAttribute("likeCheck", checkLike);
+			return checkLike;
 		}else {
-			return likeCheck;
+			return checkLike;
 		}
 	}
 	
 	
-	//열 유형이 부적합합니다 = 맵퍼에서 문제 있음 맵퍼 찾기 (insert시 문제 발생)
 	@ResponseBody
 	@PostMapping("interest.ac") //ajax 관심 목록 업데이트 + 마이페이지 여러개 삭제
 	public String updateInterest(@RequestParam(value="aucNo", required=false) Integer aucNo, Model model, @RequestParam(value="checkedNum[]", required=false) int[] checkedNum, @RequestParam(value="page", defaultValue = "1") int currentPage) {
@@ -135,50 +137,68 @@ public class AuctionController {
 		List<Integer> aucNos = new ArrayList<>();
 		String id = ((Member)model.getAttribute("loginUser")).getMemId();
 		hm.put("id", id);
+		
 		if(checkedNum == null) {
 			result = "forCheck";
-			System.out.println(result);
 			aucNos.add(aucNo);
-			System.out.println("aucNos : " + aucNos);
-			hm.put("aucNo", aucNos);
-			result = aService.updateInterest(hm,result);
-			
 		}else {
 			result = "delete";
 			for(int i = 0; i < checkedNum.length; i++) {
 				aucNos.add(checkedNum[i]);
 			}
-			hm.put("aucNo", aucNos);
-			result = aService.updateInterest(hm,result);
 		}
+		hm.put("aucNo", aucNos);
+		return aService.updateInterest(hm,result);
 		
-		if(result.equals("deleteMypage")) {
-			System.out.println("deleteMypage");
-			int myInterestNum = aService.getAllInterestBidNum(id);
-			
-			PageInfo pi = Pagination.getPageInfo(currentPage, myInterestNum, 5);
-			
-			//아이디로 내 관심 목록 들고옴
-			ArrayList<Auction> aList = aService.getMyInterestList(id, pi);
-			
-			Gson gson = new Gson();
-			
-			 String jsonAList = gson.toJson(aList);
-		     String jsonPi = gson.toJson(pi);
-
-		     // 직접 JSON 문자열 조합
-		     String resultJson = "{\"aList\":" + jsonAList + ",\"pi\":" + jsonPi + "}";
-			
-			return resultJson;
-		}else {
-			System.out.println("dㅁㄴㅇㅁㄴㅇ");
-			return result;
-		}
+		
+		
+		//if(result.equals("deleteMypage")) {
+		//			System.out.println("deleteMypage");
+		//int myInterestNum = aService.getAllInterestBidNum(id);
+		//
+		//PageInfo pi = Pagination.getPageInfo(currentPage, myInterestNum, 5);
+		//
+		////아이디로 내 관심 목록 들고옴
+		//ArrayList<Auction> aList = aService.getMyInterestList(id, pi);
+		//
+		//return "success";
+		//}else {
+			//return result;
+			//}
 		
 	}
 	
 	@GetMapping("myBidList.ac")
-	public String moveToMyBIdList() {
+	public String moveToMyBIdList(@RequestParam(value="page", defaultValue="1") int currentPage, Model model) {
+		String id = null;
+		Member m = ((Member)model.getAttribute("loginUser"));
+		
+		if(m != null) {
+			id = m.getMemId();
+		}
+		// 내 입찰 경매의 개수를 가지고 옴
+		int myBidCount = aService.getAllMyBidListCount(id);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, myBidCount, 10);
+		
+		//내가 입찰한 경매의 목록을 들고옴
+		ArrayList<Auction> myBidList = aService.getAllMyBidList(id);
+		
+		int price = 0;
+		
+		for(int i = 0; i < myBidList.size(); i++) {
+			Auction a = myBidList.get(i);
+			price = (int)a.getAucFinishPrice();
+			a.setAucFinishPrice(price);
+		}
+		
+		//내가 입찰한 경매내역을 들고옴
+		ArrayList<BiddingDetail> detailList = aService.getAllMyDetail(id);
+		
+		model.addAttribute("detailList", detailList);
+		model.addAttribute("myBidList", myBidList);
+		model.addAttribute("pi", pi);
+		
 		return "/auction/myAuction";
 	}
 	

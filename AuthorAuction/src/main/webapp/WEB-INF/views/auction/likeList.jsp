@@ -32,7 +32,7 @@
 						id="scheduled">진행 경매</div>
 					<div class="seeWhich"
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						id="scheduled">종료 경매</div>
+						id="finish">종료 경매</div>
 				</div>
 				<div
 					style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
@@ -116,6 +116,88 @@
 			</div>
 		</div>
 	</div>
+	
+	<nav id="paging" class="pagiset pagiset-line">
+            <c:if test="${ pi.currentPage <= 1 }">
+               <div class="pagiset-ctrl">
+                  <a class="pagiset-link pagiset-first"> <span
+                     class="visually-hidden">처음</span>
+                  </a>
+               </div>
+               <div class="pagiset-ctrl">
+                  <a class="pagiset-link pagiset-prev"> <span
+                     class="visually-hidden">이전</span>
+                  </a>
+               </div>
+            </c:if>
+            <c:if test="${ pi.currentPage > 1 }">
+               <div class="pagiset-ctrl">
+                  <c:url var="goFirst" value="${ loc }">
+                     <c:param name="page" value="${ pi.startPage }"></c:param>
+                  </c:url>
+                  <a class="pagiset-link pagiset-first" href="${ goFirst }">
+                     <span class="visually-hidden">처음</span>
+                  </a>
+               </div>
+               <div class="pagiset-ctrl">
+                  <c:url var="goBack" value="${ loc }">
+                     <c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+                  </c:url>
+                  <a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
+                     class="visually-hidden">이전</span>
+                  </a>
+               </div>
+            </c:if>
+            <div class="pagiset-list">
+               <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }"
+                  var="p">
+                  <c:url var="goNum" value="${ loc }">
+                     <c:param name="page" value="${ p }"></c:param>
+                  </c:url>
+                  <c:choose>
+                     <c:when test="${p eq pi.currentPage}">
+                        <a class="pagiset-link active-fill" href="${ goNum }">${ p }</a>
+                     </c:when>
+                     <c:otherwise>
+                        <a class="pagiset-link" href="${ goNum }">${ p }</a>
+                     </c:otherwise>
+                  </c:choose>
+               </c:forEach>
+            </div>
+            
+            <c:if test="${ pi.currentPage >= pi.maxPage }">
+               <div class="pagiset-ctrl">
+                  <a class="pagiset-link pagiset-next"> <span
+                     class="visually-hidden">다음</span>
+                  </a>
+               </div>
+               <div class="pagiset-ctrl">
+                  <a class="pagiset-link pagiset-last"> <span
+                     class="visually-hidden">마지막</span>
+                  </a>
+               </div>
+            </c:if>
+            <c:if test="${ pi.currentPage < pi.maxPage }">
+               <div class="pagiset-ctrl">
+                  <c:url var="goNext" value="${ loc }">
+                     <c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+                  </c:url>
+                  <a class="pagiset-link pagiset-next" href="${ goNext }"> <span
+                     class="visually-hidden">다음</span>
+                  </a>
+               </div>
+               <div class="pagiset-ctrl">
+                  <c:url var="goList" value="${ loc }">
+                     <c:param name="page" value="${ pi.maxPage }"></c:param>
+                  </c:url>
+                  <a class="pagiset-link pagiset-last" href="${ goList }"> <span
+                     class="visually-hidden">마지막</span>
+                  </a>
+               </div>
+            </c:if>
+         </nav>
+	
+	
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
@@ -133,27 +215,31 @@
 				})
 			}
             
-            console.log(document.querySelectorAll("div[class='auction']")[0].children)
-            
-       		for(const auction of document.querySelectorAll("div[class='auction']")){
-       			for(let i = 1; i < 7; i++){
-       				auction.children[i].addEventListener('click',function(){
-       					switch(auction.children[6].innerText.split(":")[1].trim().split(" ")[0]){
-       					case '예정':
-       						console.log(1);
-       						break;
-       					case '진행':
-       						console.log(1);
-       						break;
-       					default:
-       						console.log(1);
-   						break;
-       					}
-       					
-       					//location.href='';
-       				})
-       			}
-       		}
+        	
+        	
+        	
+			if(document.querySelectorAll("div[class='auction']")[0].children[0].tagName != 'H1'){
+	       		for(const auction of document.querySelectorAll("div[class='auction']")){
+	       			for(let i = 1; i < 7; i++){
+	       				auction.children[i].addEventListener('click',function(){
+	       					let auctionStatus = null;
+	       					switch(auction.children[6].innerText.split(":")[1].trim().split(" ")[0]){
+	       					case '예정':
+	       						auctionStatus = 'scheduled';
+	       						break;
+	       					case '진행':
+	       						auctionStatus = 'ongoing';
+	       						break;
+	       					default:
+	       						auctionStatus = 'finish';
+	   						break;
+	       					}
+	       					console.log(auctionStatus)
+	       					//location.href='';
+	       				})
+	       			}
+	       		}
+			}
             
             let checkCount = 0;
           	for(const checkBox of document.querySelectorAll("input[class='eachCheck']")){
@@ -195,21 +281,18 @@
 					checkedNum.push(checkedBox.parentElement.nextElementSibling.innerText);
 				}
 			}
+			
 			$.ajax({
 				url:'interest.ac',
 				type:'post',
 				data:{checkedNum:checkedNum},
 				success: (data) =>{
-					console.log("data : " +  data)
-					console.log("parse(data) : " + parse(data));
-					
+					 $("#divine").load(location.href + " #divine");
+					$("#paging").load(location.href + " #paging");
 				},
 				error: data => console.log(data)
 			})
 		}
-
-        
-        
     </script>
 </body>
 </html>

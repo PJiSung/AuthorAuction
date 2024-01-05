@@ -75,7 +75,90 @@
 	        </div>
 	    </div>
     </form>
-    <div style="height:65px; text-align: center;">페이징 구간이며 필요한 높이는 최소 65px 공간에 마진까지 넣어서 만들기</div>
+	
+	<nav class="pagiset pagiset-line">
+            <c:if test="${ pi.currentPage <= 1 }">
+               <div class="pagiset-ctrl">
+                  <a class="pagiset-link pagiset-first"> <span
+                     class="visually-hidden">처음</span>
+                  </a>
+               </div>
+               <div class="pagiset-ctrl">
+                  <a class="pagiset-link pagiset-prev"> <span
+                     class="visually-hidden">이전</span>
+                  </a>
+               </div>
+            </c:if>
+            <c:if test="${ pi.currentPage > 1 }">
+               <div class="pagiset-ctrl">
+                  <c:url var="goFirst" value="${ loc }">
+                     <c:param name="page" value="${ pi.startPage }"></c:param>
+                  </c:url>
+                  <a class="pagiset-link pagiset-first" href="${ goFirst }">
+                     <span class="visually-hidden">처음</span>
+                  </a>
+               </div>
+               <div class="pagiset-ctrl">
+                  <c:url var="goBack" value="${ loc }">
+                     <c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+                  </c:url>
+                  <a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
+                     class="visually-hidden">이전</span>
+                  </a>
+               </div>
+            </c:if>
+            <div class="pagiset-list">
+               <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }"
+                  var="p">
+                  <c:url var="goNum" value="${ loc }">
+                     <c:param name="page" value="${ p }"></c:param>
+                  </c:url>
+                  <c:choose>
+                     <c:when test="${p eq pi.currentPage}">
+                        <a class="pagiset-link active-fill" href="${ goNum }">${ p }</a>
+                     </c:when>
+                     <c:otherwise>
+                        <a class="pagiset-link" href="${ goNum }">${ p }</a>
+                     </c:otherwise>
+                  </c:choose>
+               </c:forEach>
+            </div>
+            
+            <c:if test="${ pi.currentPage >= pi.maxPage }">
+               <div class="pagiset-ctrl">
+                  <a class="pagiset-link pagiset-next"> <span
+                     class="visually-hidden">다음</span>
+                  </a>
+               </div>
+               <div class="pagiset-ctrl">
+                  <a class="pagiset-link pagiset-last"> <span
+                     class="visually-hidden">마지막</span>
+                  </a>
+               </div>
+            </c:if>
+            <c:if test="${ pi.currentPage < pi.maxPage }">
+               <div class="pagiset-ctrl">
+                  <c:url var="goNext" value="${ loc }">
+                     <c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+                  </c:url>
+                  <a class="pagiset-link pagiset-next" href="${ goNext }"> <span
+                     class="visually-hidden">다음</span>
+                  </a>
+               </div>
+               <div class="pagiset-ctrl">
+                  <c:url var="goList" value="${ loc }">
+                     <c:param name="page" value="${ pi.maxPage }"></c:param>
+                  </c:url>
+                  <a class="pagiset-link pagiset-last" href="${ goList }"> <span
+                     class="visually-hidden">마지막</span>
+                  </a>
+               </div>
+            </c:if>
+         </nav>    
+
+
+
+
     <jsp:include page="../common/footer.jsp"/>
     
     <script>

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
+import com.kh.auction.user.model.vo.BiddingDetail;
 import com.kh.auction.user.model.vo.Consignment;
 
 @Mapper 
@@ -38,7 +39,7 @@ public interface AuctionDAO {
 	void insertBiddingDetail(HashMap<String, Object> hm);
 	
 	//상세페이지 이동시 관심 목록 여부 확인
-	int likeCheck(HashMap<String, Object> hm);
+	int checkLike(HashMap<String, Object> hm);
 
 	//관심 목록 등록
 	int insertLike(HashMap<String, Object> hm);
@@ -63,5 +64,14 @@ public interface AuctionDAO {
 
 	//내 관심 경매의 수를 가져옴
 	int getAllInterestBidNum(String id);
+
+	//내 입찰 경매의 수를 가지고옴
+	int getAllMyBidListCount(String id);
+
+	//내가 입찰한 경매의 목록을 들고옴
+	ArrayList<Auction> getAllMyBidList(String id);
+
+	//내가 입찰한 경매내역을 들고옴
+	ArrayList<BiddingDetail> getAllMyDetail(String id);
 
 }
