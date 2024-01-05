@@ -1117,7 +1117,6 @@ $(document).ready(function(){
  	const totalbill = document.getElementById('totalbill').innerText;
  	
  	
- 	
 		$("#pointinput").keyup(function(e) {
 			if(isNaN(document.getElementById('pointinput').value)   || document.getElementById('pointinput').value.trim() == "" ){
 				$("#pointprice").text(0);
