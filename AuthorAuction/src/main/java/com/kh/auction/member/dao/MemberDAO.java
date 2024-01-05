@@ -1,12 +1,14 @@
 package com.kh.auction.member.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
+import com.kh.auction.user.model.vo.SearchMember;
 
 @Mapper
 public interface MemberDAO {
@@ -43,7 +45,9 @@ public interface MemberDAO {
 
 	int deleteMemImg(String id);
 
-	int getListCount(String memId);
+	int getListCount(SearchMember sm);
 
-	ArrayList<Member> selectMemberList(String memId, RowBounds rowBounds);
+	ArrayList<Member> selectMemberList(SearchMember sm, RowBounds rowBounds);
+
+	int deleteMembers(String[] ids);
 }

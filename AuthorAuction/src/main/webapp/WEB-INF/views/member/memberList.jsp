@@ -80,8 +80,8 @@ tr .checkset {
 <script>
 window.onload = () =>{
 	selectSet();
-	checkAll();
 	checkAllSpan();
+	checkAll('search');
 }
 
 const selectSet = () =>{
@@ -131,30 +131,55 @@ const selectSet = () =>{
 	}
 }
 
-const checkAll = () =>{
-	const cboxs = document.querySelectorAll(".searchBox input[type=checkbox]");
+const checkAll = (value) =>{
+	let cboxs;
+	if(value == "search"){
+		cboxs = document.querySelectorAll(".searchBox input[type=checkbox]");
+	}else{
+		cboxs = document.querySelectorAll(".tableset input[type=checkbox]");
+	}
 	for(let i=1; i<cboxs.length; i++){
 		cboxs[i].checked = cboxs[0].checked;
 	}
 }
 
 const checkAllSpan = () =>{
-	let span = document.querySelector(".checkset span");
-	span.addEventListener("click", function(){
-		let cbox = document.querySelectorAll(".searchBox input[type=checkbox]")[0];
-		if(cbox.checked){
-			cbox.checked = false;
-		}else if(!cbox.checked){
-			cbox.checked = true;
+	let	spans = document.querySelectorAll(".checkset span");
+	let	cboxs = document.querySelectorAll(".searchBox input[type=checkbox]");
+	spans[0].addEventListener("click", function(){
+		if(cboxs[0].checked){
+			cboxs[0].checked = false;
+		}else if(!cboxs.checked){
+			cboxs[0].checked = true;
 		}
-		checkAll();
+		checkAll('search');
 	});
+	
+	for(let i=1; i<spans.length; i++){
+		spans[i].addEventListener("click", function(){
+			if(cboxs[i].checked){
+				cboxs[i].checked = false;
+			}else if(!cboxs[i].checked){
+				cboxs[i].checked = true;
+			}
+			checkSelect('search');
+		});
+	}
 }
 
-const checkSelect = () =>{
-	const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[0];
-	const cboxs = document.querySelectorAll("input[name='sub']");
-	const checkCboxs = document.querySelectorAll("input[name='sub']:checked");
+const checkSelect = (value) =>{
+	let checkAllcBox;
+	let cboxs;
+	let checkCboxs;
+	if(value == "search"){ 
+		checkAllcBox = document.querySelectorAll("input[type=checkbox]")[0];
+		cboxs = document.querySelectorAll("input[name='searchCbox']");
+		checkCboxs = document.querySelectorAll("input[name='searchCbox']:checked");
+	}else{
+		checkAllcBox = document.querySelectorAll(".tableset input[type=checkbox]")[0];
+		cboxs = document.querySelectorAll("input[name='tableCbox']");
+		checkCboxs = document.querySelectorAll("input[name='tableCbox']:checked");
+	}
 	if(cboxs.length == checkCboxs.length){
 		checkAllcBox.checked = true;
 	}else{
@@ -162,6 +187,77 @@ const checkSelect = () =>{
 	}
 };
 
+const deleteMember = () =>{
+	const checkboxes = document.querySelectorAll("input[name='tableCbox']:checked");
+    const deleteIds = [];
+   
+    for(i=0; i<checkboxes.length; i++){
+       deleteIds[i] = checkboxes[i].id;
+    }
+    if(deleteIds.length != 0){
+        $.ajax({
+	        url : 'deleteMember.adme',
+	        type : 'post',
+	        data: {ids: deleteIds},
+	        success : (data) =>{
+	        	console.log(data);
+	        	if(data == "success"){
+	        		reloadMyDiv();
+	        	}
+	        },
+	        error : data => console.log(data)
+		}); 
+    }
+};
+
+const reloadMyDiv = () =>{
+	$("#totalCount").load(location.href + " #totalCount");
+	$("#tableset").load(location.href + " #tableset");
+} 
+
+const search = () =>{
+	
+	//회원등급
+	let isAdmin = document.getElementsByName("isAdmin")[0];
+	let cboxs = document.querySelectorAll(".searchBox input[type=checkbox]:checked");
+	if(cboxs.length == 1){
+		isAdmin.value = cboxs[0].value;
+	}
+	
+	//검색어
+	let keyword = document.getElementsByName("keyword")[0];
+	let selectBtn = document.querySelector(".selectset-toggle span");
+	switch(selectBtn.innerText){
+	case "아이디":
+		keyword.value = "MEM_ID";
+		break;
+	case "이름":
+		keyword.value = "MEM_NAME";
+		break;
+	case "닉네임":
+		keyword.value = "MEM_NICKNAME";
+		break;
+	}
+	
+	document.getElementById("searchMember").submit();
+}
+
+const sort = (value) =>{
+	console.log("접근");
+	
+	$.ajax({
+        url : 'sortMember.adme',
+        type : 'post',
+        data: {ids: deleteIds},
+        success : (data) =>{
+        	console.log(data);
+        	if(data == "success"){
+        		reloadMyDiv();
+        	}
+        },
+        error : data => console.log(data)
+	}); 
+}
 </script>
 </head>
 
@@ -169,7 +265,7 @@ const checkSelect = () =>{
 <jsp:include page="../common/header.jsp"/>
   <main class="th-layout-main ">
     <!-- [S]hooms-N36 -->
-    <div class="hooms-N36" data-bid="HNlqYGbwI5" id="">
+    <div class="hooms-N36" data-bid="HNlqYGbwI5">
       <div class="contents-inner">
         <div class="contents-container container-md">
           <div class="textset textset-h2">
@@ -178,25 +274,30 @@ const checkSelect = () =>{
           <div class="contents-search">
             <div class="contents-form">
             <input type="hidden" name="category" id="selectedCat" value="전체">
+            
+            <form action="memberList.adme" id="searchMember">
             <div class="searchBox">
+            <input type="hidden" name="isAdmin">
+            <input type="hidden" name="keyword">
+            <input type="hidden" name="page" value="${ pi.currentPage }">
               	<table>
               		<tr>
               			<td>회원등급</td>
               			<td colspan="3">
 							<div class="checkset">
-								<input id="checkset-a-1-1" class="checkset-input input-fill" type="checkbox" aria-label="전체" onclick="checkAll()" checked>
+								<input id="checkset-a-1-1" class="checkset-input input-fill" type="checkbox" aria-label="전체" onclick="checkAll('search')">
 								<label class="checkset-label" for="checkset-a-1-1"></label>
 								<span class="checkset-text">전체</span>
 							</div>
 							<div class="checkset">
-								<input id="checkset-a-2-1" class="checkset-input input-fill" name="sub" type="checkbox" aria-label="선택" onclick="checkSelect()">
+								<input id="checkset-a-2-1" class="checkset-input input-fill" name="searchCbox" type="checkbox" aria-label="선택" value="Y" onclick="checkSelect('search')">
 								<label class="checkset-label" for="checkset-a-2-1"></label>
-								<span class="checkset-text">선택</span>
+								<span class="checkset-text">관리자</span>
 							</div>
 							<div class="checkset">
-								<input id="checkset-a-3-1" class="checkset-input input-fill" name="sub" type="checkbox" aria-label="선택" onclick="checkSelect()">
+								<input id="checkset-a-3-1" class="checkset-input input-fill" name="searchCbox" type="checkbox" aria-label="선택" value="N" onclick="checkSelect('search')">
 								<label class="checkset-label" for="checkset-a-3-1"></label>
-								<span class="checkset-text">선택</span>
+								<span class="checkset-text">일반회원</span>
 							</div>
 						</td>
               		</tr>
@@ -205,14 +306,9 @@ const checkSelect = () =>{
               			<td>
               				<div class="selectset selectset-round selectset-lg">
               				<button class="selectset-toggle btn" type="button" style="height: 40px; width: 100px;">
-	                       		<span>전체</span>
+	                       		<span>아이디</span>
 		                    </button>
 		                    <ul class="selectset-list">
-		                       <li class="selectset-item">
-		                          <button class="selectset-link btn" type="button" value="전체">
-		                             <span>전체</span>
-		                          </button>
-		                       </li>
 		                       <li class="selectset-item">
 		                          <button class="selectset-link btn" type="button" value="아이디">
 		                             <span>아이디</span>
@@ -231,43 +327,45 @@ const checkSelect = () =>{
                     		</ul>
                     		</div>
                     		<div class="inputset inputset-lg">
-			                    <input type="text" class="inputset-input form-control" placeholder="검색어를 입력해주세요." aria-label="내용">
+			                    <input type="text" name="searchText" class="inputset-input form-control" placeholder="검색어를 입력해주세요." aria-label="내용">
 			                </div>
               			</td>
               			<td>
               				
               			</td>
               			<td>
-              				<td><button class="btnset btnset-lg btnset-line" type="button">&nbsp;&nbsp;검색&nbsp;&nbsp;</button></td>
+              				<button class="btnset btnset-lg btnset-line" type="button" onclick="search()">&nbsp;&nbsp;검색&nbsp;&nbsp;</button>
               			</td>
               		</tr>
               		<tr>
               			<td>조회 기간</td>
-              			<td colspan="3"><input type="date"> ~ <input type="date"></td>
+              			<td colspan="3"><input type="date" name="startDate"> ~ <input type="date" name="endDate"></td>
               		</tr>
               	</table>
-              	
               </div>
+              </form>
             </div>
           </div>
           <div class="contents-search">
-            <p class="contents-result"> 전체<span> ${total }</span>개 </p>
+          <div id="totalCount" >
+            <p class="contents-result"> 전체<span> ${ total }</span>개</p>
+          </div>
             <div class="contents-form">
               <div class="container">
                 <div class="tabset tabset-text">
                   <ul class="tabset-list">
                     <li class="tabset-item">
-                      <a class="tabset-link active" href="javascript:void(0)">
+                      <a class="tabset-link active" href="javascript:void(0)" onclick="sort('ALL')">
                         <span>전체</span>
                       </a>
                     </li>
                     <li class="tabset-item">
-                      <a class="tabset-link" href="javascript:void(0)">
+                      <a class="tabset-link" href="javascript:void(0)" onclick="sort('Y')">
                         <span>활동회원</span>
                       </a>
                     </li>
                     <li class="tabset-item">
-                      <a class="tabset-link" href="javascript:void(0)">
+                      <a class="tabset-link" href="javascript:void(0)" onclick="sort('N')">
                         <span>탈퇴회원</span>
                       </a>
                     </li>
@@ -276,7 +374,7 @@ const checkSelect = () =>{
               </div>
             </div>
           </div>
-          <div class="tableset">
+          <div id="tableset" class="tableset">
             <table class="tableset-table table">
               <colgroup>
                 <col>
@@ -290,14 +388,13 @@ const checkSelect = () =>{
               <thead class="thead-light thead-border-top">
                 <tr>
                   <th scope="col">
-                  	<input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" id="checkAll" name="checkAll" onclick="checkAll1()"> 
+                  	<input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" onclick="checkAll('table')"> 
                   </th>
                   <th scope="col">아이디</th>
                   <th scope="col">이름</th>
                   <th scope="col">핸드폰</th>
-                  <th scope="col">가입일</th>
                   <th scope="col">등급</th>
-                  <th scope="col">권한</th>
+                  <th scope="col">가입일</th>
                   <th scope="col">권한</th>
                 </tr>
               </thead>
@@ -305,29 +402,29 @@ const checkSelect = () =>{
                <c:forEach items="${ list }" var="m">
                 <tr>
                   <td class="tableset-mobile">
-                  	<input id="${m.memId}" value="${ m.memId }" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
+                  	<input type="checkbox" class="checkset-input input-fill" id="${ m.memId }" name="tableCbox" onclick="checkSelect('table')">
                   </td>
                   <td class="tableset-tit tableset-order02">
                       <span>${ m.memId }</span>
                   </td>
                   <td class="tableset-order05">${ m.memName }</td>
-                  <td class="tableset-order04">${ m.memPhone }</td>
-                  <td class="tableset-order01">
-                    ${ m.memDate }
-                  </td>
+                  <td class="tableset-mobile">${ m.memPhone }</td>
                   <td class="tableset-mobile">${ m.memRating }</td>
-                  <td class="tableset-mobile">권한</td>
-                  <td class="tableset-mobile">${ m.memStatus }</td>
+                  <td class="tableset-order01">${ m.memDate }</td>
+                  <td class="tableset-mobile">${ m.memStatus }
+                  	<input type="button" value="관리자" <c:if test="${ m.memStatus eq 'Y' }">class="statusBtn active"</c:if>>
+                  	<input type="button" value="일반회원">
+                  </td>
                 </tr>
                </c:forEach>
               </tbody>
             </table>
             
-            <input class="btnset btnset-lg" value="선택 삭제" type="button">
+            <input class="btnset btnset-lg" value="선택 삭제" type="button" onclick="deleteMember()">
 	        
 	        </div>
 	        
-			<nav class="pagiset pagiset-line">
+			<nav id="page" class="pagiset pagiset-line">
 				<c:if test="${ pi.currentPage <= 1 }">
 				   <div class="pagiset-ctrl">
 				      <a class="pagiset-link pagiset-first"> <span
@@ -340,6 +437,8 @@ const checkSelect = () =>{
 				      </a>
 				   </div>
 				</c:if>
+				
+				
 				<c:if test="${ pi.currentPage > 1 }">
 				   <div class="pagiset-ctrl">
 				      <c:url var="goFirst" value="${ loc }">
@@ -358,11 +457,12 @@ const checkSelect = () =>{
 				      </a>
 				   </div>
 				</c:if>
-				<div class="pagiset-list">
+				<div id="pagiset-list" class="pagiset-list">
 				   <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }"
 				      var="p">
 				      <c:url var="goNum" value="${ loc }">
 				         <c:param name="page" value="${ p }"></c:param>
+				         
 				      </c:url>
 				      <c:choose>
 				         <c:when test="${p eq pi.currentPage}">
@@ -406,7 +506,6 @@ const checkSelect = () =>{
 				   </div>
 				</c:if>
 			</nav>     
-
 	
 	      </div>
       </div>

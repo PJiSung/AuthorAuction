@@ -1,10 +1,12 @@
 package com.kh.auction.member.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.SearchMember;
 
 public interface MemberService {
 
@@ -38,7 +40,9 @@ public interface MemberService {
 
 	int deleteMemImg(String id);
 
-	int getListCount(String memId);
+	int getListCount(SearchMember sm);
 
-	ArrayList<Member> selectMemberList(String memId, PageInfo pi);
+	ArrayList<Member> selectMemberList(SearchMember sm, PageInfo pi);
+
+	int deleteMembers(String[] ids);
 }
