@@ -724,7 +724,7 @@ input.check_btn:checked + label:before{
 							<div style = "width: 80%; height: 100%; display:flex; align-items: center;">
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #555"><h5>포인트 사용</h5></div>
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "text" id = "pointinput" value = 0></div> 
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : ${loginUser.memBalance}p)</div>
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">보유 포인트 : <span class = "proprices">${loginUser.memBalance}</span><small>&nbsp;p</small></div>
 							</div>
 						</div>
 								<div>배송일은 주문일 기준 2~3일 소요됩니다</div>
@@ -1068,6 +1068,8 @@ $(document).ready(function(){
 		p.innerText = p.innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		
 	}
+	
+	
   
   </script>
   
@@ -1118,7 +1120,6 @@ $(document).ready(function(){
  	
 		$("#pointinput").keyup(function(e) {
 			if(isNaN(document.getElementById('pointinput').value)   || document.getElementById('pointinput').value.trim() == "" ){
-				console.log('qwe');
 				$("#pointprice").text(0);
 				$("#pointinput").val(0);
 				document.getElementById('totalbill').innerText = 
@@ -1133,7 +1134,7 @@ $(document).ready(function(){
 			
 			
 			if (content > ${loginUser.memBalance}) {
-				alert('잔여 포인트보다 더 사용할 수 없습니다');
+				alert('보유 포인트보다 더 사용할 수 없습니다');
 				$(this).val(0);
 				$("#pointprice").text(0);
 				$("#totalbill").text(totalbill);
