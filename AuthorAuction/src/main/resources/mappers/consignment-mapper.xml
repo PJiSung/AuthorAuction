@@ -204,4 +204,9 @@
 		</foreach>
 	</update>
 	
+	<update id="updateConConStatus">													<!-- 수락 / 거절 상태 변경 -->
+		update consignment
+		set con_con_status = #{value}
+		where con_no = #{conNo}
+	</update>
 </mapper>

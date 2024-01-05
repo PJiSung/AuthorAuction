@@ -124,15 +124,55 @@
 	</update>
 	
 	<select id="getListCount" resultType="_int"> 
-		SELECT count(*)
+		SELECT COUNT(*)
 		FROM MEMBER
+		WHERE 1=1
+		<if test="isAdmin != null">
+			AND MEM_ISADMIN = #{isAdmin}
+		</if>
+		<if test="searchText != null">
+			AND ${keyword} like '%'|| #{searchText} ||'%'
+		</if>
+		<if test="startDate != null and endDate == null">
+			AND MEM_DATE<![CDATA[ < ]]>#{endDate}
+		</if>
+		<if test="startDate == null and endDate != null">
+			AND MEM_DATE<![CDATA[ > ]]>#{startDate}
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND MEM_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
 	</select>
 	
 	<select id="selectMemberList" resultType="Member">
 		SELECT *
 		FROM MEMBER
-		order by MEM_STATUS desc, MEM_DATE desc
+		WHERE 1=1
+		<if test="isAdmin != null">
+			AND MEM_ISADMIN = #{isAdmin}
+		</if>
+		<if test="searchText != null">
+			AND ${keyword} like '%'|| #{searchText} ||'%'
+		</if>
+		<if test="startDate != null and endDate == null">
+			AND MEM_DATE<![CDATA[ < ]]>#{endDate}
+		</if>
+		<if test="startDate == null and endDate != null">
+			AND MEM_DATE<![CDATA[ > ]]>#{startDate}
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND MEM_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
+		ORDER BY MEM_STATUS DESC, MEM_DATE DESC
 	</select>
 	
+	<update id="deleteMembers">
+		UPDATE MEMBER
+		SET MEM_STATUS = 'N'
+		WHERE MEM_ID IN
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
 	
 </mapper>

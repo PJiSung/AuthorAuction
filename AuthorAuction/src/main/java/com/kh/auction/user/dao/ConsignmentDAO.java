@@ -61,13 +61,15 @@ public interface ConsignmentDAO {
 
 	ArrayList<Consignment> selectAttmUserList(int conNo);
 
-	void checkDelete(String[] deleteIds);
+	int checkDelete(String[] deleteIds);
 
 	int searchCount2(HashMap<String, String> map);
 
 	ArrayList<Consignment> searchList2(HashMap<String, String> map, RowBounds rowBounds);
 
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
+
+	int updateConConStatus(HashMap<String, Object> map);
 
 	
 

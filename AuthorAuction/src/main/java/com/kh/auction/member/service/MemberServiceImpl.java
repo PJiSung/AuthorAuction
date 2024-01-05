@@ -1,6 +1,7 @@
 package com.kh.auction.member.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.kh.auction.member.dao.MemberDAO;
 import com.kh.auction.user.model.vo.Address;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.SearchMember;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -121,17 +123,22 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int getListCount(String memId) {
-		return mDao.getListCount(memId);
+	public int getListCount(SearchMember sm) {
+		return mDao.getListCount(sm);
 	}
 
 	@Override
-	public ArrayList<Member> selectMemberList(String memId, PageInfo pi) {
+	public ArrayList<Member> selectMemberList(SearchMember sm, PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return mDao.selectMemberList(memId, rowBounds);
+		return mDao.selectMemberList(sm, rowBounds);
+	}
+
+	@Override
+	public int deleteMembers(String[] ids) {
+		return mDao.deleteMembers(ids);
 	}
 	
 }

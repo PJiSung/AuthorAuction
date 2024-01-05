@@ -53,13 +53,15 @@ public interface ConsignmentService {
 	// 관리자 첨부 상세조회
 	ArrayList<Consignment> selectAttmUserList(int conNo);
 	// 관리자 체크 삭제
-	void checkDelete(String[] deleteIds);
+	int checkDelete(String[] deleteIds);
 	// 관리자 검색
 	int searchCount2(HashMap<String, String> map);
 	// 관리자 검색
 	ArrayList<Consignment> searchList2(HashMap<String, String> map, PageInfo pi);
 	// 수락 / 거절(멤버 가져옴)
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
+	// 수락 / 거절(클릭) 상태 변경
+	int updateConConStatus(HashMap<String, Object> map);
 	
 	
 	
