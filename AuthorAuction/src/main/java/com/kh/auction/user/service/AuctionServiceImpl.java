@@ -134,12 +134,14 @@ public class AuctionServiceImpl implements AuctionService{
 	}
 
 	@Override //내가 입찰한 경매의 목록을 들고옴
-	public ArrayList<Auction> getAllMyBidList(String id) {
-		return aDAO.getAllMyBidList(id);
+	public ArrayList<Auction> getAllMyBidList(String id, PageInfo pi) {
+		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
+		return aDAO.getAllMyBidList(id, rowBounds);
 	}
 
 	@Override //내가 입찰한 경매내역을 들고옴
-	public ArrayList<BiddingDetail> getAllMyDetail(String id) {
-		return aDAO.getAllMyDetail(id);
+	public ArrayList<BiddingDetail> getAllMyDetail(String id, PageInfo pi) {
+		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
+		return aDAO.getAllMyDetail(id, rowBounds);
 	}
 }

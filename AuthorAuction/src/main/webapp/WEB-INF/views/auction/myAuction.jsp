@@ -12,11 +12,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.auction{
+		cursor:pointer;
+	}
+</style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
-
-	${ myBidList }
 
 	<div id="content-allOver-cover" style="width: 100%; height: 100%;">
 		<div id="divine" style="width: 100%; height: 100%;">
@@ -38,54 +41,32 @@
 				<div
 					style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
 					<div
-						style="width: 19%; display: inline-block; margin-top: 1%; margin-bottom: 1%;">경매
+						style="width: 14%; display: inline-block; margin-top: 1%; margin-bottom: 1%;">경매
 						번호</div>
-					<div style="width: 19%; display: inline-block;">작품 사진</div>
-					<div style="width: 19%; display: inline-block;">작가 명</div>
-					<div style="width: 19%; display: inline-block;">작품 명</div>
-					<div style="width: 19%; display: inline-block;">입찰 상태</div>
-					<div style="width: 19%; display: inline-block;">금액</div>
+					<div style="width: 14%;">작품 사진</div>
+					<div style="width: 14%;">작가 명</div>
+					<div style="width: 14%;">작품 명</div>
+					<div style="width: 14%;">입찰 상태</div>
+					<div style="width: 14%;">금액</div>
+					<div style="width: 14%;">진행 상황</div>
 				</div>
 
 				<c:forEach items="${ myBidList }" var="myBidList">
-					<div
+					<div class="auction" onclick="moveToAuction('${ myBidList.aucNo }');"
 						style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
-						<div style="width: 19%; display: inline-block;">${ myBidList.aucNo }</div>
-						<div style="width: 19%; height: 100%; display: inline-block;">
+						<div style="width: 14%;">${ myBidList.aucNo }</div>
+						<div style="width: 14%; height: 100%;">
 							<img src="${ myBidList.attRename }"
-								style="height: 30%; width: 30%;">
+								style="height: 100px; width: 100px; margin-top: 3%; margin-bottom: 3%;">
 						</div>
-						<div style="width: 19%; display: inline-block;">${ myBidList.conAuthor }</div>
-						<div style="width: 19%; display: inline-block;">${ myBidList.conProduct }</div>
+						<div style="width: 14%;">${ myBidList.conAuthor }</div>
+						<div style="width: 14%;">${ myBidList.conProduct }</div>
 
-						<%--  <%
-						ArrayList<Auction> aList = (ArrayList<Auction>) request.getAttribute("aList");
-						%>
-						
-						<c:forEach items="${detailList}" var="detail">
-						    <%
-						        for (Auction a : aList) {
-						            Integer aucFinishPrice = a.getAucFinishPrice();
-						            int intAucFinishPrice = aucFinishPrice.intValue();
-						    %>
-						        <c:if test="${(!intAucFinishPrice eq detail.bidPrice) and ${detail.aucNo eq myBidList.aucNo}">
-						            <div style="width: 19%; display: inline-block;">패찰</div>
-						        </c:if>
-						        <c:if test="${intAucFinishPrice eq detail.bidPrice}">
-						            <div style="width: 19%; display: inline-block;">입찰</div>
-						        </c:if>
-						    <%
-						        }
-						    %>
-						</c:forEach> --%>
+						<div style="width: 14%;" class="biddingStatus"></div>
+						<div style="width: 14%;" class="myBidListPrice"></div>
+						<div style="width: 14%;" class="auctionStatus"></div>
 					</div>
 				</c:forEach>
-				<%-- <c:forEach itmes="${ detailList }" var="detailList">
-					<div style="width: 19%; display: inline-block;">입찰</div>
-					<div style="width: 19%; display: inline-block;">
-						<fmt:formatNumber type="number"	value="${ detailList.bidPrice }" />	원
-					</div>
-				</c:forEach> --%>
 			</div>
 
 		</div>
@@ -172,6 +153,14 @@
 		</c:if>
 	</nav>
 
+	<c:forEach items="${ detailList }" var="detailList">
+		<input type="hidden" value="${ detailList.bidPrice }" class="detailBidPrice">
+	</c:forEach>
+	
+	<c:forEach items="${ myBidList }" var="myBidList">
+		<input type="hidden" value="${ myBidList.aucFinishPrice }" class="aucNowPrice">
+		<input type="hidden" value="${ myBidList.aucFinishDate}" class="aucFinishDate">
+	</c:forEach>
 
 	<br>
 	<br>
@@ -189,23 +178,7 @@
 	<br>
 	<br>
 	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
+
 
 
 
@@ -228,6 +201,29 @@
                 })
             }
             
+            const auctionStatus = document.querySelectorAll("div[class='auctionStatus']")
+            
+            for (let i = 0; i < document.querySelectorAll("input[class='detailBidPrice']").length; i++){
+            	if(document.querySelectorAll("input[class='detailBidPrice']")[i].value != document.querySelectorAll("input[class='aucNowPrice']")[i].value){
+            		document.querySelectorAll("div[class='biddingStatus']")[i].innerText = '패찰'
+            	}else{
+            		document.querySelectorAll("div[class='biddingStatus']")[i].innerText = '입찰'
+            	}
+            	
+            	document.querySelectorAll("div[class='myBidListPrice']")[i].innerHTML = document.querySelectorAll("input[class='detailBidPrice']")[i].value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원"
+            	
+            	
+            	 if(new Date(document.querySelectorAll("input[class='aucFinishDate']")[i].value) > new Date()){
+            		 document.querySelectorAll("div[class='auctionStatus']")[i].innerText = '진행';
+                 }else{
+                	 document.querySelectorAll("div[class='auctionStatus']")[i].innerText = '종료';
+                 }
+            }
         }
+        
+        const moveToAuction = (data)=>{
+        	location.href="auctionDetail.ac?aucNo=" + data + "&page=" + ${pi.currentPage};
+        }
+	</script>
 </body>
 </html>

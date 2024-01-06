@@ -119,8 +119,8 @@
 	</select>
 	
 	<select id="getAllMyBidList" resultType="Auction">
-		select a.auc_no, auc_start_price, auc_finish_price, to_date(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
-				to_date(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
+		select a.auc_no, auc_start_price, auc_finish_price, to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_etc, att_rename
 		from auction a
 		    join (select *

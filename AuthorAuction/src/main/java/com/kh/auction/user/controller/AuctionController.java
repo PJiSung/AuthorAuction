@@ -149,23 +149,6 @@ public class AuctionController {
 		}
 		hm.put("aucNo", aucNos);
 		return aService.updateInterest(hm,result);
-		
-		
-		
-		//if(result.equals("deleteMypage")) {
-		//			System.out.println("deleteMypage");
-		//int myInterestNum = aService.getAllInterestBidNum(id);
-		//
-		//PageInfo pi = Pagination.getPageInfo(currentPage, myInterestNum, 5);
-		//
-		////아이디로 내 관심 목록 들고옴
-		//ArrayList<Auction> aList = aService.getMyInterestList(id, pi);
-		//
-		//return "success";
-		//}else {
-			//return result;
-			//}
-		
 	}
 	
 	@GetMapping("myBidList.ac")
@@ -182,7 +165,7 @@ public class AuctionController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, myBidCount, 10);
 		
 		//내가 입찰한 경매의 목록을 들고옴
-		ArrayList<Auction> myBidList = aService.getAllMyBidList(id);
+		ArrayList<Auction> myBidList = aService.getAllMyBidList(id, pi);
 		
 		int price = 0;
 		
@@ -193,11 +176,13 @@ public class AuctionController {
 		}
 		
 		//내가 입찰한 경매내역을 들고옴
-		ArrayList<BiddingDetail> detailList = aService.getAllMyDetail(id);
+		ArrayList<BiddingDetail> detailList = aService.getAllMyDetail(id, pi);
 		
 		model.addAttribute("detailList", detailList);
 		model.addAttribute("myBidList", myBidList);
 		model.addAttribute("pi", pi);
+		
+		
 		
 		return "/auction/myAuction";
 	}

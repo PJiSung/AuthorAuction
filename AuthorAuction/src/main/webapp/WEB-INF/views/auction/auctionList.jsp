@@ -3,6 +3,7 @@
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +52,7 @@
                 <c:forEach items="${ aList }" var="auction">
                 	 <div class="auction" id="img" style="width: 21%; height: 100%; display: inline-block; text-align: center; margin: 0 1.5% 0 2.1%">
                 	 <img src="${ auction.attRename }" style="width: 100%; height: 100%;">
-                        <span>${ auction.conProduct }</span><br><span>현재 입찰 금액 : ${ auction.aucFinishPrice }</span><br><span>${ fn:split(auction.aucStartDate, " ")[0] } ~ ${ fn:split(auction.aucFinishDate, " ")[0] }</span>
+                        <span>${ auction.conProduct }</span><br><span>현재 입찰 금액 : <fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원</span><br><span>${ fn:split(auction.aucStartDate, " ")[0] } ~ ${ fn:split(auction.aucFinishDate, " ")[0] }</span>
                         <input type="hidden" value="${ auction.aucNo }">
                     </div>
                 </c:forEach>

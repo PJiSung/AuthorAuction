@@ -54,9 +54,9 @@ public interface AuctionService {
 	int getAllMyBidListCount(String id);
 	
 	//내가 입찰한 경매의 목록을 들고옴
-	ArrayList<Auction> getAllMyBidList(String id);
+	ArrayList<Auction> getAllMyBidList(String id, PageInfo pi);
 
 	//내가 입찰한 경매내역을 들고옴
-	ArrayList<BiddingDetail> getAllMyDetail(String id);
+	ArrayList<BiddingDetail> getAllMyDetail(String id, PageInfo pi);
 	
 }

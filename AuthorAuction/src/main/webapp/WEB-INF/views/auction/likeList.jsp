@@ -34,8 +34,7 @@
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
 						id="finish">종료 경매</div>
 				</div>
-				<div
-					style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
+				<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
 					<div
 						style="width: 14%; display: inline-block; margin-top: 1%; margin-bottom: 1%;">
 						<input type="checkbox" id="allCheck" name="allCheck"><label
