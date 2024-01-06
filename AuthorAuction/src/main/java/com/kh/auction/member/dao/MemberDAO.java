@@ -50,4 +50,10 @@ public interface MemberDAO {
 	ArrayList<Member> selectMemberList(SearchMember sm, RowBounds rowBounds);
 
 	int deleteMembers(String[] ids);
+
+	int sortMemberList(String status);
+
+	int updateMemberIsAdmin(Member m);
+
+	Member selectMember(String id);
 }

@@ -8,6 +8,7 @@ public class Address {
 	private String addPhone;
 	private String addDefault;
 	private String memId;
+	private String addStatus;
 	
 	public String getAddDefault() {
 		return addDefault;
@@ -52,14 +53,15 @@ public class Address {
 		this.memId = memId;
 	}
 	
-	@Override
-	public String toString() {
-		return "Address [addNo=" + addNo + ", addName=" + addName + ", addRecipient=" + addRecipient + ", addAddress="
-				+ addAddress + ", addPhone=" + addPhone + ", addDefault=" + addDefault + ", memId=" + memId + "]";
+	public String getAddStatus() {
+		return addStatus;
+	}
+	public void setAddStatus(String addStatus) {
+		this.addStatus = addStatus;
 	}
 	public Address() {}
 	public Address(int addNo, String addName, String addRecipient, String addAddress, String addPhone,
-			String addDefault, String memId) {
+			String addDefault, String memId, String addStatus) {
 		super();
 		this.addNo = addNo;
 		this.addName = addName;
@@ -68,8 +70,13 @@ public class Address {
 		this.addPhone = addPhone;
 		this.addDefault = addDefault;
 		this.memId = memId;
+		this.addStatus = addStatus;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "Address [addNo=" + addNo + ", addName=" + addName + ", addRecipient=" + addRecipient + ", addAddress="
+				+ addAddress + ", addPhone=" + addPhone + ", addDefault=" + addDefault + ", memId=" + memId
+				+ ", addStatus=" + addStatus + "]";
+	}
 	
 }

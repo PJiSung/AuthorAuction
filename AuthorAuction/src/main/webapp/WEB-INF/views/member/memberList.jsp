@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -18,6 +19,7 @@
 <link rel="stylesheet" href="member/css/template.css">
 <link rel="stylesheet" href="member/css/common.css">
 <link rel="stylesheet" href="member/css/style.css">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 .searchBox {
 	display: flex;
@@ -72,17 +74,155 @@ tr .checkset {
 }
 
 .checkset-input {
-  margin-right: 5px; /* 체크박스와 텍스트 사이의 간격 조절 */
+  margin-right: 5px; 
 }
 
+.status-btn {
+    padding: 5px 10px;
+    border: 1px solid #000; 
+    color: #000;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.status-btn.active {
+    color: #fff;
+    background-color: #000;
+}
+
+.status-btn:hover {
+    background-color: #ccc;
+    color: #000;
+}
+.tableset input[type=checkbox]{
+	width: 16px;
+	height: 16px;
+}
+
+.tableset tr:hover{
+	background: #dcdcdc;
+	cursor: pointer;
+}
+
+/* 모달 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.tab {
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    margin: 0;
+}
+
+.tab.active {
+    background-color: white;
+    border-bottom: none;
+}
+#tab1Content table tr td{
+	height: 55px;
+	border:1px solid white;
+	text-align: left;
+	width: 80%;
+}
+
+#tab1Content input[type=text]{
+	width: 100%;
+}
+
+#tab1Content table tr:not(:first-child):not(:last-child) th{
+	text-indent: 20px;
+	text-align: left;
+}
+
+/* 주소 */
+#tab1Content table table tr td{
+	border:1px solid white;
+	height: 40px;
+}
+#tab1Content table table tr:first-child input[type=text]{
+	width: 25%;
+}
+#tab1Content table table tr:last-child td{
+	width: 50%;
+}
 
 </style>
 <script>
 window.onload = () =>{
+	let url = window.location.href;
+	if(url.includes("?id=")){
+		url = url.split("?id=")[0];
+	}else if(url.includes("&id=")){
+		url = url.split("&id=")[0];
+	}
+	window.history.pushState({}, "Title", url);
+	
 	selectSet();
 	checkAllSpan();
 	checkAll('search');
+	keepSort();
+	maxDate();
 }
+
+function sample6_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var addr = '';
+            var extraAddr = '';
+
+            if (data.userSelectedType === 'R') {
+                addr = data.roadAddress;
+            } else {
+                addr = data.jibunAddress;
+            }
+
+            if(data.userSelectedType === 'R'){
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                document.getElementById("sample6_extraAddress").value = extraAddr;
+            
+            } else {
+                document.getElementById("sample6_extraAddress").value = '';
+            }
+
+            document.getElementById('sample6_postcode').value = data.zonecode;
+            document.getElementById("sample6_address").value = addr;
+            document.getElementById("sample6_detailAddress").focus();
+        }
+    }).open();
+} 
 
 const selectSet = () =>{
 	const selectsetToggle = document.querySelectorAll(".selectset-toggle");
@@ -213,6 +353,7 @@ const deleteMember = () =>{
 const reloadMyDiv = () =>{
 	$("#totalCount").load(location.href + " #totalCount");
 	$("#tableset").load(location.href + " #tableset");
+	$("#page").load(location.href + " #page");
 } 
 
 const search = () =>{
@@ -243,12 +384,58 @@ const search = () =>{
 }
 
 const sort = (value) =>{
-	console.log("접근");
+	let status = document.getElementsByName("status")[0];
+	status.value = value;
 	
+	let url = window.location.href;
+	if(url.includes("status") && url.includes("isAdmin")){
+		url = url.replace(url.split("endDate=&")[1], "status="+value);
+	}else if(url.includes("status") && !url.includes("isAdmin")){
+		url = url.replace(url.split("adme?")[1], "status="+value);
+	}else if(!url.includes("?")){
+		url = "?status="+value;
+	}
+	console.log(url);
+
+	window.history.pushState({}, "Title", url);
+	
+	reloadMyDiv();
+}
+
+const keepSort = () =>{
+	let sorts = document.querySelectorAll(".tabset-item a");
+	let currentSort = "${ status }"
+	
+	if(currentSort == ""){
+		sorts[0].classList.add("active");
+	}else if(currentSort == "Y"){
+		sorts[1].classList.add("active");
+	}else{
+		sorts[2].classList.add("active");
+	}
+}
+
+const maxDate = () =>{
+	let dates = document.querySelectorAll("input[type=date]");
+	let today = new Date();
+	let year = today.getFullYear();
+	let month = today.getMonth() + 1;
+	let day = today.getDate();
+	
+	month = month < 10 ? '0' + month : month;
+	day = day < 10 ? '0' + day : day;
+	
+	for(let i=0; i<dates.length; i++){
+		dates[i].setAttribute("max", year+"-"+month+"-"+day);
+	}
+}
+
+const changeIsAdmin = (btn) =>{
+	let id = btn.parentElement.parentElement.children[1].innerText;
 	$.ajax({
-        url : 'sortMember.adme',
+        url : 'updateMemberIsAdmin.adme',
         type : 'post',
-        data: {ids: deleteIds},
+        data: {memId: id, memIsAdmin : btn.value == "일반회원" ? "N" : "Y"},
         success : (data) =>{
         	console.log(data);
         	if(data == "success"){
@@ -256,7 +443,97 @@ const sort = (value) =>{
         	}
         },
         error : data => console.log(data)
-	}); 
+	});
+}
+
+const showModal = (value) =>{
+	let id = value.children[1].children[0].innerText;
+	
+	let url = window.location.href;
+	url = !url.includes("?") ? "?id="+id : url += "&id="+id;
+	window.history.pushState({}, "Title", url);
+	
+	$("#tab1Content").load(location.href + " #tab1Content");
+	
+	let modal = document.getElementById('myModal');
+	modal.style.display = 'block';
+	document.body.style.overflow = 'hidden';
+	
+}
+
+const closeModal = (value) =>{
+	let modal = document.getElementById('myModal');
+	let id = value.parentElement.parentElement.parentElement.children[1].children[1].innerText;
+	
+	let url = window.location.href;
+	if(url.includes("?id="+id)){
+		url = url.replace("?id="+id, "");
+	}else if(url.includes("&id="+id)){
+		url = url.replace("&id="+id, "");
+	}
+	window.history.pushState({}, "Title", url);
+	
+	modal.style.display = 'none';
+	document.body.style.overflow = 'auto';
+}
+
+window.onclick = function(event) {
+	let modal = document.getElementById('myModal');
+    let url = window.location.href;
+    if (event.target == modal) {
+    	if(url.includes("?id=")){
+    		url = url.split("?id=")[0];
+    	}else if(url.includes("&id=")){
+    		url = url.split("&id=")[0];
+    	}
+    	window.history.pushState({}, "Title", url);
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+const openTab = (tabName) =>{
+	let tab1 = document.getElementById('tab1Content');
+	let tab2 = document.getElementById('tab2Content');
+    if (tabName === 'tab1') {
+        tab1.style.display = 'block';
+        tab2.style.display = 'none';
+        document.querySelector('.tab.tab1').classList.add('active');
+        document.querySelector('.tab.tab2').classList.remove('active');
+    } else if (tabName === 'tab2') {
+        tab1.style.display = 'none';
+        tab2.style.display = 'block';
+        document.querySelector('.tab.tab1').classList.remove('active');
+        document.querySelector('.tab.tab2').classList.add('active');
+    }
+}
+
+const submitBtn = (value) =>{
+	//주소
+	let address = "";
+	address += document.getElementById("sample6_postcode").value+"@";
+	address += document.getElementById("sample6_address").value+"@";
+	address += document.getElementById("sample6_detailAddress").value+"@";
+	address += document.getElementById("sample6_extraAddress").value;
+	
+	let nickName = document.getElementById("nickName").value;
+	let email = document.getElementById("email").value;
+	let phone = document.getElementById("phone").value;
+	
+	$.ajax({
+        url : 'updateMember.adme',
+        type : 'post',
+        data: {memId: id, memIsAdmin : btn.value == "일반회원" ? "N" : "Y"},
+        success : (data) =>{
+        	console.log(data);
+        	if(data == "success"){
+        		reloadMyDiv();
+        	}
+        },
+        error : data => console.log(data)
+	});
+	
+	closeModal(value);
 }
 </script>
 </head>
@@ -279,7 +556,6 @@ const sort = (value) =>{
             <div class="searchBox">
             <input type="hidden" name="isAdmin">
             <input type="hidden" name="keyword">
-            <input type="hidden" name="page" value="${ pi.currentPage }">
               	<table>
               		<tr>
               			<td>회원등급</td>
@@ -343,6 +619,7 @@ const sort = (value) =>{
               		</tr>
               	</table>
               </div>
+              <input type="hidden" name="status" value="${ status }">
               </form>
             </div>
           </div>
@@ -355,7 +632,7 @@ const sort = (value) =>{
                 <div class="tabset tabset-text">
                   <ul class="tabset-list">
                     <li class="tabset-item">
-                      <a class="tabset-link active" href="javascript:void(0)" onclick="sort('ALL')">
+                      <a class="tabset-link" href="javascript:void(0)" onclick="sort('')">
                         <span>전체</span>
                       </a>
                     </li>
@@ -399,9 +676,10 @@ const sort = (value) =>{
                 </tr>
               </thead>
               <tbody>
+              <c:if test="${ !empty list }">
                <c:forEach items="${ list }" var="m">
-                <tr>
-                  <td class="tableset-mobile">
+                <tr onclick="showModal(this)">
+                  <td class="tableset-mobile" onclick='javascript:event.stopPropagation()';>
                   	<input type="checkbox" class="checkset-input input-fill" id="${ m.memId }" name="tableCbox" onclick="checkSelect('table')">
                   </td>
                   <td class="tableset-tit tableset-order02">
@@ -411,19 +689,27 @@ const sort = (value) =>{
                   <td class="tableset-mobile">${ m.memPhone }</td>
                   <td class="tableset-mobile">${ m.memRating }</td>
                   <td class="tableset-order01">${ m.memDate }</td>
-                  <td class="tableset-mobile">${ m.memStatus }
-                  	<input type="button" value="관리자" <c:if test="${ m.memStatus eq 'Y' }">class="statusBtn active"</c:if>>
-                  	<input type="button" value="일반회원">
+                  <td class="tableset-mobile" onclick="javascript:event.stopPropagation()">
+                  	<input type="button" value="일반회원" class="status-btn<c:if test='${ m.memIsAdmin eq "N" }'> active</c:if>" onclick="changeIsAdmin(this)">
+                  	<input type="button" value="관리자" class="status-btn<c:if test='${ m.memIsAdmin eq "Y" }'> active</c:if>" onclick="changeIsAdmin(this)">
                   </td>
                 </tr>
                </c:forEach>
+               </c:if>
+               <c:if test="${ empty list }">
+               		<tr>
+               			<td colspan="7" style="height:300px; text-align:center"><h1>검색 결과가 없습니다.</h1></td>
+               		</tr>
+               </c:if>
               </tbody>
             </table>
             
-            <input class="btnset btnset-lg" value="선택 삭제" type="button" onclick="deleteMember()">
-	        
+            <c:if test="${ !empty list }">
+            	<input class="btnset btnset-lg" value="선택 삭제" type="button" onclick="deleteMember()">
+	        </c:if>
 	        </div>
 	        
+	        <c:if test="${ !empty list }">
 			<nav id="page" class="pagiset pagiset-line">
 				<c:if test="${ pi.currentPage <= 1 }">
 				   <div class="pagiset-ctrl">
@@ -462,7 +748,12 @@ const sort = (value) =>{
 				      var="p">
 				      <c:url var="goNum" value="${ loc }">
 				         <c:param name="page" value="${ p }"></c:param>
-				         
+				         <c:param name="isAdmin" value="${ isAdmin }"></c:param>
+				         <c:param name="keyword" value="${ keyword }"></c:param>
+				         <c:param name="searchText" value="${ searchText }"></c:param>
+				         <c:param name="startDate" value="${ startDate }"></c:param>
+				         <c:param name="endDate" value="${ endDate }"></c:param>
+				         <c:param name="status" value="${ status }"></c:param>
 				      </c:url>
 				      <c:choose>
 				         <c:when test="${p eq pi.currentPage}">
@@ -506,10 +797,85 @@ const sort = (value) =>{
 				   </div>
 				</c:if>
 			</nav>     
-	
+			</c:if>
 	      </div>
       </div>
     </div>
+    
+    <div id="myModal" class="modal">
+	    <div class="modal-content">
+	        <div class="tabs">
+	            <div class="tab tab1 active" onclick="openTab('tab1')">회원정보</div>
+	            <div class="tab tab2" onclick="openTab('tab2')">1:1상담</div>
+	        </div>
+	
+	        <div id="tab1Content" class="tab-content">
+	            <table>
+	            	<tr>
+	            		<th><h2>회원 정보</h2></th>
+	            		<td>&nbsp;(${ m.memDate })</td>
+	            	</tr>
+	            	<tr>
+	            		<th>아이디</th>
+	            		<td>${ m.memId }</td>
+	            	</tr>
+	            	<tr>
+	            		<th>닉네임</th>
+	            		<td><input type="text" id="nickName" value="${ m.memNickName }"></td>
+	            	</tr>
+	            	<tr>
+	            		<th>이메일</th>
+	            		<td><input type="text" id="email" value="${ m.memEmail }"></td>
+	            	</tr>
+	            	<tr>
+	            		<th>연락처</th>
+	            		<td><input type="text" id="phone" value="${ m.memPhone }"></td>
+	            	</tr>
+	            	<tr>
+	            		<th>주소</th>
+	            		<td>
+	            			<table>
+	            				<tr>
+	            					<td colspan="2"><input type="text" id="sample6_postcode" value="${ fn:split(m.memAddress, '@')[0] }" readonly="readonly"> <input type="button" value="우편번호 찾기" onclick="sample6_execDaumPostcode()"></td>
+	            				</tr>
+	            				<tr>
+	            					<td colspan="2"><input type="text" id="sample6_address" value="${ fn:split(m.memAddress, '@')[1] }" readonly="readonly"></td>
+	            				</tr>
+	            				<tr>
+	            					<td><input type="text" placeholder="상세주소" id="sample6_detailAddress" value="${ fn:split(m.memAddress, '@')[2] }"></td>
+	            					<td><input type="text" id="sample6_extraAddress" value="${ fn:split(m.memAddress, '@')[3] }" readonly="readonly"></td>
+	            				</tr>
+	            			</table>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<th>회원등급</th>
+	            		<td>${ m.memRating }</td>
+	            	</tr>
+	            	<tr>
+	            		<th>충전금</th>
+	            		<td><fmt:formatNumber type="number" value="${ m.memBalance }"/>원</td>
+	            	</tr>
+	            	<tr>
+	            		<th>상태</th>
+	            		<td>
+	            		<c:if test="${ m.memStatus eq 'Y' }">활동회원</c:if>
+	            		<c:if test="${ m.memStatus eq 'N' }">탈퇴회원</c:if>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<th colspan="2"><input type="button" value="취소" onclick="closeModal(this)"> <input type="button" value="저장" onclick="submitBtn(this)"></th> 
+	            	</tr>
+	            </table>
+	        </div>
+	
+	        <div id="tab2Content" class="tab-content" style="display: none;">
+	            
+	        </div>
+		        
+		    </div>
+	</div>
+    
 <jsp:include page="../common/footer.jsp"/>
     <!-- [E]hooms-N36 -->
   </main>

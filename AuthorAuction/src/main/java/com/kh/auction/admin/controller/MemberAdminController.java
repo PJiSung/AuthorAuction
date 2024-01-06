@@ -25,21 +25,32 @@ public class MemberAdminController {
 	@Autowired
 	private MemberService mService;
 	
+	private String sortMember = null;
+	
 	@GetMapping("memberList.adme")
-	public String selectMemberList(@RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, SearchMember sm) throws Exception {
+	public String selectMemberList(@RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, SearchMember sm, @RequestParam(value = "id", required = false) String id) throws Exception {
 		
 		sm.convertEmptyToNull();
+		
+		sortMember = sm.getStatus();
+		Member m = new Member();
+		if(id != null) {
+			m = mService.selectMember(id);
+		}
 		
 		int listCount = mService.getListCount(sm);
 		int currentPage = page;
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Member> list = mService.selectMemberList(sm, pi);
-		 
+		
 		if(list != null) {
-			model.addAttribute("total", listCount);
 			model.addAttribute("list", list);
+			model.addAttribute("total", listCount);
 			model.addAttribute("pi", pi);
+			model.addAttribute("sm", sm);
+			model.addAttribute("status", sortMember);
+			model.addAttribute("m", m);
 			return "member/memberList";
 		} else {
 			throw new Exception("회원 목록 조회를 실패하였습니다.");
@@ -55,4 +66,21 @@ public class MemberAdminController {
 		}
 		return "fail";
 	}
+	
+	@PostMapping("updateMemberIsAdmin.adme")
+	@ResponseBody
+	public String updateMemberIsAdmin(Member m) {
+		int result = mService.updateMemberIsAdmin(m);
+		if(result > 0) {
+			return "success";
+		}
+		return "fail";
+	}
+	
+	
+	@PostMapping("updateMember.adme")
+	public String updateMember() {
+		return "redirect:memberList.adme";
+	}
+	
 }

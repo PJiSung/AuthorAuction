@@ -29,6 +29,7 @@ import com.kh.auction.user.model.vo.Member;
 
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
+import kotlin.reflect.jvm.internal.impl.types.model.TypeSystemOptimizationContext;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
 import net.nurigo.sdk.message.model.Message;
@@ -76,23 +77,24 @@ public class MemberController {
 	@GetMapping("authentication")
 	@ResponseBody
 	public int authentication(@RequestParam("phone") String phone) {
-		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
-		Message message = new Message();
-		message.setFrom("01068938300");
-		message.setTo(phone);
-		Random r = new Random();
-		int authNum = r.nextInt(888888) + 111111;
-		authNum = 1;
-		message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
-
-		try {
-		  messageService.send(message);
-		} catch (NurigoMessageNotReceivedException exception) {
-		  System.out.println(exception.getFailedMessageList());
-		  System.out.println(exception.getMessage());
-		} catch (Exception exception) {
-		  System.out.println(exception.getMessage());
-		}
+//		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
+//		Message message = new Message();
+//		message.setFrom("01068938300");
+//		message.setTo(phone);
+//		Random r = new Random();
+//		int authNum = r.nextInt(888888) + 111111;
+//		authNum = 1;
+//		message.setText("[Author Auction] 인증번호 ["+authNum+"]를 입력해주세요.");
+//
+//		try {
+//		  messageService.send(message);
+//		} catch (NurigoMessageNotReceivedException exception) {
+//		  System.out.println(exception.getFailedMessageList());
+//		  System.out.println(exception.getMessage());
+//		} catch (Exception exception) {
+//		  System.out.println(exception.getMessage());
+//		}
+		int authNum = 1;
 		return authNum;
 	}
 
@@ -137,13 +139,14 @@ public class MemberController {
 		a.setAddPhone(m.getMemPhone());
 		a.setAddDefault("Y");
 		a.setMemId(m.getMemId());
-		int result2 = mService.insertAddress(a);
+		System.out.println(a);
+		int result2 = mService.insertFirstAddress(a);
+		System.out.println(result2);
 		
 		if (result1 > 0 && result2 > 0) {
 			return "member/enrollComplete";
-		} else {
-			throw new Exception("회원가입 실패");
 		}
+		return null;
 	}
 
 	@GetMapping("findIdView")

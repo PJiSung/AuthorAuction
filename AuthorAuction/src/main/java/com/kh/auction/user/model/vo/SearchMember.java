@@ -9,6 +9,7 @@ public class SearchMember {
 	private String searchText;
 	private String startDate;
 	private String endDate;
+	private String status;
 
 	public String getIsAdmin() {
 		return isAdmin;
@@ -50,24 +51,34 @@ public class SearchMember {
 		this.endDate = endDate;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public SearchMember() {
 	}
 
-	public SearchMember(String isAdmin, String keyword, String searchText, String startDate, String endDate) {
+	public SearchMember(String isAdmin, String keyword, String searchText, String startDate, String endDate,
+			String status) {
 		super();
 		this.isAdmin = isAdmin;
 		this.keyword = keyword;
 		this.searchText = searchText;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.status = status;
 	}
 
 	@Override
 	public String toString() {
 		return "SearchMember [isAdmin=" + isAdmin + ", keyword=" + keyword + ", searchText=" + searchText
-				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
-
+	
 	public void convertEmptyToNull() {
 		if ("".equals(this.isAdmin)) {
 			this.isAdmin = null;
@@ -88,31 +99,11 @@ public class SearchMember {
 		if ("".equals(this.endDate)) {
 			this.endDate = null;
 		}
+		
+		if ("".equals(this.status)) {
+			this.status = null;
+		}
 	}
 
-	public List<String> getNonEmptyFields() {
-		List<String> nonEmptyFields = new ArrayList<>();
-
-		if (this.isAdmin != null && !"".equals(this.isAdmin)) {
-			nonEmptyFields.add("isAdmin");
-		}
-
-		if (this.keyword != null && !"".equals(this.keyword)) {
-			nonEmptyFields.add("keyword");
-		}
-
-		if (this.searchText != null && !"".equals(this.searchText)) {
-			nonEmptyFields.add("searchText");
-		}
-
-		if (this.startDate != null && !"".equals(this.startDate)) {
-			nonEmptyFields.add("startDate");
-		}
-
-		if (this.endDate != null && !"".equals(this.endDate)) {
-			nonEmptyFields.add("endDate");
-		}
-
-		return nonEmptyFields;
-	}
+	
 }

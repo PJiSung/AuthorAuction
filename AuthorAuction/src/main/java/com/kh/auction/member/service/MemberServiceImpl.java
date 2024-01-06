@@ -140,5 +140,25 @@ public class MemberServiceImpl implements MemberService{
 	public int deleteMembers(String[] ids) {
 		return mDao.deleteMembers(ids);
 	}
+
+	@Override
+	public int sortMemberList(String status) {
+		return mDao.sortMemberList(status);
+	}
+
+	@Override
+	public int updateMemberIsAdmin(Member m) {
+		return mDao.updateMemberIsAdmin(m);
+	}
+
+	@Override
+	public int insertFirstAddress(Address a) {
+		return mDao.insertAddress(a);
+	}
+
+	@Override
+	public Member selectMember(String id) {
+		return mDao.selectMember(id);
+	}
 	
 }

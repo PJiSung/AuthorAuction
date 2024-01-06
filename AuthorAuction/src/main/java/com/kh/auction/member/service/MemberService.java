@@ -45,4 +45,12 @@ public interface MemberService {
 	ArrayList<Member> selectMemberList(SearchMember sm, PageInfo pi);
 
 	int deleteMembers(String[] ids);
+
+	int sortMemberList(String status);
+
+	int updateMemberIsAdmin(Member m);
+
+	int insertFirstAddress(Address a);
+
+	Member selectMember(String id);
 }

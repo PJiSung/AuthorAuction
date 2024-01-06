@@ -51,7 +51,7 @@
 	 
 	<insert id="insertAddress">
 		INSERT INTO ADDRESS
-		VALUES(SEQ_ADD.NEXTVAL, #{addName}, #{addRecipient}, #{addAddress}, #{addPhone}, #{addDefault}, #{memId})
+		VALUES(SEQ_ADD.NEXTVAL, #{addName}, #{addRecipient}, #{addAddress}, #{addPhone}, #{addDefault}, #{memId}, DEFAULT)
 	</insert>
 	
 	<update id="updateAddressDefault">
@@ -63,7 +63,7 @@
 	<select id="selectAddressList">
 		SELECT *
 		FROM ADDRESS
-		WHERE MEM_ID = #{id}
+		WHERE MEM_ID = #{id} AND ADD_STATUS = 'Y'
 		ORDER BY ADD_DEFAULT DESC,
         ADD_NO DESC
 	</select>
@@ -87,7 +87,8 @@
 	</update>
 	
 	<delete id="deleteAddress">
-		DELETE ADDRESS
+		UPDATE ADDRESS
+		SET ADD_STATUS = 'N'
 		WHERE ADD_NO = #{addNo}
 	</delete>
 	
@@ -134,13 +135,16 @@
 			AND ${keyword} like '%'|| #{searchText} ||'%'
 		</if>
 		<if test="startDate != null and endDate == null">
-			AND MEM_DATE<![CDATA[ < ]]>#{endDate}
+			AND MEM_DATE <![CDATA[ >= ]]> #{startDate}
 		</if>
 		<if test="startDate == null and endDate != null">
-			AND MEM_DATE<![CDATA[ > ]]>#{startDate}
+			AND MEM_DATE <![CDATA[ <= ]]> #{endDate}
 		</if>
 		<if test="startDate != null and endDate != null">
 			AND MEM_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="status != null">
+			AND MEM_STATUS = #{status}
 		</if>
 	</select>
 	
@@ -155,13 +159,16 @@
 			AND ${keyword} like '%'|| #{searchText} ||'%'
 		</if>
 		<if test="startDate != null and endDate == null">
-			AND MEM_DATE<![CDATA[ < ]]>#{endDate}
+			AND MEM_DATE <![CDATA[ >= ]]> #{startDate}
 		</if>
 		<if test="startDate == null and endDate != null">
-			AND MEM_DATE<![CDATA[ > ]]>#{startDate}
+			AND MEM_DATE <![CDATA[ <= ]]> #{endDate}
 		</if>
 		<if test="startDate != null and endDate != null">
 			AND MEM_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="status != null">
+			AND MEM_STATUS = #{status}
 		</if>
 		ORDER BY MEM_STATUS DESC, MEM_DATE DESC
 	</select>
@@ -174,5 +181,17 @@
 			#{item}
 		</foreach>
 	</update>
+	
+	<update id="updateMemberIsAdmin">
+		UPDATE MEMBER
+		SET MEM_ISADMIN = #{memIsAdmin}
+		WHERE MEM_ID = #{memId}	
+	</update>
+	
+	<select id="selectMember">
+		SELECT *
+		FROM MEMBER
+		WHERE MEM_ID = #{id}
+	</select>
 	
 </mapper>
