@@ -77,6 +77,17 @@ input.check_btn:checked + label:before{
   }
 
 
+.deadd{
+
+background-color:red;
+}
+.nodeadd{
+	background-color: blue;
+
+}
+
+
+
 
 </style>
 
@@ -591,7 +602,7 @@ input.check_btn:checked + label:before{
 									
 							</div>
 							<div style = " display:flex; align-items: center; height: 100%; width: 20%; justify-content: center; ">
-								<input type = "text" placeholder = "우편번호" style = "width: 90%; height: 55%; border: 1px solid #aaa; text-align:center;" id ="sample6_postcode" class= "deliveryinfo" >
+								<input type = "text" placeholder = "우편번호" style = "width: 90%; height: 55%; border: 1px solid #aaa; text-align:center;" id ="sample6_postcode" class= "deliveryinfo" readonly>
 							</div>
 							
 							
@@ -603,12 +614,12 @@ input.check_btn:checked + label:before{
 						</div>
 						<div style = " display:flex; align-items: center;height: 15.625%;">
 							<div style = " display:flex; align-items: center; height: 100%; width: 50%;">
-								<input type = "text" placeholder = "기본 주소" style = "width: 100%; height: 55%; border: 1px solid #aaa; text-align:center;" id = "sample6_address" class= "deliveryinfo">
+								<input type = "text" placeholder = "기본 주소" style = "width: 100%; height: 55%; border: 1px solid #aaa; text-align:center;" id = "sample6_address" class= "deliveryinfo" readonly>
 							</div>
 						</div>
 						<div style = " display:flex; align-items: center;height: 15.625%;">
 							<div style = " display:flex; align-items: center; height: 100%; width: 50%;">
-								<input type = "text" placeholder = "상세 주소 및 상세 건물명" style = "width: 100%; height: 55%; border: 1px solid #aaa; text-align:center;" id = "sample6_detailAddress" class= "deliveryinfo">
+								<input type = "text" placeholder = "상세 주소 및 상세 건물명" style = "width: 100%; height: 55%; border: 1px solid #aaa; text-align:center;" id = "sample6_detailAddress" class= "deliveryinfo" readonly>
 							</div>
 						</div>
 						<div style = " display:flex; align-items: center;height: 15.625%;">
@@ -665,9 +676,9 @@ input.check_btn:checked + label:before{
 						
 							<input type ="hidden" value = "${p.proNo}" class = "pronofororder">
 							<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
-								<c:forEach items = "${alist}" var = "a">
-								<c:if test="${a.attFno eq 1 }">
-									<img src="/sunwoo/proimages/${a.attRename}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+							<c:forEach items = "${atlist}" var = "at">
+								<c:if test = "${at.attFno eq 1 }">
+								<img src="/sunwoo/proimages/${at.attRename}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
 								</c:if>
 								</c:forEach>
 								<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
@@ -677,7 +688,7 @@ input.check_btn:checked + label:before{
 								     <p class = "wisAmountfororder">${amount}</p>
 								</div>
 								<div style = "height: 80%; width: 20%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
-								     <p style = "font-weight: bold; font-size: 20px;" class = "proprices">${p.proPrice*amount}</p><small> 원</small>
+								     <p style = "font-weight: bold; font-size: 20px;" class = "proprices popopo">${amount*p.proPrice}</p><small> 원</small>
 								</div>
 								<div style = "height: 80%; width: 10%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
 								     <p>무료배송</p><div style = "margin-left: 5px;border: 1px solid #888; color: #888; border-radius: 100%; width: 20px; height: 20px; display:flex; justify-content:center; align-items: center;" class = "questiondeliver">?</div>
@@ -714,10 +725,10 @@ input.check_btn:checked + label:before{
 <!-- 				</div>	 -->
 				
 				
-				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh; margin-bottom: 20%;">
+				<div style = "border-bottom: 1px solid #ccc; margin-top: 5vh; margin-bottom: 10%;">
 					<div style = "height: 100%; width: 100%;">
 						<div style = "display:flex; align-items: center;height: 9.375%;  ">
-								<h2>결제방법</h2>
+							<h2>결제방법</h2>
 						</div>
 						<div style = "border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; display:flex; height: 10vh; align-items: center; margin-top: 2.5%;">
 							<div style = "width: 50%; border-right: 1px solid #aaa; height: 100%; display:flex; align-items: center;">
@@ -726,10 +737,10 @@ input.check_btn:checked + label:before{
 							<div style = "width: 80%; height: 100%; display:flex; align-items: center;">
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #555"><h5>포인트 사용</h5></div>
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "text" id = "pointinput" value = 0></div> 
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">(잔여 포인트 : ${loginUser.memBalance}p)</div>
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">보유 포인트 : <span class = "popopo">${loginUser.memBalance}</span><small>&nbsp;p</small></div>
 							</div>
 						</div>
-								배송일은 주문일 기준 2~3일 소요됩니다
+								<div>배송일은 주문일 기준 2~3일 소요됩니다</div>
 					</div>
 				</div>	
 					
@@ -806,8 +817,8 @@ input.check_btn:checked + label:before{
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.4);">
 	
-	<div style = "width: 500px;
-	height: 500px;
+	<div style = "width: 800px;
+	height: 1000px;
 	padding: 30px 30px;
 	margin: 0 auto;
 	border: 1px solid #777;
@@ -820,25 +831,42 @@ input.check_btn:checked + label:before{
 	cursor: pointer;" onclick = "popadd('off')">&times;</span>
 	
 	<div style = "display: flex; align-items:center; justify-content: center; height: 25%;">
-			<span><input type = "radio" name = "addre" id = "defaultaddre" checked><label for = "defaultaddre">기본 배송지</label></span>
+			<span><input type = "radio" name = "addre" class = "addrelist" id = "defaultaddre" checked><label for = "defaultaddre">기본 배송지</label></span>
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<span><input type = "radio" name = "addre" id = "recentaddre"><label for = "recentaddre">최근 배송지</label></span>
+			<span><input type = "radio" name = "addre" class = "addrelist" id = "recentaddre"><label for = "recentaddre">최근 배송지</label></span>
 	</div>
-	<div style = "border: 1px solid #888; height: 75%; overflow:auto;">
+	<div style = "border: 1px solid #888; height: 75%; overflow:auto;" class = "delilist">
+	
+		
+		
+		<c:forEach items = "${alist}" var = "addr">
+			<div style = "border: 1px solid red; height: 30%;" class = "${addr.addDefault eq 'Y' ? 'deadd' : 'nodeadd'}">
+				<div>${addr.addName}	
+					${addr.addRecipient}</div>	
+				<div>${addr.addAddress}</div>	
+				<div>${addr.addPhone}</div>	
+				<div>${addr.addDefault}</div>	
+				<div style = "display:flex; justify-content:right; align-items:center; height: 20%; border: 1px solid green;"><button onclick = "choiceaddress('${addr.addAddress}','${addr.addNo}')">선택</button></div>	
+			</div>
+		</c:forEach>	
+			<input type ="hidden" id = "addNoinput">
+	</div>
+	
+	<div style = "border: 1px solid #888; height: 75%; overflow:auto;" class = "delilist">
 			<div>
-				sajdjsa				
+			ㄴㅁㅇ		
 			</div>
 			<div>
-				sajdjsa				
+			ㄴㅁㅇ			
 			</div>
 			<div>
-				sajdjsa				
+		ㄴㅁㅇ		
 			</div>
 			<div>
-				sajdjsa				
+		ㄴㅇ		
 			</div>
 			<div>
-				sajdjsa				
+			ㅇ		
 			</div>
 	</div>
 	</div>
@@ -907,8 +935,13 @@ input.check_btn:checked + label:before{
                 console.log(data.zonecode);
                 document.getElementById('sample6_postcode').value = data.zonecode;
                 document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
+                
+                // 커서를 상세주소 필드로 이동하고 readonly 해제.
+                 document.getElementById("sample6_detailAddress").readOnly = false;
                 document.getElementById("sample6_detailAddress").focus();
+                
+                //파라미터로 넘길 주소를 끈다
+                document.getElementById("addNoinput").value = 0;
             }
         }).open();
     }
@@ -969,7 +1002,7 @@ input.check_btn:checked + label:before{
 				
 			})
 		}	
-			
+		
 	}
 
 </script>  
@@ -1056,13 +1089,10 @@ $(document).ready(function(){
   		}
   		
   	}
+  
   	
   	
-  	
-  	
-  	
-  	
-	//배송지 스크립트
+  	//배송지 스크립트
   	
   	document.getElementsByClassName('delilist')[1].style.display = "none";
   	
@@ -1093,7 +1123,10 @@ $(document).ready(function(){
   	}
   	
   	
-  
+  	
+  	
+  	
+  	
   
   
   </script>
@@ -1102,20 +1135,22 @@ $(document).ready(function(){
   <script>
   
 	//천단위 콤마 스크립트
-	for(p of document.getElementsByClassName('proprices')){
+	for(p of document.getElementsByClassName('popopo')){
 		
 		p.innerText = p.innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		
 	}
+	
+	
   
   </script>
   
   
   
   <script>
-//   	//포인트 백단위로 입력시키기 스크립트
+  	//포인트 천단위로 입력시키기 스크립트
   	
-//   	$("#pointinput").keyup(function(e) {
+//   	$("#pointinput").keydown(function(e) {
 //   			var n = $(this).val(); 
 //   			 n = Math.floor(n/10) * 10;
 //   			 if(n>=10){
@@ -1150,7 +1185,7 @@ $(document).ready(function(){
 	document.getElementById('propribill').innerText;
 	
   
-	//포인트 금액 및 총 금액 스크립트
+ 	//포인트 금액 및 총 금액 스크립트
  	const totalbill = document.getElementById('totalbill').innerText;
  	
  	
@@ -1185,6 +1220,21 @@ $(document).ready(function(){
 		
 			
 		});
+ 	
+ 	
+		
+		//포인트에 문자 못들어가게 막는 스크립트
+// 		$("#pointinput").keyup(function(e) {
+// 			var content = $(this).val();
+// 			var regex = /[^0-9]/g;	
+// // 			$(this).val(content.replace(regex, ""));
+			
+			
+			
+// 		});
+		
+		
+	
 	
 	
   
@@ -1280,6 +1330,7 @@ $(document).ready(function(){
 		document.getElementById('sample6_detailAddress').value.trim();
 	 const postcode = document.getElementById('sample6_postcode').value.trim();
 	 
+	 
 	 var deliveryMsg = "";
 
 		if(document.getElementById('messel').options[0].selected){
@@ -1320,7 +1371,7 @@ $(document).ready(function(){
 		
 		var pointBonus = parseInt(document.getElementById('pointBonus').innerText.replace(/,/g,""));
 		
-		
+		var addNo = parseInt(document.getElementById("addNoinput").value);
 		
 	 
  IMP.request_pay({
@@ -1338,8 +1389,8 @@ $(document).ready(function(){
 		
 	    if (rsp.success) {
 	    	
-	    	location.href = "directpayresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId=${loginUser.memId}"
-	    	+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus;
+	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId=${loginUser.memId}"
+	 		+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus+"&addNo="+addNo;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청
@@ -1360,6 +1411,7 @@ $(document).ready(function(){
 
 	});
  }
+ 
 </script>
 
 <script>
@@ -1373,6 +1425,30 @@ var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
 </script>
 
 
+
+<script>
+
+//배달 주소 자동 채우기 스크립트
+	function choiceaddress(address, addNo){
+	
+    var addpostcode = address.split('@')[0];
+    var addaddress = address.split('@')[1];
+    var adddetailaddress = address.split('@')[2];
+    
+	document.getElementsByClassName('deliveryinfo')[1].value = addpostcode;
+	document.getElementsByClassName('deliveryinfo')[2].value = addaddress;
+	document.getElementsByClassName('deliveryinfo')[3].value = adddetailaddress;
+	
+	  document.getElementById("sample6_detailAddress").readOnly = true;
+	  document.getElementById("addNoinput").value = addNo;
+	  
+    
+}
+
+
+
+
+</script>
 
 
   

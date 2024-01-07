@@ -336,18 +336,39 @@ public class ArtsController {
 	public String payment(HttpSession session, Model model, Product product, @RequestParam("amount") int amount) {
 		
 		
+		
+		
+		ArrayList<Address> alist = aService.selectAddresslist(((Member)session.getAttribute("loginUser")).getMemId());
+		
+		
+		for(int i=0; i<alist.size(); i++) {
+			
+			if(alist.get(i).getAddDefault().equals("Y")) {
+				
+				Address a = alist.get(0);
+				Address b = alist.get(i);
+				
+				alist.set(0,b);
+				alist.set(i, a);
+			}
+			
+		}
+		
+		
 		Product p = aService.selectArts(product.getProNo());
 		
 		ArrayList<Product> plist = new ArrayList<Product>();
 		
 		plist.add(p);
 		
-		ArrayList<Attachment> alist  = null;
+		ArrayList<Attachment> atlist  = null;
+		
 		if(!plist.isEmpty()) {
-			alist = aService.selectAttmlist(plist);
+			atlist = aService.selectAttmlist(plist);
 		}
 		
 		model.addAttribute("alist", alist);
+		model.addAttribute("atlist", atlist);
 		model.addAttribute("p", p);
 		model.addAttribute("amount", amount);
 		
