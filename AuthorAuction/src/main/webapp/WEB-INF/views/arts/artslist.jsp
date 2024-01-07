@@ -702,18 +702,24 @@
               	</div>
               </c:if>
               <c:forEach items = "${plist}" var = "p">
-                <a href="artsDetail.ar?proNo=${p.proNo}" class="cardset cardset-shopping">
-                  <figure class="cardset-figure">
-                    <img class="cardset-img" src="/sunwoo/proimages/${p.proImage}" alt="카드 이미지">
-                  </figure>
-                  <div class="cardset-body">
-                    <span class="cardset-name">${p.proName}</span>
-                    <h2 class="cardset-tit"> ${p.proWriter} </h2>
-                    <p class="cardset-desc"><span>${p.proPrice}</span><small>원</small>
-                    </p>
-                  </div>
-                </a>
-                 </c:forEach>
+              	<c:forEach items = "${alist}" var = "a">
+              		<c:if test="${a.attBno eq p.proNo}">
+              			<c:if test = "${a.attFno eq 1}">
+			                <a href="artsDetail.ar?proNo=${p.proNo}" class="cardset cardset-shopping">
+			                  <figure class="cardset-figure">
+			                    <img class="cardset-img" src="/sunwoo/proimages/${a.attRename}" alt="카드 이미지">
+			                  </figure>
+			                  <div class="cardset-body">
+			                    <span class="cardset-name">${p.proName}</span>
+			                    <h2 class="cardset-tit"> ${p.proWriter} </h2>
+			                    <p class="cardset-desc"><span>${p.proPrice}</span><small>원</small>
+			                    </p>
+			                  </div>
+			                </a>
+               		   </c:if>
+                    </c:if>
+               </c:forEach>
+              </c:forEach>
 <!--                 <a href="javascript:void(0);" class="cardset cardset-shopping"> -->
 <!--                   <figure class="cardset-figure"> -->
 <!--                     <img class="cardset-img" src="images/img_basic_N42_2.png" alt="카드 이미지"> -->

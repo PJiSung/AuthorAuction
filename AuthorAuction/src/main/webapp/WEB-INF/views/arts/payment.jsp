@@ -677,7 +677,13 @@ background-color:red;
 						<c:forEach items = "${wlist}" var = "w">
 							<input type ="hidden" value = "${w.proNo}" class = "pronofororder">
 							<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
-								<img src="/sunwoo/proimages/${w.proImage}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+							<c:forEach items = "${atlist}" var = "at">
+								<c:if test = "${w.proNo eq at.attBno }">
+								<c:if test = "${at.attFno eq 1 }">
+								<img src="/sunwoo/proimages/${at.attRename}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+								</c:if>
+								</c:if>
+								</c:forEach>
 								<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
 									<p>${w.proName}</p>
 								</div>

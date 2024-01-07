@@ -448,25 +448,22 @@
     <div class="basic-N51" data-bid="FelqAJ2SO7">
       <div class="contents-inner">
         <div class="contents-container container-md">
+         
           <div class="contents-left">
+          <c:forEach items = "${alist}" var= "a">
+          	<c:if test = "${a.attFno eq 1}">
             <div class="contents-thumbnail">
-              <img class="contents-thumbimg" src="sunwoo/proimages/${p.proImage}" alt="썸네일이미지">
+              <img class="contents-thumbimg" src="sunwoo/proimages/${a.attRename}" alt="썸네일이미지">
             </div>
+            </c:if>
+            </c:forEach>
             <div style = "overflow:auto;">
             <ul class="contents-thumblist">
-              <li class="contents-thumbitem">
-                <img class="contents-thumbimg" src="sunwoo/proimages/${p.proImage}" alt="썸네일이미지">
-              </li>
-              <li class="contents-thumbitem">
-                <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_2.png" alt="썸네일이미지">
-              </li>
-              <li class="contents-thumbitem">
-                <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_3.png" alt="썸네일이미지">
-              </li>
-              <li class="contents-thumbitem">
-                <img class="contents-thumbimg" src="sunwoo/images/img_basic_N51_4.png" alt="썸네일이미지">
-              </li>
-              
+          	  <c:forEach items = "${alist}" var= "a">
+            	  <li class="contents-thumbitem">
+                		<img class="contents-thumbimg" src="sunwoo/proimages/${a.attRename}" alt="썸네일이미지">
+            	  </li>
+              </c:forEach>
             </ul>
             </div>
           </div>
@@ -584,9 +581,13 @@
         
         
         <div class="contents-container container-md" id = "detaildiv" >
+        	<c:forEach items = "${alist}" var = "a">
+        	<c:if test =  "${a.attFno eq 1 }">
           <div class="imageset" style = "width: 50%; height: 50%; margin: 0 auto;">
-            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+            <img class="imageset-img" src="sunwoo/proimages/${a.attRename}" alt="이미지">
           </div>
+          </c:if>
+          </c:forEach>
           
           
           <div style = " margin: 0 auto; margin-top: 5%;">
@@ -604,7 +605,7 @@
         
          <div class="contents-container container-md" id = "qnadiv">
           <div class="imageset">
-            <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지">
+<%--             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지"> --%>
           </div>
           <div class="imageset">
             <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">

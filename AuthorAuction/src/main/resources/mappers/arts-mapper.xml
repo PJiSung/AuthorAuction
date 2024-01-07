@@ -97,7 +97,6 @@
 		<result column="PRO_HEIGHT" property="proHeight"/>
 		<result column="PRO_WIDTH" property="proWidth"/>
 		<result column="PRO_DATE" property="proDate"/>
-		<result column="PRO_IMAGE" property="proImage"/>
 		<result column="PRO_PRICE" property="proPrice"/>
 		<result column="PRO_AMOUNT" property="proAmount"/>
 
@@ -115,7 +114,6 @@
 		<id column="MEM_ID" property="memId"/>
 		<id column="PRO_NO" property="proNo"/>
 		<result column="WIS_AMOUNT" property="wisAmount"/>
-		<result column="PRO_IMAGE" property="proImage"/>
 		<result column="PRO_PRICE" property="proPrice"/>
 		<result column="PRO_AMOUNT" property="proAmount"/>
 		<result column="PRO_NAME" property="proName"/>
@@ -127,7 +125,7 @@
 	<select id="selectArts" resultMap="promap">
 	
 		SELECT *
-		FROM PRODUCT
+		FROM PRODUCT 
 		where PRO_NO = #{proNo}
 		
 	</select>
@@ -221,5 +219,19 @@
 	
 	</select>
 	
+	
+	
+	<select id = "selectAttmlist">
+		select *
+		from ATTACHMENT
+		where ATT_BNO IN
+			<foreach collection="list" item="p" open="(" close=")" separator=",">
+ 				#{p.proNo}
+			</foreach> 
+		AND ATT_STATUS = 'Y'
+		AND ATT_CATEGORY = '4'
+		order by ATT_FNO ASC
+	
+	</select>
 </mapper>
 

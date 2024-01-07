@@ -665,7 +665,11 @@ input.check_btn:checked + label:before{
 						
 							<input type ="hidden" value = "${p.proNo}" class = "pronofororder">
 							<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
-								<img src="/sunwoo/proimages/${p.proImage}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+								<c:forEach items = "${alist}" var = "a">
+								<c:if test="${a.attFno eq 1 }">
+									<img src="/sunwoo/proimages/${a.attRename}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+								</c:if>
+								</c:forEach>
 								<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
 									<p>${p.proName}</p>
 								</div>
