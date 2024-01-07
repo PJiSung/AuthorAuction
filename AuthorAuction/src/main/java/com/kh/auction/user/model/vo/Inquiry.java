@@ -8,6 +8,7 @@ public class Inquiry {
 	private String inqFileName;
 	private Date inqDate;
 	private String memId;
+	private String adminId;
 	
 	public Inquiry() {}
 	public int getInqNo() {
@@ -34,18 +35,24 @@ public class Inquiry {
 	public void setMemId(String memId) {
 		this.memId = memId;
 	}
-	public Inquiry(int inqNo, String inqFileName, Date inqDate, String memId) {
+	
+	public String getAdminId() {
+		return adminId;
+	}
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
+	}
+	@Override
+	public String toString() {
+		return "Inquiry [inqNo=" + inqNo + ", inqFileName=" + inqFileName + ", inqDate=" + inqDate + ", memId=" + memId
+				+ ", adminId=" + adminId + "]";
+	}
+	public Inquiry(int inqNo, String inqFileName, Date inqDate, String memId, String adminId) {
 		super();
 		this.inqNo = inqNo;
 		this.inqFileName = inqFileName;
 		this.inqDate = inqDate;
 		this.memId = memId;
+		this.adminId = adminId;
 	}
-	@Override
-	public String toString() {
-		return "Inquiry [inqNo=" + inqNo + ", inqFileName=" + inqFileName + ", inqDate=" + inqDate + ", memId=" + memId
-				+ "]";
-	}
-	
-	
 }

@@ -144,7 +144,7 @@ tr .checkset {
     border-bottom: none;
 }
 #tab1Content table tr td{
-	height: 55px;
+	height: 56px;
 	border:1px solid white;
 	text-align: left;
 	width: 80%;
@@ -187,6 +187,8 @@ window.onload = () =>{
 	checkAll('search');
 	keepSort();
 	maxDate();
+	
+	
 }
 
 function sample6_execDaumPostcode() {
@@ -453,11 +455,12 @@ const showModal = (value) =>{
 	url = !url.includes("?") ? "?id="+id : url += "&id="+id;
 	window.history.pushState({}, "Title", url);
 	
-	$("#tab1Content").load(location.href + " #tab1Content");
+	$("#tab1Content").load(location.href + " #tab1Content", function() {
+		let modal = document.getElementById('myModal');
+		modal.style.display = 'block';
+		document.body.style.overflow = 'hidden';
+	});
 	
-	let modal = document.getElementById('myModal');
-	modal.style.display = 'block';
-	document.body.style.overflow = 'hidden';
 	
 }
 
@@ -516,6 +519,7 @@ const submitBtn = (value) =>{
 	address += document.getElementById("sample6_detailAddress").value+"@";
 	address += document.getElementById("sample6_extraAddress").value;
 	
+	let id = value.parentElement.parentElement.parentElement.children[1].children[1].innerText;
 	let nickName = document.getElementById("nickName").value;
 	let email = document.getElementById("email").value;
 	let phone = document.getElementById("phone").value;
@@ -523,7 +527,7 @@ const submitBtn = (value) =>{
 	$.ajax({
         url : 'updateMember.adme',
         type : 'post',
-        data: {memId: id, memIsAdmin : btn.value == "일반회원" ? "N" : "Y"},
+        data: {memId: id, memNickName: nickName, memEmail: email, memPhone: phone, memAddress: address },
         success : (data) =>{
         	console.log(data);
         	if(data == "success"){
@@ -532,7 +536,6 @@ const submitBtn = (value) =>{
         },
         error : data => console.log(data)
 	});
-	
 	closeModal(value);
 }
 </script>
@@ -691,7 +694,7 @@ const submitBtn = (value) =>{
                   <td class="tableset-order01">${ m.memDate }</td>
                   <td class="tableset-mobile" onclick="javascript:event.stopPropagation()">
                   	<input type="button" value="일반회원" class="status-btn<c:if test='${ m.memIsAdmin eq "N" }'> active</c:if>" onclick="changeIsAdmin(this)">
-                  	<input type="button" value="관리자" class="status-btn<c:if test='${ m.memIsAdmin eq "Y" }'> active</c:if>" onclick="changeIsAdmin(this)">
+                  	<input type="button" value="&nbsp;&nbsp;관리자&nbsp;&nbsp;" class="status-btn<c:if test='${ m.memIsAdmin eq "Y" }'> active</c:if>" onclick="changeIsAdmin(this)">
                   </td>
                 </tr>
                </c:forEach>
@@ -729,6 +732,12 @@ const submitBtn = (value) =>{
 				   <div class="pagiset-ctrl">
 				      <c:url var="goFirst" value="${ loc }">
 				         <c:param name="page" value="${ pi.startPage }"></c:param>
+				          <c:param name="isAdmin" value="${ isAdmin }"></c:param>
+				         <c:param name="keyword" value="${ keyword }"></c:param>
+				         <c:param name="searchText" value="${ searchText }"></c:param>
+				         <c:param name="startDate" value="${ startDate }"></c:param>
+				         <c:param name="endDate" value="${ endDate }"></c:param>
+				         <c:param name="status" value="${ status }"></c:param>
 				      </c:url>
 				      <a class="pagiset-link pagiset-first" href="${ goFirst }">
 				         <span class="visually-hidden">처음</span>
@@ -782,16 +791,28 @@ const submitBtn = (value) =>{
 				   <div class="pagiset-ctrl">
 				      <c:url var="goNext" value="${ loc }">
 				         <c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+				          <c:param name="isAdmin" value="${ isAdmin }"></c:param>
+				         <c:param name="keyword" value="${ keyword }"></c:param>
+				         <c:param name="searchText" value="${ searchText }"></c:param>
+				         <c:param name="startDate" value="${ startDate }"></c:param>
+				         <c:param name="endDate" value="${ endDate }"></c:param>
+				         <c:param name="status" value="${ status }"></c:param>
 				      </c:url>
 				      <a class="pagiset-link pagiset-next" href="${ goNext }"> <span
 				         class="visually-hidden">다음</span>
 				      </a>
 				   </div>
 				   <div class="pagiset-ctrl">
-				      <c:url var="goList" value="${ loc }">
+				      <c:url var="goLast" value="${ loc }">
 				         <c:param name="page" value="${ pi.maxPage }"></c:param>
+				          <c:param name="isAdmin" value="${ isAdmin }"></c:param>
+				         <c:param name="keyword" value="${ keyword }"></c:param>
+				         <c:param name="searchText" value="${ searchText }"></c:param>
+				         <c:param name="startDate" value="${ startDate }"></c:param>
+				         <c:param name="endDate" value="${ endDate }"></c:param>
+				         <c:param name="status" value="${ status }"></c:param>
 				      </c:url>
-				      <a class="pagiset-link pagiset-last" href="${ goList }"> <span
+				      <a class="pagiset-link pagiset-last" href="${ goLast }"> <span
 				         class="visually-hidden">마지막</span>
 				      </a>
 				   </div>
@@ -810,6 +831,7 @@ const submitBtn = (value) =>{
 	        </div>
 	
 	        <div id="tab1Content" class="tab-content">
+	        <input type="hidden" id="m" value="${ m }">
 	            <table>
 	            	<tr>
 	            		<th><h2>회원 정보</h2></th>
@@ -818,6 +840,10 @@ const submitBtn = (value) =>{
 	            	<tr>
 	            		<th>아이디</th>
 	            		<td>${ m.memId }</td>
+	            	</tr>
+	            	<tr>
+	            		<th>이름</th>
+	            		<td>${ m.memName }</td>
 	            	</tr>
 	            	<tr>
 	            		<th>닉네임</th>
@@ -870,7 +896,20 @@ const submitBtn = (value) =>{
 	        </div>
 	
 	        <div id="tab2Content" class="tab-content" style="display: none;">
-	            
+	            <h1>1:1 문의내역</h1>
+	            <div></div>
+	            <table>
+	            	<tr>
+	            		<td>번호</td>
+	            		<td>상담일</td>
+	            		<td>답변자</td>
+	            	</tr>
+	            	<tr>
+	            		<td></td>
+	            		<td></td>
+	            		<td></td>
+	            	</tr>
+	            </table>
 	        </div>
 		        
 		    </div>

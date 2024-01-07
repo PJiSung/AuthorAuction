@@ -677,7 +677,13 @@ background-color:red;
 						<c:forEach items = "${wlist}" var = "w">
 							<input type ="hidden" value = "${w.proNo}" class = "pronofororder">
 							<div style = "width: 100%; height: 30vh; display:flex; align-items: center;">
-								<img src="/sunwoo/proimages/${w.proImage}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+							<c:forEach items = "${atlist}" var = "at">
+								<c:if test = "${w.proNo eq at.attBno }">
+								<c:if test = "${at.attFno eq 1 }">
+								<img src="/sunwoo/proimages/${at.attRename}" style = "width: 20%; height: 80%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
+								</c:if>
+								</c:if>
+								</c:forEach>
 								<div style = "display:flex; align-items:center; justify-content: center; width:40%; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right: 1px solid #aaa;   height: 80%;">
 									<p>${w.proName}</p>
 								</div>
@@ -685,7 +691,7 @@ background-color:red;
 								     <p class = "wisAmountfororder">${w.wisAmount}</p>
 								</div>
 								<div style = "height: 80%; width: 20%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; border-right:1px solid #aaa;">
-								     <p style = "font-weight: bold; font-size: 20px;" class = "proprices">${w.wisAmount*w.proPrice}</p><small> 원</small>
+								     <p style = "font-weight: bold; font-size: 20px;" class = "proprices popopo">${w.wisAmount*w.proPrice}</p><small> 원</small>
 								</div>
 								<div style = "height: 80%; width: 10%; display:flex; align-items:center; justify-content:center; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;">
 								     <p>무료배송</p><div style = "margin-left: 5px;border: 1px solid #888; color: #888; border-radius: 100%; width: 20px; height: 20px; display:flex; justify-content:center; align-items: center;" class = "questiondeliver">?</div>
@@ -735,7 +741,7 @@ background-color:red;
 							<div style = "width: 80%; height: 100%; display:flex; align-items: center;">
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #555"><h5>포인트 사용</h5></div>
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "text" id = "pointinput" value = 0></div> 
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">보유 포인트 : <span class = "proprices">${loginUser.memBalance}</span><small>&nbsp;p</small></div>
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">보유 포인트 : <span class = "popopo">${loginUser.memBalance}</span><small>&nbsp;p</small></div>
 							</div>
 						</div>
 								<div>배송일은 주문일 기준 2~3일 소요됩니다</div>
@@ -844,11 +850,12 @@ background-color:red;
 				<div>${addr.addAddress}</div>	
 				<div>${addr.addPhone}</div>	
 				<div>${addr.addDefault}</div>	
-				<div style = "display:flex; justify-content:right; align-items:center; height: 20%; border: 1px solid green;"><button onclick = "choiceaddress('${addr.addAddress}')">선택</button></div>	
+				<div style = "display:flex; justify-content:right; align-items:center; height: 20%; border: 1px solid green;"><button onclick = "choiceaddress('${addr.addAddress}','${addr.addNo}')">선택</button></div>	
 			</div>
 		</c:forEach>	
-			
+			<input type ="hidden" id = "addNoinput">
 	</div>
+	
 	<div style = "border: 1px solid #888; height: 75%; overflow:auto;" class = "delilist">
 			<div>
 			ㄴㅁㅇ		
@@ -932,9 +939,13 @@ background-color:red;
                 console.log(data.zonecode);
                 document.getElementById('sample6_postcode').value = data.zonecode;
                 document.getElementById("sample6_address").value = addr;
+                
                 // 커서를 상세주소 필드로 이동하고 readonly 해제.
                  document.getElementById("sample6_detailAddress").readOnly = false;
                 document.getElementById("sample6_detailAddress").focus();
+                
+                //파라미터로 넘길 주소를 끈다
+                document.getElementById("addNoinput").value = 0;
             }
         }).open();
     }
@@ -1128,7 +1139,7 @@ $(document).ready(function(){
   <script>
   
 	//천단위 콤마 스크립트
-	for(p of document.getElementsByClassName('proprices')){
+	for(p of document.getElementsByClassName('popopo')){
 		
 		p.innerText = p.innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 		
@@ -1323,6 +1334,7 @@ $(document).ready(function(){
 		document.getElementById('sample6_detailAddress').value.trim();
 	 const postcode = document.getElementById('sample6_postcode').value.trim();
 	 
+	 
 	 var deliveryMsg = "";
 
 		if(document.getElementById('messel').options[0].selected){
@@ -1363,7 +1375,7 @@ $(document).ready(function(){
 		
 		var pointBonus = parseInt(document.getElementById('pointBonus').innerText.replace(/,/g,""));
 		
-		
+		var addNo = parseInt(document.getElementById("addNoinput").value);
 		
 	 
  IMP.request_pay({
@@ -1382,7 +1394,7 @@ $(document).ready(function(){
 	    if (rsp.success) {
 	    	
 	    	location.href = "payresult.ar?imp_uid="+rsp.imp_uid+"&ordNo="+rsp.merchant_uid+"&ordMessage="+deliveryMsg+"&ordPoPrice="+ordPoPrice+"&ordCaPrice="+amount+"&ordMethod=card&memId=${loginUser.memId}"
-	 		+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus;
+	 		+"&postcode="+postcode+"&address="+address+"&receiver="+receiver+"&receiverPhone="+receiverPhone+"&pronofororder="+pronofororder+"&wisAmountfororder="+wisAmountfororder+"&pointBonus="+pointBonus+"&addNo="+addNo;
 	    	
 // 	        결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 // 	        jQuery로 HTTP 요청
@@ -1421,7 +1433,7 @@ var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
 <script>
 
 //배달 주소 자동 채우기 스크립트
-	function choiceaddress(address){
+	function choiceaddress(address, addNo){
 	
     var addpostcode = address.split('@')[0];
     var addaddress = address.split('@')[1];
@@ -1432,6 +1444,8 @@ var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
 	document.getElementsByClassName('deliveryinfo')[3].value = adddetailaddress;
 	
 	  document.getElementById("sample6_detailAddress").readOnly = true;
+	  document.getElementById("addNoinput").value = addNo;
+	  
     
 }
 

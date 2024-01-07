@@ -160,5 +160,10 @@ public class MemberServiceImpl implements MemberService{
 	public Member selectMember(String id) {
 		return mDao.selectMember(id);
 	}
+
+	@Override
+	public int updateMemberByAdmin(Member m) {
+		return mDao.updateMemberByAdmin(m);
+	}
 	
 }

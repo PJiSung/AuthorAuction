@@ -10,14 +10,13 @@ public class Product {
 	private int proHeight;
 	private int proWidth;
 	private int proDate;
-	private String proImage;
 	private int proPrice;
 	private int proAmount;
 	
 	public Product(){}
 
 	public Product(int proNo, String proName, String proWriter, String proMaterial, int proHeight, int proWidth,
-			int proDate, String proImage, int proPrice, int proAmount) {
+			int proDate, int proPrice, int proAmount) {
 		super();
 		this.proNo = proNo;
 		this.proName = proName;
@@ -26,7 +25,6 @@ public class Product {
 		this.proHeight = proHeight;
 		this.proWidth = proWidth;
 		this.proDate = proDate;
-		this.proImage = proImage;
 		this.proPrice = proPrice;
 		this.proAmount = proAmount;
 	}
@@ -87,13 +85,6 @@ public class Product {
 		this.proDate = proDate;
 	}
 
-	public String getProImage() {
-		return proImage;
-	}
-
-	public void setProImage(String proImage) {
-		this.proImage = proImage;
-	}
 
 	public int getProPrice() {
 		return proPrice;
@@ -115,7 +106,7 @@ public class Product {
 	public String toString() {
 		return "Product [proNo=" + proNo + ", proName=" + proName + ", proWriter=" + proWriter + ", proMaterial="
 				+ proMaterial + ", proHeight=" + proHeight + ", proWidth=" + proWidth + ", proDate=" + proDate
-				+ ", proImage=" + proImage + ", proPrice=" + proPrice + ", proAmount=" + proAmount + "]";
+				+ ", proPrice=" + proPrice + ", proAmount=" + proAmount + "]";
 	}
 
 	

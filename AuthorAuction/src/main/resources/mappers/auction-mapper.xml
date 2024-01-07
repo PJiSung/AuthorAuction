@@ -103,19 +103,49 @@
 			join auction a on (a.auc_no = b.auc_no)
             join consignment on (a.auc_cno = con_no)
             join attachment p on (auc_cno = att_bno)
-            where b.mem_id = #{id} and att_fno = 0
+        where b.mem_id = #{id} and att_fno = 0
+		<if test="type != null and type == scheduled">
+			and auc_start_date > sysdate 
+		</if>
+		<if test="type != null and type == ongoing">
+			and sysdate between auc_start_date and auc_finish_date 
+		</if>
+		<if test="type != null and type == end">
+			and auc_finish_date <![CDATA[<]]> sysdate 
+		</if>
 	</select>
 	
 	<select id="getAllInterestBidNum" resultType="int">
 		select count(*)
-		from bidding_interest
+		from bidding_interest b
+			join auction a on (a.auc_no = b.auc_no)
 		where mem_id = #{id}
+		<if test="type != null and type == scheduled">
+			and auc_start_date > sysdate 
+		</if>
+		<if test="type != null and type == ongoing">
+			and sysdate between auc_start_date and auc_finish_date 
+		</if>
+		<if test="type != null and type == end">
+			and auc_finish_date <![CDATA[<]]> sysdate 
+		</if> 
 	</select>
+	
+	
+	
+	
 	
 	<select id="getAllMyBidListCount" resultType="int">
 		select count(*)
-		from bidding_detail
+		from bidding_detail b
+			join auction a on (a.auc_no = b.auc_no)
 		where mem_id = #{id}
+		<if test="type != null and type == ongoing">
+			and sysdate between auc_start_date and auc_finish_date 
+		</if>
+		<if test="type != null and type == end">
+			and auc_finish_date <![CDATA[<]]> sysdate 
+		</if>
 	</select>
 	
 	<select id="getAllMyBidList" resultType="Auction">
@@ -132,17 +162,39 @@
 		                 	from bidding_detail
 		                 	where b.mem_id = #{id}
 		                  )
-		order by bid_no desc			                  
+		<if test="type != null and type == ongoing">
+			and sysdate between auc_start_date and auc_finish_date 
+		</if>
+		<if test="type != null and type == end">
+			and auc_finish_date <![CDATA[<]]> sysdate 
+		</if>                  
+		order by bid_no desc	
 	</select> 
 	
 	<select id="getAllMyDetail">
 		select *
-		from bidding_detail
+		from bidding_detail b
+			join auction a on (a.auc_no = b.auc_no)
 		where mem_id = #{id}
+		<if test="type != null and type == ongoing">
+			and sysdate between auc_start_date and auc_finish_date 
+		</if>
+		<if test="type != null and type == end">
+			and auc_finish_date <![CDATA[<]]> sysdate 
+		</if>
 		order by bid_no desc
 	</select>
 	
-	
+	<!-- adimin -->
+	<!-- adimin -->
+	<!-- adimin -->
+	<!-- adimin -->
+	<!-- adimin -->
+	<!-- adimin -->
+	<!-- adimin -->
+	<!-- adimin -->
+	<!-- adimin -->
+	<!-- adimin -->
 	<!-- adimin -->
 	
 	<select id="getAdminSearchList" resultType="Auction">

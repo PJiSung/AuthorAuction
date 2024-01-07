@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.auction.user.model.vo.Address;
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
@@ -44,6 +45,10 @@ public interface ArtsService {
 	int updatePoint(HashMap<String, Object> map);
 
 	ArrayList<Address> selectAddresslist(String memId);
+
+	ArrayList<Attachment> selectAttmlist(ArrayList<Product> plist);
+
+	int insertOrderwithalreadyaddr(Order order);
 
 
 

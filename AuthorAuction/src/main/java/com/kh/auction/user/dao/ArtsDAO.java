@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Address;
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Order;
 import com.kh.auction.user.model.vo.Product;
 import com.kh.auction.user.model.vo.Wishlist;
@@ -48,5 +49,9 @@ public interface ArtsDAO {
 	int updatePoint(HashMap<String, Object> map);
 
 	ArrayList<Address> selectAddresslist(String memId);
+
+	ArrayList<Attachment> selectAttmlist(ArrayList<Product> plist);
+
+	int insertOrderwithalreadyaddr(Order order);
 	
 }

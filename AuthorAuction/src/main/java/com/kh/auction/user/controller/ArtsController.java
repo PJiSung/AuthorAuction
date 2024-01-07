@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.user.model.vo.Address;
+import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Keyword;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.Order;
@@ -39,11 +40,33 @@ public class ArtsController {
 		String loginid = ((Member)session.getAttribute("loginUser")).getMemId();
 		ArrayList<Wishlist> wlist = aService.selectWishlist(loginid);
 		
+		ArrayList<Product> plist = new ArrayList<Product>();
+		
+		for(Wishlist w : wlist) {
+			
+			Product p = new Product();
+			p.setProNo(w.getProNo());
+			plist.add(p);
+			
+		}
+		
+		
+		ArrayList<Attachment> alist = null;
+		
+		if(!plist.isEmpty()) {
+			alist = aService.selectAttmlist(plist);
+		}
+		
+		model.addAttribute("alist", alist);
 		model.addAttribute("loginid", loginid);
 		model.addAttribute("wlist", wlist);
 		model.addAttribute("wlistsize", wlist.size());
 		
 		return "arts/wishlist";
+		
+		
+		
+		
 		
 	}
 	
@@ -96,7 +119,11 @@ public class ArtsController {
 			plist = aService.selectArtslist(pi,map);
 			
 		}
-		
+		ArrayList<Attachment> alist = null;
+		if(!plist.isEmpty()) {
+			alist= aService.selectAttmlist(plist);
+		}
+		model.addAttribute("alist", alist);
 		model.addAttribute("order", order);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("materiallist", materiallist);
@@ -123,6 +150,14 @@ public class ArtsController {
 		
 		int countwis = aService.selectWish(w);
 		
+		ArrayList<Product> plist = new ArrayList<Product>();
+		plist.add(p);
+		
+		ArrayList<Attachment> alist = null;
+		if(!plist.isEmpty()) {
+		 alist = aService.selectAttmlist(plist);
+		}
+		model.addAttribute("alist", alist);
 		model.addAttribute("p", p);
 		model.addAttribute("loginid", loginid);
 		model.addAttribute("countwis", countwis);
@@ -152,9 +187,21 @@ public class ArtsController {
 			}
 			
 		}
+		
+		ArrayList<Product> plist = new ArrayList<Product>();
+		for(Wishlist w : wlist) {
 			
+			Product p = new Product();
+			p.setProNo(w.getProNo());
+			plist.add(p);
+		}
+		ArrayList<Attachment> atlist = null;
+		if(!plist.isEmpty()) {
+			atlist = aService.selectAttmlist(plist);
+			
+		}
 		
-		
+		model.addAttribute("atlist", atlist);
 		model.addAttribute("wlist", wlist);
 		model.addAttribute("alist", alist);
 		
@@ -175,9 +222,6 @@ public class ArtsController {
 		
 		int pointresult = aService.updatepointBonus(pm);
 		
-		int result = aService.insertOrder(order); 
-		
-		
 		
 		HashMap<String,Object> rmap = new HashMap<String,Object>();
 		
@@ -189,7 +233,17 @@ public class ArtsController {
 		rmap.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
 		rmap.put("ordNo", order.getOrdNo());
 		
+		
+		if(order.getAddNo() == 0) {
 		int resultadd = aService.insertAddress(rmap);
+		order.setAddNo((int)rmap.get("addNo"));
+		}
+		
+		int result = aService.insertOrder(order);
+		
+		
+		
+		
 		
 		
 		
@@ -282,9 +336,39 @@ public class ArtsController {
 	public String payment(HttpSession session, Model model, Product product, @RequestParam("amount") int amount) {
 		
 		
+		
+		
+		ArrayList<Address> alist = aService.selectAddresslist(((Member)session.getAttribute("loginUser")).getMemId());
+		
+		
+		for(int i=0; i<alist.size(); i++) {
+			
+			if(alist.get(i).getAddDefault().equals("Y")) {
+				
+				Address a = alist.get(0);
+				Address b = alist.get(i);
+				
+				alist.set(0,b);
+				alist.set(i, a);
+			}
+			
+		}
+		
+		
 		Product p = aService.selectArts(product.getProNo());
 		
+		ArrayList<Product> plist = new ArrayList<Product>();
 		
+		plist.add(p);
+		
+		ArrayList<Attachment> atlist  = null;
+		
+		if(!plist.isEmpty()) {
+			atlist = aService.selectAttmlist(plist);
+		}
+		
+		model.addAttribute("alist", alist);
+		model.addAttribute("atlist", atlist);
 		model.addAttribute("p", p);
 		model.addAttribute("amount", amount);
 		

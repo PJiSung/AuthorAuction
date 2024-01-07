@@ -53,4 +53,6 @@ public interface MemberService {
 	int insertFirstAddress(Address a);
 
 	Member selectMember(String id);
+
+	int updateMemberByAdmin(Member m);
 }

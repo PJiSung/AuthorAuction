@@ -56,4 +56,6 @@ public interface MemberDAO {
 	int updateMemberIsAdmin(Member m);
 
 	Member selectMember(String id);
+
+	int updateMemberByAdmin(Member m);
 }

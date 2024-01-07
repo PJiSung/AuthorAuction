@@ -22,6 +22,8 @@ import com.kh.auction.user.model.vo.ChatMessage;
 import com.kh.auction.user.model.vo.Inquiry;
 import com.kh.auction.user.service.InquiryService;
 
+import kotlin.reflect.jvm.internal.impl.types.model.TypeSystemOptimizationContext;
+
 @Component
 public class SocketHandler extends TextWebSocketHandler {
 	
@@ -30,6 +32,7 @@ public class SocketHandler extends TextWebSocketHandler {
 
 	private List<HashMap<String, Object>> rls = new ArrayList<>();
 	private ArrayList<ChatMessage> cList = new ArrayList<>();
+	public static int waiting = 0;
 
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception { // 메시지 발송
@@ -40,6 +43,9 @@ public class SocketHandler extends TextWebSocketHandler {
 		String id = (String) obj.get("userName");
 		String rN = (String) obj.get("roomNumber");
 		String isAdmin = (String) obj.get("isAdmin");
+		
+		System.out.println("id = "+id);
+		
 		boolean checkClist = false;
 		int index = 0;
 
@@ -56,6 +62,8 @@ public class SocketHandler extends TextWebSocketHandler {
 		if (!checkClist) {
 			if(isAdmin.equals("N")) {
 				cm.setCustomerId(id);
+			}else{
+				cm.setAdminId(id);
 			}
 			cm.setContent("[" + id + "] " + objMsg + "\n");
 			cm.setRoomNum(rN);
@@ -65,11 +73,15 @@ public class SocketHandler extends TextWebSocketHandler {
 				if(isAdmin.equals("N")) {
 					cList.get(index).setCustomerId(id);
 				}
+			}else if(cList.get(index).getAdminId() == null) {
+				if(isAdmin.equals("Y")) {
+					cList.get(index).setAdminId(id);
+				}
 			}
 			String content = cList.get(index).getContent();
 			cList.get(index).setContent(content + "[" + id + "] " + objMsg + "\n");
 		}
-
+		
 		HashMap<String, Object> temp = new HashMap<>();
 		if (rls.size() > 0) {
 			for (int i = 0; i < rls.size(); i++) {
@@ -122,7 +134,10 @@ public class SocketHandler extends TextWebSocketHandler {
 				}
 			}
 		}
+		
 		if (roomSessions.size() == 0 || (roomSessions.size() == 1 && isAdmin.equals("Y"))) {
+			waiting = isAdmin.equals("N") ? ++waiting : --waiting;
+			System.out.println(waiting);
 			if (flag) {
 				HashMap<String, Object> map = rls.get(idx);
 				map.put(session.getId(), session);
@@ -167,7 +182,7 @@ public class SocketHandler extends TextWebSocketHandler {
 			if (index >= 0 && index < cList.size()) {
 				notifyRoomAboutExit(roomNumber, "상담이 종료되었습니다.");
 				if(cList.get(index).getContent() != null) {
-					createFile(session.getId(), cList.get(index).getContent(), cList.get(index).getCustomerId());
+					createFile(session.getId(), cList.get(index).getContent(), cList.get(index).getCustomerId(), cList.get(index).getAdminId());
 				}
 				cList.remove(index);
 			}
@@ -195,7 +210,7 @@ public class SocketHandler extends TextWebSocketHandler {
 		}
 	}
 
-	private void createFile(String sessionid, String content, String customerId) {
+	private void createFile(String sessionid, String content, String customerId, String adminId) {
 		String root = "D:\\";
 		String savePath = root + "\\logs\\inquiry";
 		File folder = new File(savePath);
@@ -211,13 +226,14 @@ public class SocketHandler extends TextWebSocketHandler {
 			e.printStackTrace();
 		}
 		
-		insertInquiry(customerId, fileName);
+		insertInquiry(customerId, adminId, fileName);
 	}
 
-	private void insertInquiry(String customerId, String fileName) {
+	private void insertInquiry(String customerId, String adminId, String fileName) {
 		Inquiry inq = new Inquiry();
 		inq.setInqFileName(fileName);
 		inq.setMemId(customerId);
+		inq.setAdminId(adminId);
 		iService.insertInquiry(inq);
 	}
 

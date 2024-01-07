@@ -26,8 +26,6 @@
 	
 	<button onclick="location.href='myBidList.ac'">내 입찰 경매</button>
 	
-	<button onclick="location.href='endAuction.adac'">종료된 경매</button>
-	
 	<button onclick="location.href='scheduledAuction.adac'">예정 경매</button>
 	
     <div id="containerCover" style="width: 70%; margin: auto; margin-top: 1%;">
@@ -35,10 +33,8 @@
             <div id="searchLine">
                 <span><span>전체 경매</span><span>${ total }</span> 개</span>
                 <div style="float: right; width: 80%; text-align: right;">
-                    <span style="margin: 0 1.5% 0 1.5%;">예전 등록순</span> 
-                    <span style="margin: 0 1.5% 0 1.5%;">최근 등록순</span> 
-                    <span style="margin: 0 1.5% 0 1.5%;">금액 낮은순</span> 
-                    <span style="margin: 0 1.5% 0 1.5%;">금액 높은순</span>
+                    <span style="margin: 0 1.5% 0 1.5%;">입찰 낮은순</span> 
+                    <span style="margin: 0 1.5% 0 1.5%;">입찰 높은순</span>
                     <select name="searchType">
                         <option value="artist">작가명</option>
                         <option value="work">작품명</option>

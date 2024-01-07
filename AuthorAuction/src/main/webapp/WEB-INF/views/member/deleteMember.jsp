@@ -72,13 +72,26 @@
 	text-decoration: none;
 	cursor: pointer;
 }
-.form-wrap{
-    font-size: 16px !important; /* 기본 글꼴 크기 설정 */
-}
 .checkset .checkset-input.input-round + .checkset-label::before {
 	font-size: 3.6rem !important;
 }
-
+.form-tit{
+	font-size: 32px !important;
+}
+.form-desc, .checkset-desc, .accordset-content, .form-footer a{
+	font-size: 18px !important;
+}
+.checkset-text, .accordset-button{
+	font-size : 20px !important;
+}
+.accordset-header{
+	padding-top: 15px !important;
+	padding-bottom: 15px !important;
+}
+.accordset-button{
+	padding-top: 3px !important;
+	padding-left: 22px !important;
+} 
 </style>
 <script>
 window.onload = () =>{
@@ -120,7 +133,7 @@ const checkAgree = () =>{
 	const cboxs = document.querySelectorAll("input[name='agree']");
 	if(cboxs[0].checked && cboxs[1].checked){
 		document.getElementById("myModal").style.display = "block";
-		location.href="deleteMember";
+		//location.href="deleteMember";
 	}else{
 		alert("서비스를 이용하시려면 약관에 동의하셔야 합니다.")
 	}
