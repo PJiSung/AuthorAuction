@@ -290,7 +290,7 @@
         	//들어왔을시 좋아요 체크
         	$.ajax({
         		url:'checkLike.ac',
-        		type:'post',
+        		type:'get',
         		data:{aucNo:'${auction.aucNo}'},
         		success: data =>{
         			if(data != 0){
@@ -316,10 +316,9 @@
 					if(checkId.innerText != '경매 종료'){
 						$.ajax({
 							url:'interest.ac',
-							type:'post',
+							type:'get',
 							data:{aucNo:'${ auction.aucNo }'},
 							success: data =>{
-								console.log(data)
 								if(data == 'insert'){
 									likeBtn.innerText = '관심 목록 삭제';
 									likeBtn.style.background = 'black';
@@ -331,13 +330,25 @@
 								}
 							},
 							error: data => console.log(data)
-							
 						})
 					}else{
-						alert('종료된 경매입니다')
+						if(likeBtn.style.background = 'black'){
+							$.ajax({
+								url:'interest.ac',
+								type:'get',
+								data:{aucNo:'${ auction.aucNo }'},
+								success: data =>{
+										likeBtn.innerText = '관심 목록 추가';
+										likeBtn.style.background = 'white';
+										likeBtn.style.color = 'black';
+								},
+								error: data => console.log(data)
+							})
+						}else{
+							alert('종료된 경매입니다')	
+						}
 					}
 				})
-				
         	}else{
         		check.innerText = "로그인 후 입찰 가능합니다";
         		check.addEventListener('click',function(){

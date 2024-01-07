@@ -11,6 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
@@ -23,21 +24,21 @@
 				<div id="btnPlace" style="width: 100%;">
 					<div class="seeWhich"
 						style="background: gray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						onclick="hi();">전체 보기</div>
+						onclick="allAuction();">전체 보기</div>
 					<div class="seeWhich"
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						id="ongoing">예정 경매</div>
+						id="scheduled" onclick="scheduledAuction();">예정 경매</div>
 					<div class="seeWhich"
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						id="scheduled">진행 경매</div>
+						id="ongoing" onclick="ongoingAuction();">진행 경매</div>
 					<div class="seeWhich"
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						id="finish">종료 경매</div>
+						id="end" onclick="endAuction();">종료 경매</div>
 				</div>
 				<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
 					<div
 						style="width: 14%; display: inline-block; margin-top: 1%; margin-bottom: 1%;">
-						<input type="checkbox" id="allCheck" name="allCheck"><label
+						<input type="checkbox" id="allCheck" name="allCheck" onclick="allCheck(this);"><label
 							for="allCheck">전체 선택</label>
 					</div>
 					<div
@@ -59,9 +60,9 @@
 
 				<%-- ${ aList } --%>
 				<c:forEach items="${ aList }" var="auction">
-					<div class="auction" style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
-						<div style="width: 14%; display: inline-block; height: 100px; padding-top: 2%;">
-							<input type="checkbox" class="eachCheck">
+					<div class="auction" onclick="moveAuction(${auction.aucNo});" style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
+						<div class="checkZone" style="width: 14%; display: inline-block; height: 100px; padding-top: 2%;">
+							<input type="checkbox" class="eachCheck" onclick="eachCheckForAll();">
 						</div>
 						<div style="width: 14%; display: inline-block; height: 100px; padding-top: 2%;">${ auction.aucNo }</div>
 						<div style="width: 14%; height: 100%; display: inline-block;">
@@ -91,18 +92,18 @@
 						<c:choose>
 							<c:when test="${today.before(startDate)}">
 								<div style="width: 14%; display: inline-block; height: 100px; padding-top: auto;">
-									진행 상황 : 예정 경매<br> 시작 금액 : ${ auction.aucFinishPrice }
+									진행 상황 : 예정 경매<br> 시작 금액 : <fmt:formatNumber value="${ auction.aucStartPrice }"/> 원
 								</div>
 							</c:when>
 							<c:when test="${today.after(endDate)}">
 								<div style="width: 14%; display: inline-block; height: 100px; padding-top: 1.5%;">
-									진행 상황 : 종료 경매<br> 낙찰 금액 : ${ auction.aucFinishPrice }
+									진행 상황 : 종료 경매<br> 낙찰 금액 : <fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div
 									style="width: 14%; display: inline-block; height: 100px; padding-top: 1.5%;">
-									진행 상황 : 진행 경매<br> 입찰 금액 : ${ auction.aucFinishPrice }
+									진행 상황 : 진행 경매<br> 입찰 금액 : <fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원
 								</div>
 							</c:otherwise>
 						</c:choose>
@@ -200,78 +201,31 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-		window.onload = () =>{
-        	for(let a of document.getElementsByClassName('seeWhich')){
-            	a.addEventListener('click',function(){
-                	this.style.background = 'gray';
-                	const clickedElement = this;
-
-                    for(let b of document.getElementsByClassName('seeWhich')){
-                    	if(b != clickedElement) {
-                        	b.style.background = 'lightgray';
-						}
-					}
-				})
+		function allCheck(data){
+			if(data.checked){
+				for(const checkBox of document.querySelectorAll("input[class='eachCheck']")){
+					checkBox.checked = true;
+				}
+			}else{
+				for(const checkBox of document.querySelectorAll("input[class='eachCheck']")){
+					checkBox.checked = false;
+				}
 			}
-            
-        	
-        	
-        	
-			if(document.querySelectorAll("div[class='auction']")[0].children[0].tagName != 'H1'){
-	       		for(const auction of document.querySelectorAll("div[class='auction']")){
-	       			for(let i = 1; i < 7; i++){
-	       				auction.children[i].addEventListener('click',function(){
-	       					let auctionStatus = null;
-	       					switch(auction.children[6].innerText.split(":")[1].trim().split(" ")[0]){
-	       					case '예정':
-	       						auctionStatus = 'scheduled';
-	       						break;
-	       					case '진행':
-	       						auctionStatus = 'ongoing';
-	       						break;
-	       					default:
-	       						auctionStatus = 'finish';
-	   						break;
-	       					}
-	       					console.log(auctionStatus)
-	       					//location.href='';
-	       				})
-	       			}
-	       		}
+		}
+		
+		function eachCheckForAll(){
+			let checkCount = 0;
+			for(const checkBox of document.querySelectorAll("input[class='eachCheck']")){
+				if(checkBox.checked){
+					checkCount++;
+				}
+				if(checkCount == document.querySelectorAll("input[class='eachCheck']").length){
+					document.getElementById("allCheck").checked = true;
+				}else{
+					document.getElementById("allCheck").checked = false;
+				}
 			}
-            
-            let checkCount = 0;
-          	for(const checkBox of document.querySelectorAll("input[class='eachCheck']")){
-				checkBox.addEventListener('click',function(){
-					
-					if(checkBox.checked){
-						checkCount++;
-					}else{
-						checkCount--;
-					}
-					
-					if(checkCount == document.querySelectorAll("input[class='eachCheck']").length){
-						document.getElementById("allCheck").checked = true;
-					}else{
-						document.getElementById("allCheck").checked = false;
-					}
-				})
-          	} 
-          	
-          	document.getElementById("allCheck").addEventListener('click',function(){
-          		if(document.getElementById("allCheck").checked){
-          			for(const each of document.querySelectorAll("input[class='eachCheck']")){
-          				each.checked = true;
-          				checkCount = document.querySelectorAll("input[class='eachCheck']").length;
-          			}
-          		}else{
-          			for(const each of document.querySelectorAll("input[class='eachCheck']")){
-          				each.checked = false;
-          				checkCount = 0;
-          			}
-          		}
-          	})
-        }
+		}
 		
 		const deleteLike = () =>{
 			let checkedNum = [];
@@ -280,16 +234,112 @@
 					checkedNum.push(checkedBox.parentElement.nextElementSibling.innerText);
 				}
 			}
+			if(checkedNum.length > 0){
+				$.ajax({
+					url:'interest.ac',
+					type:'get',
+					data:{checkedNum:checkedNum},
+					success: (data) =>{
+						if(data == 'deleteMypage'){
+							$("#divine").load(location.href + " #divine");
+							$("#paging").load(location.href + " #paging");
+						}
+					},
+					error: data => console.log(data)
+				})
+			}
+		}
+		
+		function moveAuction (aucNo){
+			if(document.querySelectorAll("div[class='auction']")[0].children[0].tagName != 'H1'){
+				if(event.target.className != 'eachCheck' && event.target.className != 'checkZone'){
+					switch(event.target.parentElement.children[6].innerText.split(":")[1].trim().split(" ")[0]){
+					case '예정':
+						//location.href='auctionDetailScheduled.ac?aucNo=' + aucNo + "&page="  + ${ pi.currentPage };
+						break;
+					default:
+						location.href='auctionDetail.ac?aucNo=' + aucNo + "&page=" + ${ pi.currentPage };
+						break;
+					}
+				}
+	       	}
+		}
 			
-			$.ajax({
-				url:'interest.ac',
-				type:'post',
-				data:{checkedNum:checkedNum},
-				success: (data) =>{
-					 $("#divine").load(location.href + " #divine");
+		
+		const allAuction = () =>{
+			seeWhich();
+			/* $({
+				url:'myInterest.ac',
+				type:'get',
+				data:{type:'all'},
+				success: data => {
+					if(data == 'success'){
+						console.log(data)
+						$("#divine").load(location.href + " #divine");
+						$("#paging").load(location.href + " #paging");
+					}
+				},
+				error: data => console.log(data)
+			}) */
+		}
+		
+		const scheduledAuction = () =>{
+			seeWhich();
+			/* $({
+				url:'',
+				type:'get',
+				data:{type:'scheduled'},
+				success: data => {
+					$("#divine").load(location.href + " #divine");
 					$("#paging").load(location.href + " #paging");
 				},
 				error: data => console.log(data)
+			}) */
+		}
+		
+		const ongoingAuction = () =>{
+			seeWhich();
+			/* $({
+				url:'',
+				type:'get',
+				data:{type:'ongoing'},
+				success: data => {
+					$("#divine").load(location.href + " #divine");
+					$("#paging").load(location.href + " #paging");
+				},
+				error: data => console.log(data)
+			}) */
+		}
+		
+		const endAuction = () =>{
+			seeWhich();
+		/* 	$({
+				url:'myInterestEnd.ac',
+				type:'get',
+				data:{type:'end'},
+				success: data => {
+					if(data == 'success'){
+						console.log(data)
+						$("#content-allOver-cover").load(location.href + " #content-allOver-cover");
+						$("#paging").load(location.href + " #paging");
+					}
+				},
+				error: data => console.log(data)
+			}) */
+		}
+		
+		const seeWhich = () =>{
+			document.addEventListener('click',function(event){
+				if(event.target.className == 'seeWhich'){
+					event.target.style.background = 'gray';
+					const clickedElement = event.target;
+
+                    for(let b of document.getElementsByClassName('seeWhich')){
+                    	if(b != clickedElement) {
+                        	b.style.background = 'lightgray';
+						}
+					}
+				}
 			})
 		}
     </script>

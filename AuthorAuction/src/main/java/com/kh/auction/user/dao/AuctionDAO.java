@@ -60,18 +60,18 @@ public interface AuctionDAO {
 	ArrayList<Attachment> getAttachment(int conNo);
 	
 	//아이디로 내 관심 목록을 들고옴
-	ArrayList<Auction> getMyInterestList(String id, RowBounds rowBounds);
+	ArrayList<Auction> getMyInterestList(HashMap<String, String> interestHm, RowBounds rowBounds);
 
 	//내 관심 경매의 수를 가져옴
-	int getAllInterestBidNum(String id);
+	int getAllInterestBidNum(HashMap<String, String> listCountHm);
 
 	//내 입찰 경매의 수를 가지고옴
-	int getAllMyBidListCount(String id);
+	int getAllMyBidListCount(HashMap<String, String> listCountHm);
 
 	//내가 입찰한 경매의 목록을 들고옴
-	ArrayList<Auction> getAllMyBidList(String id, RowBounds rowBounds);
+	ArrayList<Auction> getAllMyBidList(HashMap<String, String> bidListHm, RowBounds rowBounds);
 
 	//내가 입찰한 경매내역을 들고옴
-	ArrayList<BiddingDetail> getAllMyDetail(String id, RowBounds rowBounds);
+	ArrayList<BiddingDetail> getAllMyDetail(HashMap<String, String> bidListHm, RowBounds rowBounds);
 
 }

@@ -44,19 +44,19 @@ public interface AuctionService {
 	//문의 글 번호로 문의 글에 등록된 사진들을 들고옴
 	ArrayList<Attachment> getAttachment(int conNo);
 
-	//아이디로 내 관심 목록 들고옴
-	ArrayList<Auction> getMyInterestList(String id, PageInfo pi);
-
-	//내 관심 경매의 개수를 가지고 옴
-	int getAllInterestBidNum(String id);
+	//내 관심 경매의 개수를 가지고 옴 + 조건 있는 것들도 재 활용
+	int getAllInterestBidNum(HashMap<String, String> listCountHm);
+	
+	//아이디로 내 관심 목록 들고옴 + 조건 있는것들도 재 활용
+	ArrayList<Auction> getMyInterestList(HashMap<String, String> interestHm, PageInfo pi);
 
 	//내 입찰 경매의 개수를 가지고 옴
-	int getAllMyBidListCount(String id);
+	int getAllMyBidListCount(HashMap<String, String> listCountHm);
 	
 	//내가 입찰한 경매의 목록을 들고옴
-	ArrayList<Auction> getAllMyBidList(String id, PageInfo pi);
+	ArrayList<Auction> getAllMyBidList(HashMap<String, String> bidListHm, PageInfo pi);
 
 	//내가 입찰한 경매내역을 들고옴
-	ArrayList<BiddingDetail> getAllMyDetail(String id, PageInfo pi);
+	ArrayList<BiddingDetail> getAllMyDetail(HashMap<String, String> bidListHm, PageInfo pi);
 	
 }

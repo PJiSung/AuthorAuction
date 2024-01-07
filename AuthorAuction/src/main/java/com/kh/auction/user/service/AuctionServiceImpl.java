@@ -82,11 +82,9 @@ public class AuctionServiceImpl implements AuctionService{
 		case "forCheck":
 			//현 상태에 따라 업데이트
 			if(aDAO.checkLike(hm) < 1) {
-				System.out.println("service : " + aDAO.checkLike(hm));
 				aDAO.insertLike(hm);
 				return "insert";
 			}else {
-				System.out.println("service2 : " + aDAO.deleteLike(hm));
 				aDAO.deleteLike(hm);
 				return "delete";
 			}
@@ -118,30 +116,30 @@ public class AuctionServiceImpl implements AuctionService{
 	}
 
 	@Override //아이디로 내 관심 목록 들고옴
-	public ArrayList<Auction> getMyInterestList(String id, PageInfo pi) {
+	public ArrayList<Auction> getMyInterestList(HashMap<String, String> hm, PageInfo pi) {
 		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
-		return aDAO.getMyInterestList(id, rowBounds);
+		return aDAO.getMyInterestList(hm, rowBounds);
 	}
 
 	@Override //내 관심경매의 개수를 들고옴
-	public int getAllInterestBidNum(String id) {
-		return aDAO.getAllInterestBidNum(id);
+	public int getAllInterestBidNum(HashMap<String, String> listCountHm) {
+		return aDAO.getAllInterestBidNum(listCountHm);
 	}
 
 	@Override //내 입찰 경매의 개수를 가지고 옴
-	public int getAllMyBidListCount(String id) {
-		return aDAO.getAllMyBidListCount(id);
+	public int getAllMyBidListCount(HashMap<String, String> listCountHm) {
+		return aDAO.getAllMyBidListCount(listCountHm);
 	}
 
 	@Override //내가 입찰한 경매의 목록을 들고옴
-	public ArrayList<Auction> getAllMyBidList(String id, PageInfo pi) {
+	public ArrayList<Auction> getAllMyBidList(HashMap<String, String> bidListHm, PageInfo pi) {
 		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
-		return aDAO.getAllMyBidList(id, rowBounds);
+		return aDAO.getAllMyBidList(bidListHm, rowBounds);
 	}
 
 	@Override //내가 입찰한 경매내역을 들고옴
-	public ArrayList<BiddingDetail> getAllMyDetail(String id, PageInfo pi) {
+	public ArrayList<BiddingDetail> getAllMyDetail(HashMap<String, String> bidListHm, PageInfo pi) {
 		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
-		return aDAO.getAllMyDetail(id, rowBounds);
+		return aDAO.getAllMyDetail(bidListHm, rowBounds);
 	}
 }
