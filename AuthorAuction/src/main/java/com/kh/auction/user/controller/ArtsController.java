@@ -223,8 +223,6 @@ public class ArtsController {
 		int pointresult = aService.updatepointBonus(pm);
 		
 		
-		
-		
 		HashMap<String,Object> rmap = new HashMap<String,Object>();
 		
 		
@@ -238,12 +236,10 @@ public class ArtsController {
 		
 		if(order.getAddNo() == 0) {
 		int resultadd = aService.insertAddress(rmap);
-		int result = aService.insertOrder(order); 
-		}else {
-			int result = aService.insertOrder(order);
+		order.setAddNo((int)rmap.get("addNo"));
 		}
 		
-		
+		int result = aService.insertOrder(order);
 		
 		
 		
