@@ -4,7 +4,7 @@
 	
 	<insert id="insertInquiry">
 		INSERT INTO INQUIRY
-		VALUES(SEQ_INQ.NEXTVAL, #{inqFileName}, SYSDATE, #{memId})
+		VALUES(SEQ_INQ.NEXTVAL, #{inqFileName}, SYSDATE, #{memId}, #{adminId})
 	</insert>
 	     
 </mapper>

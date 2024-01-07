@@ -79,8 +79,15 @@ public class MemberAdminController {
 	
 	
 	@PostMapping("updateMember.adme")
-	public String updateMember() {
-		return "redirect:memberList.adme";
+	@ResponseBody
+	public String updateMember(Member m) {
+		System.out.println(m);
+		System.out.println(m.getMemPwd());
+		int result = mService.updateMemberByAdmin(m);
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
-	
 }

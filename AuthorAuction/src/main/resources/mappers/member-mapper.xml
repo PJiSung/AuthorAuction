@@ -194,4 +194,10 @@
 		WHERE MEM_ID = #{id}
 	</select>
 	
+	<update id="updateMemberByAdmin">
+		UPDATE MEMBER
+		SET MEM_NICKNAME = #{memNickName}, MEM_EMAIL = #{memEmail}, MEM_PHONE = #{memPhone}, MEM_ADDRESS = #{memAddress}
+		WHERE MEM_ID = #{memId}
+	</update>
+	
 </mapper>

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.auction.inquiry.handler.SocketHandler;
 import com.kh.auction.member.service.MemberService;
 import com.kh.auction.user.model.vo.Member;
 
@@ -29,7 +31,14 @@ public class MainController {
 	
 	@GetMapping("chat")
 	public String chat(@RequestParam(value = "roomNumber", defaultValue = "1") String roomNumber, Model model) {
+		int wating = SocketHandler.waiting;
 		model.addAttribute("roomNumber", roomNumber);
 		return "common/chat";
+	}
+	
+	@GetMapping("getWaiting")
+	@ResponseBody
+	public int getWaiting() {
+		return SocketHandler.waiting;
 	}
 }

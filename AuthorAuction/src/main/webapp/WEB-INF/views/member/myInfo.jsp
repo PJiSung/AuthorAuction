@@ -42,7 +42,7 @@
 .tabs:nth-child(4) .btn-box a{
 	height : 50px;
 	font-size: 20px;
-	line-height: 55px;
+	line-height: 50px;
 }
 .tabs:nth-child(4) .form-tit{
 	font-size: 30px;
@@ -97,7 +97,7 @@
 	border: 1px solid black;
 }
 .addList{
-	padding-top:10px;
+	padding-top: 10px;
 	padding-bottom: 0;
 	height: auto;
 }
@@ -169,8 +169,8 @@ img:hover{
   display: none;
   position: absolute;
   z-index: 1;
-  left: 0;
-  top: 50%;
+  left:11%;
+  top: 55%;
   width: 50%;
   height: auto;
   overflow: auto;
@@ -205,7 +205,7 @@ img:hover{
 	width: 100%;
 }
 .modal .modal-content div:hover{
-	background-color:gray;
+	background-color:#dcdcdc;
 	cursor: pointer;
 }
 
@@ -221,6 +221,80 @@ img:hover{
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+/* 이메일, 전화번호 */
+.info table .authForm tr td{
+	width: 50%;
+}
+.info table .authForm tr td input[type=text]{
+	border-bottom: 1px solid gray;
+}
+.info table .authForm tr td input[type=text]:focus{
+	border-bottom: 2px solid black;
+}
+.info table .authForm tr td input[type=button]{
+	height: 37px;
+	line-height: 37px;
+	width: 100px;
+}
+
+/* 주소 */
+.info table .addForm tr td{
+	width: 50%;
+}
+.info table .addForm tr td input[type=text]{
+	border-bottom: 1px solid gray;
+}
+.info table .addForm tr td input[type=text]:focus{
+	border-bottom: 2px solid black;
+}
+.info table .addForm tr td input[type=button]{
+	height: 37px;
+	line-height: 37px;
+	width: 100px;
+}
+
+/* 버튼 */
+.btn-box a{
+	height: 45px !important;
+	font-size: 18px !important;
+	line-height: 45px !important;
+}
+.enrollAdd input[type=button]{
+	border : 1px solid black;
+	background: white;
+}
+
+.enrollAdd input[type=button]:hover{
+	border : 1px solid black;
+	background: black;
+	color: white;
+}
+ .delete-btn, .edit-btn {
+    cursor: pointer;
+    padding: 4px 12px;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn {
+    background-color: #f08080;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.edit-btn {
+    background-color: #2ecc71;
+}
+
+.edit-btn:hover {
+    background-color: #27ae60;
 }
 </style>
 <script>
@@ -304,7 +378,7 @@ const checkPwd = () =>{
 	 			}
 	 		},
 	 		error: data => console.log(data)
-	 		});			
+	 	});			
 	})
 }
 
@@ -432,6 +506,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						
 					}else if(i == 2){
 						const table = document.createElement("table");
+						table.classList.add("authForm");
 						const tr1 = document.createElement("tr");
 						const email = document.createElement("td");
 						email.innerHTML = '<input type="text" id="email" placeholder="변경할 이메일">';
@@ -444,7 +519,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						const authNo = document.createElement("td");
 						authNo.innerHTML = '<input type="text" id="authNum" placeholder="인증코드 입력">';
 						const checkAuthNo = document.createElement("td");
-						checkAuthNo.innerHTML = '<input type="button" value="확인" onclick="checkNum1('+i+')">';
+						checkAuthNo.innerHTML = '<input type="button" value="변경" onclick="checkNum1('+i+')">';
 						tr2.append(authNo);
 						tr2.append(checkAuthNo);
 						
@@ -456,6 +531,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						
 					}else if(i == 3){
 						const table = document.createElement("table");
+						table.classList.add("authForm");
 						const tr1 = document.createElement("tr");
 						const phoneNo = document.createElement("td");
 						phoneNo.innerHTML = '<input type="text" id="phone" placeholder="변경할 전화번호">';
@@ -468,7 +544,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						const authNo = document.createElement("td");
 						authNo.innerHTML = '<input type="text" id="authNum" placeholder="인증코드 입력">';
 						const checkAuthNo = document.createElement("td");
-						checkAuthNo.innerHTML = '<input type="button" value="확인" onclick="checkNum2('+i+')">';
+						checkAuthNo.innerHTML = '<input type="button" value="변경" onclick="checkNum2('+i+')">';
 						tr2.append(authNo);
 						tr2.append(checkAuthNo);
 						
@@ -479,9 +555,9 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 						this.append(table);
 						
 					}else if(i == 4){
-						console.log(this.parentElement);
 						const addArr = document.getElementById("address").value.split("@");
 						const table = document.createElement("table");
+						table.classList.add("addForm");
 						const tr1 = document.createElement("tr");
 						const addNo = document.createElement("td");
 						addNo.innerHTML = '<input type="text" id="sample6_postcode" value="'+ addArr[0] +'" readonly="readonly">';
@@ -872,13 +948,13 @@ const closeModal = (value) =>{
 	    				<td><h4>&nbsp;&nbsp;${ a.addRecipient }(${ a.addName }) <c:if test="${ a.addDefault eq 'Y' }"><font>&nbsp;&nbsp;기본배송지</font></c:if></h4></td>
 	    				<td>
 	    				<c:if test="${ a.addDefault eq 'Y' }">
-	    					<input type="button" value="삭제" id="${ a.addNo }" onclick="alert('다른 배송지를 기본 배송지로 변경 후 삭제해주세요.')"><!-- 모달해라 -->
+	    					<input type="button" class="delete-btn" value="삭제" onclick="alert('다른 배송지를 기본 배송지로 변경 후 삭제해주세요.')"><!-- 모달해라 -->
 	    				</c:if>
 	    				<c:if test="${ a.addDefault eq 'N' }">
-	    					<input type="button" value="삭제" id="${ a.addNo }" onclick="deleteAdd(this.id)">
+	    					<input type="button" class="delete-btn" value="삭제" id="${ a.addNo }" onclick="deleteAdd(this.id)">
 	    				</c:if>
 	    				</td>
-	    				<td><input type="button" value="수정" id="${ a.addNo }" onclick="updateAdd(this.id)"></td>
+	    				<td><input type="button" class="edit-btn" value="수정" id="${ a.addNo }" onclick="updateAdd(this.id)"></td>
 	    			</tr>
 	    			<tr>
 	    				<td colspan="3">&nbsp;&nbsp;${ a.addPhone }</td>
@@ -901,8 +977,7 @@ const closeModal = (value) =>{
 	    </div>
 	    
 	    <div class="tabs">
-	    		<main class="th-layout-main ">
-		<!-- [S]bloomcity-N10 -->
+	    <main class="th-layout-main ">
 		<div class="bloomcity-N10" data-bid="DDLQevsBR2">
 			<div class="content-container">
 				<div class="form-wrap">
@@ -933,7 +1008,6 @@ const closeModal = (value) =>{
 				</div>
 			</div>
 		</div>
-		
 		</main>
 	    </div>
 		<jsp:include page="../common/footer.jsp"/>
@@ -943,7 +1017,7 @@ const closeModal = (value) =>{
 <div id="myModal" class="modal">
 	<div class="modal-content">
 		<div id="changeBtn" onclick="closeModal(1)">
-		 	프로필 사진 수정
+		 	프로필 사진 업로드
 		</div>
 		<div id="deleteBtn" onclick="closeModal(2)">
 		 	프로필 사진 삭제
