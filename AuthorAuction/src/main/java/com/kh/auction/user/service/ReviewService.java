@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.Reply;
 import com.kh.auction.user.model.vo.Review;
 
 public interface ReviewService {
@@ -50,6 +51,17 @@ public interface ReviewService {
 	int updateReviewCount(int revNo);
 
 	int getReviewCount(int revNo);
+
+	int insertReply(Reply r);
+
+	ArrayList<Reply> selectReplyList(int revNo);
+
+	ArrayList<Reply> selectReplyAllList();
+
+	int updateReply(Reply r);
+	
+	int deleteReply(int repNo);
+
 
 	
 	

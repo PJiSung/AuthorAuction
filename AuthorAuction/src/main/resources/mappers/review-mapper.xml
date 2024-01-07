@@ -143,8 +143,16 @@
 	
 	<select id="selectReview" resultType="Review">
 		select *
-		from review join product using(pro_no)
-		where rev_status = 'Y' and rev_no = #{revNo}
+		from (select rev_no, rev_content, rev_count, rev_create_date, rev_modify_date, rev_status, mem_id, pro_no,
+        	  		 pro_name, pro_writer, pro_image, mem_nickname, mem_filename,
+        			 case when a.att_no is not null then 'Y' else 'N' end as has_attm,
+        	  		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like,
+			  		 row_number() over (partition by r.rev_no order by r.rev_no desc) as rn
+    		  from review r join member using (mem_id)
+        			  join product using (pro_no)
+					  left join attachment a on r.rev_no = a.att_bno
+    		  where rev_status = 'Y')
+		where rev_status = 'Y' and rev_no = #{revNo} and rn = 1
 	</select>
 	
 	<delete id="deleteAttm">
@@ -217,4 +225,36 @@
 		where rev_no = #{revNo}
 	</select>
 	
+	<insert id="insertReply">
+		insert into reply
+		values(rep_seq.nextval, #{repContent}, sysdate, sysdate, default, #{memId}, #{revNo})
+	</insert>
+	
+	<select id="selectReplyList" resultType="Reply">
+		select rep_no, rep_content, mem_id, mem_filename, mem_nickname, rev_no,
+        	   to_char(rep_create_date, 'YYYY-MM-DD"T"HH24:MI:SS') as rep_create_date,
+        	   to_char(rep_modify_date, 'YYYY-MM-DD"T"HH24:MI:SS') as rep_modify_date
+		from reply join member using(mem_id)
+		where rev_no = #{revNo} and rep_status = 'Y'
+	</select>
+	
+	<select id="selectReplyAllList" resultType="Reply">
+		select rep_no, rep_content, mem_id, mem_filename, mem_nickname, rev_no,
+        	   to_char(rep_create_date, 'YYYY-MM-DD"T"HH24:MI:SS') as rep_create_date,
+        	   to_char(rep_modify_date, 'YYYY-MM-DD"T"HH24:MI:SS') as rep_modify_date
+		from reply join member using(mem_id)
+		where rep_status = 'Y'
+	</select>
+	
+	<update id="updateReply">
+		update reply
+		set rep_content = #{repContent}, rep_modify_date = sysdate
+		where rep_no = #{repNo}
+	</update>
+	
+	<update id="deleteReply">
+		update reply
+		set rep_status = 'N'
+		where rep_no = #{repNo}
+	</update>
 </mapper>

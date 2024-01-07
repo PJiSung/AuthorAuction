@@ -1,21 +1,20 @@
 package com.kh.auction.user.model.vo;
 
-import java.sql.Date;
-
 public class Reply { 
 	
 	private int repNo;
 	private String repContent;
-	private Date repCreateDate;
-	private Date repModifyDate;
+	private String repCreateDate;
+	private String repModifyDate;
 	private String repStatus;
+	private int revNo;
 	private String memId;
 	private String memNickName;
 	private String memFileName;
 	
 	public Reply() {}
 
-	public Reply(int repNo, String repContent, Date repCreateDate, Date repModifyDate, String repStatus, String memId) {
+	public Reply(int repNo, String repContent, String repCreateDate, String repModifyDate, String repStatus, String memId) {
 		super();
 		this.repNo = repNo;
 		this.repContent = repContent;
@@ -41,19 +40,19 @@ public class Reply {
 		this.repContent = repContent;
 	}
 
-	public Date getRepCreateDate() {
+	public String getRepCreateDate() {
 		return repCreateDate;
 	}
 
-	public void setRepCreateDate(Date repCreateDate) {
+	public void setRepCreateDate(String repCreateDate) {
 		this.repCreateDate = repCreateDate;
 	}
 
-	public Date getRepModifyDate() {
+	public String getRepModifyDate() {
 		return repModifyDate;
 	}
 
-	public void setRepModifyDate(Date repModifyDate) {
+	public void setRepModifyDate(String repModifyDate) {
 		this.repModifyDate = repModifyDate;
 	}
 
@@ -89,11 +88,21 @@ public class Reply {
 		this.memFileName = memFileName;
 	}
 
+	public int getRevNo() {
+		return revNo;
+	}
+
+	public void setRevNo(int revNo) {
+		this.revNo = revNo;
+	}
+
 	@Override
 	public String toString() {
 		return "Reply [repNo=" + repNo + ", repContent=" + repContent + ", repCreateDate=" + repCreateDate
-				+ ", repModifyDate=" + repModifyDate + ", repStatus=" + repStatus + ", memId=" + memId
-				+ ", memNickName=" + memNickName + ", memFileName=" + memFileName + "]";
+				+ ", repModifyDate=" + repModifyDate + ", repStatus=" + repStatus + ", revNo=" + revNo + ", memId="
+				+ memId + ", memNickName=" + memNickName + ", memFileName=" + memFileName + "]";
 	}
+	
+	
 	
 }

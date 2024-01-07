@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.Reply;
 import com.kh.auction.user.model.vo.Review;
 import com.kh.auction.user.service.ReviewService;
 
@@ -44,6 +47,7 @@ public class ReviewController {
 	@GetMapping("reviewList.rv")
 	public String goReviewList(HttpSession session,
 							   @RequestParam(value="page", defaultValue="1") int page,
+							   @RequestParam(value = "revNo", required = false) Integer revNo,
 							   Model model) {
 		
 		int listCount = rService.getListCount();
@@ -52,6 +56,13 @@ public class ReviewController {
 		ArrayList<Review> rList = rService.selectReviewList(pi);
 		ArrayList<Review> allRlist = rService.selectReviewAllList();
 		ArrayList<Attachment> aList = rService.selectAttmList(null);
+		
+		Review review = new Review();
+		ArrayList<Reply> replyList = new ArrayList<Reply>();
+		if(revNo != null) {
+			review = rService.selectReview(revNo);
+			replyList = rService.selectReplyList(revNo);
+		}
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String id = null;
@@ -68,6 +79,8 @@ public class ReviewController {
 			model.addAttribute("oList", oList);
 			model.addAttribute("lList", lList);
 			model.addAttribute("allRlist", allRlist);
+			model.addAttribute("replyList", replyList);
+			model.addAttribute("review", review);
 			return "review/reviewList";
 		} else {
 			throw new Exception("리뷰 리스트 조회에 실패하였습니다.");
@@ -157,8 +170,11 @@ public class ReviewController {
 	}
 	
 	public String saveFile(MultipartFile upload) {
-		String root = "C:\\";
-		String savaPath = root + "\\uploadFiles";
+//		String root = "C:\\";
+//		String savaPath = root + "\\uploadFiles";
+		
+		String savaPath = "/Users/rosa/uploadFiles"; 
+		
 		
 		File folder = new File(savaPath);
 		if(!folder.exists()) {
@@ -172,7 +188,8 @@ public class ReviewController {
 		String originFileName = upload.getOriginalFilename(); 
 		String renameFileName = sdf.format(time) + ranNum + originFileName.substring(originFileName.lastIndexOf("."));
 																	
-		String renamePath = folder + "\\" + renameFileName;
+//		String renamePath = folder + "\\" + renameFileName;
+		String renamePath = folder + File.separator + renameFileName;
 		try {
 			upload.transferTo(new File(renamePath));
 		} catch (IllegalStateException e) {
@@ -185,10 +202,13 @@ public class ReviewController {
 	}
 	
 	public void deleteFile(String fileName) {
-		String root = "C:\\";
-		String savaPath = root + "\\uploadFiles";
+//		String root = "C:\\";
+//		String savaPath = root + "\\uploadFiles";
 		
-		File f = new File(savaPath + "\\" + fileName);
+		String savaPath = "/Users/rosa/uploadFiles"; 
+		
+//		File f = new File(savaPath + "\\" + fileName);
+		File f = new File(savaPath + File.separator  + fileName);
 		if(f.exists()) {
 			f.delete();
 		}
@@ -198,6 +218,7 @@ public class ReviewController {
 	public String searchReview(@RequestParam(value="keyword", required = false) String keyword,
 							   @RequestParam(value="category", required = false) String category,
 							   @RequestParam(value="selectedSort", required = false) String selectedSort,
+							   @RequestParam(value = "revNo", required = false) Integer revNo,
 							   @RequestParam(value="page", defaultValue="1") int page,
 							   Model model) {
 
@@ -217,14 +238,21 @@ public class ReviewController {
 		ArrayList<Review> allRlist = rService.selectReviewAllList();
 		ArrayList<HashMap<String, Object>> lList = rService.reviewLikeList();
 		
-		System.out.println(rList);
-		System.out.println(aList);
+		Review review = new Review();
+		ArrayList<Reply> replyList = new ArrayList<Reply>();
+		if(revNo != null) {
+			review = rService.selectReview(revNo);
+			replyList = rService.selectReplyList(revNo);
+			System.out.println(replyList);
+		}
 		
 		if(rList != null) {
 			if(!rList.isEmpty()) {
 				model.addAttribute("pi", pi);
 				model.addAttribute("rList", rList);
 				model.addAttribute("aList", aList);
+				model.addAttribute("replyList", replyList);
+				model.addAttribute("review", review);
 				model.addAttribute("allRlist", allRlist);
 				model.addAttribute("lList", lList);
 				return "review/reviewList";
@@ -401,7 +429,6 @@ public class ReviewController {
 	public String selectReviewLike(@RequestParam("revNo") int revNo) {
 		
 		int likeCount = rService.selectReviewLike(revNo);
-		System.out.println(likeCount);
 		
 		return String.valueOf(likeCount);
 	}
@@ -417,6 +444,33 @@ public class ReviewController {
 		}
 		
 		return String.valueOf(count);
+	}
+	
+	@ResponseBody
+	@GetMapping("insertReply.rv")
+	public String insertReple(@ModelAttribute Reply r) {
+		
+		int result = rService.insertReply(r);
+		
+		return result == 1 ? "success" : "fail";
+		
+	}
+	
+	@ResponseBody
+	@GetMapping("updateReply.rv")
+	public String updateReply(@ModelAttribute Reply r) {
+		
+		int result = rService.updateReply(r);
+		
+		return result == 1 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@GetMapping("deleteReply.rv")
+	public String deleteReply(@RequestParam("repNo") int repNo) {
+		int result = rService.deleteReply(repNo);
+		
+		return result == 1 ? "success" : "fail";
 	}
 
 }

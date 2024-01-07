@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.Date" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +21,7 @@
 <link rel="stylesheet" href="rs/reviewDetail/css/setting.css">
 <link rel="stylesheet" href="rs/reviewDetail/css/template.css">
 <link rel="stylesheet" href="rs/reviewDetail/css/style.css?ver=1">
-
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <style type="text/css">
 
 .conModal .modalset {
@@ -259,7 +261,7 @@
 	color: white;
 }
 
-.reviewDetail #textareaId {
+.reviewDetail #replyContent {
 	height: 10rem;
 	border-color: transparent;
 	padding: 1.6rem 0;
@@ -364,6 +366,23 @@ body.modal-open {
 	margin-left: 5px;
 }
 
+.selectReplyDiv{
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border-top: 1px solid #e5e5e5;
+}
+
+.newRepTextarea{
+	width: 100%;
+	height: 10rem;
+	margin-top: 10px;
+	background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	resize: none;
+}
+
 </style>
 </head>
 <body>
@@ -382,7 +401,7 @@ body.modal-open {
 						<div class="addReview" id="goWriteReviewButton">등록</div>
 					</div>
 					<div class="contents-body">
-						<form class="contents-sort" action="sortSearchForm" method="get" id="sortSearchForm">
+						<form class="contents-sort" action="searchReview.rv" method="get" id="sortSearchForm">
 								<p class="contents-sort-total">미술품 리뷰 게시판 설명 솰라랄랄입니다.</p>
 								<div class="contents-sort-sel" style="gap: 1rem">
 									<div class="tabset tabset-text" style="width: 120px;">
@@ -434,7 +453,11 @@ body.modal-open {
 
 						<div class="contents-list">
 							<c:forEach items="${ rList }" var="r">
-								<div class="cardset cardset-shopping">
+								<div class="cardset cardset-shopping" id="reviewCardset">
+									<input type="hidden" value="${ r.revNo }" id="reviewNo">
+									<input type="hidden" value="${ r.hasAttm }" id="hasAttachment">
+									<input type="hidden" value="${ r.proNo }" id="productNo">
+									<input type="hidden" value="${ r.memId }" id="memId">
 									<c:if test="${ r.hasAttm eq 'Y' }">
 										<c:forEach items="${ aList }" var="a">
 											<c:if test="${ r.revNo eq  a.attBno && a.attFno == 0 }">
@@ -449,10 +472,6 @@ body.modal-open {
 											<img class="cardset-img" src="${r.proImage}" alt="작품 이미지">
 										</figure>
 									</c:if>
-									<input type="hidden" value="${ r.hasAttm }" id="hasAttachment">
-									<input type="hidden" value="${ r.revNo }" id="reviewNo">
-									<input type="hidden" value="${ r.proNo }" id="productNo">
-									<input type="hidden" value="${ r.memId }" id="memId">
 									<table class="cardset-body">
 										<tr>
 											<td class="secTd">
@@ -562,36 +581,60 @@ body.modal-open {
 	<div id="myModal" class="modal">
 		<div class="modal-content">
 			<span class="close" id="closeSelectRevMd"></span>
-			<div class="reviewDetail" data-bid="qWlQHt9Vh1">
+			<div class="reviewDetail" data-bid="qWlQHt9Vh1" id="reviewDetail">
 				<form id="reviewDetailForm" method="post">
-					<input type="hidden" name="revNo"> 
-					<input type="hidden" name="hasAttachment"> 
+					<input type="hidden" name="revNo" value="${review.revNo}" id="revNo"> 
+					<input type="hidden" name="hasAttachment" value="${review.hasAttm}"> 
 					<input type="hidden" name="page" value="${ pi.currentPage }">
 					<div class="contents-inner">
-						<div class="contents-container container-md">
-							<div class="contents-left" style="margin: auto; margin-right: 25px; margin-left: 25px;">
-								<div class="contents-thumbnail" id="selectImagDiv">
-									<img class="contents-thumbimg" src="" alt="리뷰 썸네일">
-								</div>
-								<ul class="contents-thumblist" id="reviewImgUl"></ul>
+					<div class="contents-container container-md">
+					<div class="contents-left" style="margin: auto; margin-right: 25px; margin-left: 25px;">
+						<c:if test="${ review.hasAttm == 'Y' }">
+							<c:forEach items="${ aList }" var="a">
+								<c:if test="${ a.attFno == 0 && a.attBno == review.revNo }">
+									<div class="contents-thumbnail" id="selectImagDiv">
+										<img class="contents-thumbimg" src="${ a.attRename }" alt="리뷰 썸네일">
+									</div>
+								</c:if>
+							</c:forEach>
+							<ul class="contents-thumblist" id="reviewImgUl">
+								<c:forEach items="${ aList }" var="a">
+									<c:if test="${ a.attBno == review.revNo }">
+										<li class="contents-thumbitem">
+											<img class="contents-thumbimg" src="${ a.attRename }" alt="썸네일이미지">
+										</li>
+									</c:if>
+								</c:forEach>
+							</ul>
+						</c:if>
+						<c:if test="${ review.hasAttm == 'N' }">
+							<div class="contents-thumbnail" id="selectImagDiv">
+								<img class="contents-thumbimg" src="${ review.proImage }" alt="리뷰 썸네일">
 							</div>
+							<ul class="contents-thumblist" id="reviewImgUl">
+								<li class="contents-thumbitem">
+									<img class="contents-thumbimg" src="${ review.proImage }" alt="썸네일이미지">
+								</li>
+							</ul>
+						</c:if>
+						</div>
 							<div class="contents-right" id="contentsRightId">
 								<div class="contents-right-group">
 									<table class="reviewInfoTab">
 										<tbody>
 											<tr>
 												<td class="firTd" id="productName">
-													<h4 class="p1 fw-500" style="font-size: var(--fs-p1);"></h4>
+													<h4 class="p1 fw-500" style="font-size: var(--fs-p1);">${ review.proName }</h4>
 												</td>
-												<td class="secTd" id="reviewCount"></td>
+												<td class="secTd" id="reviewCount">조회수 ${ review.revCount }</td>
 											</tr>
 											<tr>
-												<td><h4 class="p1 fw-500" id="productWriter"></h4></td>
-												<td class="secTd" id="reviewModifyDate"></td>
+												<td><h4 class="p1 fw-500" id="productWriter">${ review.proWriter }</h4></td>
+												<td class="secTd" id="reviewModifyDate">${ review.revModifyDate }</td>
 											</tr>
 											<tr>
 												<td id="proImgTd" colspan="2">
-													<img src="main/mainPic/product2.png" alt="작품사진" id="proImage">
+													<img src="${ review.proImage }" alt="작품사진" id="proImage">
 												</td>
 											</tr>
 										</tbody>
@@ -600,56 +643,82 @@ body.modal-open {
 								<div class="contents-right-group">
 									<div class="contents-brand">
 										<div class="profilePic">
-											<img src="" alt="프로필 사진" class="profileImg" id="memFileName">
+											<img src="${ review.memFileName }" alt="프로필 사진" class="profileImg" id="memFileName">
 										</div>
-										<h6 class="reviewDetailDivs" id="memNickname">떡볶이 좋아</h6>
+										<h6 class="reviewDetailDivs" id="memNickname">${ review.memNickName }</h6>
 										<div class="updateDeleteDiv">
-											<div class="updateButton" id="reviewUpdbut">수정</div>
-											<div class="deleteButton" id="reviewDelBut">삭제</div>
+											<div class="updateButton" id="reviewUpdbut" onclick="updateReview()">수정</div>
+											<div class="deleteButton delReview" id="reviewDelBut" onclick="deleteReview()">삭제</div>
 										</div>
 									</div>
 									<div>
-										<pre class="reviewContentPre" id="reviewContent"></pre>
+										<pre class="reviewContentPre" id="reviewContent">${ review.revContent }</pre>
 									</div>
 									<div class="contents-badge-group">
 										<div class="contents-brand">
 											<div class="contents-brand-group">
-												<button class="contents-btn btn-like-line" type="button" id="reviewLikeUp">
-													<img src="rs/reviewDetail/icons/ico_like_black_line.svg" alt="하트 라인 아이콘">
-												</button>
-												<button class="contents-btn btn-like-fill" type="button" id="reviewLikeDown">
-													<img src="rs/reviewDetail/icons/ico_like_black_fill.svg" alt="하트 채워진 아이콘">
-												</button>
+												<c:if test="${ empty lList}">
+													<button class="contents-btn btn-like-line" type="button" onclick="reviewLikeUp();">
+								                        <img src="rs/reviewDetail/icons/ico_like_black_line.svg" alt="하트 라인 아이콘">
+								                    </button>
+												</c:if>
+												 <c:if test="${ !empty lList}">
+												 	<c:set var="likeFull" value="false" />
+											        <c:forEach items="${lList}" var="l">
+											        	<c:if test="${loginUser.memId == l.MEM_ID && review.revNo == l.REV_NO}">
+										                	<c:set var="likeFull" value="true"/>
+										                </c:if>
+											        </c:forEach>
+										        	<c:if test="${not likeFull}">
+											            <button class="contents-btn btn-like-line" type="button" onclick="reviewLikeUp();">
+											                <img src="rs/reviewDetail/icons/ico_like_black_line.svg" alt="하트 라인 아이콘">
+											            </button>
+											        </c:if>
+											        <c:if test="${likeFull}">
+											            <button class="contents-btn btn-like-fill" type="button" onclick="reviewLikeDown();" style="display: block;">
+									                        <img src="rs/reviewDetail/icons/ico_like_black_fill.svg" alt="하트 채워진 아이콘">
+									                    </button>
+											        </c:if>
+											    </c:if>
 											</div>
 										</div>
-										<span>좋아요<span id="reviewLike" style="padding-left: 1.2px;"></span></span>
-										<div id="reviewReplyBut">
-											<span class="badgeset-text">댓글 1</span>
+										<span>좋아요<span id="reviewLike" style="padding-left: 1.2px;">${ review.revLike }</span></span>
+										<div id="reviewReplyBut" onclick="reviewReplyBut()">
+											<span class="badgeset-text">댓글 ${fn:length(replyList) }</span>
 										</div>
 									</div>
 								</div>
-								<div class="contents-right-group" id="replyDiv" style="display: none;">
+								<div class="contents-right-group" id="replyDiv" style="display: none">
 									<div>
 										<div class="writeReplyDiv">
 											<h4 class="p1 fw-500" style="display: inline-block;">댓글 작성</h4>
-											<div class="submitButton">등록</div>
-											<textarea class="inputset-textarea form-control" id="textareaId" placeholder="내용을 입력해주세요."></textarea>
+											<div class="submitButton" id="submitReply" role="button" onclick="submitReply()">등록</div>
+											<textarea class="inputset-textarea form-control" id="replyContent" placeholder="내용을 입력해주세요."></textarea>
 										</div>
 									</div>
-									<div class="contents-brand">
-										<div class="profilePic">
-											<img src="${ r.memFileName }" alt="프로필 사진" class="profileImg">
-										</div>
-										<h6 class="reviewDetailDivs">떡볶이 좋아</h6>
-										<div class="reviewDetailDivs">3일전</div>
-										<div class="newbadge">NEW</div>
-										<div class="updateDeleteDiv">
-											<div class="updateButton">수정</div>
-											<div class="deleteButton" id="replyDelBut">삭제</div>
-										</div>
-									</div>
-									<div>
-										<p class="p2">이뿌네용 저도 살래용</p>
+									<div id="ReplyListDiv">
+										<c:forEach items="${ replyList }" var="reply">
+											<div class="selectReplyDiv" id="selectReplyDiv">
+												<input type="hidden" id="repModifyDate" value="${ reply.repModifyDate }">
+												<input type="hidden" id="repCreateDate" value="${ reply.repCreateDate }">
+												<input type="hidden" id="repNo" value="${ reply.repNo }" name="repNo">
+												<div class="contents-brand">
+													<div class="profilePic">
+														<img alt="프로필 사진" src="${ reply.memFileName }" class="profileImg" id="repFileName">
+													</div>
+													<h6 class="reviewDetailDivs" id="repNickName">${ reply.memNickName }</h6>
+													<div class="reviewDetailDivs timeAgo" id="timeAgo"></div>
+													<div class="newbadge" id="newbadge"></div>
+													<div class="updateDeleteDiv">
+														<div class="updateButton" id="replyUpBut" onclick="updateReply()">수정</div>
+														<div class="deleteButton" id="replyDelBut" onclick="deleteReply()">삭제</div>
+													</div>
+												</div>
+												<div>
+													<p id="repContent">${ reply.repContent }</p>
+												</div>
+											</div>
+										</c:forEach>
 									</div>
 								</div>
 								<div class="contents-right-group">
@@ -665,7 +734,11 @@ body.modal-open {
 												</button>
 											</div></li>
 										<li>
-											<ul class="contents-thumblist" id="anotherReview"></ul>
+											<ul class="contents-thumblist" id="anotherReview">
+												<li class="contents-thumbitem">
+													<img class="contents-thumbimg" src="" alt="썸네일이미지">
+												</li>
+											</ul>
 										</li>
 									</ul>
 								</div>
@@ -687,332 +760,407 @@ body.modal-open {
 				<p></p>
 			</div>
 			<div class="modal-footer">
-				<a class="btnset btnset-confirm" id="delConfirmButton">삭제</a>
+				<a class="btnset btnset-confirm" id="delConfirmButton" onclick="delConfirmButton()">삭제</a>
 				<button type="button" class="btnset btnset-ghost modal-close" id="delCelButton" style="border: 1px solid;">취소</button>
 			</div>
 		</div>
 		<div class="modalset-dim"></div>
 	</div>
+	
+<script type="text/javascript">
 
+//상세보기 모달
+const showModal = (value) =>{
+	let revNo = value;
+	let url = window.location.href;
+	url = !url.includes("?") ? "?revNo="+revNo : url += "&revNo="+revNo;
+	window.history.pushState({}, "Title", url);
+	
+	$("#reviewDetail").load(location.href + " #reviewDetail");
+	
+	let modal = document.getElementById('myModal');
+	modal.style.display = 'block';
+}
 
-	<script type="text/javascript">
-		window.onload = () =>{
-			const selectedButs = document.querySelectorAll('.selectset-link');
-			document.getElementById('selectedCat').value = '전체';
-			document.getElementById('selectedSort').value = 'latest';
-			
-			for(let i = 0; i < selectedButs.length; i++){
-				selectedButs[i].addEventListener('click', function() {
-					document.getElementById('selectedCat').value = this.value;
-				});
-			}
-			
-			const selectSort = document.getElementById('selectedSort');
-			const sortSearchForm = document.getElementById('sortSearchForm');
-			document.getElementById('lastetSort').addEventListener('click', function(){
-				selectSort.value = 'latest';
-				sortSearchForm.action = 'searchReview.rv';
-				sortSearchForm.submit();
-			});
-			
-			document.getElementById('recommendSort').addEventListener('click', function(){
-				selectSort.value = 'recommend';
-				sortSearchForm.action = 'searchReview.rv';
-				sortSearchForm.submit();
-			});
-			
-			const urlSearchParams = new URLSearchParams(window.location.search);
-			const selectedSort = urlSearchParams.get('selectedSort');
-			const lastetSort = document.getElementById('lastetSort');
-			const recommendSort = document.getElementById('recommendSort');
-			if (selectedSort == 'recommend') {
-				recommendSort.classList.add('active');
-				lastetSort.classList.remove('active');
-			} else if(selectedSort == 'latest') {
-				recommendSort.classList.remove('active');
-				lastetSort.classList.add('active');
-			}
-			
-			const replyDiv = document.getElementById('replyDiv');
-			document.getElementById('reviewReplyBut').addEventListener('click', () =>{
-				if(replyDiv.style.display == 'none'){
-					replyDiv.style.display = 'block';
-				} else{
-					replyDiv.style.display = 'none';
+const closeModal = (value) =>{
+   let modal = document.getElementById('myModal');
+   let revNo = value;
+	
+	let url = window.location.href;
+	if(url.includes("?revNo="+revNo)){
+		url = url.replace("?revNo="+revNo, "");
+	}else if(url.includes("&revNo="+revNo)){
+		url = url.replace("&revNo="+revNo, "");
+	}
+	window.history.pushState({}, "Title", url);
+   
+   modal.style.display = 'none';
+};
+
+//삭제 모달
+const showDelModal = () => {
+    let modal = document.getElementById('modalSet1');
+    let dim = document.querySelector('.modalset-dim');
+    modal.classList.add('modalset-active');
+    dim.style.display = 'block';
+};
+
+const closeDelModal = () => {
+    let modal = document.getElementById('modalSet1');
+    let dim = document.querySelector('.modalset-dim');
+    modal.classList.remove('modalset-active');
+    dim.style.display = 'none';
+};
+
+const updateDeleteDiv = document.querySelector('.updateDeleteDiv');
+if('${loginUser.memId}' == ''){
+	updateDeleteDiv.style.display = 'block';
+} else{
+	updateDeleteDiv.style.display = 'none';
+}
+
+const delModalBody = document.querySelector('.modal-body').querySelector('p');
+const deleteReview = () =>{
+	showDelModal();
+	delModalBody.innerHTML = "정말로 삭제하시겠습니까?<br> 삭제 후 게시글을 되돌릴 수 없습니다.";
+	document.getElementById('delConfirmButton').setAttribute('data-isReview', 'true');
+}
+
+const deleteReply = () =>{
+	showDelModal();
+	delModalBody.innerHTML = "정말로 삭제하시겠습니까?<br> 삭제 후 댓글을 되돌릴 수 없습니다.";
+	document.getElementById('delConfirmButton').setAttribute('data-isReview', 'false');
+}
+
+const delConfirmButton = () => {
+	const isReview = document.getElementById('delConfirmButton').getAttribute('data-isReview') == 'true';
+	
+	if(isReview){
+		const revDetailForm = document.getElementById('reviewDetailForm');
+		revDetailForm.action = 'deleteReview.rv';
+	    revDetailForm.submit();
+	} else{
+		$.ajax({
+			url: "deleteReply.rv",
+			data:{repNo: document.getElementById('repNo').value},
+			success: (data) =>{
+				if(data == 'success'){
+					console.log(data);
+					$("#ReplyListDiv").load(location.href + " #ReplyListDiv");
+					document.getElementById('replyContent').value='';
 				}
-			});
-			
-			document.getElementById('goWriteReviewButton').addEventListener('click', () =>{
-				if( '${loginUser}' != '[]' ){
-					if( '${oList}' != '[]'){
-						location.href='writeReview.rv';					
-					} else{
-						alert('리뷰 등록 가능한 작품이 없습니다.');
+			},
+			error: data => console.log(data)
+		})
+	}
+	closeDelModal();
+}
+
+document.getElementById('delCelButton').addEventListener('click', () =>{
+	closeDelModal();
+});
+
+const updateReview = () =>{
+	const revDetailForm = document.getElementById('reviewDetailForm');
+	revDetailForm.action = 'goUpdateReview.rv';
+	revDetailForm.submit();
+}
+
+const reviewReplyBut = () =>{
+	if(replyDiv.style.display == 'none'){
+		replyDiv.style.display = 'block';
+	} else{
+		replyDiv.style.display = 'none';
+	}
+}
+
+const submitReply = () =>{
+	if('${loginUser}' != ''){
+		$.ajax({
+			url: "insertReply.rv",
+			data:{revNo: document.getElementById('revNo').value, 
+				  repContent: document.getElementById('replyContent').value,
+				  memId:'${loginUser.memId}'},
+			success: (data) =>{
+				if(data == 'success'){
+					console.log(data);
+					$("#ReplyListDiv").load(location.href + " #ReplyListDiv");
+					document.getElementById('replyContent').value='';
+				}
+			},
+			error: data => console.log(data)
+		})
+	} else{
+		alert('댓글은 로그인 후 등록 가능합니다.');
+		location.href='login';
+	}
+}
+
+const updateReply = () =>{
+	const replyUpBut = document.getElementById('replyUpBut');
+	replyUpBut.innerText = '완료';
+	document.getElementById('replyDelBut').style.display = 'none';
+	
+	const repContent = document.getElementById('repContent');
+    const repContentValue = repContent.innerText.trim();
+    
+    const newTextarea = document.createElement('textarea');
+    newTextarea.className = 'newRepTextarea';
+    newTextarea.value = repContentValue;
+    
+    repContent.parentNode.replaceChild(newTextarea, repContent);
+    
+    if(replyUpBut.innerText == '완료'){
+    	replyUpBut.onclick = () =>{
+	    	const newRepContent = document.querySelector('.newRepTextarea').value.trim();
+	    	$.ajax({
+				url: "updateReply.rv",
+				data:{repNo: document.getElementById('repNo').value,
+					  repContent: newRepContent,
+					  memId:'${loginUser.memId}'},
+				success: (data) =>{
+					if(data == 'success'){
+						console.log(data);
+						$("#ReplyListDiv").load(location.href + " #ReplyListDiv");
 					}
-				} else{
-					alert('리뷰는 로그인 후 등록 가능합니다.');
-					location.href='login';
-				}
-			});
-			
-			// 상세보기 모달
-			const showModal = () =>{
-			   let modal = document.getElementById('myModal');
-			   modal.style.display = 'block';
-			   document.body.classList.add('modal-open');
-			};
-
-			const closeModal = () =>{
-			   let modal = document.getElementById('myModal');
-			   modal.style.display = 'none';
-			   document.body.classList.remove('modal-open');
-			};
-			
-			document.getElementById("closeSelectRevMd").addEventListener('click', ()=>{
-				closeModal();
-				const anotherReview = document.querySelector('#anotherReview');
-				anotherReview.innerHTML = '';
-	        });
-			
-			// 삭제 모달
-			const showDelModal = () => {
-	            let modal = document.getElementById('modalSet1');
-	            let dim = document.querySelector('.modalset-dim');
-	            modal.classList.add('modalset-active');
-	            dim.style.display = 'block';
-	        };
-
-	        const closeDelModal = () => {
-	            let modal = document.getElementById('modalSet1');
-	            let dim = document.querySelector('.modalset-dim');
-	            modal.classList.remove('modalset-active');
-	            dim.style.display = 'none';
-	        };
-	        
-	        const delModalBody = document.querySelector('.modal-body').querySelector('p');
-	        const revDetailForm = document.getElementById('reviewDetailForm');
-			const delConfirmButton = document.getElementById('delConfirmButton');
-			document.getElementById('reviewDelBut').addEventListener('click', () =>{
-	        	showDelModal();
-	        	delModalBody.innerHTML = "정말로 삭제하시겠습니까?<br> 삭제 후 게시글을 되돌릴 수 없습니다.";
-	        	delConfirmButton.addEventListener('click', () =>{
-	        		revDetailForm.action = 'deleteReview.rv';
-	        		revDetailForm.submit();
-	        	});
-	        });
-			
-			document.getElementById('replyDelBut').addEventListener('click', () =>{
-	        	showDelModal();
-	        	delModalBody.innerText = "정말로 삭제하시겠습니까?<br> 삭제 후 댓글을 되돌릴 수 없습니다.";
-	        	delConfirmButton.addEventListener('click', () =>{
-	        		revDetailForm.action = 'deleteReply.rv';
-	        		revDetailForm.submit();
-	        		
-	        	});
-	        });
-			
-			document.getElementById('delCelButton').addEventListener('click', () =>{
-				closeDelModal();
-			});
-			
-			document.getElementById('reviewUpdbut').addEventListener('click', () =>{
-				revDetailForm.action = 'goUpdateReview.rv';
-        		revDetailForm.submit();
+				},
+				error: data => console.log(data)
 			})
-			
-			const aList = "${aList}";
-			const lList = "${lList}";
-			const allRlist = "${allRlist}";
-			
-			const attmArr = aList.replace(/\[Attachment /g, '').replace(/Attachment/g, '').replace(/\]]/g, '').replace(/\[/g, '').split("], ");
-			const attmList = attmArr.map(attachments => {
-					const attachment = attachments.split(', ');
+	    }
+    }
+}
+
+
+const reviewLikeUp = () =>{
+	const memId = document.getElementById('memId').value;
+	
+	if('${loginUser.memId}' != memId){
+		$.ajax({
+			url: 'insertReviewLike.rv',
+			data:{memId: '${loginUser.memId}', revNo: revNo},
+			success: data =>{
+				console.log(data);
+				const like = document.querySelector('#reviewLike');
+				like.innerText = data;
+			},
+			error: data => console.log(data)
+		})
+	} else{
+		alert('작성하신 글은 [좋아요] 버튼을 누를 수 없습니다.');
 		
-					const attmMap = {};
-					attachment.forEach(keyValue => {
-						const [key, value] = keyValue.split('=');
-						attmMap[key.trim()] = value.trim();
-					});
-					return attmMap;
-				});
-			
-			
-			const rLikeArr = lList.replace(/\[{/g, '').replace(/\{/g, '').replace(/\}]/g, '').split("}, ");
-			const rLikeList = rLikeArr.map(reviewLikes => {
-					const likeCount = reviewLikes.split(', ');
-					
-					const rLikeMap = {};
-					likeCount.forEach(keyValue => {
-						const [key, value] = keyValue.split('=');
-						rLikeMap[key.trim()] = value.trim();
-					});
-					return rLikeMap;
-				});
-			
-			const allRArr = allRlist.replace(/\[Review /g, '').replace(/Review/g, '').replace(/\]]/g, '').replace(/\[/g, '').split("], ");
-			const allRList = allRArr.map(allRs => {
-					const allR = allRs.split(', ');
+	}
+}
+
+const reviewLikeDown = () =>{
+	$.ajax({
+		url: 'deleteReviewLike.rv',
+		data:{memId: '${loginUser.memId}', revNo: revNo},
+		success: data =>{
+			console.log(data);
+			const like = document.querySelector('#reviewLike');
+			like.innerText = data;
+		},
+		error: data => console.log(data)
+	})
+}
+
+const reviewImgUl = document.querySelector('#reviewImgUl');
+const reviewImgs = reviewImgUl.querySelectorAll('img');
+for (const img of reviewImgs) {
+    img.onclick = function(){
+        selectImagDiv.querySelector('img').src = selectImg;
+        const selectImg = this.src;
+    };
+}
+
+</script>
+
+<script type="text/javascript">
+	window.onload = () =>{
 		
-					const allRMap = {};
-					allR.forEach(keyValue => {
-						const [key, value] = keyValue.split('=');
-						allRMap[key.trim()] = value.trim();
-					});
-					return allRMap;
-				});
-			
-			// 리뷰 상세보기
-			const cardsetDiv = document.getElementsByClassName('cardset cardset-shopping');
-			for(const card of cardsetDiv){
-				card.addEventListener('click', () => {
-					showModal();
+		const selectedButs = document.querySelectorAll('.selectset-link');
+		document.getElementById('selectedCat').value = '전체';
+		document.getElementById('selectedSort').value = 'latest';
+		
+		for(let i = 0; i < selectedButs.length; i++){
+			selectedButs[i].addEventListener('click', function() {
+				document.getElementById('selectedCat').value = this.value;
+			});
+		}
+		
+		const selectSort = document.getElementById('selectedSort');
+		const sortSearchForm = document.getElementById('sortSearchForm');
+		const lastetSort = document.getElementById('lastetSort');
+		const recommendSort = document.getElementById('recommendSort');
+		lastetSort.addEventListener('click', function(){
+			selectSort.value = 'latest';
+			sortSearchForm.action = 'searchReview.rv';
+			sortSearchForm.submit();
+		});
+		
+		recommendSort.addEventListener('click', function(){
+			selectSort.value = 'recommend';
+			sortSearchForm.action = 'searchReview.rv';
+			sortSearchForm.submit();
+		});
+		
+		const urlSearchParams = new URLSearchParams(window.location.search);
+		const selectedSort = urlSearchParams.get('selectedSort');
+		if (selectedSort == 'recommend') {
+			recommendSort.classList.add('active');
+			lastetSort.classList.remove('active');
+		} else if(selectedSort == 'latest') {
+			recommendSort.classList.remove('active');
+			lastetSort.classList.add('active');
+		}
+		
+		document.getElementById('goWriteReviewButton').addEventListener('click', () =>{
+			if( '${loginUser}' != '' ){
+				if( '${oList}' != '[]'){
+					location.href='writeReview.rv';					
+				} else{
+					alert('리뷰 등록 가능한 작품이 없습니다.');
+				}
+			} else{
+				alert('리뷰는 로그인 후 등록 가능합니다.');
+				location.href='login';
+			}
+		});
+		
+		
+		// 리뷰 상세보기
+		const revNos = [];
+		const cardsetDiv = document.getElementsByClassName('cardset cardset-shopping');
+		for(const card of cardsetDiv){
+			const revNo = card.querySelector('#reviewNo').value;
+		    revNos.push(revNo);
+		    
+			card.addEventListener('click', function(){
+				showModal(revNo);
+				
+				if( '${loginUser.memId}' != memId ){
+					$.ajax({
+						url: 'updateReviewCount.rv',
+						data:{revNo: revNo},
+						success: data =>{
+							const count = document.querySelector('#reviewCount');
+							count.innerText = "조회수 " + data;
+						},
+						error: data => console.log(data)
+					})
+				};
+				
+				$("#reviewDetail").load(location.href + " #reviewDetail", function() {
 					
-					const revNo = card.querySelector('#reviewNo').value;
-					document.querySelector('input[name="revNo"]').value = revNo;
-					
-					const hasAttm = card.querySelector('#hasAttachment').value;
-					document.querySelector('input[name="hasAttachment"]').value = hasAttm;
-					
-					const proNo = card.querySelector('#productNo').value;
-					const memId = card.querySelector('#memId').value;
-					
-					if( '${loginUser.memId}' != memId ){
-						$.ajax({
-							url: 'updateReviewCount.rv',
-							data:{revNo: revNo},
-							success: data =>{
-								const count = document.querySelector('#reviewCount');
-								count.innerText = data;
-							}
-						})
+					const getSysdate = () => new Date();
+					const repCreateDate = new Date(document.getElementById('repCreateDate').value);
+					const getTimeAgo = (repModifyDate) => {
+					    const seconds = Math.floor((getSysdate() - repModifyDate) / 1000);
+					    const interval = { '년': 31536000, '월': 2592000, '주': 604800, '일': 86400, '시간': 3600, '분': 60, '초': 1 };
+	
+					    for (let i in interval) {
+					        const num = Math.floor(seconds / interval[i]);
+					        if (num >= 1) {
+					            return num + i + '전';
+					        }
+					    }
+					    return '방금 전';
 					};
 					
-					const lineLikebut = document.getElementById('reviewLikeUp');
-					const fillLikebut = document.getElementById('reviewLikeDown');
+					const newBadge = (repCreateDate) => {
+					    const timeDifference = getSysdate() - repCreateDate;
+					    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+					    return daysDifference <= 3 ? 'NEW' : '';
+					};
 					
-					for(const r of allRList){
-						if(r.revNo == revNo){ 
-							document.getElementById('productName').innerText = r.proName;
-							document.getElementById('reviewCount').innerText = "조회수 " + r.revCount;
-							document.getElementById('productWriter').innerText = r.proWriter;
-							document.getElementById('reviewModifyDate').innerText = r.revModifyDate;
-							document.getElementById('reviewContent').innerText = r.revContent;
-							document.getElementById('memNickname').innerText = r.memNickName;
-							document.getElementById('memFileName').src = r.memFileName;
-							document.getElementById('reviewLike').innerText = r.revLike;
-							document.getElementById('proImage').src = r.proImage;
-						}
-						
-						$.ajax({
-							url: 'selectReviewLike.rv',
-							data:{revNo: revNo},
-							success: data =>{
-								const like = document.querySelector('#reviewLike');
-								like.innerText = data;
-								
-								for (const l of rLikeList) {
-								    if (l.MEM_ID == '${loginUser.memId}' && l.REV_NO == revNo && revNo == r.revNo) {
-								        lineLikebut.style.display = 'none';
-								        fillLikebut.style.display = 'block';
-			
-								        fillLikebut.addEventListener('click', () => {
-								            lineLikebut.style.display = 'block';
-								            fillLikebut.style.display = 'none';
-								        });
-								        
-								        lineLikebut.addEventListener('click', () => {
-								            lineLikebut.style.display = 'none';
-								            fillLikebut.style.display = 'block';
-								        });
-								    };
-								};
-							}
-						});
-						
-						const selectImagDiv = document.querySelector('#selectImagDiv');
-						const reviewImgUl = document.querySelector('#reviewImgUl');
-						selectImagDiv.innerHTML = '';
-						reviewImgUl.innerHTML = '';
-						if(hasAttm == 'Y'){
-							for(const a of attmList){
-								if(a.attBno == revNo){
-									if(a.attFno == '0' ){
-										selectImagDiv.innerHTML = '<img class="contents-thumbimg" src="'+ a.attRename +'" alt="리뷰 썸네일">';
-									};
-									reviewImgUl.innerHTML += '<li class="contents-thumbitem"><img class="contents-thumbimg" src="' + a.attRename + '" alt="썸네일이미지"></li>';
-								}
-							}
-						} else{
-							selectImagDiv.innerHTML = '<img class="contents-thumbimg" src="'+ r.proImage +'" alt="리뷰 썸네일">';
-							reviewImgUl.innerHTML = '<li class="contents-thumbitem"><img class="contents-thumbimg" src="' + r.proImage + '" alt="썸네일이미지"></li>';
-						}
-						
-						
-						const reviewImgs = reviewImgUl.querySelectorAll('img');
-						for (const img of reviewImgs) {
-						    img.addEventListener('click', function() {
-						        const selectImg = this.src;
-						        selectImagDiv.querySelector('img').src = selectImg;
-						    });
-						}
-						
-						const updateDeleteDiv = document.querySelector('.updateDeleteDiv');
-						if('${loginUser.memId}' == r.memId){
-							updateDeleteDiv.style.display = 'block';
-						} else{
-							updateDeleteDiv.style.display = 'none';
-						}
-						
-						
-						if(r.proNo == proNo && r.revNo != revNo){
-							for(const a of attmList){
-								if(r.revNo == a.attBno){
-									if(r.hasAttm == 'Y' && a.attFno == '0'){
-										anotherReview.innerHTML += '<li class="contents-thumbitem"><img class="contents-thumbimg" src="' + a.attRename + '" alt="썸네일이미지"></li>';
-									} else{
-										anotherReview.innerHTML += '<li class="contents-thumbitem"><img class="contents-thumbimg" src="' + r.proImage + '" alt="썸네일이미지"></li>';
-									}
-								}
-							}
-						}
+					const timeAgoDivs = document.getElementsByClassName('reviewDetailDivs timeAgo');
+					for(let i = 0; i < timeAgoDivs.length; i++){
+						timeAgoDiv = timeAgoDivs[i];
+						timeAgoDiv.innerText = getTimeAgo(repModifyDate); 
 					}
 					
-					// 좋아요
-					lineLikebut.addEventListener('click', function(){
-						if('${loginUser.memId}' != memId){
-							$.ajax({
-								url: 'insertReviewLike.rv',
-								data:{memId: '${loginUser.memId}', revNo: revNo},
-								success: data =>{
-									console.log(data);
-									const like = document.querySelector('#reviewLike');
-									like.innerText = data;
-								}
-							})
-						} else{
-							alert('작성하신 글은 [좋아요] 버튼을 누를 수 없습니다.');
-							lineLikebut.style.display = 'block';
-				            fillLikebut.style.display = 'none';
-						}
-					});
-						
-					fillLikebut.addEventListener('click', function(){
-						$.ajax({
-							url: 'deleteReviewLike.rv',
-							data:{memId: '${loginUser.memId}', revNo: revNo},
-							success: data =>{
-								console.log(data);
-								const like = document.querySelector('#reviewLike');
-								like.innerText = data;
-							}
-						})
-					});
+					const newBadgeDivs = document.getElementsByClassName('newbadge');
+					for(let i = 0; i < newBadgeDivs.length; i++){
+						newBadgeDiv = newBadgeDivs[i];
+						newBadgeDiv.innerText = newBadge(repCreateDate); 
+					}
+					
+					
 					
 				});
 				
-			};
-		}
-	</script>
+			
+				/*
+				for(const r of allRList){
+					$.ajax({
+						url: 'selectReviewLike.rv',
+						data:{revNo: revNo},
+						success: data =>{
+							const like = document.querySelector('#reviewLike');
+							like.innerText = data;
+							
+							for (const l of rLikeList) {
+							    if (l.MEM_ID == '${loginUser.memId}' && l.REV_NO == revNo && revNo == r.revNo) {
+							        lineLikebut.style.display = 'none';
+							        fillLikebut.style.display = 'block';
+		
+							        fillLikebut.addEventListener('click', () => {
+							            lineLikebut.style.display = 'block';
+							            fillLikebut.style.display = 'none';
+							        });
+							        
+							        lineLikebut.addEventListener('click', () => {
+							            lineLikebut.style.display = 'none';
+							            fillLikebut.style.display = 'block';
+							        });
+							    };
+							};
+						},
+						error: data => console.log(data)
+					});
+				}
+				
+				const replyListDiv = document.getElementById('ReplyListDiv');
+				for(const r of replyList){
+					if(r.revNo == revNo){
+					    const newReplyDiv = document.createElement('div');
+					    newReplyDiv.className = 'selectReplyDiv';
+					    newReplyDiv.id = 'selectReplyDiv';
+					    newReplyDiv.innerHTML = '<div class="contents-brand">\
+					    							<div class="profilePic">\
+					    								<img class="profileImg" src=' + r.memFileName + ' id="repFileName" alt="프로필 사진">\
+					    							</div>\
+					    							<h6 class="reviewDetailDivs" id="repNickName">' +  r.memNickName + '</h6>\
+					    							<div class="reviewDetailDivs" id="timeAgo">' + getTimeAgo(repModifyDate) + '</div>' + newBadge(repCreateDate) + '<div class="updateDeleteDiv">\
+												    	<div class="updateButton">수정</div>\
+												    	<div class="deleteButton" id="replyDelBut">삭제</div>\
+												    </div>\
+												    </div><div><p id="repContent">' + r.repContent + '</p></div>';
+
+						replyListDiv.appendChild(newReplyDiv);
+						const updateDeleteDiv = newReplyDiv.querySelector('.updateDeleteDiv');
+						if(r.memId != '${loginUser.memId}'){
+							updateDeleteDiv.style.display = 'none';
+						} else {
+							updateDeleteDiv.style.display = 'black';
+						}
+					}
+				}
+				*/
+				
+				
+				
+			});
+		};
+		
+		document.getElementById("closeSelectRevMd").addEventListener('click', function () {
+		    for (const revNo of revNos) {
+		        closeModal(revNo);
+		    }
+		});
+	}
+</script> 
+
 	
 	
 

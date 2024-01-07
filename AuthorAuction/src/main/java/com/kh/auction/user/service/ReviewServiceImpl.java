@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.auction.user.dao.ReviewDAO;
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.Reply;
 import com.kh.auction.user.model.vo.Review;
 
 @Service
@@ -132,6 +133,33 @@ public class ReviewServiceImpl implements ReviewService {
 	public int getReviewCount(int revNo) {
 		return rDAO.getReviewCount(revNo);
 	}
+
+	@Override
+	public int insertReply(Reply r) {
+		return rDAO.insertReply(r);
+	}
+
+	@Override
+	public ArrayList<Reply> selectReplyList(int revNo) {
+		return rDAO.selectReplyList(revNo);
+	}
+
+	@Override
+	public ArrayList<Reply> selectReplyAllList() {
+		return rDAO.selectReplyAllList();
+	}
+	
+	@Override
+	public int updateReply(Reply r) {
+		return rDAO.updateReply(r);
+	}
+
+	@Override
+	public int deleteReply(int repNo) {
+		return rDAO.deleteReply(repNo);
+	}
+
+	
 
 	
 

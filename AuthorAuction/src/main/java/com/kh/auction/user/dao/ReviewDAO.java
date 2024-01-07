@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Attachment;
+import com.kh.auction.user.model.vo.Reply;
 import com.kh.auction.user.model.vo.Review;
 
 @Mapper
@@ -53,6 +54,16 @@ public interface ReviewDAO {
 	int updateReviewCount(int revNo);
 
 	int getReviewCount(int revNo);
+
+	int insertReply(Reply r);
+
+	ArrayList<Reply> selectReplyList(int revNo);
+	
+	ArrayList<Reply> selectReplyAllList();
+
+	int deleteReply(int repNo);
+
+	int updateReply(Reply r);
 
 	
 }
