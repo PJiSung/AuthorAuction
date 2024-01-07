@@ -62,6 +62,9 @@ public interface ConsignmentService {
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
 	// 수락 / 거절(클릭) 상태 변경
 	int updateConConStatus(HashMap<String, Object> map);
+
+	
+	
 	
 	
 	

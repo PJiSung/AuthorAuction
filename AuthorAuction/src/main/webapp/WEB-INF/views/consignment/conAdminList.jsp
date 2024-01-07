@@ -161,7 +161,6 @@ table tr {
    		const ajaxConWidth = document.getElementById("ajaxConWidth");
    		const ajaxConHeight = document.getElementById("ajaxConHeight");
    		
-   		console.log(modal);
    		
    		insertAuctionBtn.addEventListener('click',function(){
    			let checkInt = false;
@@ -615,36 +614,26 @@ table tr {
         }
         
   	}
-
 	<!-- 거절 alert창	-->
-	const closeEnroll = (conNo, status) =>{
+	const closeEnroll = (conNo) =>{
 		alert('경매 등록이 거절되었습니다.');
 		
 		$.ajax ({
 			url: 'updateConConStatus.adco',
 			type: 'post',
-			data: {c: c, value: 'someValue'
-				
-			},
+			data: {conNo: /*document.getElementById('conNo').value*/conNo, value: 'D'},
 			success: (data) =>{
 				console.log(data)
-				
-				if(data == "success"){
-					$("#closeEnroll").load(location.href + " #closeEnroll");
+				if(data === "success"){
+					$("#tableset").load(location.href + " #tableset");
 				}
 			},
-			error: data => console.log(data)
+			error: (data) => console.log(data)
 		})
 	} 
 	
-
-	
-	
-	
-	
-	
-	
-	
+	const aucStrDate = document.getElementById('aucStartDate2').value; 
+	document.getElementById('aucStartDate').value = aucStrDate;
 	
 	
 	
@@ -692,12 +681,9 @@ table tr {
 	<jsp:include page="../common/header.jsp" />
 	<!-- 경매 등록 모달 -->
 	<!--  -->
-	<div class="modal_overlay"
-		style="display: none; z-index: 1; height: 4000px;">
-		<div id="content-allOver-cover"
-			style="width: 70%; height: 70%; margin: auto; left: 12%; position: fixed; z-index: 1;">
-			<div id="forWidthAndHeight"
-				style="width: 70%; height: 100%; margin: auto; background-color: pink; margin-top: 1%; display: table;">
+	<div class="modal_overlay" style="display: none; z-index: 1; height: 4000px;">
+		<div id="content-allOver-cover" style="width: 70%; height: 70%; margin: auto; left: 12%; position: fixed; z-index: 1;">
+			<div id="forWidthAndHeight" style="width: 70%; height: 100%; margin: auto; background-color: pink; margin-top: 1%; display: table;">
 				<form action="insertAuction.adac" method="post" id="auctionForm">
 					<div style="margin-left: 5%;">경매 등록 페이지</div>
 					<div id="workNamePlace" style="margin-left: 5%; width: 100%;">
@@ -705,31 +691,24 @@ table tr {
 							name="conProduct" id="ajaxConProduct" required>
 					</div>
 					<div id="artistNamePlace" style="margin-left: 5%; width: 100%;">
-						작가명 <input type="text" readonly style="width: 80%;"
-							name="conAuthor" id="ajaxConAuthor" required>
+						작가명 <input type="text" readonly style="width: 80%;" name="conAuthor" id="ajaxConAuthor" required>
 					</div>
 					<div id="startMoney" style="margin-left: 5%; width: 100%;">
-						시작가 <input type="number" style="width: 80%;" name="aucStartPrice"
-							id="ajaxConHope" required>
+						시작가 <input type="number" style="width: 80%;" name="aucStartPrice" id="ajaxConHope" required>
 					</div>
-					<div id="startDate"
-						style="margin-left: 5%; width: 40%; display: inline-block;">
-						경매 시작일 <input type="text" name="aucStartDate" style="width: 50%"
-							readonly required>
-						<button type="button" style="position: absolute;"
-							class="openCalender" id="startDateCalendar">달력</button>
+					<div id="startDate" style="margin-left: 5%; width: 40%; display: inline-block;">
+						경매 시작일 <input type="text" name="aucStartDate" style="width: 50%" readonly required>
+						<button type="button" style="position: absolute;" class="openCalender" id="startDateCalendar">달력</button>
 
 						<div id="startCalendar"
 							style="border: 1px black solid; background: white; width: 30%; position: absolute;">
 							<div style="text-align: center;">
 								<div style="float: left; width: 8%; display: inline-block;">
-									<button id="previous" type="button"
-										style="width: 100%; background: white; border: 0;">&lt;</button>
+									<button id="previous" type="button" style="width: 100%; background: white; border: 0;">&lt;</button>
 								</div>
 								<span id="yearPlace"></span>년 <span id="monthPlace"></span>월
 								<div style="float: right; width: 8%; display: inline-block;">
-									<button id="next" type="button"
-										style="width: 100%; background: white; border: 0;">&gt;</button>
+									<button id="next" type="button" style="width: 100%; background: white; border: 0;">&gt;</button>
 								</div>
 							</div>
 							<table>
@@ -874,9 +853,9 @@ table tr {
 									<span> 
 										<a>검색어</a> 
 										<select style="width: 5%; height: 3rem;" name="select">
-											<option>전체</option>
-											<option>작가명</option>
-											<option>작품명</option>
+											<option value="전체">전체</option>
+											<option value="작가명">작가명</option>
+											<option value="작품명">작품명</option>
 									</select> 
 										<input type="text" class="inputText" value="" placeholder="작가명/작품명" name="keyword" aria-label="내용" style="width: 10%;">
 									</span> 
@@ -888,33 +867,33 @@ table tr {
 						<br>
 						<br>
 					</div>
-					<div class="container">
-						<div class="tabset tabset-text">
-							<p class="contents-result">
-								전체<span> ${total}</span>개
-							</p>
-							<ul class="tabset-list"
-								style="margin-bottom: 30px; justify-content: right;">
-								<li class="tabset-item"><a class="tabset-link active"
-									href="javascript:void(0)"> <span>전체</span>
-								</a></li>
-								<li class="tabset-item"><a class="tabset-link"
-									href="javascript:void(0)"> <span>등록된 문의</span>
-								</a></li>
-								<li class="tabset-item"><a class="tabset-link"
-									href="javascript:void(0)"> <span>삭제된 문의</span>
-								</a></li>
-							</ul>
-						</div>
+					<div class="contents-search">
+		          		<div id="totalCount" >
+		            		<p class="contents-result"> 전체<span> ${ total }</span>개</p>
+                		</div>
+		            	<div class="contents-form">
+	                		<div class="tabset tabset-text">
+	                  			<ul class="tabset-list" style="float: right; margin-bottom: 2rem;">
+	                    			<li class="tabset-item">
+	                      				<a class="tabset-link active" href="javascript:void(0)" onclick="sort('ALL')">
+	                       			 		<span>전체</span>
+	                      				</a>
+	                    			</li>
+	                    			<li class="tabset-item">
+	                      				<a class="tabset-link" href="javascript:void(0)" onclick="sort('Y')">
+	                        				<span>등록된 문의</span>
+	                      				</a>
+	                    			</li>
+	                    			<li class="tabset-item">
+	                      				<a class="tabset-link" href="javascript:void(0)" onclick="sort('N')">
+	                        				<span>삭제된 문의</span>
+	                      				</a>
+	                    			</li>
+	                  			</ul>
+		          			</div>
+		            	</div>
 					</div>
-
-
-
-
-
-
-
-
+				 
 					<form action="list.adco" method="post" class="listForm">
 						<div class="tableset" id="tableset">
 							<table class="tableset-table table">
@@ -947,7 +926,8 @@ table tr {
 									<c:forEach items="${cList}" var="c">
 										<tr>
 											<td class="tableset-mobile" onclick="javascript:event.stopPropagation();">
-												<input type="hidden" value="${ c.conNo }" name="conNo"> <input id="${c.conNo}" value="${ c.conNo }" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
+												<input type="hidden" value="${ c.conNo }" name="conNo" id="conNo"> 
+												<input id="${c.conNo}" value="${ c.conNo }" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
 											</td>
 											<td class="tableset-tit tableset-order02" style="text-align: center;">
 												<a href="javascript:void(0)"> 
@@ -970,6 +950,7 @@ table tr {
 											<c:if test="${ c.conAdmStatus == 'N'}">
 												<td class="tableset-order05">N</td>
 											</c:if>
+									
 											<c:if test="${ c.conAdmStatus == 'Y'}">
 												<td class="tableset-order05">Y</td>
 											</c:if>
@@ -979,7 +960,7 @@ table tr {
 													<div class="badgeset badgeset-active" style="width: 45%; display: inline-block;">
 														<intput type="button" onclick="openEnrollModal(this);">수락
 													</div>
-													<div class="badgeset" style="width:45%; display: inline-block; background: gray;" id="closeEnroll" onclick="closeEnroll()">거절</div>
+													<div class="badgeset" style="width:45%; display: inline-block; background: gray;" id="closeEnroll" onclick="closeEnroll(${c.conNo})">거절</div>
 												</c:if> 
 												<c:if test="${c.conConStatus == 'Y'}">
 													<c:forEach items="${ aList }" var="a">
@@ -992,7 +973,7 @@ table tr {
 															pattern="yyyy-MM-dd HH:mm:ss" />
 														<c:if test="${ a.AUC_CNO == c.conNo}">
 															<c:if test="${ startDate > nowDate}">
-														  	  경매 진행 예정	
+														  	  경매 진행 예정	 
 														  	</c:if>
 															<c:if test="${ startDate < nowDate && endDate > nowDate}">
 														  	  경매 진행중	
@@ -1001,7 +982,6 @@ table tr {
 														  	  종료된 경매	
 														  	</c:if>
 														</c:if>
-	
 													</c:forEach>
 												</c:if> 
 												<c:if test="${c.conConStatus == 'D'}">거절</c:if>
@@ -1054,6 +1034,10 @@ table tr {
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:url var="goNum" value="${ loc }">
 								<c:param name="page" value="${ p }"></c:param>
+								<c:param name="select" value="${ select }"></c:param>
+								<c:param name="keyword" value="${ keyword }"></c:param>
+								<c:param name="strDate" value="${ strDate }"></c:param>
+								<c:param name="endDate" value="${ endDate }"></c:param>
 							</c:url>
 							<c:choose>
 								<c:when test="${p eq pi.currentPage}">
@@ -1105,7 +1089,7 @@ table tr {
 
 	<script src="consignment/js/setting.js"></script>
 	<script src="consignment/js/plugin.js"></script>
-	<script src="consignment/js/template.js"></script>
+	<script src="consignment/js/template.js?ver=1"></script>
 	<script src="consignment/js/common.js"></script>
 	<script src="consignment/js/script.js"></script>
 </body>

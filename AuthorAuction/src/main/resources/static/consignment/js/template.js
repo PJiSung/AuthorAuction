@@ -14,7 +14,6 @@
   // Tabset
   const tabsetLink = document.querySelectorAll(".tabset-link");
   tabsetLink.forEach((buttonElement) => {
-	  console.log("ss")
     const clickEventHandler = (event) => {
       event.stopPropagation();
       const button = event.target.closest(".tabset-link");

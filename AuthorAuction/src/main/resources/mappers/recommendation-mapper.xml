@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.auction.user.dao.RecommendationDAO">
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from recommendation
+		where REC_STATUS = 'Y'
+	</select>
+	
+	<select id="selectRecommendationList" resultType="Recommendation">
+		select *
+		from recommendation
+		where REC_STATUS = 'Y' 
+		order by REC_CREATE_DATE desc
+	</select>
+	
+	<insert id="insertRecommendation" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="recNo">
+			select REC_SEQ.nextval from dual
+		</selectKey>
+		insert into recommendation
+		values (#{recNo}, #{recTitle}, #{recContent}, #{recStyle}, default, #{recReply}, 
+				#{recAttachment}, sysdate, sysdate, #{memId})
+	</insert>
+	
+	<insert id="insertAttm">
+		insert all
+		<foreach collection="list" item="item">
+			into attachment
+			values(ATT_NEW, #{item.attRename}, default, #{item.attFno}, #{item.attCategory}, #{item.attBno})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	
+	
+	
+</mapper>

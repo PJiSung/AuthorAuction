@@ -72,6 +72,10 @@ public interface ConsignmentDAO {
 	int updateConConStatus(HashMap<String, Object> map);
 
 	
+	
+	
+
+	
 
 
 }

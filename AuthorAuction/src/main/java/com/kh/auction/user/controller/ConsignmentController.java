@@ -52,7 +52,6 @@ public class ConsignmentController {
 	public String insertConsignment(@ModelAttribute Consignment c,
 			@RequestParam(value = "file", required = false) ArrayList<MultipartFile> files, HttpSession session,
 			Member m) {
-//		c.setmemId("starcr222");
 
 		// 현재 세션에 저장된 사용자 정보에서 회원 ID를 가져와서 위탁 정보 객체설정
 		Member loginUser = (Member) session.getAttribute("loginUser");
@@ -99,7 +98,7 @@ public class ConsignmentController {
 				for (Attachment a : list) {
 					deleteFile(a.getAttRename());
 				}
-				throw new Exception("첨부파일 게시글 등록 실패");
+				throw new Exception("위탁문의 게시글 등록을 실패하였습니다.");
 			}
 		} else {
 			if (result1 > 0) {
@@ -166,9 +165,7 @@ public class ConsignmentController {
 
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String memId = (loginUser != null) ? loginUser.getMemId() : null;
-//		if(loginUser != null) {
-//			id = loginUser.getMemId();
-//		}
+
 		int listCount = cService.getListCount(memId);
 		int currentPage = page;
 

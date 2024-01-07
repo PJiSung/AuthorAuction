@@ -80,7 +80,7 @@
             </a>
             <ul class="header-sublist">
               <li class="header-subitem">
-                <a class="header-sublink" href="">
+                <a class="header-sublink" href="recommendationList.re">
                   <span>1:1 추천</span>
                 </a>
               </li>

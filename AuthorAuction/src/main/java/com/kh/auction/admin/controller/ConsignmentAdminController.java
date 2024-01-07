@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class conAdmController {
+public class ConsignmentAdminController {
 	
 	@Autowired
 	private ConsignmentService cService;
@@ -95,14 +95,16 @@ public class conAdmController {
 			return "fail";
 		}
 	}
-	// 조건 검색
+	// 기간 / 조건 검색
 	@GetMapping("searchList.adco")
-	public String searchAdminConsignment(@RequestParam("select") String select,
-										 @RequestParam("keyword") String keyword, Model model,
+	public String searchAdminConsignment(@RequestParam(value="select", required = false) String select,
+										 @RequestParam(value="keyword", required = false) String keyword, Model model,
 										 @RequestParam(value="page", defaultValue="1") int page,
 										 @RequestParam(value="strDate", required = false)String strDate,
 										 @RequestParam(value="endDate", required = false)String endDate) {
 										// keyword : 입력한 검색어 / select : select에서 가져오는 기준
+		
+		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("select", select);
 		map.put("keyword", keyword);
@@ -115,15 +117,19 @@ public class conAdmController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Consignment> cList = cService.searchList2(map, pi);
 		
-		if(cList != null) {
-			System.out.println(listCount);
+	if(cList != null) {
 			model.addAttribute("total", listCount);
 			model.addAttribute("cList", cList);
 			model.addAttribute("pi", pi);
+//			model.addAttribute("map", map);
+			model.addAttribute("select", select);
+			model.addAttribute("strDate", strDate);
+			model.addAttribute("keyword", keyword);
+			model.addAttribute("endDate", endDate);
 			
 			return "consignment/conAdminList";
 		} else {
-			throw new Exception("게시글 검색 실패");
+			throw new Exception("게시글 검색을 실패하였습니다.");
 		}
 		
 	}
@@ -131,14 +137,12 @@ public class conAdmController {
 	// 경매 등록 수락 / 거부
 	@PostMapping("updateConConStatus.adco")
 	@ResponseBody
-	public String updateConConStatus(@ModelAttribute Consignment c, @RequestParam("value") String value) {
-		
+	public String updateConConStatus(@RequestParam("conNo") int conNo, @RequestParam("value") String value) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("value", value);
-		map.put("c", c);
+		map.put("conNo", conNo);
 		
 		int result = cService.updateConConStatus(map);
-		
 		if(result > 0) {
 			return "success";
 		} else {
