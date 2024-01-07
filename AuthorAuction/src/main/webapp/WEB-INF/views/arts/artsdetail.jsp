@@ -564,11 +564,6 @@
         
               </a>
             </li>
-            <li class="tabset-item">
-              <a class="tabset-link" onclick= "showdetail('qnadiv')" style = "cursor:pointer;">
-                <span>상품문의</span>
-              </a>
-            </li>
             
             <li class="tabset-item">
               <a class="tabset-link" onclick= "showdetail('delidiv')" style = "cursor:pointer;">
@@ -596,21 +591,13 @@
           	<div style = " text-align:center; margin-bottom: 5%;"><span style = "font-size: 40px; font-weight: bold;">재료 : </span><span style = "font-size: 40px; "> ${p.proMaterial}</span></small></div>
           	<div style = "text-align:center; margin-bottom: 5%;"><span style = "font-size: 40px; font-weight: bold;">가로 : </span><span style = "font-size: 40px; "> ${p.proWidth}</span><small>(cm)</small></div>
           	<div style = " text-align:center; margin-bottom: 5%;"><span style = "font-size: 40px; font-weight: bold;">세로 : </span><span style = "font-size: 40px; "> ${p.proHeight}</span><small>(cm)</small></div>
-          	<div style = " text-align:center;"><span style = "font-size: 40px; font-weight: bold;">제작년도 : </span><span style = "font-size: 40px; "> ${p.proDate}</span></div>
+          	<div style = " text-align:center;"><span style = "font-size: 40px; font-weight: bold;">제작년도 : </span><span style = "font-size: 40px;" id = "proDatespan"> ${p.proDate}</span></div>
           
           </div>
         </div>
         
         
         
-         <div class="contents-container container-md" id = "qnadiv">
-          <div class="imageset">
-<%--             <img class="imageset-img" src="sunwoo/proimages/${p.proImage}" alt="이미지"> --%>
-          </div>
-          <div class="imageset">
-            <img class="imageset-img" src="sunwoo/images/img_basic_N52_1.png" alt="이미지">
-          </div>
-        </div>
         
         
          <div class="contents-container container-md" id = "delidiv" style = "color: #444;">
@@ -935,11 +922,9 @@ alert('클립보드에 복사되었습니다');
   
   <script>
    var  delidiv = document.getElementById('delidiv');
-   var  qnadiv = document.getElementById('qnadiv');
   var detaildiv = document.getElementById('detaildiv');
   
  	 delidiv.style.display = "none";
- 	qnadiv.style.display = "none";
   
   	function showdetail(kind){
   
@@ -947,20 +932,12 @@ alert('클립보드에 복사되었습니다');
   		
   		case 'delidiv': 
   		delidiv.style.display = "block";
-  		qnadiv.style.display = "none";
   		detaildiv.style.display = "none";
   					break;	
   		
   		
-  		case 'qnadiv': 
-  			qnadiv.style.display = "block";
-  			detaildiv.style.display = "none";
-  			delidiv.style.display = "none";
-  					break;	
-  		
   		case 'detaildiv': 
   	  detaildiv.style.display = "block";
-  		qnadiv.style.display = "none";
   		delidiv.style.display = "none";
   					break;	
   		
@@ -971,7 +948,21 @@ alert('클립보드에 복사되었습니다');
   
   </script>
   
+  <script>
+  	let splitStr = [...document.getElementById('proDatespan').innerText];
+  	let newstring = "";
+	for(var i =0; i<splitStr.length; i++){
+		
+// 		if(i == 3 || i == 5 ){
+// 			newstring = newstring + splitStr[i] + "-";	
+// 		}
+		console.log(splitStr[i]);
+// 		newstring = newstring+ splitStr[i];
+		
+	}
+// 	console.log(newstring);
   
+  </script>
   
   
   
