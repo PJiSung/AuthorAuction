@@ -222,7 +222,6 @@ public class ArtsController {
 		
 		int pointresult = aService.updatepointBonus(pm);
 		
-		int result = aService.insertOrder(order); 
 		
 		
 		
@@ -236,7 +235,19 @@ public class ArtsController {
 		rmap.put("memId", ((Member)session.getAttribute("loginUser")).getMemId());
 		rmap.put("ordNo", order.getOrdNo());
 		
+		
+		if(order.getAddNo() == 0) {
 		int resultadd = aService.insertAddress(rmap);
+		int result = aService.insertOrder(order); 
+		}else {
+			int result = aService.insertOrderwithalreadyaddr(order);
+		}
+		
+		
+		
+		
+		
+		
 		
 		
 		

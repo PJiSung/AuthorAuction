@@ -48,6 +48,8 @@ public interface ArtsService {
 
 	ArrayList<Attachment> selectAttmlist(ArrayList<Product> plist);
 
+	int insertOrderwithalreadyaddr(Order order);
+
 
 
 

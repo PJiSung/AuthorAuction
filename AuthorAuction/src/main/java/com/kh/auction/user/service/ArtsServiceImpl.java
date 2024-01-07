@@ -78,6 +78,12 @@ public class ArtsServiceImpl implements ArtsService {
 	}
 	
 	@Override
+	public int insertOrderwithalreadyaddr(Order order) {
+		
+		return aDAO.insertOrderwithalreadyaddr(order);
+	}
+	
+	@Override
 	public int deletewisAll(String loginid) {
 		
 		return aDAO.deletewisAll(loginid);
@@ -151,4 +157,6 @@ public class ArtsServiceImpl implements ArtsService {
 		
 		return aDAO.selectAttmlist(plist);
 	}
+	
+	
 }

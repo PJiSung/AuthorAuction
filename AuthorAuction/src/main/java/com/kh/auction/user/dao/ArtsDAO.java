@@ -51,5 +51,7 @@ public interface ArtsDAO {
 	ArrayList<Address> selectAddresslist(String memId);
 
 	ArrayList<Attachment> selectAttmlist(ArrayList<Product> plist);
+
+	int insertOrderwithalreadyaddr(Order order);
 	
 }
