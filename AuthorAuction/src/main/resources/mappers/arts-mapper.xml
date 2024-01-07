@@ -157,7 +157,7 @@
 		
 		insert into address values(ADD_SEQ.NEXTVAL,#{ordNo},#{receiver},#{address},#{receiverPhone},DEFAULT,#{memId},DEFAULT)
 	
-	 <selectKey resultType="int" keyProperty="aNo" order="AFTER">
+	 <selectKey resultType="int" keyProperty="addNo" order="AFTER">
         SELECT ADD_SEQ.CURRVAL from DUAL
     </selectKey>
 	</insert>
@@ -165,15 +165,10 @@
 	
 	<insert id="insertOrder">
 		insert into orders values(#{ordNo},SYSDATE,DEFAULT,#{ordMessage},#{ordPoPrice},#{ordCaPrice},
-		${ordPoPrice}+${ordCaPrice},#{ordMethod},#{memId},#{aNo})
-	
-	</insert>
-	
-	<insert id="insertOrderwithalreadyaddr">
-	
-		insert into orders values(#{ordNo},SYSDATE,DEFAULT,#{ordMessage},#{ordPoPrice},#{ordCaPrice},
 		${ordPoPrice}+${ordCaPrice},#{ordMethod},#{memId},#{addNo})
+	
 	</insert>
+	
 	
 	
 	<delete id="deletewisAll">

@@ -240,7 +240,7 @@ public class ArtsController {
 		int resultadd = aService.insertAddress(rmap);
 		int result = aService.insertOrder(order); 
 		}else {
-			int result = aService.insertOrderwithalreadyaddr(order);
+			int result = aService.insertOrder(order);
 		}
 		
 		
