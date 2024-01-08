@@ -55,6 +55,7 @@
 				 <!-- and CON_CREATE_DATE <![CDATA[ > ]]> #{strDate} and CON_CREATE_DATE <![CDATA[ <= ]]> #{endDate} -->
 				 <!-- and CON_CREATE_DATE <![CDATA[ >= ]]> #{strDate} and CON_CREATE_DATE <![CDATA[ <= ]]> #{endDate} -->
 				 and con_create_date between #{strDate} and #{endDate}
+				 <!-- to_date( #{strDate}, 'YYYY/MM/DD') and to_date(#{endDate}, 'YYYY/MM/DD') -->
 			</if> 
 	</select>
 	
@@ -80,6 +81,7 @@
 	            <!-- and CON_CREATE_DATE <![CDATA[ > ]]> #{strDate} and CON_CREATE_DATE <![CDATA[ < ]]> #{endDate} -->
 	            <!-- and CON_CREATE_DATE <![CDATA[ >= ]]> #{strDate} and CON_CREATE_DATE <![CDATA[ <= ]]> #{endDate} -->
 	            and con_create_date between #{strDate} and #{endDate}
+	            <!-- to_date( #{strDate}, 'YYYY/MM/DD') and to_date(#{endDate}, 'YYYY/MM/DD') -->
 	        </if> 
 		order by CON_CREATE_DATE desc
 	</select>
