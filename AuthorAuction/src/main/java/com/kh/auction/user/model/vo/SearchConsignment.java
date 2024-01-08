@@ -5,7 +5,7 @@ public class SearchConsignment {
 	private String select;
 	private String keyword;
 	private String strDate;
-	private String EndDate;
+	private String endDat;
 	private String status;
 	
 	public SearchConsignment() {}
@@ -13,21 +13,15 @@ public class SearchConsignment {
 	
 
 	
-	public SearchConsignment(String select, String keyword, String strDate, String endDate, String status) {
-		super();
-		this.select = select;
-		this.keyword = keyword;
-		this.strDate = strDate;
-		EndDate = endDate;
-		this.status = status;
-	}
-
 
 
 
 	public String getSelect() {
 		return select;
 	}
+
+
+
 
 
 
@@ -39,9 +33,15 @@ public class SearchConsignment {
 
 
 
+
+
+
 	public String getKeyword() {
 		return keyword;
 	}
+
+
+
 
 
 
@@ -53,9 +53,15 @@ public class SearchConsignment {
 
 
 
+
+
+
 	public String getStrDate() {
 		return strDate;
 	}
+
+
+
 
 
 
@@ -67,16 +73,25 @@ public class SearchConsignment {
 
 
 
-	public String getEndDate() {
-		return EndDate;
+
+
+
+	public String getEndDat() {
+		return endDat;
 	}
 
 
 
 
-	public void setEndDate(String endDate) {
-		EndDate = endDate;
+
+
+
+	public void setEndDat(String endDat) {
+		this.endDat = endDat;
 	}
+
+
+
 
 
 
@@ -88,9 +103,42 @@ public class SearchConsignment {
 
 
 
+
+
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+
+
+
+
+
+
+	public SearchConsignment(String select, String keyword, String strDate, String endDat, String status) {
+		super();
+		this.select = select;
+		this.keyword = keyword;
+		this.strDate = strDate;
+		this.endDat = endDat;
+		this.status = status;
+	}
+
+
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "SearchConsignment [select=" + select + ", keyword=" + keyword + ", strDate=" + strDate + ", endDat="
+				+ endDat + ", status=" + status + "]";
+	}
+
+
+
 
 
 
@@ -108,22 +156,13 @@ public class SearchConsignment {
 	         this.strDate = null;
 	      }
 
-	      if ("".equals(this.EndDate)) {
-	         this.EndDate = null;
+	      if ("".equals(this.endDat)) {
+	         this.endDat = null;
 	      }
 	      
 	      if ("".equals(this.status)) {
 	         this.status = null;
 	      }
 	   }
-	
-	
-	
-	@Override
-	public String toString() {
-		return "SearchConsignment [select=" + select + ", keyword=" + keyword + ", strDate=" + strDate + ", EndDate="
-				+ EndDate + ", status=" + status + "]";
-	}
-	
 	
 }

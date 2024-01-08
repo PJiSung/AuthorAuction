@@ -900,7 +900,7 @@ table tr {
 									</span>
 									 ~ 
 									<span> 
-										<input type="date" class="con_enddate" name="EndDate" style="margin-left: 20px;">
+										<input type="date" class="con_enddate" name="endDat" style="margin-left: 20px;">
 									</span> 
 									<span> 
 										<a>검색어</a> 
@@ -1056,7 +1056,6 @@ table tr {
 				<br>
 				<br>
 				<br>
-
 				<nav class="pagiset pagiset-line" id="pagiset-list">
 					<c:if test="${ pi.currentPage <= 1 }">
 						<div class="pagiset-ctrl">
@@ -1074,11 +1073,11 @@ table tr {
 						<div class="pagiset-ctrl">
 							<c:url var="goFirst" value="${ loc }">
 								<c:param name="page" value="${ pi.startPage }"></c:param>
-								<c:param name="select" value="${ select }"></c:param>
-								<c:param name="keyword" value="${ keyword }"></c:param>
-								<c:param name="strDate" value="${ strDate }"></c:param>
-								<c:param name="endDate" value="${ endDate2 }"></c:param>
-								<c:param name="status" value="${ status }"></c:param>
+								<c:param name="select" value="${ sc.select }"></c:param>
+								<c:param name="keyword" value="${ sc.keyword }"></c:param>
+								<c:param name="strDate" value="${ sc.strDate }"></c:param>
+								<c:param name="endDat" value="${ sc.endDat }"></c:param>
+								<c:param name="status" value="${ sc.status }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-first" href="${ goFirst }"> <span
 								class="visually-hidden">처음</span>
@@ -1087,11 +1086,11 @@ table tr {
 						<div class="pagiset-ctrl">
 							<c:url var="goBack" value="${ loc }">
 								<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
-								<c:param name="select" value="${ select }"></c:param>
-								<c:param name="keyword" value="${ keyword }"></c:param>
-								<c:param name="strDate" value="${ strDate }"></c:param>
-								<c:param name="endDate" value="${ endDate2 }"></c:param>
-								<c:param name="status" value="${ status }"></c:param>
+								<c:param name="select" value="${ sc.select }"></c:param>
+								<c:param name="keyword" value="${ sc.keyword }"></c:param>
+								<c:param name="strDate" value="${ sc.strDate }"></c:param>
+								<c:param name="endDat" value="${ sc.endDat }"></c:param>
+								<c:param name="status" value="${ sc.status }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
 								class="visually-hidden">이전</span>
@@ -1102,11 +1101,11 @@ table tr {
 						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 							<c:url var="goNum" value="${ loc }">
 								<c:param name="page" value="${ p }"></c:param>
-								<c:param name="select" value="${ select }"></c:param>
-								<c:param name="keyword" value="${ keyword }"></c:param>
-								<c:param name="strDate" value="${ strDate }"></c:param>
-								<c:param name="endDate" value="${ endDate2 }"></c:param>
-								<c:param name="status" value="${ status }"></c:param>
+								<c:param name="select" value="${ sc.select }"></c:param>
+								<c:param name="keyword" value="${ sc.keyword }"></c:param>
+								<c:param name="strDate" value="${ sc.strDate }"></c:param>
+								<c:param name="endDat" value="${ sc.endDat }"></c:param>
+								<c:param name="status" value="${ sc.status }"></c:param>
 							</c:url>
 							<c:choose>
 								<c:when test="${p eq pi.currentPage}">
@@ -1135,11 +1134,11 @@ table tr {
 						<div class="pagiset-ctrl">
 							<c:url var="goNext" value="${ loc }">
 								<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
-								<c:param name="select" value="${ select }"></c:param>
-								<c:param name="keyword" value="${ keyword }"></c:param>
-								<c:param name="strDate" value="${ strDate }"></c:param>
-								<c:param name="endDate" value="${ endDate2 }"></c:param>
-								<c:param name="status" value="${ status }"></c:param>
+								<c:param name="select" value="${ sc.select }"></c:param>
+								<c:param name="keyword" value="${ sc.keyword }"></c:param>
+								<c:param name="strDate" value="${ sc.strDate }"></c:param>
+								<c:param name="endDat" value="${ sc.endDat }"></c:param>
+								<c:param name="status" value="${ sc.status }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-next" href="${ goNext }"> <span
 								class="visually-hidden">다음</span>
@@ -1148,11 +1147,11 @@ table tr {
 						<div class="pagiset-ctrl">
 							<c:url var="goList" value="${ loc }">
 								<c:param name="page" value="${ pi.maxPage }"></c:param>
-								<c:param name="select" value="${ select }"></c:param>
-								<c:param name="keyword" value="${ keyword }"></c:param>
-								<c:param name="strDate" value="${ strDate }"></c:param>
-								<c:param name="endDate" value="${ endDate2 }"></c:param>
-								<c:param name="status" value="${ status }"></c:param>
+								<c:param name="select" value="${ sc.select }"></c:param>
+								<c:param name="keyword" value="${ sc.keyword }"></c:param>
+								<c:param name="strDate" value="${ sc.strDate }"></c:param>
+								<c:param name="endDat" value="${ sc.endDat }"></c:param>
+								<c:param name="status" value="${ sc.status }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-last" href="${ goList }"> <span
 								class="visually-hidden">마지막</span>

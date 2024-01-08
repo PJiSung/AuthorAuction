@@ -53,8 +53,8 @@ public class ConsignmentAdminController {
 			model.addAttribute("cList", cList);
 			model.addAttribute("aList",aList);
 			model.addAttribute("pi", pi);
-			model.addAttribute("status", sortConsignment);
 			model.addAttribute("sc", sc);
+			model.addAttribute("status", sortConsignment);
 			
 			System.out.println(pi);
 			
