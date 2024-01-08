@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.auction.user.model.vo.Attachment;
+import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Reply;
 import com.kh.auction.user.model.vo.Review;
 
@@ -64,6 +65,10 @@ public interface ReviewDAO {
 	int deleteReply(int repNo);
 
 	int updateReply(Reply r);
+	
+	int getMyReviewListCount(String memId);
+
+	ArrayList<Review> selectMayReviewList(String memId, RowBounds rowBounds);
 
 	
 }

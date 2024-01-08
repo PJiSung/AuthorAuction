@@ -236,6 +236,7 @@
         	   to_char(rep_modify_date, 'YYYY-MM-DD"T"HH24:MI:SS') as rep_modify_date
 		from reply join member using(mem_id)
 		where rev_no = #{revNo} and rep_status = 'Y'
+		order by rep_no desc
 	</select>
 	
 	<select id="selectReplyAllList" resultType="Reply">
@@ -257,4 +258,32 @@
 		set rep_status = 'N'
 		where rep_no = #{repNo}
 	</update>
+	
+	<select id="getMyReviewListCount" resultType="_int">
+		select count(*)
+		from (select rev_no, rev_content, rev_count, rev_create_date, rev_modify_date, mem_id, pro_no,
+        	  		 pro_name, pro_writer, pro_image,
+        	  		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like,
+                     row_number() over (partition by r.rev_no order by r.rev_no desc) as rn
+    		  from review r join member using (mem_id)
+        			  join product using (pro_no)
+					  left join attachment a on r.rev_no = a.att_bno
+    		  where rev_status = 'Y' and mem_id = #{memId})
+        where rn = 1
+		order by rev_no desc
+	</select>
+	
+	<select id="selectMayReviewList">
+		select *
+		from (select rev_no, rev_content, rev_count, rev_create_date, rev_modify_date, mem_id, pro_no,
+        	  		 pro_name, pro_writer, pro_image,
+        	  		 (select count(*) from review_like rl where rl.rev_no = r.rev_no) as rev_like,
+                     row_number() over (partition by r.rev_no order by r.rev_no desc) as rn
+    		  from review r join member using (mem_id)
+        			  join product using (pro_no)
+					  left join attachment a on r.rev_no = a.att_bno
+    		  where rev_status = 'Y' and mem_id = #{memId})
+        where rn = 1
+		order by rev_no desc
+	</select>
 </mapper>

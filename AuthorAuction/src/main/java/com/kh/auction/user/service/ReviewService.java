@@ -62,6 +62,11 @@ public interface ReviewService {
 	
 	int deleteReply(int repNo);
 
+	int getMyReviewListCount(String memId);
+	
+	ArrayList<Review> selectMyReviewList(String memId, PageInfo pi);
+
+
 
 	
 	

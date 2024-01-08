@@ -656,7 +656,7 @@ body.modal-open {
 									</div>
 									<div class="contents-badge-group">
 										<div class="contents-brand">
-											<div class="contents-brand-group">
+											<div class="contents-brand-group" id="reviewLikeGroup">
 												<c:if test="${ empty lList}">
 													<button class="contents-btn btn-like-line" type="button" onclick="reviewLikeUp();">
 								                        <img src="rs/reviewDetail/icons/ico_like_black_line.svg" alt="하트 라인 아이콘">
@@ -670,12 +670,12 @@ body.modal-open {
 										                </c:if>
 											        </c:forEach>
 										        	<c:if test="${not likeFull}">
-											            <button class="contents-btn btn-like-line" type="button" onclick="reviewLikeUp();">
+											            <button class="contents-btn btn-like-line" type="button"  onclick="reviewLikeUp();" id="lineLikebut">
 											                <img src="rs/reviewDetail/icons/ico_like_black_line.svg" alt="하트 라인 아이콘">
 											            </button>
 											        </c:if>
 											        <c:if test="${likeFull}">
-											            <button class="contents-btn btn-like-fill" type="button" onclick="reviewLikeDown();" style="display: block;">
+											            <button class="contents-btn btn-like-fill" type="button" onclick="reviewLikeDown();" id="fillLikebut" style="display: block;">
 									                        <img src="rs/reviewDetail/icons/ico_like_black_fill.svg" alt="하트 채워진 아이콘">
 									                    </button>
 											        </c:if>
@@ -709,10 +709,12 @@ body.modal-open {
 													<h6 class="reviewDetailDivs" id="repNickName">${ reply.memNickName }</h6>
 													<div class="reviewDetailDivs timeAgo" id="timeAgo"></div>
 													<div class="newbadge" id="newbadge"></div>
-													<div class="updateDeleteDiv">
-														<div class="updateButton" id="replyUpBut" onclick="updateReply()">수정</div>
-														<div class="deleteButton" id="replyDelBut" onclick="deleteReply()">삭제</div>
-													</div>
+													<c:if test="${loginUser.memId == reply.memId}">
+														<div class="updateDeleteDiv">
+															<div class="updateButton" id="replyUpBut" onclick="updateReply()">수정</div>
+															<div class="deleteButton" id="replyDelBut" onclick="deleteReply()">삭제</div>
+														</div>
+													</c:if>
 												</div>
 												<div>
 													<p id="repContent">${ reply.repContent }</p>
@@ -735,9 +737,22 @@ body.modal-open {
 											</div></li>
 										<li>
 											<ul class="contents-thumblist" id="anotherReview">
-												<li class="contents-thumbitem">
-													<img class="contents-thumbimg" src="" alt="썸네일이미지">
-												</li>
+												<c:forEach items="${ allRlist }" var="r">
+													<c:if test="${ review.revNo != r.revNo && review.proNo == r.proNo && r.hasAttm == 'Y'}">
+														<c:forEach items="${ aList }" var="a">
+															<c:if test="${r.revNo == a.attBno && a.attFno == 0}">
+																<li class="contents-thumbitem" onclick="goAnotherReview(${r.revNo})">
+																	<img class="contents-thumbimg" src="${ a.attRename }" alt="썸네일이미지">
+																</li>
+															</c:if>
+														</c:forEach>
+													</c:if>
+													<c:if test="${ review.revNo != r.revNo && review.proNo == r.proNo && r.hasAttm == 'N'}">
+														<li class="contents-thumbitem" onclick="goAnotherReview(${r.revNo})">
+															<img class="contents-thumbimg" src="${ r.proImage }" alt="썸네일이미지">
+														</li>
+													</c:if>
+												</c:forEach>
 											</ul>
 										</li>
 									</ul>
@@ -768,6 +783,139 @@ body.modal-open {
 	</div>
 	
 <script type="text/javascript">
+
+window.onload = () =>{
+	const selectedButs = document.querySelectorAll('.selectset-link');
+	document.getElementById('selectedCat').value = '전체';
+	document.getElementById('selectedSort').value = 'latest';
+	
+	for(let i = 0; i < selectedButs.length; i++){
+		selectedButs[i].addEventListener('click', function() {
+			document.getElementById('selectedCat').value = this.value;
+		});
+	}
+	
+	const selectSort = document.getElementById('selectedSort');
+	const sortSearchForm = document.getElementById('sortSearchForm');
+	const lastetSort = document.getElementById('lastetSort');
+	const recommendSort = document.getElementById('recommendSort');
+	lastetSort.addEventListener('click', function(){
+		selectSort.value = 'latest';
+		sortSearchForm.action = 'searchReview.rv';
+		sortSearchForm.submit();
+	});
+	
+	recommendSort.addEventListener('click', function(){
+		selectSort.value = 'recommend';
+		sortSearchForm.action = 'searchReview.rv';
+		sortSearchForm.submit();
+	});
+	
+	const urlSearchParams = new URLSearchParams(window.location.search);
+	const selectedSort = urlSearchParams.get('selectedSort');
+	if (selectedSort == 'recommend') {
+		recommendSort.classList.add('active');
+		lastetSort.classList.remove('active');
+	} else if(selectedSort == 'latest') {
+		recommendSort.classList.remove('active');
+		lastetSort.classList.add('active');
+	}
+	
+	document.getElementById('goWriteReviewButton').addEventListener('click', () =>{
+		if( '${loginUser}' != '' ){
+			if( '${oList}' != '[]'){
+				location.href='writeReview.rv';					
+			} else{
+				alert('리뷰 등록 가능한 작품이 없습니다.');
+			}
+		} else{
+			alert('리뷰는 로그인 후 등록 가능합니다.');
+			location.href='login';
+		}
+	});
+	
+	// 리뷰 상세보기
+	const revNos = [];
+	const cardsetDiv = document.getElementsByClassName('cardset cardset-shopping');
+	for(const card of cardsetDiv){
+		const revNo = card.querySelector('#reviewNo').value;
+	    revNos.push(revNo);
+	    
+		card.addEventListener('click', function(){
+			showModal(revNo);
+			
+			if( '${loginUser.memId}' != memId ){
+				$.ajax({
+					url: 'updateReviewCount.rv',
+					data:{revNo: revNo},
+					success: data =>{
+						const count = document.querySelector('#reviewCount');
+						count.innerText = "조회수 " + data;
+					},
+					error: data => console.log(data)
+				})
+			};
+			
+			$("#reviewDetail").load(location.href + " #reviewDetail", function() {
+				const reviewImgUl = document.getElementById('reviewImgUl');
+				const selectImagDiv = document.getElementById('selectImagDiv');
+
+				const reviewImgs = reviewImgUl.querySelectorAll('img');
+			    for (let i = 0; i < reviewImgs.length; i++) {
+			        reviewImgs[i].onclick = function() {
+			            selectImagDiv.querySelector('img').src = this.src;
+			        };
+			    }
+				
+			    const getSysdate = () => new Date();
+				const getTimeAgo = (repModifyDate) => {
+				    const seconds = Math.floor((getSysdate() - repModifyDate) / 1000);
+				    const interval = { '년': 31536000, '월': 2592000, '주': 604800, '일': 86400, '시간': 3600, '분': 60, '초': 1 };
+
+				    for (let i in interval) {
+				        const num = Math.floor(seconds / interval[i]);
+				        if (num >= 1) {
+				            return num + i + '전';
+				        }
+				    }
+				    return '방금 전';
+				};
+				
+				const repModifyDates = document.querySelectorAll('#repModifyDate');
+				for (let i = 0; i < repModifyDates.length; i++) {
+				    const repModifyDateValue = repModifyDates[i].value;
+				    const repModifyDate = new Date(repModifyDateValue);
+
+				    const timeAgoDiv = repModifyDates[i].closest('.selectReplyDiv').querySelector('.reviewDetailDivs.timeAgo');
+				    timeAgoDiv.innerText = getTimeAgo(repModifyDate);
+				}
+				
+				const newBadge = (repCreateDate) => {
+				    const timeDifference = getSysdate() - repCreateDate;
+				    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+				    return daysDifference <= 3 ? 'NEW' : '';
+				};
+				
+				const repCreateDates = document.querySelectorAll('#repCreateDate');
+				for (let i = 0; i < repCreateDates.length; i++) {
+				    const repCreateDateValue = repCreateDates[i].value;
+				    const repCreateDate = new Date(repCreateDateValue);
+
+				    const newBadgeDiv = repCreateDates[i].closest('.selectReplyDiv').querySelector('.newbadge');
+				    newBadgeDiv.innerText = newBadge(repCreateDate);
+				}
+				
+			});
+			
+		});
+	};
+	
+	document.getElementById("closeSelectRevMd").addEventListener('click', function () {
+	    for (const revNo of revNos) {
+	        closeModal(revNo);
+	    }
+	});
+}
 
 //상세보기 모달
 const showModal = (value) =>{
@@ -847,7 +995,7 @@ const delConfirmButton = () => {
 				if(data == 'success'){
 					console.log(data);
 					$("#ReplyListDiv").load(location.href + " #ReplyListDiv");
-					document.getElementById('replyContent').value='';
+					$("#reviewReplyBut").load(location.href + " #reviewReplyBut");
 				}
 			},
 			error: data => console.log(data)
@@ -885,6 +1033,7 @@ const submitReply = () =>{
 				if(data == 'success'){
 					console.log(data);
 					$("#ReplyListDiv").load(location.href + " #ReplyListDiv");
+					$("#reviewReplyBut").load(location.href + " #reviewReplyBut");
 					document.getElementById('replyContent').value='';
 				}
 			},
@@ -930,18 +1079,19 @@ const updateReply = () =>{
     }
 }
 
-
 const reviewLikeUp = () =>{
 	const memId = document.getElementById('memId').value;
 	
 	if('${loginUser.memId}' != memId){
 		$.ajax({
 			url: 'insertReviewLike.rv',
-			data:{memId: '${loginUser.memId}', revNo: revNo},
+			data:{memId: '${loginUser.memId}', 
+				  revNo: document.getElementById('revNo').value},
 			success: data =>{
 				console.log(data);
 				const like = document.querySelector('#reviewLike');
 				like.innerText = data;
+				$("#reviewLikeGroup").load(location.href + " #reviewLikeGroup");
 			},
 			error: data => console.log(data)
 		})
@@ -954,215 +1104,31 @@ const reviewLikeUp = () =>{
 const reviewLikeDown = () =>{
 	$.ajax({
 		url: 'deleteReviewLike.rv',
-		data:{memId: '${loginUser.memId}', revNo: revNo},
+		data:{memId: '${loginUser.memId}', 
+			  revNo: document.getElementById('revNo').value},
 		success: data =>{
 			console.log(data);
 			const like = document.querySelector('#reviewLike');
 			like.innerText = data;
+			$("#reviewLikeGroup").load(location.href + " #reviewLikeGroup");
 		},
 		error: data => console.log(data)
 	})
 }
 
-const reviewImgUl = document.querySelector('#reviewImgUl');
-const reviewImgs = reviewImgUl.querySelectorAll('img');
-for (const img of reviewImgs) {
-    img.onclick = function(){
-        selectImagDiv.querySelector('img').src = selectImg;
-        const selectImg = this.src;
-    };
+const goAnotherReview = (value) =>{
+	let revNo = value;
+	let url = window.location.href;
+	url = "?revNo="+revNo;
+	window.history.pushState({}, "Title", url);
+	
+	$("#reviewDetail").load(location.href + " #reviewDetail");
+	
+	let modal = document.getElementById('myModal');
+	modal.style.display = 'block';
 }
 
-</script>
-
-<script type="text/javascript">
-	window.onload = () =>{
-		
-		const selectedButs = document.querySelectorAll('.selectset-link');
-		document.getElementById('selectedCat').value = '전체';
-		document.getElementById('selectedSort').value = 'latest';
-		
-		for(let i = 0; i < selectedButs.length; i++){
-			selectedButs[i].addEventListener('click', function() {
-				document.getElementById('selectedCat').value = this.value;
-			});
-		}
-		
-		const selectSort = document.getElementById('selectedSort');
-		const sortSearchForm = document.getElementById('sortSearchForm');
-		const lastetSort = document.getElementById('lastetSort');
-		const recommendSort = document.getElementById('recommendSort');
-		lastetSort.addEventListener('click', function(){
-			selectSort.value = 'latest';
-			sortSearchForm.action = 'searchReview.rv';
-			sortSearchForm.submit();
-		});
-		
-		recommendSort.addEventListener('click', function(){
-			selectSort.value = 'recommend';
-			sortSearchForm.action = 'searchReview.rv';
-			sortSearchForm.submit();
-		});
-		
-		const urlSearchParams = new URLSearchParams(window.location.search);
-		const selectedSort = urlSearchParams.get('selectedSort');
-		if (selectedSort == 'recommend') {
-			recommendSort.classList.add('active');
-			lastetSort.classList.remove('active');
-		} else if(selectedSort == 'latest') {
-			recommendSort.classList.remove('active');
-			lastetSort.classList.add('active');
-		}
-		
-		document.getElementById('goWriteReviewButton').addEventListener('click', () =>{
-			if( '${loginUser}' != '' ){
-				if( '${oList}' != '[]'){
-					location.href='writeReview.rv';					
-				} else{
-					alert('리뷰 등록 가능한 작품이 없습니다.');
-				}
-			} else{
-				alert('리뷰는 로그인 후 등록 가능합니다.');
-				location.href='login';
-			}
-		});
-		
-		
-		// 리뷰 상세보기
-		const revNos = [];
-		const cardsetDiv = document.getElementsByClassName('cardset cardset-shopping');
-		for(const card of cardsetDiv){
-			const revNo = card.querySelector('#reviewNo').value;
-		    revNos.push(revNo);
-		    
-			card.addEventListener('click', function(){
-				showModal(revNo);
-				
-				if( '${loginUser.memId}' != memId ){
-					$.ajax({
-						url: 'updateReviewCount.rv',
-						data:{revNo: revNo},
-						success: data =>{
-							const count = document.querySelector('#reviewCount');
-							count.innerText = "조회수 " + data;
-						},
-						error: data => console.log(data)
-					})
-				};
-				
-				$("#reviewDetail").load(location.href + " #reviewDetail", function() {
-					
-					const getSysdate = () => new Date();
-					const repCreateDate = new Date(document.getElementById('repCreateDate').value);
-					const getTimeAgo = (repModifyDate) => {
-					    const seconds = Math.floor((getSysdate() - repModifyDate) / 1000);
-					    const interval = { '년': 31536000, '월': 2592000, '주': 604800, '일': 86400, '시간': 3600, '분': 60, '초': 1 };
-	
-					    for (let i in interval) {
-					        const num = Math.floor(seconds / interval[i]);
-					        if (num >= 1) {
-					            return num + i + '전';
-					        }
-					    }
-					    return '방금 전';
-					};
-					
-					const newBadge = (repCreateDate) => {
-					    const timeDifference = getSysdate() - repCreateDate;
-					    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-					    return daysDifference <= 3 ? 'NEW' : '';
-					};
-					
-					const timeAgoDivs = document.getElementsByClassName('reviewDetailDivs timeAgo');
-					for(let i = 0; i < timeAgoDivs.length; i++){
-						timeAgoDiv = timeAgoDivs[i];
-						timeAgoDiv.innerText = getTimeAgo(repModifyDate); 
-					}
-					
-					const newBadgeDivs = document.getElementsByClassName('newbadge');
-					for(let i = 0; i < newBadgeDivs.length; i++){
-						newBadgeDiv = newBadgeDivs[i];
-						newBadgeDiv.innerText = newBadge(repCreateDate); 
-					}
-					
-					
-					
-				});
-				
-			
-				/*
-				for(const r of allRList){
-					$.ajax({
-						url: 'selectReviewLike.rv',
-						data:{revNo: revNo},
-						success: data =>{
-							const like = document.querySelector('#reviewLike');
-							like.innerText = data;
-							
-							for (const l of rLikeList) {
-							    if (l.MEM_ID == '${loginUser.memId}' && l.REV_NO == revNo && revNo == r.revNo) {
-							        lineLikebut.style.display = 'none';
-							        fillLikebut.style.display = 'block';
-		
-							        fillLikebut.addEventListener('click', () => {
-							            lineLikebut.style.display = 'block';
-							            fillLikebut.style.display = 'none';
-							        });
-							        
-							        lineLikebut.addEventListener('click', () => {
-							            lineLikebut.style.display = 'none';
-							            fillLikebut.style.display = 'block';
-							        });
-							    };
-							};
-						},
-						error: data => console.log(data)
-					});
-				}
-				
-				const replyListDiv = document.getElementById('ReplyListDiv');
-				for(const r of replyList){
-					if(r.revNo == revNo){
-					    const newReplyDiv = document.createElement('div');
-					    newReplyDiv.className = 'selectReplyDiv';
-					    newReplyDiv.id = 'selectReplyDiv';
-					    newReplyDiv.innerHTML = '<div class="contents-brand">\
-					    							<div class="profilePic">\
-					    								<img class="profileImg" src=' + r.memFileName + ' id="repFileName" alt="프로필 사진">\
-					    							</div>\
-					    							<h6 class="reviewDetailDivs" id="repNickName">' +  r.memNickName + '</h6>\
-					    							<div class="reviewDetailDivs" id="timeAgo">' + getTimeAgo(repModifyDate) + '</div>' + newBadge(repCreateDate) + '<div class="updateDeleteDiv">\
-												    	<div class="updateButton">수정</div>\
-												    	<div class="deleteButton" id="replyDelBut">삭제</div>\
-												    </div>\
-												    </div><div><p id="repContent">' + r.repContent + '</p></div>';
-
-						replyListDiv.appendChild(newReplyDiv);
-						const updateDeleteDiv = newReplyDiv.querySelector('.updateDeleteDiv');
-						if(r.memId != '${loginUser.memId}'){
-							updateDeleteDiv.style.display = 'none';
-						} else {
-							updateDeleteDiv.style.display = 'black';
-						}
-					}
-				}
-				*/
-				
-				
-				
-			});
-		};
-		
-		document.getElementById("closeSelectRevMd").addEventListener('click', function () {
-		    for (const revNo of revNos) {
-		        closeModal(revNo);
-		    }
-		});
-	}
 </script> 
-
-	
-	
 
 	<jsp:include page="../common/footer.jsp" />
 	<script src="rs/reviewList/js/setting.js"></script>

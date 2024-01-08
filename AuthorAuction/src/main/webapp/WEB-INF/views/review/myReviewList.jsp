@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -132,108 +133,102 @@
 	                </tr>
 	              </thead>
 	              <tbody>
-	                <tr>
-	                  <td class="tableset-mobile">24</td>
-	                  <td class="tableset-proImg">
-	                  	<img alt="검색 사진" src="main/mainPic/auction4.png">
-					  </td>
-	                  <td class="tableset-author">작품 이름</td>
-	                  <td class="tableset-order04">아무개</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-mobile">22</td>
-	                  <td class="tableset-mobile">100</td>
-	                </tr>
-	                <tr>
-	                  <td class="tableset-mobile">24</td>
-	                  <td class="tableset-proImg">
-	                  	<img alt="검색 사진" src="main/mainPic/auction4.png">
-					  </td>
-	                  <td class="tableset-author">작품 이름</td>
-	                  <td class="tableset-order04">아무개</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-mobile">22</td>
-	                  <td class="tableset-mobile">100</td>
-	                </tr>
-	                <tr>
-	                  <td class="tableset-mobile">24</td>
-	                  <td class="tableset-proImg">
-	                  	<img alt="검색 사진" src="main/mainPic/auction4.png">
-					  </td>
-	                  <td class="tableset-author">작품 이름</td>
-	                  <td class="tableset-order04">아무개</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-mobile">22</td>
-	                  <td class="tableset-mobile">100</td>
-	                </tr>
-	                <tr>
-	                  <td class="tableset-mobile">24</td>
-	                  <td class="tableset-proImg">
-	                  	<img alt="검색 사진" src="main/mainPic/auction4.png">
-					  </td>
-	                  <td class="tableset-author">작품 이름</td>
-	                  <td class="tableset-order04">아무개</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-mobile">22</td>
-	                  <td class="tableset-mobile">100</td>
-	                </tr>
-	                <tr>
-	                  <td class="tableset-mobile">24</td>
-	                  <td class="tableset-proImg">
-	                  	<img alt="검색 사진" src="main/mainPic/auction4.png">
-					  </td>
-	                  <td class="tableset-author">작품 이름</td>
-	                  <td class="tableset-order04">아무개</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-mobile">22</td>
-	                  <td class="tableset-mobile">100</td>
-	                </tr>
-	                <tr>
-	                  <td class="tableset-mobile">24</td>
-	                  <td class="tableset-proImg">
-	                  	<img alt="검색 사진" src="main/mainPic/auction4.png">
-					  </td>
-	                  <td class="tableset-author">작품 이름</td>
-	                  <td class="tableset-order04">아무개</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-order05">2023.01.01</td>
-	                  <td class="tableset-mobile">22</td>
-	                  <td class="tableset-mobile">100</td>
-	                </tr>
+	                <c:forEach items="${ rList }" var="r">
+		                <tr>
+		                  <td class="tableset-mobile">${ r.revNo }</td>
+		                  <td class="tableset-proImg">
+		                  	<img alt="작품 사진" src="${ r.proImage }">
+						  </td>
+		                  <td class="tableset-author">${ r.proName }</td>
+		                  <td class="tableset-order04">${ r.proWriter }</td>
+			              <td class="tableset-order05"></td>
+		                  <td class="tableset-order05">${ r.revCreateDate }</td>
+		                  <td class="tableset-mobile">${ r.revLike }</td>
+		                  <td class="tableset-mobile">${ r.revCount }</td>
+		                </tr>
+	                </c:forEach>
+	                
 	              </tbody>
 	            </table>
 	          </div>
 	          <nav class="pagiset pagiset-line">
-	            <div class="pagiset-ctrl">
-	              <a class="pagiset-link pagiset-first" href="javascript:void(0)">
-	                <span class="visually-hidden">처음</span>
-	              </a>
-	            </div>
-	            <div class="pagiset-ctrl">
-	              <a class="pagiset-link pagiset-prev" href="javascript:void(0)">
-	                <span class="visually-hidden">이전</span>
-	              </a>
-	            </div>
-	            <div class="pagiset-list">
-	              <a class="pagiset-link active-fill" href="javascript:void(0)">1</a>
-	              <a class="pagiset-link" href="javascript:void(0)">2</a>
-	              <a class="pagiset-link" href="javascript:void(0)">3</a>
-	            </div>
-	            <div class="pagiset-ctrl">
-	              <a class="pagiset-link pagiset-next" href="javascript:void(0)">
-	                <span class="visually-hidden">다음</span>
-	              </a>
-	            </div>
-	            <div class="pagiset-ctrl">
-	              <a class="pagiset-link pagiset-last" href="javascript:void(0)">
-	                <span class="visually-hidden">마지막</span>
-	              </a>
-	            </div>
-	          </nav>
+							<c:if test="${ rPi.currentPage <= 1 }">
+								<div class="pagiset-ctrl">
+									<a class="pagiset-link pagiset-first"> <span
+										class="visually-hidden">처음</span>
+									</a>
+								</div>
+								<div class="pagiset-ctrl">
+									<a class="pagiset-link pagiset-prev"> <span
+										class="visually-hidden">이전</span>
+									</a>
+								</div>
+							</c:if>
+							<c:if test="${ rPi.currentPage > 1 }">
+								<div class="pagiset-ctrl">
+									<c:url var="goFirst" value="${ loc }">
+										<c:param name="page" value="${ rPi.startPage }"></c:param>
+									</c:url>
+									<a class="pagiset-link pagiset-first" href="${ goFirst }">
+										<span class="visually-hidden">처음</span>
+									</a>
+								</div>
+								<div class="pagiset-ctrl">
+									<c:url var="goBack" value="${ loc }">
+										<c:param name="page" value="${ rPi.currentPage-1 }"></c:param>
+									</c:url>
+									<a class="pagiset-link pagiset-prev" href="${ goBack }"> 
+										<span class="visually-hidden">이전</span>
+									</a>
+								</div>
+							</c:if>
+							<div class="pagiset-list">
+								<c:forEach begin="${ rPi.startPage }" end="${ rPi.endPage }" var="p">
+									<c:url var="goNum" value="${ loc }">
+										<c:param name="page" value="${ p }"></c:param>
+									</c:url>
+									<c:choose>
+										<c:when test="${p eq rPi.currentPage}">
+											<a class="pagiset-link active-fill" href="${ goNum }">${ p }</a>
+										</c:when>
+										<c:otherwise>
+											<a class="pagiset-link" href="${ goNum }">${ p }</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</div>
+
+							<c:if test="${ rPi.currentPage >= rPi.maxPage }">
+								<div class="pagiset-ctrl">
+									<a class="pagiset-link pagiset-next">
+										<span class="visually-hidden">다음</span>
+									</a>
+								</div>
+								<div class="pagiset-ctrl">
+									<a class="pagiset-link pagiset-last"> 
+										<span class="visually-hidden">마지막</span>
+									</a>
+								</div>
+							</c:if>
+							<c:if test="${ rPi.currentPage < rPi.maxPage }">
+								<div class="pagiset-ctrl">
+									<c:url var="goNext" value="${ loc }">
+										<c:param name="page" value="${ rPi.currentPage+1 }"></c:param>
+									</c:url>
+									<a class="pagiset-link pagiset-next" href="${ goNext }"> <span
+										class="visually-hidden">다음</span>
+									</a>
+								</div>
+								<div class="pagiset-ctrl">
+									<c:url var="goList" value="${ loc }">
+										<c:param name="page" value="${ rPi.maxPage }"></c:param>
+									</c:url>
+									<a class="pagiset-link pagiset-last" href="${ goList }"> 
+										<span class="visually-hidden">마지막</span>
+									</a>
+								</div>
+							</c:if>
+						</nav>
           </div>
           
           <div id="myPage-replyListDiv" style="display: none;">
