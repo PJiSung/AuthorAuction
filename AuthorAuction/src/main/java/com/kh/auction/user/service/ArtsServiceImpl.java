@@ -173,4 +173,16 @@ public class ArtsServiceImpl implements ArtsService {
 		return aDAO.getlistCountadmin(map);
 	}
 	
+	@Override
+	public ArrayList<Product> selectArtslistadmin(PageInfo pi, HashMap<String, Object> map){
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return aDAO.selectArtslistadmin(rowBounds,map);
+		
+	}
+	
 }

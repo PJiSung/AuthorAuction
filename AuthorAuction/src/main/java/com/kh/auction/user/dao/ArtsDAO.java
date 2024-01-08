@@ -57,5 +57,7 @@ public interface ArtsDAO {
 	int selectPoint(String memId);
 
 	int getlistCountadmin(HashMap<String, Object> map);
+
+	ArrayList<Product> selectArtslistadmin(RowBounds rowBounds, HashMap<String, Object> map);
 	
 }

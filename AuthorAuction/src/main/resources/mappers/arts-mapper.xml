@@ -273,8 +273,80 @@
 					</otherwise>
 				</choose>
 			</if>
-											
+			
+			<if test = "minWidth != 0">
+				and PRO_WIDTH <![CDATA[ >=]]> #{minWidth}
+			</if>
+			<if test = "maxWidth != 0">
+				and PRO_WIDTH <![CDATA[ <=]]> #{minWidth}
+			</if>
+			<if test = "minHeight != 0">
+				and PRO_HEIGHT <![CDATA[ >=]]> #{minWidth}
+			</if>
+			<if test = "maxHeight != 0">
+				and PRO_HEIGHT <![CDATA[ <=]]> #{minWidth}
+			</if>
+			<if test = "minPrice != 0">
+				and PRO_PRICE <![CDATA[ >=]]> #{minPrice}
+			</if>
+			<if test = "maxPrice != 0">
+				and PRO_PRICE <![CDATA[ <=]]> #{maxPrice}
+			</if>
+			<if test = "startDate != null">
+				and PRO_DATE <![CDATA[ >=]]> #{startDate}
+			</if>
+			<if test = "endDate != null">
+				and PRO_DATE <![CDATA[ <=]]> #{endDate}
+			</if>
+			
+	</select>
 	
+	
+	<select id = "selectArtslistadmin">
+	
+		select *
+		from product
+		where 1=1 
+		
+			<if test="keyword != ''">
+				<choose>
+					<when test="condition == 'proNo'">and PRO_NO like '%'||#{keyword}||'%' </when>
+					<when test="condition == 'proName'"> and PRO_NAME like '%'||#{keyword}||'%' </when>
+					<when test="condition == 'proWriter'">and PRO_WRITER like '%'||#{keyword}||'%' </when>
+					<when test="condition == 'proMaterial'">and PRO_MATERIAL like '%'||#{keyword}||'%'</when>
+					<otherwise>
+					  	<choose>
+							<when test = "isInt == true">and PRO_NO like '%'||#{keyword}||'%' or PRO_NAME like '%'||#{keyword}||'%' or PRO_WRITER like '%'||#{keyword}||'%' or PRO_MATERIAL like '%'||#{keyword}||'%'</when>
+							<otherwise>and PRO_NAME like '%'||#{keyword}||'%' or PRO_WRITER like '%'||#{keyword}||'%' or PRO_MATERIAL like '%'||#{keyword}||'%'</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</if>
+			
+			<if test = "minWidth != 0">
+				and PRO_WIDTH <![CDATA[ >=]]> #{minWidth}
+			</if>
+			<if test = "maxWidth != 0">
+				and PRO_WIDTH <![CDATA[ <=]]> #{minWidth}
+			</if>
+			<if test = "minHeight != 0">
+				and PRO_HEIGHT <![CDATA[ >=]]> #{minWidth}
+			</if>
+			<if test = "maxHeight != 0">
+				and PRO_HEIGHT <![CDATA[ <=]]> #{minWidth}
+			</if>
+			<if test = "minPrice != 0">
+				and PRO_PRICE <![CDATA[ >=]]> #{minPrice}
+			</if>
+			<if test = "maxPrice != 0">
+				and PRO_PRICE <![CDATA[ <=]]> #{maxPrice}
+			</if>
+			<if test = "startDate != null">
+				and PRO_DATE <![CDATA[ >=]]> #{startDate}
+			</if>
+			<if test = "endDate != null">
+				and PRO_DATE <![CDATA[ <=]]> #{endDate}
+			</if>
 	</select>
 </mapper>
 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,13 +107,68 @@
 						
 				<div style = " overflow: scroll; height: 60%; ">
 					<div style = "display:flex; justify-content:center; align-items:center; height: 10%; border-bottom: 1px solid #999; border-top: 1px solid #999; width: 80%; margin: 0 auto; margin-top: 5%;"><h3>검색결과</h3></div>
-					<div>
-						<div style = "display:flex; justify-content:center; align-items:center; height: 10%; border-bottom: 1px solid #999; border-top: 1px solid #999; width: 80%; margin: 0 auto;">하하</div>
-						<div>하하</div>
-						<div>하하</div>
-						<div>하하</div>
-						<div>하하</div>
-					</div>
+					<div style = "display:flex; justify-content:right; align-items:center; height: 10%; border-bottom: 1px solid #999; border-top: 1px solid #999; width: 80%; margin: 0 auto;">총 &nbsp;<span style = "font-weight: bold;">${plistsize}</span>&nbsp; 검색결과</div>
+					<c:if test = "${plistsize eq 0}">
+					<div style = "display: flex;justify-content:center; align-items:center; height: 50%;"><h1>검색 결과 없음</h1></div>
+					</c:if>
+					<c:if test = "${plistsize != 0 }">
+					
+						<div style = "border: 1px solid red; display:flex; align-items:center;">
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">번호</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">이미지</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">작품명</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">작가명</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">재료</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">가로</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">세로</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">등록일</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">가격</div>
+							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">재고</div>
+						</div>
+						<c:forEach items = "${plist}" var = "p">
+								<div style = "height:35%; border: 1px solid red; display:flex; align-items:center;">
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+										${p.proNo}
+									</div>
+									<c:forEach items = "${alist}" var= "a">
+										<c:if test = "${a.attBno eq p.proNo }">
+												<c:if test = "${a.attFno eq 1}">
+											<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+											<img class="cardset-img" src="/sunwoo/proimages/${a.attRename}" style = "width:90%; height: 90%;" alt="카드 이미지">
+											</div>
+											</c:if>
+										</c:if>
+									</c:forEach>
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+										${p.proName}
+									</div>
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+										${p.proWriter}
+									</div>
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+										${p.proMaterial}
+									</div>
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+										${p.proWidth}
+									</div>
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+										${p.proHeight}
+									</div>
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+										${p.proDate}
+									</div>
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+										${p.proPrice}
+									</div>	
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;" class = "pamount">
+										${p.proAmount}
+									</div>	
+								
+								</div>						
+						
+						</c:forEach>
+					</c:if>
+						
 				</div>
 				
 			</div>
@@ -140,9 +196,19 @@
 				
 			}
 		});
-
-
  	
+		</script>
+		
+		<script>
+			function tochun(){
+			for(p of document.getElementsByClassName('pamount')){
+			
+				console.log(p.innerText);
+			p.innerText = p.innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+			
+			}
+			}
+			tochun();
 		</script>
 
 </body>

@@ -54,6 +54,8 @@ public interface ArtsService {
 
 	int getlistCountadmin(HashMap<String, Object> map);
 
+	ArrayList<Product> selectArtslistadmin(PageInfo pi, HashMap<String, Object> map);
+
 
 
 
