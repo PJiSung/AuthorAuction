@@ -6,8 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+
+.pldiv:hover{
+background-color: #eee;
+cursor:pointer;
+}
+
+
+</style>
 </head>
 <body>
+
 
 
 
@@ -126,7 +137,7 @@
 							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">재고</div>
 						</div>
 						<c:forEach items = "${plist}" var = "p">
-								<div style = "height:35%; border: 1px solid red; display:flex; align-items:center;">
+								<div style = "height:25%; border: 1px solid red; display:flex; align-items:center;" class = "pldiv">
 									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
 										${p.proNo}
 									</div>
@@ -149,23 +160,31 @@
 										${p.proMaterial}
 									</div>
 									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
-										${p.proWidth}
+										${p.proWidth}<small>&nbsp; cm</small>
 									</div>
 									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
-										${p.proHeight}
+										${p.proHeight}<small>&nbsp; cm</small>
 									</div>
 									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
 										${p.proDate}
 									</div>
 									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
-										${p.proPrice}
+										<span class = "pprice">${p.proPrice}</span><small>원</small>
 									</div>	
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;" class = "pamount">
+									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
 										${p.proAmount}
 									</div>	
+<!-- 							 <div class="cursor" style = "background-color: black; color:white;  position:absolute; -->
+<!-- /* 								    top:0; */ -->
+<!-- /* 								    left: 0; */ -->
+<!-- /* 								    z-index: 9999; */ -->
+<!-- /* 								    width: 350px; */ -->
+<!-- /* 								    height: 100px; */ -->
+<!-- 								    transform:translate(-50%, -50%);"> -->
+<!-- 								 하하; -->
+<!--     						</div> -->
 								
 								</div>						
-						
 						</c:forEach>
 					</c:if>
 						
@@ -175,6 +194,38 @@
 
 		</div>
 	</div>	
+	
+	
+	<div class="sns_share" style = "position: fixed;
+	z-index: 9999;
+	padding-top:10vh;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);">
+	
+	<div style = "width: 1200px;
+	height: 800px;
+	padding: 30px 30px;
+	margin: 0 auto;
+	border: 1px solid #777;
+	background-color: #fff;">
+	
+ 	<span style = "float: right;
+	font-weight: bold;
+	color: #777;
+	font-size: 25px;
+	cursor: pointer;" onclick = "popadd('off')">&times;</span>
+	
+		
+		
+	</div>
+	
+</div>	
+
+
 </main>
 
 
@@ -197,19 +248,71 @@
 			}
 		});
  	
-		</script>
+</script>
 		
-		<script>
+<script>
+
+	//천 단위 쉼표 스크립트
 			function tochun(){
-			for(p of document.getElementsByClassName('pamount')){
+			for(p of document.getElementsByClassName('pprice')){
 			
-				console.log(p.innerText);
 			p.innerText = p.innerText.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 			
 			}
 			}
 			tochun();
-		</script>
+</script>
+		
+		
+<script>
+
+
+// 	for(pl of document.getElementsByClassName('pldiv')){
+					
+// 					pl.addEventListener('mouseover',()=>{
+						
+// 						$(document).mousemove(function(e){
+// 						    var mouseX = e.pageX;
+// 						    var mouseY = e.pageY;
+
+// 						    $('.cursor').css({
+// 						        left: 15+ mouseX + "px",
+// 						        top : mouseY + "px"
+// 						    })
+// 						})
+						
+						
+// 					});
+					
+// 					pl.addEventListener('mouseover',()=>{
+						
+												
+// 					});
+					
+					
+					
+// 	}
+		
+		
+</script>
+
+
+<script>
+
+function popadd(condition){
+		
+		if(condition == 'on'){
+			document.getElementsByClassName('sns_share')[0].style.display = "block";
+			
+		}else{
+			document.getElementsByClassName('sns_share')[0].style.display = "none";
+		}
+		
+	}
+
+
+
+</script>
 
 </body>
 </html>

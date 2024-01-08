@@ -821,8 +821,8 @@ background-color:red;
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.4);">
 	
-	<div style = "width: 800px;
-	height: 1000px;
+	<div style = "width: 1000px;
+	height: 800px;
 	padding: 30px 30px;
 	margin: 0 auto;
 	border: 1px solid #777;
