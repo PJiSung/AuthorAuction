@@ -195,14 +195,20 @@ public class ConsignmentController {
 		String memId = (loginUser != null) ? loginUser.getMemId() : null;
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("sc", sc);
+		map.put("endDat", sc.getEndDat());
+		map.put("keyword", sc.getKeyword());
+		map.put("select", sc.getSelect());
+		map.put("strDate", sc.getStrDate());
 		map.put("memId", memId);
-
+		
+		System.out.println(map);
 		int listCount = cService.searchCount(map);
 		int currentPage = page;
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); 
 		ArrayList<Consignment> list = cService.searchList(map, pi);
+		
+		System.out.println(list);
 		
 		if (list != null) {
 			model.addAttribute("pi", pi);
