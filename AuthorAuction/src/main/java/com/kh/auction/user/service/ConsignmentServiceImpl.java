@@ -12,6 +12,7 @@ import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.SearchConsignment;
 
 @Service
 public class ConsignmentServiceImpl implements ConsignmentService{
@@ -104,20 +105,20 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 
 	
 	
-	// 관리자 리스트
-	@Override
-	public int getListCount2(String memId) {
-		return cDAO.getListCount2(memId);
-	}
-	// 관리자 리스트
-	@Override
-	public ArrayList<Consignment> selectUserList(String memId, PageInfo pi) {
-		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
-		int limit = pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return cDAO.selectUserList(memId, rowBounds);
-	}
+//	// 관리자 리스트
+//	@Override
+//	public int getListCount2(String memId) {
+//		return cDAO.getListCount2(memId);
+//	}
+//	// 관리자 리스트
+//	@Override
+//	public ArrayList<Consignment> selectUserList(String memId, PageInfo pi) {
+//		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+//		int limit = pi.getBoardLimit();
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+//		
+//		return cDAO.selectUserList(memId, rowBounds);
+//	}
 	// 관리자 상세조회
 	@Override
 	public Consignment selectUser(int conNo) {
@@ -135,17 +136,17 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	}
 	// 관리자 조건 검색
 	@Override
-	public int searchCount2(HashMap<String, Object> map) {
-		return cDAO.searchCount2(map);
+	public int searchCount2(SearchConsignment sc) {
+		return cDAO.searchCount2(sc);
 	}
 	// 관리자 조건 검색
 	@Override
-	public ArrayList<Consignment> searchList2(HashMap<String, Object> map, PageInfo pi) {
+	public ArrayList<Consignment> searchList2(SearchConsignment sc, PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return cDAO.searchList2(map, rowBounds);
+		return cDAO.searchList2(sc, rowBounds);
 	}
 	// 수락 / 거절(멤버 가져옴)
 	@Override

@@ -8,6 +8,7 @@ import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.SearchConsignment;
 
 public interface ConsignmentService {
 	
@@ -44,10 +45,10 @@ public interface ConsignmentService {
 	
 	////////////////////////////////////////////////////////////////////////////////
 	
-	// 관리자 리스트
-	int getListCount2(String memId);
-	// 관리자 리스트
-	ArrayList<Consignment> selectUserList(String memId, PageInfo pi);
+//	// 관리자 리스트
+//	int getListCount2(String memId);
+//	// 관리자 리스트
+//	ArrayList<Consignment> selectUserList(String memId, PageInfo pi);
 	// 관리자 상세조회
 	Consignment selectUser(int conNo);
 	// 관리자 첨부 상세조회
@@ -55,9 +56,9 @@ public interface ConsignmentService {
 	// 관리자 체크 삭제
 	int checkDelete(String[] deleteIds);
 	// 관리자 검색
-	int searchCount2(HashMap<String, Object> map);
+	int searchCount2(SearchConsignment sc);
 	// 관리자 검색
-	ArrayList<Consignment> searchList2(HashMap<String, Object> map, PageInfo pi);
+	ArrayList<Consignment> searchList2(SearchConsignment sc, PageInfo pi);
 	// 수락 / 거절(멤버 가져옴) > 시간 지정하려고 가져옴
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
 	// 수락 / 거절(클릭) 상태 변경

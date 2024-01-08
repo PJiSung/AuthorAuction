@@ -132,6 +132,16 @@ table tr {
 	
 	/* 경매 등록 모달 스크립트  */
 	window.onload = () =>{
+		
+		keepSort();
+		
+		
+		
+		
+		
+		
+		
+		
    		const startCalendar = document.getElementById("startCalendar");
    		const startDateCalendar = document.getElementById("startDateCalendar");
    		const endCalendar = document.getElementById("endCalendar");
@@ -563,7 +573,6 @@ table tr {
 	const userDetail = (conNo) =>{												
 		location.href="selectUser.adco?conNo=" + conNo + "&page=" + ${pi.currentPage};
 	}
-
     <!-- 전체선택 / 해제 -->
 	conNo =[];
 	<!-- 체크박스 선택 -->
@@ -631,6 +640,53 @@ table tr {
 			error: (data) => console.log(data)
 		})
 	} 
+	<!-- 검색 / 정렬 -->
+	const sort = (value) =>{
+		
+		let status = document.getElementsByName("status")[0];
+		status.value = value;
+		
+		let url = window.location.href;
+		if(url.includes("status") && url.includes("select")){						// 조건 검색 진행 후 정렬할 때
+			let preStatus = url.split("&status=")[1];
+			url = url.split("&status="+preStatus)[0] + "&status="+value;
+		} else if(url.includes("status") && !url.includes("select")) {				// 조건 정렬만 진행했을 때
+			url = url.replace(url.split("adco?")[1], "status="+value);
+		} else if(!url.includes("?")){												// 조건 검색, 정렬 둘 다 한적 없을 때	
+			url = "?status=" + value;
+		}
+		window.history.pushState({}, "Title", url);
+		
+		$("#tableset").load(location.href + " #tableset");
+		$("#totalCount").load(location.href + " #totalCount");
+		$("#pagiset-list").load(location.href + " #pagiset-list");
+		
+	}
+	<!-- 정렬 탭 누를 때 -->
+	const keepSort = () =>{
+		let sorts = document.querySelectorAll(".tabset-item div");
+		let currentSort = "${status}";
+		
+		if(currentSort == ""){
+			sorts[0].classList.add("active");
+			sorts[1].classList.remove("active");
+			sorts[2].classList.remove("active");
+		} else if(currentSort == 'Y'){
+			sorts[1].classList.add("active");
+			sorts[0].classList.remove("active");
+			sorts[2].classList.remove("active");
+		} else {
+			sorts[2].classList.add("active");
+			sorts[0].classList.remove("active");
+			sorts[1].classList.remove("active");
+		}
+		
+	}
+	
+	
+	
+	
+	
 	
 	
 	const openEnrollModal = (data) =>{
@@ -844,7 +900,7 @@ table tr {
 									</span>
 									 ~ 
 									<span> 
-										<input type="date" class="con_enddate" name="endDate2" style="margin-left: 20px;">
+										<input type="date" class="con_enddate" name="EndDate" style="margin-left: 20px;">
 									</span> 
 									<span> 
 										<a>검색어</a> 
@@ -857,38 +913,44 @@ table tr {
 									</span> 
 									<span><button type="submit" class="admsearch">검색</button></span>
 									<span><button type="reset" class="admcancel">초기화</button></span>
+									<input type="hidden" name="status" value="${status}">
 								</form>
 							</div>
 						</div>
 						<br>
 						<br>
 					</div>
+					
+					
 					<div class="contents-search">
 		          		<div id="totalCount" >
 		            		<p class="contents-result"> 전체<span> ${ total }</span>개</p>
                 		</div>
 		            	<div class="contents-form">
-	                		<div class="tabset tabset-text">
-	                  			<ul class="tabset-list" style="float: right; margin-bottom: 2rem;">
-	                    			<li class="tabset-item">
-	                      				<a class="tabset-link active" href="javascript:void(0)" onclick="sort('ALL')">
-	                       			 		<span>전체</span>
-	                      				</a>
-	                    			</li>
-	                    			<li class="tabset-item">
-	                      				<a class="tabset-link" href="javascript:void(0)" onclick="sort('Y')">
-	                        				<span>등록된 문의</span>
-	                      				</a>
-	                    			</li>
-	                    			<li class="tabset-item">
-	                      				<a class="tabset-link" href="javascript:void(0)" onclick="sort('N')">
-	                        				<span>삭제된 문의</span>
-	                      				</a>
-	                    			</li>
-	                  			</ul>
-		          			</div>
-		            	</div>
+							<div class="contents-sort-sel" >
+								<div class="tabset tabset-text">
+									<ul class="tabset-list" style="float: right; margin-bottom: 1rem;">
+										<li class="tabset-item">
+											<div class="tabset-link active" onclick="sort('')"> 
+												<span>전체</span>
+											</div>
+										</li>
+										<li class="tabset-item">
+											<div class="tabset-link" onclick="sort('Y')"> 
+												<span>등록된 문의</span>
+											</div>
+										</li>
+										<li class="tabset-item">
+											<div class="tabset-link" onclick="sort('N')"> 
+												<span>삭제된 문의</span>
+											</div>
+										</li>
+									</ul>
+								</div>					
+							</div>
+						</div>
 					</div>
+					
 				 
 					<form action="list.adco" method="post" class="listForm">
 						<div class="tableset" id="tableset">
@@ -1016,6 +1078,7 @@ table tr {
 								<c:param name="keyword" value="${ keyword }"></c:param>
 								<c:param name="strDate" value="${ strDate }"></c:param>
 								<c:param name="endDate" value="${ endDate2 }"></c:param>
+								<c:param name="status" value="${ status }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-first" href="${ goFirst }"> <span
 								class="visually-hidden">처음</span>
@@ -1028,6 +1091,7 @@ table tr {
 								<c:param name="keyword" value="${ keyword }"></c:param>
 								<c:param name="strDate" value="${ strDate }"></c:param>
 								<c:param name="endDate" value="${ endDate2 }"></c:param>
+								<c:param name="status" value="${ status }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
 								class="visually-hidden">이전</span>
@@ -1042,6 +1106,7 @@ table tr {
 								<c:param name="keyword" value="${ keyword }"></c:param>
 								<c:param name="strDate" value="${ strDate }"></c:param>
 								<c:param name="endDate" value="${ endDate2 }"></c:param>
+								<c:param name="status" value="${ status }"></c:param>
 							</c:url>
 							<c:choose>
 								<c:when test="${p eq pi.currentPage}">
@@ -1074,6 +1139,7 @@ table tr {
 								<c:param name="keyword" value="${ keyword }"></c:param>
 								<c:param name="strDate" value="${ strDate }"></c:param>
 								<c:param name="endDate" value="${ endDate2 }"></c:param>
+								<c:param name="status" value="${ status }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-next" href="${ goNext }"> <span
 								class="visually-hidden">다음</span>
@@ -1086,6 +1152,7 @@ table tr {
 								<c:param name="keyword" value="${ keyword }"></c:param>
 								<c:param name="strDate" value="${ strDate }"></c:param>
 								<c:param name="endDate" value="${ endDate2 }"></c:param>
+								<c:param name="status" value="${ status }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-last" href="${ goList }"> <span
 								class="visually-hidden">마지막</span>
