@@ -36,11 +36,17 @@ public class AuctionServiceImpl implements AuctionService{
 		return aDAO.getAuctionDetail(aucNo);
 	}
 
-	@Override //hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
-	public ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm) {
-		return aDAO.getAdminSearchList(hm);
+	@Override //관리자 - hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
+	public ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm, PageInfo pi) {
+		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
+		return aDAO.getAdminSearchList(hm, rowBounds);
 	}
-
+	
+	@Override //관리자 - hashmap을 이용해 진행여부, 내용에 대한 경매들의 수를 들고옴
+	public int getAdminSearchListCount(HashMap<String, String> hm) {
+		return aDAO.getAdminSearchListCount(hm);
+	}
+	
 	@Override //입찰 - ajax 이용해 환불한후에 바로 경매금액 업데이트 및 입찰내역 업데이트 입찰자 금액감소
 	public int insertBid(HashMap<String, Object> hm) {
 		
@@ -142,4 +148,6 @@ public class AuctionServiceImpl implements AuctionService{
 		RowBounds rowBounds = new RowBounds((pi.getCurrentPage() -1)*pi.getBoardLimit(), pi.getBoardLimit());
 		return aDAO.getAllMyDetail(bidListHm, rowBounds);
 	}
+
+	
 }
