@@ -632,10 +632,6 @@ table tr {
 		})
 	} 
 	
-	const aucStrDate = document.getElementById('aucStartDate2').value; 
-	document.getElementById('aucStartDate').value = aucStrDate;
-	
-	
 	
 	const openEnrollModal = (data) =>{
 		const $data = $(data);
@@ -836,7 +832,7 @@ table tr {
 		<div class="hooms-N48" data-bid="no2CLZNtZF5">
 			<div class="contents-inner" style="padding: 6rem 2.4rem 10rem;">
 				<div class="contents-container container-md">
-					<div class="textset">
+					<div class="textset" style="margin-bottom: 1rem;">
 						<a class="textset-tit">관리자(위탁 문의 내역)</a> <br>
 						<br>
 						<div class="date-box">
@@ -848,7 +844,7 @@ table tr {
 									</span>
 									 ~ 
 									<span> 
-										<input type="date" class="con_enddate" name="endDate" style="margin-left: 20px;">
+										<input type="date" class="con_enddate" name="endDate2" style="margin-left: 20px;">
 									</span> 
 									<span> 
 										<a>검색어</a> 
@@ -1016,6 +1012,10 @@ table tr {
 						<div class="pagiset-ctrl">
 							<c:url var="goFirst" value="${ loc }">
 								<c:param name="page" value="${ pi.startPage }"></c:param>
+								<c:param name="select" value="${ select }"></c:param>
+								<c:param name="keyword" value="${ keyword }"></c:param>
+								<c:param name="strDate" value="${ strDate }"></c:param>
+								<c:param name="endDate" value="${ endDate2 }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-first" href="${ goFirst }"> <span
 								class="visually-hidden">처음</span>
@@ -1024,6 +1024,10 @@ table tr {
 						<div class="pagiset-ctrl">
 							<c:url var="goBack" value="${ loc }">
 								<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+								<c:param name="select" value="${ select }"></c:param>
+								<c:param name="keyword" value="${ keyword }"></c:param>
+								<c:param name="strDate" value="${ strDate }"></c:param>
+								<c:param name="endDate" value="${ endDate2 }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
 								class="visually-hidden">이전</span>
@@ -1037,7 +1041,7 @@ table tr {
 								<c:param name="select" value="${ select }"></c:param>
 								<c:param name="keyword" value="${ keyword }"></c:param>
 								<c:param name="strDate" value="${ strDate }"></c:param>
-								<c:param name="endDate" value="${ endDate }"></c:param>
+								<c:param name="endDate" value="${ endDate2 }"></c:param>
 							</c:url>
 							<c:choose>
 								<c:when test="${p eq pi.currentPage}">
@@ -1066,6 +1070,10 @@ table tr {
 						<div class="pagiset-ctrl">
 							<c:url var="goNext" value="${ loc }">
 								<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+								<c:param name="select" value="${ select }"></c:param>
+								<c:param name="keyword" value="${ keyword }"></c:param>
+								<c:param name="strDate" value="${ strDate }"></c:param>
+								<c:param name="endDate" value="${ endDate2 }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-next" href="${ goNext }"> <span
 								class="visually-hidden">다음</span>
@@ -1074,6 +1082,10 @@ table tr {
 						<div class="pagiset-ctrl">
 							<c:url var="goList" value="${ loc }">
 								<c:param name="page" value="${ pi.maxPage }"></c:param>
+								<c:param name="select" value="${ select }"></c:param>
+								<c:param name="keyword" value="${ keyword }"></c:param>
+								<c:param name="strDate" value="${ strDate }"></c:param>
+								<c:param name="endDate" value="${ endDate2 }"></c:param>
 							</c:url>
 							<a class="pagiset-link pagiset-last" href="${ goList }"> <span
 								class="visually-hidden">마지막</span>
@@ -1081,11 +1093,10 @@ table tr {
 						</div>
 					</c:if>
 				</nav>
-
 			</div>
 		</div>
-	</main>
 	<jsp:include page="../common/footer.jsp" />
+	</main>
 
 	<script src="consignment/js/setting.js"></script>
 	<script src="consignment/js/plugin.js"></script>

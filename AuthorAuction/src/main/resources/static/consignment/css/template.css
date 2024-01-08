@@ -318,7 +318,7 @@ progress { vertical-align: baseline; }
 
 /* ========== */
 /* Textset */
-.textset { position: relative; }
+.textset { position: relative;}
 .textset .textset-tit { margin-bottom: 1.2rem; font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--text-color1); font-weight: 500; }
 .textset .textset-tit + .textset-desc { margin-top: 2rem; }
 .textset .textset-subtit + .textset-tit { margin-top: 1.2rem; }

@@ -1,5 +1,6 @@
 package com.kh.auction.admin.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,14 +42,13 @@ public class ConsignmentAdminController {
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Consignment> cList = cService.selectUserList(memId, pi);
-		ArrayList<HashMap<String, Object>> aList = cService.selectAuctionMList();
+		ArrayList<HashMap<String, Object>> aList = cService.selectAuctionMList();			// 수락 > 시간 정하려고 가져옴
 		
 		if(cList != null) {
 			model.addAttribute("cList",cList);
 			model.addAttribute("aList", aList);
 			model.addAttribute("total", listCount);
 			model.addAttribute("pi", pi);
-			model.addAttribute("loc", request.getRequestURI());
 			
 			return "consignment/conAdminList";
 		} else {
@@ -101,31 +100,30 @@ public class ConsignmentAdminController {
 										 @RequestParam(value="keyword", required = false) String keyword, Model model,
 										 @RequestParam(value="page", defaultValue="1") int page,
 										 @RequestParam(value="strDate", required = false)String strDate,
-										 @RequestParam(value="endDate", required = false)String endDate) {
+										 @RequestParam(value="endDate2", required = false)String EndDate) {
 										// keyword : 입력한 검색어 / select : select에서 가져오는 기준
 		
-		
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("select", select);
 		map.put("keyword", keyword);
 		map.put("strDate", strDate);
-		map.put("endDate", endDate);
+		map.put("EndDate", EndDate);
 		
 		int listCount = cService.searchCount2(map);
 		int currentPage = page;
-		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Consignment> cList = cService.searchList2(map, pi);
+		ArrayList<HashMap<String, Object>> aList = cService.selectAuctionMList();
 		
-	if(cList != null) {
+		if(cList != null) {
 			model.addAttribute("total", listCount);
 			model.addAttribute("cList", cList);
+			model.addAttribute("aList",aList);
 			model.addAttribute("pi", pi);
-//			model.addAttribute("map", map);
 			model.addAttribute("select", select);
 			model.addAttribute("strDate", strDate);
 			model.addAttribute("keyword", keyword);
-			model.addAttribute("endDate", endDate);
+			model.addAttribute("endDate2", EndDate);
 			
 			return "consignment/conAdminList";
 		} else {

@@ -177,6 +177,8 @@ public class ConsignmentController {
 			model.addAttribute("pi", pi);
 			model.addAttribute("loc", request.getRequestURI());
 
+//			System.out.println(list);
+//			System.out.println(pi);
 			return "consignment/conMyPage";
 		} else {
 			throw new Exception("위탁문의 게시글 목록 조회 실패");
@@ -185,25 +187,37 @@ public class ConsignmentController {
 
 	// 마이페이지 검색
 	@GetMapping("searchList.co")
-	public String searchConsignment(@RequestParam("select") String select, @RequestParam("keyword") String keyword,
-			Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+	public String searchConsignment(@RequestParam(value = "select", required = false) String select, 
+									@RequestParam(value = "keyword", required = false) String keyword,
+									@RequestParam(value = "page", defaultValue = "1") int page,
+									@RequestParam(value = "strDate", required = false)String strDate,
+									@RequestParam(value = "endDate", required = false)String endDate,
+									Model model, HttpSession session) {
 		// keyword : 입력한 검색어 / select : select에서 가져오는 기준
-
-		HashMap<String, String> map = new HashMap<String, String>();
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		String memId = (loginUser != null) ? loginUser.getMemId() : null;
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("select", select);
 		map.put("keyword", keyword.trim());
-
+		map.put("strDate", strDate);
+		map.put("endDate", endDate);
+		map.put("memId", memId);
+		
 		int listCount = cService.searchCount(map);
-
 		int currentPage = page;
+		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); // 리스트 갯수
 		ArrayList<Consignment> list = cService.searchList(map, pi);
-
+		
 		if (list != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("list", list);
+			model.addAttribute("select", select);
+			model.addAttribute("strDate", strDate);
+			model.addAttribute("keyword", keyword);
+			model.addAttribute("endDate", endDate);
 
-			// return "redirect:list.co";
 			return "consignment/conMyPage";
 		} else {
 			throw new Exception("게시글 검색 실패");

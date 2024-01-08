@@ -20,9 +20,9 @@ public interface ConsignmentService {
 	// 마이페이지 리스트
 	ArrayList<Consignment> selectConsignmentList(String memId, PageInfo pi);
 	// 마이페이지 검색
-	int searchCount(HashMap<String, String> map);
+	int searchCount(HashMap<String, Object> map);
 	// 마이페이지 검색
-	ArrayList<Consignment> searchList(HashMap<String, String> map, PageInfo pi);
+	ArrayList<Consignment> searchList(HashMap<String, Object> map, PageInfo pi);
 	// 상세조회
 	Consignment selectConsignment(int conNo);
 	// 상세조회 첨부 리스트
@@ -55,10 +55,10 @@ public interface ConsignmentService {
 	// 관리자 체크 삭제
 	int checkDelete(String[] deleteIds);
 	// 관리자 검색
-	int searchCount2(HashMap<String, String> map);
+	int searchCount2(HashMap<String, Object> map);
 	// 관리자 검색
-	ArrayList<Consignment> searchList2(HashMap<String, String> map, PageInfo pi);
-	// 수락 / 거절(멤버 가져옴)
+	ArrayList<Consignment> searchList2(HashMap<String, Object> map, PageInfo pi);
+	// 수락 / 거절(멤버 가져옴) > 시간 지정하려고 가져옴
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
 	// 수락 / 거절(클릭) 상태 변경
 	int updateConConStatus(HashMap<String, Object> map);

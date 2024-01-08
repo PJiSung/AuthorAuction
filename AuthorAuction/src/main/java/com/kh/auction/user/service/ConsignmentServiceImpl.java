@@ -45,12 +45,12 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	}
 	// 마이페이지 검색
 	@Override
-	public int searchCount(HashMap<String, String> map) {
+	public int searchCount(HashMap<String, Object> map) {
 		return cDAO.searchCount(map);
 	}
 	// 마이페이지 검색	
 	@Override
-	public ArrayList<Consignment> searchList(HashMap<String, String> map, PageInfo pi) {
+	public ArrayList<Consignment> searchList(HashMap<String, Object> map, PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
@@ -135,12 +135,12 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	}
 	// 관리자 조건 검색
 	@Override
-	public int searchCount2(HashMap<String, String> map) {
+	public int searchCount2(HashMap<String, Object> map) {
 		return cDAO.searchCount2(map);
 	}
 	// 관리자 조건 검색
 	@Override
-	public ArrayList<Consignment> searchList2(HashMap<String, String> map, PageInfo pi) {
+	public ArrayList<Consignment> searchList2(HashMap<String, Object> map, PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
@@ -157,6 +157,7 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 	public int updateConConStatus(HashMap<String, Object> map) {
 		return cDAO.updateConConStatus(map);
 	}
+	
 	
 	
 	

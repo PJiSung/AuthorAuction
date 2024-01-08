@@ -23,9 +23,9 @@ public interface ConsignmentDAO {
 
 	ArrayList<Consignment> selectConsignmentList(int i, PageInfo pi, RowBounds rowBounds);
 
-	int searchCount(HashMap<String, String> map);
+	int searchCount(HashMap<String, Object> map);
 
-	ArrayList<Consignment> searchList(HashMap<String, String> map, RowBounds rowBounds);
+	ArrayList<Consignment> searchList(HashMap<String, Object> map, RowBounds rowBounds);
 
 	Consignment selectConsignment(int conNo);
 
@@ -63,13 +63,14 @@ public interface ConsignmentDAO {
 
 	int checkDelete(String[] deleteIds);
 
-	int searchCount2(HashMap<String, String> map);
+	int searchCount2(HashMap<String, Object> map);
 
-	ArrayList<Consignment> searchList2(HashMap<String, String> map, RowBounds rowBounds);
+	ArrayList<Consignment> searchList2(HashMap<String, Object> map, RowBounds rowBounds);
 
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
 
 	int updateConConStatus(HashMap<String, Object> map);
+
 
 	
 	
