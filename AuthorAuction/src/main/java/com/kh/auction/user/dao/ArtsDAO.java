@@ -55,5 +55,7 @@ public interface ArtsDAO {
 	int insertOrderwithalreadyaddr(Order order);
 
 	int selectPoint(String memId);
+
+	int getlistCountadmin(HashMap<String, Object> map);
 	
 }

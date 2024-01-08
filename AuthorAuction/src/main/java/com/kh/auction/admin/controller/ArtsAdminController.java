@@ -23,6 +23,28 @@ public class ArtsAdminController {
 	ArtsService aService;
 	
 	
+	
+	
+	 public static boolean isInteger(String strValue) {
+		    try {
+		      Integer.parseInt(strValue);
+		      return true;
+		    } catch (NumberFormatException ex) {
+		      return false;
+		    }
+		  }
+
+		  public static boolean isLong(String strValue) {
+		    try {
+		      Long.parseLong(strValue);
+		      return true;
+		    } catch (NumberFormatException ex) {
+		      return false;
+		    }
+		  }
+			
+	
+	
 	@GetMapping("artsadmin.ar")
 	public String artsadmin(@RequestParam(value = "page", defaultValue = "1") int page, 
 							@RequestParam(value = "maxHeight", defaultValue = "0") int maxHeight,
@@ -31,17 +53,25 @@ public class ArtsAdminController {
 							@RequestParam(value = "minWidth", defaultValue = "0") int minWidth,
 							@RequestParam(value = "minPrice", defaultValue = "0") int minPrice,
 							@RequestParam(value = "maxPrice", defaultValue = "0") int maxPrice,
-							@RequestParam(value = "condition", defaultValue = "0") String condition,
-							@RequestParam(value = "keyword", defaultValue = "0") String keyword,
+							@RequestParam(value = "condition", defaultValue = "") String condition,
+							@RequestParam(value = "keyword", defaultValue = "") String keyword,
 							@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
 							@RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
 		
 		
 		
+	
+		
+		
+		
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		
-		map.put("condition", condition);
-		map.put("keyword", keyword);
+		
+		map.put("condition", condition.trim());
+		map.put("keyword", keyword.trim());
+		
+		map.put("isInt", isInteger(keyword.trim()));
+		
 		map.put("maxHeight", maxHeight);
 		map.put("minHeight", minHeight);
 		map.put("maxWidth", maxWidth);
@@ -52,13 +82,12 @@ public class ArtsAdminController {
 		map.put("startDate", startDate != null ?  new java.sql.Date(startDate.getTime()) : null);
 		map.put("endDate", endDate != null ?  new java.sql.Date(endDate.getTime()) : null);
 		
-		
 		 
 		
 		int currentPage = page;
 		
-		int listCount = aService.getlistCount(map);
-		
+		int listCount = aService.getlistCountadmin(map);
+		System.out.println(listCount);
 		
 		 
 //		HashMap<String, Object> map = new HashMap<String,Object>();

@@ -165,4 +165,12 @@ public class ArtsServiceImpl implements ArtsService {
 	}
 	
 	
+	@Override
+	public 	int getlistCountadmin(HashMap<String, Object> map) {
+		
+		
+		
+		return aDAO.getlistCountadmin(map);
+	}
+	
 }

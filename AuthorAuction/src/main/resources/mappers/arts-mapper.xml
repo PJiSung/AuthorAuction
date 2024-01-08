@@ -251,5 +251,30 @@
 			where MEM_ID = #{memId}	
 	
 	</select>
+	
+	
+	<select id = "getlistCountadmin" resultType = "_int">
+	
+		select count(*)
+		from product
+		where 1=1 
+		
+			<if test="keyword != ''">
+				<choose>
+					<when test="condition == 'proNo'">and PRO_NO like '%'||#{keyword}||'%' </when>
+					<when test="condition == 'proName'"> and PRO_NAME like '%'||#{keyword}||'%' </when>
+					<when test="condition == 'proWriter'">and PRO_WRITER like '%'||#{keyword}||'%' </when>
+					<when test="condition == 'proMaterial'">and PRO_MATERIAL like '%'||#{keyword}||'%'</when>
+					<otherwise>
+					  	<choose>
+							<when test = "isInt == true">and PRO_NO like '%'||#{keyword}||'%' or PRO_NAME like '%'||#{keyword}||'%' or PRO_WRITER like '%'||#{keyword}||'%' or PRO_MATERIAL like '%'||#{keyword}||'%'</when>
+							<otherwise>and PRO_NAME like '%'||#{keyword}||'%' or PRO_WRITER like '%'||#{keyword}||'%' or PRO_MATERIAL like '%'||#{keyword}||'%'</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
+			</if>
+											
+	
+	</select>
 </mapper>
 

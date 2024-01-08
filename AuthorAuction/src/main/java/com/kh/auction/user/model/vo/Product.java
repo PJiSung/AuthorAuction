@@ -1,5 +1,6 @@
 package com.kh.auction.user.model.vo;
 
+import java.sql.Date;
 
 public class Product {
 	
@@ -9,14 +10,14 @@ public class Product {
 	private String proMaterial;
 	private int proHeight;
 	private int proWidth;
-	private int proDate;
+	private Date proDate;
 	private int proPrice;
 	private int proAmount;
 	
 	public Product(){}
 
 	public Product(int proNo, String proName, String proWriter, String proMaterial, int proHeight, int proWidth,
-			int proDate, int proPrice, int proAmount) {
+			Date proDate, int proPrice, int proAmount) {
 		super();
 		this.proNo = proNo;
 		this.proName = proName;
@@ -77,11 +78,11 @@ public class Product {
 		this.proWidth = proWidth;
 	}
 
-	public int getProDate() {
+	public Date getProDate() {
 		return proDate;
 	}
 
-	public void setProDate(int proDate) {
+	public void setProDate(Date proDate) {
 		this.proDate = proDate;
 	}
 

@@ -52,6 +52,8 @@ public interface ArtsService {
 
 	int selectPoint(String memId);
 
+	int getlistCountadmin(HashMap<String, Object> map);
+
 
 
 
