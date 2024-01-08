@@ -205,6 +205,9 @@
 			<if test="strDate != null and endDat != null">
 				and CON_CREATE_DATE between #{strDate} and #{endDat}
 			</if> 
+			<if test="status != null">
+				and con_del_status = #{status}
+			</if>
 		order by con_del_status desc, con_adm_status, con_con_status desc, con_no desc
 	</select>	
 	
