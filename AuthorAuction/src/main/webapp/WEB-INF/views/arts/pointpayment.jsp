@@ -609,8 +609,8 @@ input.check_btn:checked + label:before{
 							</div>
 							<div style = "display:flex; margin-top: 5%;">
 								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555; width: 33%; "><h5>직접 입력</h5></div>
-								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #aaa; width: 33%;"><input type = "number" step = "1000" id = "pointinput"></div>
-								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555; width: 33%;">기존 포인트: &nbsp; <p class = "popopo">${loginUser.memBalance}</p><small>&nbsp;p</small></div>
+								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #aaa; width: 33%;"><input type = "text"  id = "pointinput"></div>
+								<div style = "margin-right: 0px;  display:flex; align-items:center; justify-content:center;  color: #555; width: 33%;">기존 포인트: &nbsp; <p class = "popopo">${point}</p><small>&nbsp;p</small></div>
 							</div> 
 							<hr>
 								<div style = "display:flex; height: 15%;">
@@ -680,7 +680,7 @@ input.check_btn:checked + label:before{
   <script>
  	
   //결제 후 포인트 넣기 스크립트
-  document.getElementById('totalpoint').innerText= ${loginUser.memBalance} + $('#pointinput').val()
+  document.getElementById('totalpoint').innerText= ${point} + $('#pointinput').val()
   
 	//천단위 콤마 스크립트
 	function tochun(){
@@ -700,13 +700,13 @@ input.check_btn:checked + label:before{
   <script>
   	//포인트 천단위로 입력시키기 스크립트
   	
-  	$("#pointinput").keyup(function(e) {
-  			var n = $(this).val(); 
-  			 n = Math.floor(n/10) * 10;
-  			 if(n>=10){
-  		     $(this).val(n);
-  			 }
-		});
+//   	$("#pointinput").keyup(function(e) {
+//   			var n = $(this).val(); 
+//   			 n = Math.floor(n/10) * 10;
+//   			 if(n>=10){
+//   		     $(this).val(n);
+//   			 }
+// 		});
   
   </script>
   
@@ -714,11 +714,11 @@ input.check_btn:checked + label:before{
   <script>
  	
 		//포인트에 문자 못들어가게 막는 스크립트
-		$("#pointinput").keyup(function(e) {
-			var content = $(this).val();
-			var regex = /[^0-9]/g;	
-			$(this).val(content.replace(regex, ""));
-		});
+// 		$("#pointinput").keyup(function(e) {
+// 			var content = $(this).val();
+// 			var regex = /[^0-9]/g;	
+// 			$(this).val(content.replace(regex, ""));
+// 		});
 		
 		
 		//충전할 포인트 선택하면 칸에 자동으로 들어가는 스크립트
@@ -728,7 +728,7 @@ input.check_btn:checked + label:before{
 			
 			document.getElementById('finalpoint').innerText = $('#pointinput').val();
 			
-			document.getElementById('totalpoint').innerText= ${loginUser.memBalance} + parseInt($('#pointinput').val());
+			document.getElementById('totalpoint').innerText= ${point} + parseInt($('#pointinput').val());
 			
 			tochun();
 			
@@ -747,14 +747,22 @@ input.check_btn:checked + label:before{
 					}
 				}
 				
+				if(!isNaN(document.getElementById('pointinput').value) && !document.getElementById('pointinput').value.trim() == ""){
+					
+					
 				document.getElementById('finalpoint').innerText = $('#pointinput').val();
 				
 				
-				
-				document.getElementById('totalpoint').innerText= ${loginUser.memBalance} + parseInt($('#pointinput').val());
+				document.getElementById('totalpoint').innerText= ${point} + parseInt($('#pointinput').val());
 				
 				tochun();
-				
+				}else{
+					document.getElementById('pointinput').value = "";
+					document.getElementById('finalpoint').innerText = 0;
+					document.getElementById('totalpoint').innerText= ${point};
+					tochun();
+					
+				}
 		});
 		
 		//직접 포인트 변경되면 체크해제되는 스크립트
@@ -767,7 +775,7 @@ input.check_btn:checked + label:before{
 				}	
 				document.getElementById('finalpoint').innerText = $('#pointinput').val();
 				
-				document.getElementById('totalpoint').innerText= ${loginUser.memBalance} + parseInt($('#pointinput').val());
+				document.getElementById('totalpoint').innerText= ${point} + parseInt($('#pointinput').val());
 				
 				tochun();
 		});

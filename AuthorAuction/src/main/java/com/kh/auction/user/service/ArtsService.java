@@ -50,6 +50,8 @@ public interface ArtsService {
 
 	int insertOrderwithalreadyaddr(Order order);
 
+	int selectPoint(String memId);
+
 
 
 

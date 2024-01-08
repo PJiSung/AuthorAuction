@@ -155,7 +155,7 @@
 	<insert id = "insertAddress">
 	
 		
-		insert into address values(ADD_SEQ.NEXTVAL,#{ordNo},#{receiver},#{address},#{receiverPhone},DEFAULT,#{memId},DEFAULT)
+		insert into address values(ADD_SEQ.NEXTVAL,#{ordNo},#{receiver},#{address},#{receiverPhone},'X',#{memId},DEFAULT)
 	
 	 <selectKey resultType="int" keyProperty="addNo" order="AFTER">
         SELECT ADD_SEQ.CURRVAL from DUAL
@@ -224,8 +224,10 @@
 	select * 
 	from address
 	where MEM_ID = #{memId}
-	
+	order by ADD_NO DESC
 	</select>
+	
+	
 	
 	
 	
@@ -239,6 +241,14 @@
 		AND ATT_STATUS = 'Y'
 		AND ATT_CATEGORY = '4'
 		order by ATT_FNO ASC
+	
+	</select>
+	
+	
+	<select id = "selectPoint">
+			select MEM_BALANCE
+			from MEMBER
+			where MEM_ID = #{memId}	
 	
 	</select>
 </mapper>

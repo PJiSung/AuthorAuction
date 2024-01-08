@@ -175,6 +175,19 @@ public class ArtsController {
 		ArrayList<Address> alist = aService.selectAddresslist(((Member)session.getAttribute("loginUser")).getMemId());
 		
 		
+		ArrayList<Address> aolist = new ArrayList<Address>();
+		
+		for(Address a : alist) {
+			
+			if(a.getAddDefault().equals("X")) {
+				aolist.add(a);
+			
+			}
+		}
+		alist.removeAll(aolist);
+		
+		int point = aService.selectPoint(((Member)session.getAttribute("loginUser")).getMemId());
+		
 		for(int i=0; i<alist.size(); i++) {
 			
 			if(alist.get(i).getAddDefault().equals("Y")) {
@@ -201,6 +214,8 @@ public class ArtsController {
 			
 		}
 		
+		model.addAttribute("aolist", aolist);
+		model.addAttribute("point", point);
 		model.addAttribute("atlist", atlist);
 		model.addAttribute("wlist", wlist);
 		model.addAttribute("alist", alist);
@@ -340,6 +355,20 @@ public class ArtsController {
 		
 		ArrayList<Address> alist = aService.selectAddresslist(((Member)session.getAttribute("loginUser")).getMemId());
 		
+
+		ArrayList<Address> aolist = new ArrayList<Address>();
+		
+		for(Address a : alist) {
+			
+			if(a.getAddDefault().equals("X")) {
+				aolist.add(a);
+			
+			}
+		}
+		alist.removeAll(aolist);
+		
+		
+		int point = aService.selectPoint(((Member)session.getAttribute("loginUser")).getMemId());
 		
 		for(int i=0; i<alist.size(); i++) {
 			
@@ -367,6 +396,8 @@ public class ArtsController {
 			atlist = aService.selectAttmlist(plist);
 		}
 		
+		model.addAttribute("aolist", aolist);
+		model.addAttribute("point", point);
 		model.addAttribute("alist", alist);
 		model.addAttribute("atlist", atlist);
 		model.addAttribute("p", p);
@@ -453,8 +484,11 @@ public class ArtsController {
 	
 	
 	@RequestMapping("pointpayment.ar")
-	public String pointpayment() {
+	public String pointpayment(Model model,HttpSession session) {
 		
+		int point = aService.selectPoint(((Member)session.getAttribute("loginUser")).getMemId());
+		
+		model.addAttribute("point", point);
 		
 		return "arts/pointpayment";
 	}

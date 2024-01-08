@@ -158,5 +158,11 @@ public class ArtsServiceImpl implements ArtsService {
 		return aDAO.selectAttmlist(plist);
 	}
 	
+	@Override
+	public int selectPoint(String memId) {
+		
+		return aDAO.selectPoint(memId);
+	}
+	
 	
 }

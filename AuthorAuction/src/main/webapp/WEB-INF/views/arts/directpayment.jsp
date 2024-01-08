@@ -736,8 +736,8 @@ background-color:red;
 							</div>
 							<div style = "width: 80%; height: 100%; display:flex; align-items: center;">
 								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #555"><h5>포인트 사용</h5></div>
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "text" id = "pointinput" value = 0></div> 
-								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">보유 포인트 : <span class = "popopo">${loginUser.memBalance}</span><small>&nbsp;p</small></div>
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;"><input type = "text" id = "pointinput" value = "0"></div> 
+								<div style = "margin-right: 0px; height: 100%; display:flex; align-items:center; justify-content:center; width: 90%; color: #aaa;">보유 포인트 : <span class = "popopo">${point}</span><small>&nbsp;p</small></div>
 							</div>
 						</div>
 								<div>배송일은 주문일 기준 2~3일 소요됩니다</div>
@@ -853,21 +853,16 @@ background-color:red;
 	</div>
 	
 	<div style = "border: 1px solid #888; height: 75%; overflow:auto;" class = "delilist">
-			<div>
-			ㄴㅁㅇ		
+		<c:forEach items = "${aolist}" var = "ao">
+			<div style = "border: 1px solid red; height: 30%;">
+				<div>${ao.addName}	
+					${ao.addRecipient}</div>	
+				<div>${ao.addAddress}</div>	
+				<div>${ao.addPhone}</div>	
+				<div>${ao.addDefault}</div>	
+				<div style = "display:flex; justify-content:right; align-items:center; height: 20%; border: 1px solid green;"><button onclick = "choiceaddress('${ao.addAddress}','${ao.addNo}')">선택</button></div>	
 			</div>
-			<div>
-			ㄴㅁㅇ			
-			</div>
-			<div>
-		ㄴㅁㅇ		
-			</div>
-			<div>
-		ㄴㅇ		
-			</div>
-			<div>
-			ㅇ		
-			</div>
+		</c:forEach>	
 	</div>
 	</div>
 </div>	
@@ -1204,7 +1199,7 @@ $(document).ready(function(){
 			$("#totalbill").text( (parseInt(totalbill.replace(/,/g,""))+parseInt(document.getElementById('pointprice').innerText.replace(/,/g,""))).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 			
 			
-			if (content > ${loginUser.memBalance}) {
+			if (content > ${point}) {
 				alert('보유 포인트보다 더 사용할 수 없습니다');
 				$(this).val(0);
 				$("#pointprice").text(0);
