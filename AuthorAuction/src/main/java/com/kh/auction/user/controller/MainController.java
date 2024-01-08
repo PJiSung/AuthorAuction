@@ -31,7 +31,6 @@ public class MainController {
 	
 	@GetMapping("chat")
 	public String chat(@RequestParam(value = "roomNumber", defaultValue = "1") String roomNumber, Model model) {
-		int wating = SocketHandler.waiting;
 		model.addAttribute("roomNumber", roomNumber);
 		return "common/chat";
 	}

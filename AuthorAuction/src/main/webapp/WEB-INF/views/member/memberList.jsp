@@ -387,18 +387,20 @@ const search = () =>{
 
 const sort = (value) =>{
 	let status = document.getElementsByName("status")[0];
-	status.value = value;
 	
 	let url = window.location.href;
-	if(url.includes("status") && url.includes("isAdmin")){
-		url = url.replace(url.split("endDate=&")[1], "status="+value);
-	}else if(url.includes("status") && !url.includes("isAdmin")){
+	
+	
+	if(url.includes("status") && url.includes("isAdmin")){ //검색 진행후 정렬할때
+		let preStatus = url.split("&status=")[1];
+		url = url.split("&status="+preStatus)[0] + "&status="+value;
+	}else if(url.includes("status") && !url.includes("isAdmin")){ // 정렬만 진행했을때
 		url = url.replace(url.split("adme?")[1], "status="+value);
-	}else if(!url.includes("?")){
+	}else if(!url.includes("?")){ // 검색, 정렬 둘다 한적없을때
 		url = "?status="+value;
 	}
-	console.log(url);
 
+	status.value = value;
 	window.history.pushState({}, "Title", url);
 	
 	reloadMyDiv();
@@ -732,12 +734,12 @@ const submitBtn = (value) =>{
 				   <div class="pagiset-ctrl">
 				      <c:url var="goFirst" value="${ loc }">
 				         <c:param name="page" value="${ pi.startPage }"></c:param>
-				          <c:param name="isAdmin" value="${ isAdmin }"></c:param>
-				         <c:param name="keyword" value="${ keyword }"></c:param>
-				         <c:param name="searchText" value="${ searchText }"></c:param>
-				         <c:param name="startDate" value="${ startDate }"></c:param>
-				         <c:param name="endDate" value="${ endDate }"></c:param>
-				         <c:param name="status" value="${ status }"></c:param>
+				         <c:param name="isAdmin" value="${ sm.isAdmin }"></c:param>
+				         <c:param name="keyword" value="${ sm.keyword }"></c:param>
+				         <c:param name="searchText" value="${ sm.searchText }"></c:param>
+				         <c:param name="startDate" value="${ sm.startDate }"></c:param>
+				         <c:param name="endDate" value="${ sm.endDate }"></c:param>
+				         <c:param name="status" value="${ sm.status }"></c:param>
 				      </c:url>
 				      <a class="pagiset-link pagiset-first" href="${ goFirst }">
 				         <span class="visually-hidden">처음</span>
@@ -757,12 +759,12 @@ const submitBtn = (value) =>{
 				      var="p">
 				      <c:url var="goNum" value="${ loc }">
 				         <c:param name="page" value="${ p }"></c:param>
-				         <c:param name="isAdmin" value="${ isAdmin }"></c:param>
-				         <c:param name="keyword" value="${ keyword }"></c:param>
-				         <c:param name="searchText" value="${ searchText }"></c:param>
-				         <c:param name="startDate" value="${ startDate }"></c:param>
-				         <c:param name="endDate" value="${ endDate }"></c:param>
-				         <c:param name="status" value="${ status }"></c:param>
+				         <c:param name="isAdmin" value="${ sm.isAdmin }"></c:param>
+				         <c:param name="keyword" value="${ sm.keyword }"></c:param>
+				         <c:param name="searchText" value="${ sm.searchText }"></c:param>
+				         <c:param name="startDate" value="${ sm.startDate }"></c:param>
+				         <c:param name="endDate" value="${ sm.endDate }"></c:param>
+				         <c:param name="status" value="${ sm.status }"></c:param>
 				      </c:url>
 				      <c:choose>
 				         <c:when test="${p eq pi.currentPage}">
@@ -791,12 +793,12 @@ const submitBtn = (value) =>{
 				   <div class="pagiset-ctrl">
 				      <c:url var="goNext" value="${ loc }">
 				         <c:param name="page" value="${ pi.currentPage+1 }"></c:param>
-				          <c:param name="isAdmin" value="${ isAdmin }"></c:param>
-				         <c:param name="keyword" value="${ keyword }"></c:param>
-				         <c:param name="searchText" value="${ searchText }"></c:param>
-				         <c:param name="startDate" value="${ startDate }"></c:param>
-				         <c:param name="endDate" value="${ endDate }"></c:param>
-				         <c:param name="status" value="${ status }"></c:param>
+				         <c:param name="isAdmin" value="${ sm.isAdmin }"></c:param>
+				         <c:param name="keyword" value="${ sm.keyword }"></c:param>
+				         <c:param name="searchText" value="${ sm.searchText }"></c:param>
+				         <c:param name="startDate" value="${ sm.startDate }"></c:param>
+				         <c:param name="endDate" value="${ sm.endDate }"></c:param>
+				         <c:param name="status" value="${ sm.status }"></c:param>
 				      </c:url>
 				      <a class="pagiset-link pagiset-next" href="${ goNext }"> <span
 				         class="visually-hidden">다음</span>
@@ -805,12 +807,12 @@ const submitBtn = (value) =>{
 				   <div class="pagiset-ctrl">
 				      <c:url var="goLast" value="${ loc }">
 				         <c:param name="page" value="${ pi.maxPage }"></c:param>
-				          <c:param name="isAdmin" value="${ isAdmin }"></c:param>
-				         <c:param name="keyword" value="${ keyword }"></c:param>
-				         <c:param name="searchText" value="${ searchText }"></c:param>
-				         <c:param name="startDate" value="${ startDate }"></c:param>
-				         <c:param name="endDate" value="${ endDate }"></c:param>
-				         <c:param name="status" value="${ status }"></c:param>
+				         <c:param name="isAdmin" value="${ sm.isAdmin }"></c:param>
+				         <c:param name="keyword" value="${ sm.keyword }"></c:param>
+				         <c:param name="searchText" value="${ sm.searchText }"></c:param>
+				         <c:param name="startDate" value="${ sm.startDate }"></c:param>
+				         <c:param name="endDate" value="${ sm.endDate }"></c:param>
+				         <c:param name="status" value="${ sm.status }"></c:param>
 				      </c:url>
 				      <a class="pagiset-link pagiset-last" href="${ goLast }"> <span
 				         class="visually-hidden">마지막</span>

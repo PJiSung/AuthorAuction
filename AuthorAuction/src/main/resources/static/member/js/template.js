@@ -60,7 +60,6 @@
   
   selectsetLink.forEach((buttonElement) => {
     const clickEventHandler = (event) => {
-		console.log("2");
       event.stopPropagation();
       const button = event.target.closest(".selectset-link");
       const buttonText = button.querySelector("span").innerHTML;
