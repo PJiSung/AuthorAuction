@@ -11,6 +11,9 @@ public class Reply {
 	private String memId;
 	private String memNickName;
 	private String memFileName;
+	private String proName;
+	private String proWriter;
+	private String proImage;
 	
 	public Reply() {}
 
@@ -96,13 +99,36 @@ public class Reply {
 		this.revNo = revNo;
 	}
 
+	public String getProImage() {
+		return proImage;
+	}
+
+	public void setProImage(String proImage) {
+		this.proImage = proImage;
+	}
+
+	public String getProName() {
+		return proName;
+	}
+
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+
+	public String getProWriter() {
+		return proWriter;
+	}
+
+	public void setProWriter(String proWriter) {
+		this.proWriter = proWriter;
+	}
+
 	@Override
 	public String toString() {
 		return "Reply [repNo=" + repNo + ", repContent=" + repContent + ", repCreateDate=" + repCreateDate
 				+ ", repModifyDate=" + repModifyDate + ", repStatus=" + repStatus + ", revNo=" + revNo + ", memId="
-				+ memId + ", memNickName=" + memNickName + ", memFileName=" + memFileName + "]";
+				+ memId + ", memNickName=" + memNickName + ", memFileName=" + memFileName + ", proName=" + proName
+				+ ", proWriter=" + proWriter + ", proImage=" + proImage + "]";
 	}
-	
-	
 	
 }

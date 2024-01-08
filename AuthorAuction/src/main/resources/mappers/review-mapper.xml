@@ -239,14 +239,6 @@
 		order by rep_no desc
 	</select>
 	
-	<select id="selectReplyAllList" resultType="Reply">
-		select rep_no, rep_content, mem_id, mem_filename, mem_nickname, rev_no,
-        	   to_char(rep_create_date, 'YYYY-MM-DD"T"HH24:MI:SS') as rep_create_date,
-        	   to_char(rep_modify_date, 'YYYY-MM-DD"T"HH24:MI:SS') as rep_modify_date
-		from reply join member using(mem_id)
-		where rep_status = 'Y'
-	</select>
-	
 	<update id="updateReply">
 		update reply
 		set rep_content = #{repContent}, rep_modify_date = sysdate
@@ -286,4 +278,22 @@
         where rn = 1
 		order by rev_no desc
 	</select>
+	
+	<select id="getMyReplyListCount">
+		select count(*)
+		from member join reply on (member.mem_id = reply.mem_id)
+					join review on (reply.rev_no = review.rev_no)
+					join product on (review.pro_no = product.pro_no)
+		where reply.rep_status = 'Y' AND member.mem_id = #{memId}
+	</select>
+	
+	<select id="selectMyReplyList" resultType="Reply">
+		select rep_no, rep_content, rep_create_date, rep_modify_date, pro_name, pro_writer, pro_image, review.rev_no
+		from member join reply on (member.mem_id = reply.mem_id)
+					join review on (reply.rev_no = review.rev_no)
+					join product on (review.pro_no = product.pro_no)
+		where reply.rep_status = 'Y' AND member.mem_id = #{memId}
+	</select>
+	
+	
 </mapper>

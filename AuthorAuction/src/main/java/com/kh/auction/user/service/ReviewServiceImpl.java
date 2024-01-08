@@ -145,9 +145,15 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public ArrayList<Reply> selectReplyAllList() {
-		return rDAO.selectReplyAllList();
+	public ArrayList<Reply> selectMyReplyList(String memId,  PageInfo pPi) {
+		int offset = (pPi.getCurrentPage() -1)*pPi.getBoardLimit();
+		int limit = pPi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return rDAO.selectMyReplyList(memId, rowBounds);
 	}
+
 	
 	@Override
 	public int updateReply(Reply r) {
@@ -174,6 +180,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return rDAO.selectMayReviewList(memId, rowBounds);
 	}
 
+	@Override
+	public int getMyReplyListCount(String memId) {
+		return rDAO.getMyReplyListCount(memId);
+	}
+
+	
 	
 
 	

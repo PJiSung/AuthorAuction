@@ -56,7 +56,7 @@ public interface ReviewService {
 
 	ArrayList<Reply> selectReplyList(int revNo);
 
-	ArrayList<Reply> selectReplyAllList();
+	ArrayList<Reply> selectMyReplyList(String memId, PageInfo pPi);
 
 	int updateReply(Reply r);
 	
@@ -65,6 +65,8 @@ public interface ReviewService {
 	int getMyReviewListCount(String memId);
 	
 	ArrayList<Review> selectMyReviewList(String memId, PageInfo pi);
+
+	int getMyReplyListCount(String memId);
 
 
 

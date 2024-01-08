@@ -60,7 +60,7 @@ public interface ReviewDAO {
 
 	ArrayList<Reply> selectReplyList(int revNo);
 	
-	ArrayList<Reply> selectReplyAllList();
+	ArrayList<Reply> selectMyReplyList(String memId, RowBounds rowBounds);
 
 	int deleteReply(int repNo);
 
@@ -69,6 +69,12 @@ public interface ReviewDAO {
 	int getMyReviewListCount(String memId);
 
 	ArrayList<Review> selectMayReviewList(String memId, RowBounds rowBounds);
+
+	int getMyReplyListCount(String memId);
+
+	
+
+	
 
 	
 }

@@ -471,12 +471,16 @@ public class ReviewController {
 								 @RequestParam(value="page", defaultValue="1") int page) {
 		String memId = ((Member)session.getAttribute("loginUser")).getMemId();
 		
-		int listCount = rService.getMyReviewListCount(memId);
-		PageInfo pi = Pagination.getPageInfo(page, listCount, 5);
+		int revListCount = rService.getMyReviewListCount(memId);
+		PageInfo pi = Pagination.getPageInfo(page, revListCount, 5);
 		ArrayList<Review> rList = rService.selectMyReviewList(memId, pi);
 		ArrayList<Review> allRlist = rService.selectReviewAllList();
 		ArrayList<Attachment> aList = rService.selectAttmList(null);
 		ArrayList<HashMap<String, Object>> lList = rService.reviewLikeList();
+		
+		int repListCount = rService.getMyReplyListCount(memId);
+		PageInfo pPi = Pagination.getPageInfo(page, repListCount, 5);
+		ArrayList<Reply> pList = rService.selectMyReplyList(memId, pPi);
 		
 		Review review = new Review();
 		ArrayList<Reply> replyList = new ArrayList<Reply>();
@@ -487,11 +491,13 @@ public class ReviewController {
 		
 		if(rList != null) {
 			model.addAttribute("rPi", pi);
+			model.addAttribute("pPi", pPi);
 			model.addAttribute("rList", rList);
 			model.addAttribute("allRlist", allRlist);
 			model.addAttribute("aList", aList);
 			model.addAttribute("lList", lList);
 			model.addAttribute("review", review);
+			model.addAttribute("pList", pList);
 			model.addAttribute("replyList", replyList);
 			return "review/myReviewList";
 		} else {
