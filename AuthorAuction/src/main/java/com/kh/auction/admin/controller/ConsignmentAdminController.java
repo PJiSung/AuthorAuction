@@ -32,14 +32,13 @@ public class ConsignmentAdminController {
 	
 	// 관리자 리스트 / 기간 + 조건 검색
 	@GetMapping("searchList.adco")
-	public String searchAdminConsignment(Model model, @RequestParam(value="page", defaultValue="1") int page, 
-										 SearchConsignment sc) {
+	public String searchAdminConsignment(Model model, @RequestParam(value="page", defaultValue="1") int page, SearchConsignment sc) {
 		// keyword : 입력한 검색어 / select : select에서 가져오는 기준
 		System.out.println(sc);
 		
 		sc.convertEmptyToNull();
 		
-		sortConsignment = sc.getStatus();
+		sortConsignment = sc.getStatus();					// 정렬 - 상태	
 		
 		int listCount = cService.searchCount2(sc);
 		int currentPage = page;

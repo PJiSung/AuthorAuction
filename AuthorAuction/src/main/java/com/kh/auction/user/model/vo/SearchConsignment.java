@@ -10,111 +10,36 @@ public class SearchConsignment {
 	
 	public SearchConsignment() {}
 
-	
-
-	
-
-
-
 	public String getSelect() {
 		return select;
 	}
-
-
-
-
-
-
-
 	public void setSelect(String select) {
 		this.select = select;
 	}
-
-
-
-
-
-
-
 	public String getKeyword() {
 		return keyword;
 	}
-
-
-
-
-
-
-
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-
-
-
-
-
-
-
 	public String getStrDate() {
 		return strDate;
 	}
-
-
-
-
-
-
-
 	public void setStrDate(String strDate) {
 		this.strDate = strDate;
 	}
-
-
-
-
-
-
-
 	public String getEndDat() {
 		return endDat;
 	}
-
-
-
-
-
-
-
 	public void setEndDat(String endDat) {
 		this.endDat = endDat;
 	}
-
-
-
-
-
-
-
 	public String getStatus() {
 		return status;
 	}
-
-
-
-
-
-
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-
-
-
-
-
 
 	public SearchConsignment(String select, String keyword, String strDate, String endDat, String status) {
 		super();
@@ -125,23 +50,11 @@ public class SearchConsignment {
 		this.status = status;
 	}
 
-
-
-
-
-
-
 	@Override
 	public String toString() {
 		return "SearchConsignment [select=" + select + ", keyword=" + keyword + ", strDate=" + strDate + ", endDat="
 				+ endDat + ", status=" + status + "]";
 	}
-
-
-
-
-
-
 
 	public void convertEmptyToNull() {
 	      if ("".equals(this.select)) {

@@ -24,6 +24,7 @@ import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.SearchConsignment;
 import com.kh.auction.user.service.ConsignmentService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +36,8 @@ public class ConsignmentController {
 	@Autowired
 	private ConsignmentService cService;
 
+	private String sortConsignment = null;
+	
 	// 위탁안내 페이지로 이동
 	@GetMapping("conInfo.co")
 	public String moveToConsignmentInfo() {
@@ -160,8 +163,7 @@ public class ConsignmentController {
 
 	// 마이페이지 위탁문의 리스트
 	@GetMapping("list.co")
-	public String selectConsignmentList(@RequestParam(value = "page", defaultValue = "1") int page,
-			HttpServletRequest request, Model model, HttpSession session) {
+	public String selectConsignmentList(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
 
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String memId = (loginUser != null) ? loginUser.getMemId() : null;
@@ -175,10 +177,7 @@ public class ConsignmentController {
 		if (list != null) {
 			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
-			model.addAttribute("loc", request.getRequestURI());
 
-//			System.out.println(list);
-//			System.out.println(pi);
 			return "consignment/conMyPage";
 		} else {
 			throw new Exception("위탁문의 게시글 목록 조회 실패");
@@ -187,36 +186,28 @@ public class ConsignmentController {
 
 	// 마이페이지 검색
 	@GetMapping("searchList.co")
-	public String searchConsignment(@RequestParam(value = "select", required = false) String select, 
-									@RequestParam(value = "keyword", required = false) String keyword,
-									@RequestParam(value = "page", defaultValue = "1") int page,
-									@RequestParam(value = "strDate", required = false)String strDate,
-									@RequestParam(value = "endDate", required = false)String endDate,
-									Model model, HttpSession session) {
+	public String searchConsignment( @RequestParam(value="page", defaultValue="1") int page, SearchConsignment sc, Model model, HttpSession session) {
+		
+//		System.out.println(sc);
+		
 		// keyword : 입력한 검색어 / select : select에서 가져오는 기준
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		String memId = (loginUser != null) ? loginUser.getMemId() : null;
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("select", select);
-		map.put("keyword", keyword.trim());
-		map.put("strDate", strDate);
-		map.put("endDate", endDate);
+		map.put("sc", sc);
 		map.put("memId", memId);
-		
+
 		int listCount = cService.searchCount(map);
 		int currentPage = page;
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); // 리스트 갯수
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); 
 		ArrayList<Consignment> list = cService.searchList(map, pi);
 		
 		if (list != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("list", list);
-			model.addAttribute("select", select);
-			model.addAttribute("strDate", strDate);
-			model.addAttribute("keyword", keyword);
-			model.addAttribute("endDate", endDate);
+			model.addAttribute("sc", sc);
 
 			return "consignment/conMyPage";
 		} else {

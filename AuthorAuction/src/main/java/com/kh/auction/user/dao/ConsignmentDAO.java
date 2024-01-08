@@ -45,7 +45,6 @@ public interface ConsignmentDAO {
 	int updateConsignment(Consignment c);
 
 	int updateAttmFno(Attachment a);
-
 	
 	
 	
@@ -54,9 +53,6 @@ public interface ConsignmentDAO {
 
 	
 	
-//	int getListCount2(String memId);
-//	
-//	ArrayList<Consignment> selectUserList(String memId, RowBounds rowBounds);
 
 	Consignment selectUser(int conNo);
 

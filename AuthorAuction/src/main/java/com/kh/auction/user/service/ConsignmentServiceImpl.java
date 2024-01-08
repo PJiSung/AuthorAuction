@@ -105,20 +105,6 @@ public class ConsignmentServiceImpl implements ConsignmentService{
 
 	
 	
-//	// 관리자 리스트
-//	@Override
-//	public int getListCount2(String memId) {
-//		return cDAO.getListCount2(memId);
-//	}
-//	// 관리자 리스트
-//	@Override
-//	public ArrayList<Consignment> selectUserList(String memId, PageInfo pi) {
-//		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
-//		int limit = pi.getBoardLimit();
-//		RowBounds rowBounds = new RowBounds(offset, limit);
-//		
-//		return cDAO.selectUserList(memId, rowBounds);
-//	}
 	// 관리자 상세조회
 	@Override
 	public Consignment selectUser(int conNo) {
