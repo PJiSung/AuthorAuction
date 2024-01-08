@@ -45,13 +45,13 @@ td {
 	                <input type="checkBox" id="all"><label for="all">전체</label>
 	            </div>
 	            <div style="width: 10%; display: inline-block; margin-left: 3%;">
-	                <input type="checkBox" class="auctionStatus" name="scheduled" id="scheduled" onclick="allCheck(this);"><label for="scheduled">진행 예정 경매</label>
+	                <input type="checkBox" class="auctionStatus" value="scheduled" name="scheduled" id="scheduled" onclick="allCheck(this);"><label for="scheduled">진행 예정 경매</label>
 	            </div>
 	            <div style="width: 10%; display: inline-block; margin-left: 3%;">
-	                <input type="checkBox" class="auctionStatus" name="ongoing" id="ongoing" onclick="allCheck(this);"><label for="ongoing">진행 중인 경매</label>
+	                <input type="checkBox" class="auctionStatus" value="ongoing" name="ongoing" id="ongoing" onclick="allCheck(this);"><label for="ongoing">진행 중인 경매</label>
 	            </div>
 	            <div style="width: 10%; display: inline-block; margin-left: 3%;">
-	                <input type="checkBox" class="auctionStatus" name="end" id="end" onclick="allCheck(this);"><label for="end">종료된 경매</label>
+	                <input type="checkBox" class="auctionStatus" value="end" name="end" id="end" onclick="allCheck(this);"><label for="end">종료된 경매</label>
 	            </div>
 	            <div style="width: 35%; display: inline-block; float:right;">
 	                <select name="searchType">
@@ -365,6 +365,9 @@ td {
     
     <script>
 		window.onload = () =>{
+			console.log(document.querySelectorAll("input[type='text']"));
+			
+			
 			const checkAuctionPeriod = document.getElementById("checkAuctionPeriod");
 			const auction = document.querySelectorAll("div[class='auction']");
 			const monthPlace = document.querySelectorAll("span[class='monthPlace']");
@@ -521,8 +524,6 @@ td {
 				document.getElementsByClassName("tb_body")[2].innerHTML = h.join("");
 				document.getElementsByClassName("tb_body")[3].innerHTML = h.join("");
 			}
-			
-			
 		}
 		
 		////////////////////////////////
@@ -568,9 +569,10 @@ td {
 		}
 		//달력 선택 이벤트 추가해야됨
 		
-		const openCalendar = (data) =>{
+		function openCalendar(data){
 			for(const calendars of document.querySelectorAll("div[class='calendar']")){
 				if(calendars == data.nextElementSibling.nextElementSibling){
+					data.nextElementSibling.nextElementSibling.querySelector("tbody[class='tb_body']").addEventListener('click',chooseDay);
 					calendars.style.display='block';
 				}else{
 					calendars.style.display='none';
@@ -579,7 +581,7 @@ td {
 			
 		}
 		
-		function chooseStartDay (event) {
+		function chooseDay (event) {
     		if (event.target.tagName === 'TD') {
  	            const targetDay = event.target;
  	            const allTds = document.querySelectorAll('.tb_body td');
@@ -594,18 +596,24 @@ td {
  	            if (targetDay.innerText != '') {
  	                targetDay.style.background = 'black';
  	                targetDay.style.color = 'white';
- 	                selectStart(targetDay.innerText);
+ 	                selectDay(targetDay.innerText);
  	            }
  	        }
 		}
 		
 		
-		
-			/* for(const list of auction){
-				list.addEventListener('click',function(){
-					console.log(this.children[0].innerText);
-					
-				}) */
+		function selectDay(targetDay) {
+	   		if(parseInt(targetDay) < 10){
+	   			targetDay = "0" + targetDay;
+	   		}
+	   		
+	   		for(const selectBtn of document.querySelectorAll('button[class="select"]')){
+	   			selectBtn.addEventListener('click',function(){
+	   				event.target.parentElement.parentElement.previousElementSibling.value = event.target.parentElement.parentElement.querySelectorAll("span")[0].innerText + "-" + event.target.parentElement.parentElement.querySelectorAll("span")[1].innerText + "-" + targetDay;
+	   				event.target.parentElement.parentElement.style.display = 'none';
+	   			})
+	   		}
+		}
 	</script>
 </body>
 

@@ -158,6 +158,21 @@ public class ReviewServiceImpl implements ReviewService {
 	public int deleteReply(int repNo) {
 		return rDAO.deleteReply(repNo);
 	}
+	
+	@Override
+	public int getMyReviewListCount(String memId) {
+		return rDAO.getMyReviewListCount(memId);
+	}
+
+	@Override
+	public ArrayList<Review> selectMyReviewList(String memId, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+
+		return rDAO.selectMayReviewList(memId, rowBounds);
+	}
 
 	
 

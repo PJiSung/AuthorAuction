@@ -32,8 +32,9 @@ public class SocketHandler extends TextWebSocketHandler {
 
 	private List<HashMap<String, Object>> rls = new ArrayList<>();
 	private ArrayList<ChatMessage> cList = new ArrayList<>();
+	private ArrayList<String> aloneList = new ArrayList<>();
 	public static int waiting = 0;
-
+	
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception { // 메시지 발송
 		String msg = message.getPayload();
@@ -110,6 +111,7 @@ public class SocketHandler extends TextWebSocketHandler {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		System.out.println("소켓접속");
 		super.afterConnectionEstablished(session);
 		boolean flag = false;
 		boolean checkRoom = false;
@@ -136,8 +138,18 @@ public class SocketHandler extends TextWebSocketHandler {
 		}
 		
 		if (roomSessions.size() == 0 || (roomSessions.size() == 1 && isAdmin.equals("Y"))) {
-			waiting = isAdmin.equals("N") ? ++waiting : --waiting;
-			System.out.println(waiting);
+			
+			if(roomSessions.size() == 0 && isAdmin.equals("N")) {
+				aloneList.add(roomNumber);
+				++waiting;
+			}else if(roomSessions.size() == 1 && isAdmin.equals("Y")){
+				if(aloneList.contains(roomNumber)) {
+					int index = aloneList.indexOf(roomNumber);
+					aloneList.remove(index);
+					--waiting;
+				}
+			}
+			
 			if (flag) {
 				HashMap<String, Object> map = rls.get(idx);
 				map.put(session.getId(), session);
@@ -147,6 +159,7 @@ public class SocketHandler extends TextWebSocketHandler {
 				map.put(session.getId(), session);
 				rls.add(map);
 			}
+			
 			notifySessionCount(roomNumber, roomSessions.size());
 			notifyAllAdmins("고객 상담요청이 있습니다.");
 		} else if (roomSessions.size() == 1 && isAdmin.equals("N")) {
@@ -166,6 +179,7 @@ public class SocketHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception { // 소켓 종료
+		System.out.println("소켓종료");
 		int index = 0;
 		String url = session.getUri().toString();
 		String roomNumber = (url.split("/chating/")[1]).split("/isAdmin/")[0]; // 방번호 체크
@@ -179,6 +193,13 @@ public class SocketHandler extends TextWebSocketHandler {
 					break;
 				}
 			}
+			
+			if(aloneList.contains(roomNumber)) {
+				int aloneIndex = aloneList.indexOf(roomNumber);
+				aloneList.remove(aloneIndex);
+				--waiting;
+			}
+			
 			if (index >= 0 && index < cList.size()) {
 				notifyRoomAboutExit(roomNumber, "상담이 종료되었습니다.");
 				if(cList.get(index).getContent() != null) {

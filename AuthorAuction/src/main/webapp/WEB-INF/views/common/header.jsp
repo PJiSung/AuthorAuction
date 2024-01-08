@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="main/css/common.css">
 <link rel="stylesheet" href="main/css/main.css">
 <link rel="stylesheet" href="main/css/style.css">
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <!-- [S]personal-rglq12YMbj -->
@@ -381,6 +381,7 @@
       </button>
     </div>
   </div>
+  <jsp:include page="../common/chat.jsp"/>
   <!-- [E]header -->
   <script src="main/js/setting.js"></script>
   <script src="main/js/plugin.js"></script>

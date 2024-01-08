@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,28 +45,36 @@ public class AuctionAdminController {
 	}
 	
 	@GetMapping("search.adac")
-	public String searchAuction(@RequestParam(value="searchType", required=false) String searchType, @RequestParam("content") String content,
-								@RequestParam(value="auctionStatus", required=false) String auctionStatus,
+	public String searchAuction(@RequestParam(value="searchType") String search, @RequestParam("content") String content,
+								@RequestParam(value="scheduled", required=false) String scheduled,
+								@RequestParam(value="ongoing", required=false) String ongoing,
+								@RequestParam(value="end", required=false) String end,
 								@RequestParam(value="aucSS", required=false) String aucSS,
 								@RequestParam(value="aucSE", required=false) String aucSE,
 								@RequestParam(value="aucFS", required=false) String aucFS,
 								@RequestParam(value="aucFE", required=false) String aucFE,
 								@RequestParam(value="page", defaultValue="1") int page, Model model) {
+		
 		HashMap<String, String> hm = new HashMap<>();
 		
 		System.out.println(content);
 		
-		System.out.println(auctionStatus);
-		System.out.println(aucSS+"1");
-		System.out.println(aucSE+"2");
-		System.out.println(aucFS+"3");
-		System.out.println(aucFE+"4");
+		System.out.println(scheduled);
+		System.out.println(ongoing);
+		System.out.println(end);
 		
+		System.out.println(search);
 		
+		if(scheduled != null) {
+			hm.put("scheduled", scheduled);
+		}
 		
+		if(ongoing != null) {
+			hm.put("ongoing", ongoing);
+		}
 		
-		if(auctionStatus != null) {
-			hm.put("auctionStatus", auctionStatus);
+		if(scheduled != null) {
+			hm.put("end", end);
 		}
 		
 		if(!aucSS.equals("")) {
@@ -84,18 +93,24 @@ public class AuctionAdminController {
 			hm.put("aucFE", aucFE + " 23:59:59");
 		}
 		
-		hm.put("searchType", searchType);
+		hm.put("search", search);
 		hm.put("content", content);
-		//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
-		ArrayList<Auction> aList = aService.getAdminSearchList(hm);
+		System.out.println("content : " + content);
 		
-		PageInfo pi = Pagination.getPageInfo(page, aList.size(), 10);
+		//관리자 - hashmap을 이용해 진행여부, 내용에 대한 경매들의  수를 들고옴
+		int auctionList = aService.getAdminSearchListCount(hm);
+		
+		PageInfo pi = Pagination.getPageInfo(page, auctionList, 10);
+		
+		//관리자 - hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
+		ArrayList<Auction> aList = aService.getAdminSearchList(hm, pi);
+		System.out.println(auctionList);
+		System.out.println(aList);
+
+		
 		
 		model.addAttribute("aList", aList);
-		model.addAttribute("total", aList.size());
-		model.addAttribute("auctionStatus", auctionStatus);
 		model.addAttribute("pi", pi);
-		
 		
 		return "/auction/adminInquiry";
 		

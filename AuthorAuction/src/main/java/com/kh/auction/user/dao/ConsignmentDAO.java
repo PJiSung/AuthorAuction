@@ -11,6 +11,7 @@ import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.SearchConsignment;
 
 @Mapper
 public interface ConsignmentDAO {
@@ -53,9 +54,9 @@ public interface ConsignmentDAO {
 
 	
 	
-	int getListCount2(String memId);
-	
-	ArrayList<Consignment> selectUserList(String memId, RowBounds rowBounds);
+//	int getListCount2(String memId);
+//	
+//	ArrayList<Consignment> selectUserList(String memId, RowBounds rowBounds);
 
 	Consignment selectUser(int conNo);
 
@@ -63,9 +64,9 @@ public interface ConsignmentDAO {
 
 	int checkDelete(String[] deleteIds);
 
-	int searchCount2(HashMap<String, Object> map);
+	int searchCount2(SearchConsignment sc);
 
-	ArrayList<Consignment> searchList2(HashMap<String, Object> map, RowBounds rowBounds);
+	ArrayList<Consignment> searchList2(SearchConsignment sc, RowBounds rowBounds);
 
 	ArrayList<HashMap<String, Object>> selectAuctionMList();
 

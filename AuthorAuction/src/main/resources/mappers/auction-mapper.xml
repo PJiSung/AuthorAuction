@@ -197,7 +197,306 @@
 	<!-- adimin -->
 	<!-- adimin -->
 	
-	<select id="getAdminSearchList" resultType="Auction">
+	<select id="getAdminSearchListCount" parameterType="java.util.Map">
+    SELECT COUNT(*)
+    FROM auction
+    JOIN (
+        SELECT *
+        FROM consignment
+        JOIN attachment ON (con_no = att_bno)
+        WHERE att_category = 2 AND att_fno = 1
+    ) ON (auc_no = con_no)
+    WHERE 1 = 1
+    	<choose>
+    		<when test="search == 'all'">
+    			and con_product like '%' ||  #{content} || '%' or con_author like  '%' ||  #{content} || '%' 
+    		</when>
+    		<when test="search == 'author'">
+    			and con_author like  '%' ||  #{content} || '%'
+    		</when>
+    		<when test="search == 'work'">
+    			and con_product like '%' ||  #{content} || '%'
+    		</when>
+    	</choose>
+    	<choose>
+    		<when test="scheduled != null">
+    			or auc_start_date > sysdate 
+    		</when>
+    		<when test="ongoing != null">
+    			or sysdate between auc_start_date and auc_finish_date 
+    		</when>
+    		<when test="end != null">
+    			or sysdate > auc_finish_date 
+    		</when>
+    	</choose>
+        <choose>
+	        <!-- x만 존재 (시작일만 주어짐): x -->
+	        <when test="aucSS != null and aucSE == null and aucFS == null and aucFE == null">
+	           and (auc_start_date <![CDATA[>=]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, y 존재 (시작일 범위 주어짐): x, y -->
+	        <when test="aucSS != null and aucSE != null and aucFS == null and aucFE == null">
+	           and (auc_start_date BETWEEN to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, z 존재 (시작일, 종료일 범위 주어짐): x, z -->
+	        <when test="aucSS != null and aucSE == null and aucFS != null and aucFE == null">
+	           and ((auc_start_date <![CDATA[>=]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS'))
+	            or (auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')))
+	        </when>
+	
+	        <!-- x, a 존재 (시작일, 종료일 범위 주어짐): x, a -->
+	        <when test="aucSS != null and aucSE == null and aucFS == null and aucFE != null">
+	           and ((auc_start_date <![CDATA[>=]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS'))
+	            or auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- y만 존재 (시작일만 주어짐): y -->
+	        <when test="aucSS == null and aucSE != null and aucFS == null and aucFE == null">
+	           and (auc_start_date <![CDATA[>=]]>  to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- y, z 존재 (시작일 범위 주어짐): y, z -->
+	        <when test="aucSS == null and aucSE != null and aucFS != null and aucFE == null">
+	           and (auc_start_date <![CDATA[>=]]>  to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+	            or (auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')))
+	        </when>
+	
+	        <!-- y, a 존재 (시작일 범위 주어짐): y, a -->
+	        <when test="aucSS == null and aucSE != null and aucFS != null and aucFE == null">
+	           and (auc_start_date <![CDATA[>=]]> to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+	            or auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- z만 존재 (종료일만 주어짐): z -->
+	        <when test="aucSS == null and aucSE == null and aucFS != null and aucFE == null">
+	           and (auc_finish_date aucFS <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- z, a 존재 (시작일, 종료일 범위 주어짐): z, a -->
+	        <when test="aucSS == null and aucSE == null and aucFS != null and aucFE != null">
+	           and (auc_finish_date BETWEEN to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	        <!-- a만 존재 (종료일만 주어짐): a -->
+	        <when test="aucSS == null and aucSE == null and aucFS == null and aucFE != null">
+	           and (auc_finish_date <![CDATA[<=]]> to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, y, z 존재 (시작일, 종료일 범위 주어짐): x, y, z -->
+	        <when test="aucSS != null and aucSE != null and aucFS != null and aucFE == null">
+	           and ((auc_start_date BETWEEN to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	            or (auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')))
+	        </when>
+	
+	        <!-- x, y, a 존재 (시작일, 종료일 범위 주어짐): x, y, a -->
+	        <when test="aucSS != null and aucSE != null and aucFS == null and aucFE != null">
+	          and ((auc_start_date BETWEEN to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	            AND auc_finish_date <![CDATA[<=]]> to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, z, a 존재 (시작일, 종료일 범위 주어짐): x, z, a -->
+	        <when test="aucSS != null and aucSE == null and aucFS != null and aucFE != null">
+	            and((auc_start_date <![CDATA[>=]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS'))
+	            or auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- y, z, a 존재 (시작일, 종료일 범위 주어짐): y, z, a -->
+	        <when test="aucSS == null and aucSE != null and aucFS != null and aucFE != null">
+	            and (auc_start_date <![CDATA[>=]]> to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+	            AND auc_finish_date BETWEEN to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, y, z, a 존재 (시작일, 종료일 범위 주어짐): x, y, z, a -->
+	        <when test="aucSS != null and aucSE != null and aucFS != null and aucFE != null">
+	           and((auc_start_date BETWEEN to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	            AND (auc_finish_date BETWEEN to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')))
+	        </when>
+			<otherwise></otherwise>
+	        <!-- 주어진 날짜 없음: (모든 날짜 범위가 주어지지 않음) -->
+	    </choose>
+	</select>
+
+	
+	<!--  -->
+	<select id="getAdminSearchList" parameterType="java.util.Map">
+    SELECT auc_no, auc_start_price, auc_finish_price ,to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
+				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
+				con_year, con_etc, att_rename
+    FROM auction
+    JOIN (
+        SELECT *
+        FROM consignment
+        JOIN attachment ON (con_no = att_bno)
+        WHERE att_category = 2 AND att_fno = 1
+    	) ON (auc_no = con_no)
+    WHERE 1 = 1
+    	<choose>
+    		<when test="search == 'all'">
+    			and con_product like '%' ||  #{content} || '%' or con_author like  '%' ||  #{content} || '%' 
+    		</when>
+    		<when test="search == 'author'">
+    			and con_author like  '%' ||  #{content} || '%'
+    		</when>
+    		<when test="search == 'work'">
+    			and con_product like '%' ||  #{content} || '%'
+    		</when>
+    	</choose>
+    	<choose>
+    		<when test="scheduled != null">
+    			or auc_start_date > sysdate 
+    		</when>
+    		<when test="ongoing != null">
+    			or sysdate between auc_start_date and auc_finish_date 
+    		</when>
+    		<when test="end != null">
+    			or sysdate > auc_finish_date 
+    		</when>
+    	</choose>
+        <choose>
+	        <!-- x만 존재 (시작일만 주어짐): x -->
+	        <when test="aucSS != null and aucSE == null and aucFS == null and aucFE == null">
+	           and (auc_start_date <![CDATA[>=]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, y 존재 (시작일 범위 주어짐): x, y -->
+	        <when test="aucSS != null and aucSE != null and aucFS == null and aucFE == null">
+	           and (auc_start_date BETWEEN to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, z 존재 (시작일, 종료일 범위 주어짐): x, z -->
+	        <when test="aucSS != null and aucSE == null and aucFS != null and aucFE == null">
+	           and ((auc_start_date <![CDATA[>=]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS'))
+	            or (auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')))
+	        </when>
+	
+	        <!-- x, a 존재 (시작일, 종료일 범위 주어짐): x, a -->
+	        <when test="aucSS != null and aucSE == null and aucFS == null and aucFE != null">
+	           and ((auc_start_date <![CDATA[>=]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS'))
+	            or auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- y만 존재 (시작일만 주어짐): y -->
+	        <when test="aucSS == null and aucSE != null and aucFS == null and aucFE == null">
+	           and (auc_start_date <![CDATA[>=]]>  to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- y, z 존재 (시작일 범위 주어짐): y, z -->
+	        <when test="aucSS == null and aucSE != null and aucFS != null and aucFE == null">
+	           and (auc_start_date <![CDATA[>=]]>  to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+	            or (auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')))
+	        </when>
+	
+	        <!-- y, a 존재 (시작일 범위 주어짐): y, a -->
+	        <when test="aucSS == null and aucSE != null and aucFS != null and aucFE == null">
+	           and (auc_start_date <![CDATA[>=]]> to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+	            or auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- z만 존재 (종료일만 주어짐): z -->
+	        <when test="aucSS == null and aucSE == null and aucFS != null and aucFE == null">
+	           and (auc_finish_date aucFS <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- z, a 존재 (시작일, 종료일 범위 주어짐): z, a -->
+	        <when test="aucSS == null and aucSE == null and aucFS != null and aucFE != null">
+	           and (auc_finish_date BETWEEN to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	        <!-- a만 존재 (종료일만 주어짐): a -->
+	        <when test="aucSS == null and aucSE == null and aucFS == null and aucFE != null">
+	           and (auc_finish_date <![CDATA[<=]]> to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, y, z 존재 (시작일, 종료일 범위 주어짐): x, y, z -->
+	        <when test="aucSS != null and aucSE != null and aucFS != null and aucFE == null">
+	           and ((auc_start_date BETWEEN to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	            or (auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')))
+	        </when>
+	
+	        <!-- x, y, a 존재 (시작일, 종료일 범위 주어짐): x, y, a -->
+	        <when test="aucSS != null and aucSE != null and aucFS == null and aucFE != null">
+	          and ((auc_start_date BETWEEN to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	            AND auc_finish_date <![CDATA[<=]]> to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, z, a 존재 (시작일, 종료일 범위 주어짐): x, z, a -->
+	        <when test="aucSS != null and aucSE == null and aucFS != null and aucFE != null">
+	            and((auc_start_date <![CDATA[>=]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS'))
+	            or auc_finish_date <![CDATA[>=]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- y, z, a 존재 (시작일, 종료일 범위 주어짐): y, z, a -->
+	        <when test="aucSS == null and aucSE != null and aucFS != null and aucFE != null">
+	            and (auc_start_date <![CDATA[>=]]> to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+	            AND auc_finish_date BETWEEN to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS'))
+	        </when>
+	
+	        <!-- x, y, z, a 존재 (시작일, 종료일 범위 주어짐): x, y, z, a -->
+	        <when test="aucSS != null and aucSE != null and aucFS != null and aucFE != null">
+	           and((auc_start_date BETWEEN to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS'))
+	            AND (auc_finish_date BETWEEN to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS') AND to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')))
+	        </when>
+	        <!-- 주어진 날짜 없음: (모든 날짜 범위가 주어지지 않음) -->
+	        <otherwise></otherwise>
+	    </choose>
+	</select>
+	
+	
+	<!-- <if test="scheduled != null">
+			 or sysdate <![CDATA[<]]> auc_finish_date
+			 
+			 <if test="aucSS != null">
+				and auc_start_date <![CDATA[>]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucSE != null">
+				and auc_start_date <![CDATA[<]]> to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucFS != null">
+				and auc_finish_date <![CDATA[<]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucFE != null">
+				and auc_finish_date <![CDATA[<]]> to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			
+		</if>
+		
+		<if test="ongoing != null">
+			or sysdate between auc_start_date and auc_finish_date
+			
+			<if test="aucSS != null">
+				and auc_start_date <![CDATA[>]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucSE != null">
+				and auc_start_date <![CDATA[<]]> to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucFS != null">
+				and auc_finish_date <![CDATA[<]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucFE != null">
+				and auc_finish_date <![CDATA[<]]> to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+		
+		</if>
+		
+		<if test="end != null">
+			or sysdate <![CDATA[>]]> auc_finish_date
+			<if test="aucSS != null">
+				and auc_start_date <![CDATA[>]]> to_date(#{aucSS}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucSE != null">
+				and auc_start_date <![CDATA[<]]> to_date(#{aucSE}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucFS != null">
+				and auc_finish_date <![CDATA[<]]> to_date(#{aucFS}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="aucFE != null">
+				and auc_finish_date <![CDATA[<]]> to_date(#{aucFE}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+		</if> -->	
+
+	
+	
+	<!-- <select id="getAdminSearchList" resultType="Auction">
 		select auc_no, auc_start_price, auc_finish_price, to_char(auc_start_date, 'YYYY-MM-DD HH24:MI:SS') as auc_start_date, 
 				to_char(auc_finish_date, 'YYYY-MM-DD HH24:MI:SS') as auc_finish_date, auc_mem_id, con_author, con_product, con_width, con_height,
 				con_year, con_etc, att_rename
@@ -291,7 +590,7 @@
 				]]>
 			</if>
 		</if>
-	</select>
+	</select> -->
 	
 	
 	<insert id="insertAuction">

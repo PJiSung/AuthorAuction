@@ -13,23 +13,27 @@
 }
 
 .container {
-	width: 500px;
-	margin: 0 auto;
+	position: fixed;
+	width: 400px;
 	padding: 25px;
 	display: none;
+	right: 70px;
+	top: 265px;
 }
 
 .chatingHeader{
 	display:flex;
 	justify-content: space-between;
 	align-items:center;
-	background-color: #bac7e0;
+	background-color: white;
 	color:black;
 	width: 100%;
 	height: 50px;
 	line-height: 50px;
-	border-bottom: 1px solid gray;
+	border: 1px solid black;
 	font-size: 20px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px; 
 }
 .chatingHeader .center{
 	text-align: center; 
@@ -44,12 +48,13 @@
 	text-align: center;
 	font-weight: bold;
 }
-.modal {
+
+.chatModal {
 	display: none;
 	position: fixed;
 	z-index: 1 !important;
-	left: 0;
-	top: -12%;
+	left: 34%;
+	top: 0;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
@@ -62,8 +67,8 @@
 	transform: translate(-50%, -50%);
 	background-color: #fefefe;
 	padding: 20px;
-	border: 1px solid #888;
-	width: 25%; 
+	border: 1px solid black;
+	width: 20%; 
 	max-width: 550px; 
 }
 .closeBtn {
@@ -106,9 +111,10 @@
 /* 채팅 */
 .wrap {
     padding: 20px 0;
-    height: 500px;
-    background-color: #bacee0;
+    height: 400px;
+    background-color: white;
     overflow-y: auto;
+    border:1px solid black;
 }
 
 .wrap .chat {
@@ -174,13 +180,13 @@
 
 .wrap .ch1 .textbox { 
     margin-left: 20px;
-    background-color: white;
+    background-color: #F2F2F2;
 }
 
 .wrap .ch1 .textbox::before {
     left: -15px;
     content: "◀";
-    color: white;
+    color: #F2F2F2;
 }
 /* 어드민 상대방 채팅 */
 .wrap .ch1Admin .textbox {
@@ -199,12 +205,12 @@
 }
 .wrap .ch1Admin .textbox{ 
 	margin-left: 60px;
-	background-color: white;
+	background-color: #F2F2F2;
 }
 .wrap .ch1Admin .textbox::before {
     left: -15px;
     content: "◀";
-    color: white;
+    color: #F2F2F2;
 }
 /*                        */
 .wrap .ch2 {
@@ -236,7 +242,7 @@
 .wrap .ch3 .textbox { 
     margin-left: 75px; 
     margin-top: 7px;
-    background-color: white;
+    background-color: #f2f2f2;
 }
 
 .wrap .ch4 {
@@ -249,19 +255,25 @@
 }
 /* 메시지창 */
 #yourMsg{
-	width:99.6%;
+	width:100%;
 	height: 60px;
 	margin-top: 0;
-	border: 1px solid #bacee0;
+	border: 1px solid black;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-top:none;
+	border-left:none;
 }
 #yourMsg textarea{
 	font-size: 16px;
-	border: 1px solid #bacee0;
 	height: 60px;
 	border-top: none;
 	resize: none;
-	width: 400px;
+	width: 266px;
+	border-color:black;
 	border-right: none;
+	border-bottom-left-radius: 5px;
+	line-height: 19px;
 }
 #yourMsg textarea:focus{
 	outline: none;
@@ -269,26 +281,47 @@
 .textarea-container {
     position: relative;
     display: inline-block;
-    float:left;
+    float: left;
 }
 .sendBtn{
 	float:right;
 	width: 76px;
-	margin-top: 13px;
+	margin-top: 9px;
 }
 #sendBtn {
     padding: 15px;
     padding-top: 8px;
     padding-bottom: 8px;
-    background-color: #4CAF50;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 3px;
     cursor: pointer;
 }
 #sendBtn:hover {
-    background-color: #45a049;
+    background-color: #333;
 }
+
+.btn-chat{
+	position: fixed;
+	top: 800px;
+	right: 100px;
+}
+
+.waitingCount{
+	position: absolute;
+	left:40px;
+	top:65px;
+	background-color: black;
+	width: 20px;
+	height: 20px;
+	color: white;
+	border-radius: 70%;
+	font-size: 1.3rem;
+	text-align: center;
+	line-height: 20px;
+}
+
 </style>
 </head>
 
@@ -296,13 +329,16 @@
 let ws;
 let isAdmin = '${loginUser.memIsAdmin}';
 let sId;
-window.onload = () =>{
+$(document).ready(function(){
 	setInterval(waiting, 1000);
-}
+	document.getElementById("roomNumber").value = 1;
+});
 function wsOpen() {
 	document.getElementById("sendBtn").disabled = true;
+	console.log(location.host);
+	console.log($("#roomNumber").val());
 	ws = new WebSocket("ws://" + location.host + "/chating/" + $("#roomNumber").val() + "/isAdmin/" + isAdmin);
-	wsEvt();
+	if(wsEvt()){document.getElementById("roomNumber").value = '${roomNumber}'}
 }
 function wsEvt() {
 	ws.onopen = function(data) {
@@ -429,6 +465,7 @@ const openChat = () =>{
 	}else{
 		$("#container").toggle();
 		document.getElementById("openChatting").style.display="none";
+		document.getElementById("waiting").style.display="none";
 		wsOpen();
 	}
 }
@@ -436,6 +473,7 @@ const openChat = () =>{
 const closeChat = () =>{
 	$(".container").toggle();
 	document.getElementById("openChatting").style.display="block";
+	document.getElementById("waiting").style.display="none";
 	document.getElementById("roomNumber").value = 1;
 	document.getElementById("chating").innerText = "";
 	if (ws) {
@@ -446,26 +484,28 @@ const closeChat = () =>{
 
 const waiting = () =>{
 	let waiting = document.getElementById("waiting");
-	$.ajax({
- 		url: 'getWaiting',
- 		success: (data) =>{
-			if(data >= 0){
-				waiting.innerText = data;
-			}else{
-				waiting.innerText = 0;
-			}
- 		},
- 		error: data => console.log(data)
- 	});	
+	if(isAdmin == 'Y'){
+		$.ajax({
+	 		url: 'getWaiting',
+	 		success: (data) =>{
+				if(data >= 0){
+					waiting.innerText = data;
+				}else{
+					waiting.innerText = 0;
+				}
+	 		},
+	 		error: data => console.log(data)
+	 	});	
+	}
 }
 
-const showModal = () =>{
-	let modal = document.getElementById('myModal');
+const showChatModal = () =>{
+	let modal = document.getElementById('myChatModal');
 	modal.style.display = 'block';
 }
 
-const closeModal = () =>{
-	let modal = document.getElementById('myModal');
+const closeChatModal = () =>{
+	let modal = document.getElementById('myChatModal');
 	modal.style.display = 'none';
 }
 
@@ -476,14 +516,20 @@ const scrollToBottom = () =>{
 
 </script>
 <body>
-<input type="button" value="채팅" onclick="openChat()" id="openChatting"><span id="waiting"></span>
-	<div id="container" class="container">
+
+<a href="#" class="btn-chat header-utils-btn" onclick="openChat()" id="openChatting">
+<img src="main/icons/chatIcon.png">
+<span class="waitingCount" id="waiting">0</span>
+</a>
+
+	<div id="container" class="container" style="z-index:9999">
+	
 		<input type="hidden" name="userName" id="userName" value="${loginUser.memId}">
 		<input type="hidden" id="sessionId" value="">
-		<input type="hidden" id="roomNumber" value="${roomNumber}">
+		<input type="text" id="roomNumber" value="${roomNumber}">
 		
 		<div class="chatingHeader">
-			<span class="center">&nbsp;&nbsp;&nbsp;&nbsp;AuthorAuction&nbsp;상담문의</span><span class="right closeBtn" onclick="showModal()">X&nbsp;</span>
+			<span class="center">&nbsp;&nbsp;&nbsp;&nbsp;AuthorAuction&nbsp;상담문의</span><span class="right closeBtn" onclick="showChatModal()">X&nbsp;</span>
 		</div>
 		<div class="wrap" id="chating">
     	</div>
@@ -498,13 +544,13 @@ const scrollToBottom = () =>{
 		</div>
 	</div>
 	
-	  <div id="myModal" class="modal">
+	  <div id="myChatModal" class="chatModal">
 		  <div class="modal-content">
 		    <h3>채팅방에서 나가시겠습니까?</h3><br>
 		    <p>나가기를 하면 대화내용이 모두 삭제됩니다.</p><br>
-		    <input type="button" class="close del" value="확인" onclick="closeModal();closeChat()">
-		    <input type="button" class="close can" value="취소" onclick="closeModal()">
+		    <input type="button" class="close del" value="확인" onclick="closeChatModal();closeChat()">
+		    <input type="button" class="close can" value="취소" onclick="closeChatModal()">
 		  </div>
-		</div>
+	</div>
 </body>
 </html>

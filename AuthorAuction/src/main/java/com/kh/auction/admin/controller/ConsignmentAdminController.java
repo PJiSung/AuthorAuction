@@ -1,6 +1,5 @@
 package com.kh.auction.admin.controller;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,9 +17,9 @@ import com.kh.auction.user.exception.Exception;
 import com.kh.auction.user.model.vo.Consignment;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
+import com.kh.auction.user.model.vo.SearchConsignment;
 import com.kh.auction.user.service.ConsignmentService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -29,32 +28,44 @@ public class ConsignmentAdminController {
 	@Autowired
 	private ConsignmentService cService;
 	
-	// 관리자 리스트
-	@GetMapping("list.adco")
-	public String selectUserList(@RequestParam(value="page", defaultValue="1") int page, 
-								 HttpServletRequest request, Model model, HttpSession session) throws Exception {
+	private String sortConsignment = null;
+	
+	// 관리자 리스트 / 기간 + 조건 검색
+	@GetMapping("searchList.adco")
+	public String searchAdminConsignment(Model model, @RequestParam(value="page", defaultValue="1") int page, 
+										 SearchConsignment sc) {
+		// keyword : 입력한 검색어 / select : select에서 가져오는 기준
+		System.out.println(sc);
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String memId = (loginUser != null) ? loginUser.getMemId() : null;
+		sc.convertEmptyToNull();
 		
-		int listCount = cService.getListCount2(memId);
+		sortConsignment = sc.getStatus();
+		
+		int listCount = cService.searchCount2(sc);
 		int currentPage = page;
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		ArrayList<Consignment> cList = cService.selectUserList(memId, pi);
-		ArrayList<HashMap<String, Object>> aList = cService.selectAuctionMList();			// 수락 > 시간 정하려고 가져옴
+		ArrayList<Consignment> cList = cService.searchList2(sc, pi);
+		ArrayList<HashMap<String, Object>> aList = cService.selectAuctionMList();
 		
 		if(cList != null) {
-			model.addAttribute("cList",cList);
-			model.addAttribute("aList", aList);
 			model.addAttribute("total", listCount);
+			model.addAttribute("cList", cList);
+			model.addAttribute("aList",aList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("sc", sc);
+			model.addAttribute("status", sortConsignment);
+			
+			System.out.println(pi);
+			
 			
 			return "consignment/conAdminList";
 		} else {
-			throw new Exception("관리자 위탁문의 리스트 조회 실패");
+			throw new Exception("게시글 검색을 실패하였습니다.");
 		}
+		
 	}
+	
 	// 상세조회
 	@GetMapping("selectUser.adco")
 	public String selectUser(@RequestParam("conNo")int conNo,						// 리스트에서 받아와서
@@ -82,6 +93,7 @@ public class ConsignmentAdminController {
 			throw new Exception("첨부파일 게시글 상세조회 실패");
 		}
 	}
+	
 	// 체크박스 삭제
 	@ResponseBody
 	@PostMapping("checkDelete.adco")
@@ -93,43 +105,6 @@ public class ConsignmentAdminController {
 		} else {
 			return "fail";
 		}
-	}
-	// 기간 / 조건 검색
-	@GetMapping("searchList.adco")
-	public String searchAdminConsignment(@RequestParam(value="select", required = false) String select,
-										 @RequestParam(value="keyword", required = false) String keyword, Model model,
-										 @RequestParam(value="page", defaultValue="1") int page,
-										 @RequestParam(value="strDate", required = false)String strDate,
-										 @RequestParam(value="endDate2", required = false)String EndDate) {
-										// keyword : 입력한 검색어 / select : select에서 가져오는 기준
-		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("select", select);
-		map.put("keyword", keyword);
-		map.put("strDate", strDate);
-		map.put("EndDate", EndDate);
-		
-		int listCount = cService.searchCount2(map);
-		int currentPage = page;
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		ArrayList<Consignment> cList = cService.searchList2(map, pi);
-		ArrayList<HashMap<String, Object>> aList = cService.selectAuctionMList();
-		
-		if(cList != null) {
-			model.addAttribute("total", listCount);
-			model.addAttribute("cList", cList);
-			model.addAttribute("aList",aList);
-			model.addAttribute("pi", pi);
-			model.addAttribute("select", select);
-			model.addAttribute("strDate", strDate);
-			model.addAttribute("keyword", keyword);
-			model.addAttribute("endDate2", EndDate);
-			
-			return "consignment/conAdminList";
-		} else {
-			throw new Exception("게시글 검색을 실패하였습니다.");
-		}
-		
 	}
 	
 	// 경매 등록 수락 / 거부

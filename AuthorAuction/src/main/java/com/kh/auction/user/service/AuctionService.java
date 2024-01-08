@@ -20,8 +20,11 @@ public interface AuctionService {
 	//경매 번호로 해당 경매정보 가지고 옴
 	Auction getAuctionDetail(int aucNo);
 
-	//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
-	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm);
+	//관리자 - hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
+	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm, PageInfo pi);
+	
+	//관리자 - hashmap을 이용해 진행여부, 내용에 대한 경매들의  수를 들고옴
+	int getAdminSearchListCount(HashMap<String, String> hm);
 
 	//입찰 - ajax 이용해 환불한후에 바로 경매금액 업데이트
 	int insertBid(HashMap<String, Object> hm);

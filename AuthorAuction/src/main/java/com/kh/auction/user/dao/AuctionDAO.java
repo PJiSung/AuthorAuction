@@ -10,6 +10,7 @@ import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Auction;
 import com.kh.auction.user.model.vo.BiddingDetail;
 import com.kh.auction.user.model.vo.Consignment;
+import com.kh.auction.user.model.vo.PageInfo;
 
 @Mapper 
 public interface AuctionDAO {
@@ -24,7 +25,7 @@ public interface AuctionDAO {
 	Auction getAuctionDetail(int aucNo);
 
 	//hashmap을 이용해 진행여부, 내용에 대한 경매들을 들고옴
-	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm);
+	ArrayList<Auction> getAdminSearchList(HashMap<String, String> hm, RowBounds rowBounds);
 
 	//입찰 - ajax  경매금액 업데이트
 	int insertBid(HashMap<String, Object> hm);
@@ -73,5 +74,8 @@ public interface AuctionDAO {
 
 	//내가 입찰한 경매내역을 들고옴
 	ArrayList<BiddingDetail> getAllMyDetail(HashMap<String, String> bidListHm, RowBounds rowBounds);
+
+	//관리자 - hashmap을 이용해 진행여부, 내용에 대한 경매들의 수를 들고옴
+	int getAdminSearchListCount(HashMap<String, String> hm);
 
 }
