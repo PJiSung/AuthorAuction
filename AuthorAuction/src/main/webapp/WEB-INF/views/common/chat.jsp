@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,8 @@
 	padding: 0;
 }
 
-.container {
+.chatContainer {
+	z-index: 999;
 	position: fixed;
 	width: 400px;
 	padding: 25px;
@@ -50,6 +52,7 @@
 }
 
 .chatModal {
+	z-index: 1000;
 	display: none;
 	position: fixed;
 	z-index: 1 !important;
@@ -60,7 +63,7 @@
 	overflow: auto;
 }
 
-.modal-content {
+.chatModal-content {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -109,7 +112,7 @@
 	cursor: pointer;
 }
 /* 채팅 */
-.wrap {
+.chatWrap {
     padding: 20px 0;
     height: 400px;
     background-color: white;
@@ -117,13 +120,13 @@
     border:1px solid black;
 }
 
-.wrap .chat {
+.chatWrap .chat {
     display: flex;
     align-items: flex-start;
     padding: 0;
 }
 
-.wrap .chat .icon {
+.chatWrap .chat .icon {
     position: relative;
     overflow: hidden;
     width: 50px;
@@ -133,7 +136,7 @@
     margin-left: 10px;
 }
 
-.wrap .chat .icon i {
+.chatWrap .chat .icon i {
     position: absolute;
     top: 10px;
     left: 50%;
@@ -143,7 +146,7 @@
 }
 
 /* 내 채팅 */
-.wrap .chat .textbox {
+.chatWrap .chat .textbox {
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
@@ -156,7 +159,7 @@
 }
 
 /* 상대 채팅 */
-.wrap .ch1 .textbox {
+.chatWrap .ch1 .textbox {
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
@@ -166,30 +169,30 @@
     border-radius: 5px;
     left: -90px;
 }
-.wrap .ch1 .userId{
+.chatWrap .ch1 .userId{
 	margin-left: 20px;
 	margin-top: -5px;
 }
 
-.wrap .chat .textbox::before {
+.chatWrap .chat .textbox::before {
     position: absolute;
     display: block;
     top: 0;
     font-size: 1.5rem;
 }
 
-.wrap .ch1 .textbox { 
+.chatWrap .ch1 .textbox { 
     margin-left: 20px;
     background-color: #F2F2F2;
 }
 
-.wrap .ch1 .textbox::before {
+.chatWrap .ch1 .textbox::before {
     left: -15px;
     content: "◀";
     color: #F2F2F2;
 }
 /* 어드민 상대방 채팅 */
-.wrap .ch1Admin .textbox {
+.chatWrap .ch1Admin .textbox {
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
@@ -199,37 +202,37 @@
     border-radius: 5px;
     left: -90px;
 }
-.wrap .ch1Admin .userId{
+.chatWrap .ch1Admin .userId{
 	margin-left: 20px;
 	margin-top: -5px;
 }
-.wrap .ch1Admin .textbox{ 
+.chatWrap .ch1Admin .textbox{ 
 	margin-left: 60px;
 	background-color: #F2F2F2;
 }
-.wrap .ch1Admin .textbox::before {
+.chatWrap .ch1Admin .textbox::before {
     left: -15px;
     content: "◀";
     color: #F2F2F2;
 }
 /*                        */
-.wrap .ch2 {
+.chatWrap .ch2 {
     flex-direction: row-reverse;
 }
 
-.wrap .ch2 .textbox {
+.chatWrap .ch2 .textbox {
     margin-right: 20px;
     background-color: #ffeb33;
 }
 
-.wrap .ch2 .textbox::before {
+.chatWrap .ch2 .textbox::before {
     right: -15px; 
     content: "▶";
     color: #ffeb33;
 }
 
 /* 연속 채팅 */
-.wrap .ch3 .textbox {
+.chatWrap .ch3 .textbox {
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
@@ -239,17 +242,17 @@
     border-radius: 5px;
 }
 
-.wrap .ch3 .textbox { 
+.chatWrap .ch3 .textbox { 
     margin-left: 75px; 
     margin-top: 7px;
     background-color: #f2f2f2;
 }
 
-.wrap .ch4 {
+.chatWrap .ch4 {
     flex-direction: row-reverse;
 }
 
-.wrap .ch4 .textbox {
+.chatWrap .ch4 .textbox {
     margin-right: 20px;
     background-color: #ffeb33;
 }
@@ -321,7 +324,6 @@
 	text-align: center;
 	line-height: 20px;
 }
-
 </style>
 </head>
 
@@ -434,13 +436,13 @@ function wsEvt() {
 	if(document.getElementById("sendBtn").disabled == false){
 		document.addEventListener("keypress", function(e) {
 			if (e.keyCode == 13) { //enter press
-				send();
+				sendMessage();
 			}
 		});
 	}
 }
 
-const send = () =>{
+const sendMessage = () =>{
 	if(document.getElementById("chatting").value.trim() != ""){
 		var option = {
 			type : "message",
@@ -460,10 +462,13 @@ const send = () =>{
 
 const openChat = () =>{
 	let login = "${loginUser}";
+	let waiting = document.getElementById("waiting");
 	if(login == ""){
 		alert("로그인후에 진행해주세요");
-	}else{
-		$("#container").toggle();
+	}else if(isAdmin == 'Y' && waiting.value == 0)
+		alert("대기중인 고객이 없습니다.");
+	else{
+		$("#chatContainer").toggle();
 		document.getElementById("openChatting").style.display="none";
 		document.getElementById("waiting").style.display="none";
 		wsOpen();
@@ -471,7 +476,7 @@ const openChat = () =>{
 }
 
 const closeChat = () =>{
-	$(".container").toggle();
+	$(".chatContainer").toggle();
 	document.getElementById("openChatting").style.display="block";
 	document.getElementById("waiting").style.display="none";
 	document.getElementById("roomNumber").value = 1;
@@ -519,10 +524,12 @@ const scrollToBottom = () =>{
 
 <a href="#" class="btn-chat header-utils-btn" onclick="openChat()" id="openChatting">
 <img src="main/icons/chatIcon.png">
+<c:if test="${ loginUser.memIsAdmin eq 'Y' }">
 <span class="waitingCount" id="waiting">0</span>
+</c:if>
 </a>
 
-	<div id="container" class="container" style="z-index:9999">
+	<div id="chatContainer" class="chatContainer">
 	
 		<input type="hidden" name="userName" id="userName" value="${loginUser.memId}">
 		<input type="hidden" id="sessionId" value="">
@@ -531,7 +538,7 @@ const scrollToBottom = () =>{
 		<div class="chatingHeader">
 			<span class="center">&nbsp;&nbsp;&nbsp;&nbsp;AuthorAuction&nbsp;상담문의</span><span class="right closeBtn" onclick="showChatModal()">X&nbsp;</span>
 		</div>
-		<div class="wrap" id="chating">
+		<div class="chatWrap" id="chating">
     	</div>
 		
 		<div id="yourMsg">
@@ -539,18 +546,18 @@ const scrollToBottom = () =>{
 		        <textarea rows="5" wrap="soft" id="chatting"></textarea>
 		    </div>
 	        <div class="sendBtn">
-	        	<button onclick="send()" id="sendBtn">전송</button>
+	        	<button onclick="sendMessage()" id="sendBtn">전송</button>
 	        </div>
 		</div>
-	</div>
-	
 	  <div id="myChatModal" class="chatModal">
-		  <div class="modal-content">
+		  <div class="chatModal-content">
 		    <h3>채팅방에서 나가시겠습니까?</h3><br>
 		    <p>나가기를 하면 대화내용이 모두 삭제됩니다.</p><br>
 		    <input type="button" class="close del" value="확인" onclick="closeChatModal();closeChat()">
 		    <input type="button" class="close can" value="취소" onclick="closeChatModal()">
 		  </div>
 	</div>
+	</div>
+	
 </body>
 </html>
