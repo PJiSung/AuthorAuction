@@ -20,17 +20,24 @@ table {
 }
 
 th {
-	padding: 0 0 0 5%;
+	padding-left:5%;
 }
 
 td {
-	text-align: center;
-	height: 35px;
+	padding-left:5.5%;
+	height: 50px;
+	width:3px;
 }
 
 
 .calendar{
+
 	display:none;
+}
+
+#button{
+	color:white;
+	background:black;
 }
 
 </style>
@@ -38,8 +45,7 @@ td {
 <body>
 	<jsp:include page="../common/header.jsp"/>
 	<form action="search.adac" method="get">
-	    <div id="coverAll" style="width: 100%; height: 100%;">
-	    
+	    <div id="coverAll" style="width: 100%; height: 100%; margin-top:5%;">
 	        <div style="width: 70%; height: 100%; margin: auto; margin-top: 1%; border: 1px black solid; padding: 1% 0 1% 0;">
 	        	<div style="width: 4.5%; display: inline-block; margin-left: 3%;">
 	                <input type="checkBox" id="all"><label for="all">전체</label>
@@ -53,13 +59,13 @@ td {
 	            <div style="width: 10%; display: inline-block; margin-left: 3%;">
 	                <input type="checkBox" class="auctionStatus" value="end" name="end" id="end" onclick="allCheck(this);"><label for="end">종료된 경매</label>
 	            </div>
-	            <div style="width: 35%; display: inline-block; float:right;">
-	                <select name="searchType">
+	            <div style="width: 35%; display: inline-block; float:right; margin-right:-13%;">
+	                <select name="search" style="height:28px;">
 	                    <option value="all">---------</option>
 	                    <option value="author">작가명</option>
 	                    <option value="work">작품명</option>
 	                </select>
-	                <input type="text" id="content" name="content"><button>검색</button>
+	                <input type="text" id="content" name="content"><button id="button"> 검색</button>
 	            </div>
 	            <div style="margin-left: 3%;">
 	                <input type="checkbox" id="auctionTerm" onclick="openPeriod(this);"> <label for="auctionTerm">경매 기간</label>
@@ -231,7 +237,7 @@ td {
 	                <div style="width: 14%; display: inline-block;">입찰 금액</div>
 	            </div>
 	            <c:forEach items="${ aList }" var="auction">
-		            <div class="auction" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 1px black solid; cursor:pointer;">
+		            <div onclick="moveAuction(${auction.aucNo});" class="auction" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 1px black solid; cursor:pointer;">
 						<div style="width: 14%; display: inline-block; ">${ auction.aucNo }</div>
 		                <div style="width: 14%; height: 100%; display: inline-block;">
 		                    <img src="${ auction.attRename }" style="height: 100px; width: 100px; margin: 3% 0 3% 0;">
@@ -266,7 +272,7 @@ td {
 							</c:when>
 							<c:otherwise>
 								<div
-									style="width: 14%; display: inline-block; height: 100px; padding-top: 3.5%;">
+									style="width: 14%; display: inline-block; height: 100px; padding-top: 2.3%;">
 									진행 경매
 								</div>
 							</c:otherwise>
@@ -357,13 +363,18 @@ td {
                </div>
             </c:if>
          </nav>    
-
-
-
+	<br>
 
     <jsp:include page="../common/footer.jsp"/>
+   
     
     <script>
+    	const moveAuction = (data) =>{
+    		location.href = 'auctionDetail.ac?aucNo=' + data;
+    	}
+    
+    
+    
 		window.onload = () =>{
 			console.log(document.querySelectorAll("input[type='text']"));
 			
@@ -426,8 +437,6 @@ td {
 			}
 			
 			
-			
-			
 			for (let i = 0; i < monthPlace.length; i++) {
 				changeYearMonth(yearPlace[i].innerText, monthPlace[i].innerText);
 				
@@ -462,11 +471,6 @@ td {
 			    });
 			}
 
-
-			
-
-			
-			
 			function getFirstDay(selectYear, selectMonth){
 				if(selectMonth < 10){
 					selectMonth = "0" + selectMonth;	

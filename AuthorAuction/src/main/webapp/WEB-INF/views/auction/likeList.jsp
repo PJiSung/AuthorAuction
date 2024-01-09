@@ -12,6 +12,68 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<style type="text/css">
+	.seeWhich{
+		 width: 9%; display: inline-block; text-align: center; padding: 1%;
+	}
+	
+	#frame{
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		border-top: 1px black solid;
+		border-bottom: 1px black solid;
+		background: lightgray;
+	}
+	
+	.firstLine{
+		width:14%;
+		margin: 1% 0 1% 0;
+	}
+	
+	.auction{
+		width: 100%;
+		height: 110px;
+		border-bottom: 1px black solid;
+		display: flex;
+		align-items: center;
+		justify-content: center; 
+		text-align: center;
+		cursor:pointer;
+	}
+	
+	.checkZone{
+		width: 14%;
+		display: inline-block;
+		height: 100px;
+		padding-top: 2%;
+	}
+	
+	#term{
+		width: 14%;
+		display: inline-block;
+		height: 100px;
+		padding-top: 1.5%;
+	}
+	
+	.detailInfo{
+		width: 14%;
+		display: inline-block;
+		height: 110px;
+		padding-top: 2%;
+	}
+	
+	#deleteBtnPlace{
+		width: 100%;
+		height: 100%; 
+		text-align: right;
+		margin-top: 1%;
+	}
+</style>
+
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
@@ -23,37 +85,34 @@
 					경매 목록</div>
 				<div id="btnPlace" style="width: 100%;">
 					<div class="seeWhich"
-						style="background: gray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
+						style="background: gray;"
 						onclick="chooseAuction('all');">전체 보기</div>
 					<div class="seeWhich"
-						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
+						style="background: lightgray"
 						id="scheduled" onclick="chooseAuction('scheduled');">예정 경매</div>
 					<div class="seeWhich"
-						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
+						style="background: lightgray;"
 						id="ongoing" onclick="chooseAuction('ongoing');">진행 경매</div>
 					<div class="seeWhich"
-						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
+						style="background: lightgray;"
 						id="end" onclick="chooseAuction('end');">종료 경매</div>
 				</div>
-				<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
-					<div
-						style="width: 14%; display: inline-block; margin-top: 1%; margin-bottom: 1%;">
-						<input type="checkbox" id="allCheck" name="allCheck" onclick="allCheck(this);"><label
-							for="allCheck">전체 선택</label>
+				<div id="frame">
+					<div class="firstLine">
+						<input type="checkbox" id="allCheck" name="allCheck" onclick="allCheck(this);">
+						<label for="allCheck">전체 선택</label>
 					</div>
-					<div
-						style="width: 14%; display: inline-block; margin-top: 1%; margin-bottom: 1%;">경매
-						번호</div>
-					<div style="width: 14%; display: inline-block;">작품 사진</div>
-					<div style="width: 14%; display: inline-block;">작가 명</div>
-					<div style="width: 14%; display: inline-block;">작품 명</div>
-					<div style="width: 14%; display: inline-block;">경매 기간</div>
-					<div style="width: 14%; display: inline-block;">경매 현황</div>
+					<div class="firstLine">경매 번호</div>
+					<div class="firstLine">작품 사진</div>
+					<div class="firstLine">작가 명</div>
+					<div class="firstLine">작품 명</div>
+					<div class="firstLine">경매 기간</div>
+					<div class="firstLine">경매 현황</div>
 				</div>
 
 
 				<c:if test="${ empty aList }">
-					<div class="auction" style="width: 100%; height: 100px; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
+					<div class="auction">
 						<h1>조회 가능한 데이터가 없습니다</h1>
 					</div>
 				</c:if>
@@ -61,18 +120,18 @@
 				<%-- ${ aList } --%>
 				<c:forEach items="${ aList }" var="auction">
 					<div id="new">
-					<div class="auction" onclick="moveAuction(${auction.aucNo});" style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
-						<div class="checkZone" style="width: 14%; display: inline-block; height: 100px; padding-top: 2%;">
+					<div class="auction" onclick="moveAuction(${auction.aucNo});">
+						<div class="checkZone">
 							<input type="checkbox" class="eachCheck" onclick="eachCheckForAll();">
 						</div>
-						<div style="width: 14%; display: inline-block; height: 100px; padding-top: 2%;">${ auction.aucNo }</div>
-						<div style="width: 14%; height: 100%; display: inline-block;">
+						<div class="detailInfo">${ auction.aucNo }</div>
+						<div class="detailInfo" style="padding-top: 0.3%;">
 							<img src="${ auction.attRename }"
-								style="height: 100px; width: 100px; margin: 5px 0 5px 0;">
+								style="height: 100px; width: 100px;">
 						</div>
-						<div style="width: 14%; display: inline-block; height: 100px; padding-top: 2%;">${ auction.conAuthor }</div>
-						<div style="width: 14%; display: inline-block; height: 100px; padding-top: 2%;">${ auction.conProduct }</div>
-						<div style="width: 14%; display: inline-block; height: 100px; padding-top: 1.5%;">
+						<div class="detailInfo" >${ auction.conAuthor }</div>
+						<div class="detailInfo">${ auction.conProduct }</div>
+						<div id="term">
 							<span>시작일 : ${ fn:split(auction.aucStartDate, " ")[0] }</span><br>
 							<span>종료일 : ${ fn:split(auction.aucFinishDate, " ")[0] }</span>
 						</div>
@@ -96,18 +155,18 @@
 						
 						<c:choose>
 							<c:when test="${today < startDate}">
-								<div style="width: 14%; display: inline-block; height: 100px; padding-top: auto;">
+								<div class="detailInfo" style="padding-top: auto;">
 									진행 상황 : 예정 경매<br> 시작 금액 : <fmt:formatNumber value="${ auction.aucStartPrice }"/> 원
 								</div>
 							</c:when>
 							<c:when test="${today > endDate}">
-								<div style="width: 14%; display: inline-block; height: 100px; padding-top: 1.5%;">
+								<div class="detailInfo" style="padding-top: 1.5%;">
 									진행 상황 : 종료 경매<br> 낙찰 금액 : <fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원
 								</div>
 							</c:when>
 							<c:when test="${ today <= endDate and today >= startDate }">
-								<div
-									style="width: 14%; display: inline-block; height: 100px; padding-top: 1.5%;">
+								<div class="detailInfo"
+									style="padding-top: 1.5%;">
 									진행 상황 : 진행 경매<br> 입찰 금액 : <fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원
 								</div>
 							</c:when>
@@ -115,8 +174,7 @@
 					</div>
 					</div>
 				</c:forEach>
-				<div id="deleteBtnPlace"
-					style="width: 100%; height: 100%; text-align: right; margin-top: 1%;">
+				<div id="deleteBtnPlace">
 					<button style="width: 5%;" onclick="deleteLike();">삭제</button>
 				</div>
 			</div>

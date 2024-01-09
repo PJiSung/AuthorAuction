@@ -16,6 +16,17 @@
 	.auction{
 		cursor:pointer;
 	}
+	
+	.info{
+		width: 14%;
+		margin-top: 1%;
+		margin-bottom: 1%;" 
+	}
+	
+	.infoCover{
+		background: lightgray;
+	}
+	
 </style>
 </head>
 <body>
@@ -38,17 +49,15 @@
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
 						id="scheduled" onclick="endAuction();">종료된 경매</div>
 				</div>
-				<div
+				<div class="infoCover"
 					style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
-					<div
-						style="width: 14%; display: inline-block; margin-top: 1%; margin-bottom: 1%;">경매
-						번호</div>
-					<div style="width: 14%;">작품 사진</div>
-					<div style="width: 14%;">작가 명</div>
-					<div style="width: 14%;">작품 명</div>
-					<div style="width: 14%;">입찰 상태</div>
-					<div style="width: 14%;">금액</div>
-					<div style="width: 14%;">진행 상황</div>
+					<div class="info">경매 번호</div>
+					<div class="info">작품 사진</div>
+					<div class="info">작가 명</div>
+					<div class="info">작품 명</div>
+					<div class="info">입찰 상태</div>
+					<div class="info">금액</div>
+					<div class="info">진행 상황</div>
 				</div>
 
 				<c:if test="${ empty myBidList }">
@@ -78,7 +87,7 @@
 		</div>
 	</div>
 
-
+	<br>
 
 	<nav class="pagiset pagiset-line">
 		<c:if test="${ pi.currentPage <= 1 }">
@@ -126,6 +135,7 @@
 				</c:choose>
 			</c:forEach>
 		</div>
+		
 
 		<c:if test="${ pi.currentPage >= pi.maxPage }">
 			<div class="pagiset-ctrl">
@@ -158,6 +168,7 @@
 			</div>
 		</c:if>
 	</nav>
+	<br>
 
 	<c:forEach items="${ detailList }" var="detailList">
 		<input type="hidden" value="${ detailList.bidPrice }" class="detailBidPrice">

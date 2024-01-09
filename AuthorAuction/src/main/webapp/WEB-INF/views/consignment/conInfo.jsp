@@ -8,12 +8,17 @@
   <meta http-equiv="imagetoolbar" content="no">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
-  <title>위탁 안내 | 침대</title>
+  <title>위탁 안내</title>
   <link rel="stylesheet" href="consignment/css/setting.css">
   <link rel="stylesheet" href="consignment/css/plugin.css">
   <link rel="stylesheet" href="consignment/css/template.css">
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
+
+<style>
+.tabset-link{ style="cursor:pointer;"}
+.btnset btnset-lg{style="width: 20rem; margin: auto;"}
+</style> 
 </head>
 
 <body>
@@ -72,22 +77,22 @@
         
           <ul class="tabset-list tabset-sm">
             <li class="tabset-item active">
-              <a class="tabset-link" href="#tab1">
+              <a class="tabset-link active" href="javascript:void(0)" onclick="showtab('tab1')">
                 <span>STEP 1. 작품문의</span>
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" href="#tab2">
+              <a class="tabset-link" href="javascript:void(0)" onclick="showtab('tab2')">
                 <span>STEP 2. 위탁 상담 및 출고</span>
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" href="#tab3">
+              <a class="tabset-link" href="javascript:void(0)" onclick="showtab('tab3')">
                 <span>STEP 3. 출품 및 전시</span>
               </a>
             </li>
             <li class="tabset-item">
-              <a class="tabset-link" href="#tab4">
+              <a class="tabset-link" href="javascript:void(0)" onclick="showtab('tab4')">
                 <span>STEP 4. 대금 정산</span>
               </a>
             </li>
@@ -100,6 +105,7 @@
     <!-- [E]hooms-N58 -->
     <!-- [S]hooms-N42 -->
     <div class="hooms-N42" data-bid="VWlqg6q14D">
+     
      
       <div class="tab-container">
         <div id="tab1" class="tab active" style="padding: 1rem;">
@@ -127,7 +133,10 @@
             </ul>
           </div>
         </div>
-        
+       </div> 
+       
+       
+       <div class="tab-container"> 
         <div class="tab" id="tab2">
           <div class="contents-container container-md">
             <ul class="contents-list">
@@ -143,7 +152,10 @@
             </ul>
           </div>
         </div>
-        
+       </div> 
+       
+       
+       <div class="tab-container">
         <div class="tab" id="tab3">
           <div class="contents-container container-md">
             <ul class="contents-list">
@@ -155,7 +167,10 @@
             </ul>
           </div>
         </div>
+       </div> 
         
+       
+       <div class="tab-container"> 
         <div class="tab" id="tab4">
           <div class="contents-container container-md">
             <ul class="contents-list">
@@ -172,12 +187,13 @@
             </ul>
           </div>
         </div>
-      </div>  
+       </div>
+        
         
         <br><br><br>
         <div style="margin-left: 102rem;">
-          <a class="btnset btnset-lg" value="상담문의" type="button" href="conEnroll.co" style="width: 20rem; margin: auto;">상담문의</a>
-          <a class="btnset btnset-lg" value="마이페이지" type="button" href="list.co" style="width: 20rem; margin: auto;">마이페이지</a>
+          <a class="btnset btnset-lg" value="상담문의" type="button" style="width: 20rem; margin: auto;" id="conEnroll">상담문의</a>
+          <a class="btnset btnset-lg" value="마이페이지" type="button" href="list.co">마이페이지</a>
         </div>
         <br><br><br>
       </div>
@@ -185,13 +201,64 @@
   </main>
 <jsp:include page="../common/footer.jsp"/>
 
-	<script>
-		var conNo;
-		function selectConsignment() {
-		    location.href = 'selectConsignment.co?conNo=' + 1 + "&page=" + 1;
+<script>
+	var conNo;
+	function selectConsignment() {
+	    location.href = 'selectConsignment.co?conNo=' + 1 + "&page=" + 1;
+	}
+	
+	var tab1 = document.getElementById('tab1');
+	var tab2 = document.getElementById('tab2');
+	var tab3 = document.getElementById('tab3');
+	var tab4 = document.getElementById('tab4');
+	
+	tab2.style.display = "none";
+	tab3.style.display = "none";
+	tab4.style.display = "none";
+	
+	function showtab(kind){
+		switch(kind){
+		
+		case 'tab1':
+			tab1.style.display = "block";
+			tab2.style.display = "none";
+			tab3.style.display = "none";
+			tab4.style.display = "none";
+			break;
+		case 'tab2':
+			tab1.style.display = "none";
+			tab2.style.display = "block";
+			tab3.style.display = "none";
+			tab4.style.display = "none";
+			break;
+		case 'tab3':
+			tab1.style.display = "none";
+			tab2.style.display = "none";
+			tab3.style.display = "block";
+			tab4.style.display = "none";
+			break;				
+		case 'tab4':
+			tab1.style.display = "none";
+			tab2.style.display = "none";
+			tab3.style.display = "none";
+			tab4.style.display = "block";
+			break;				
 		}
-	</script>
+	}
+</script>
+<script>	
+window.onload = () =>{	
+	document.getElementById('conEnroll').addEventListener('click', ()=>{
+		if('${loginUser}' != ''){
+			location.href="conEnroll.co";
+		} else {
+			alert('로그인 후 이용해주세요.');
+		}
+	})
+}		
 
+
+</script>
 
 	<!-- [E]basic-N4 -->
 	<script src="consignment/js/setting.js"></script>
