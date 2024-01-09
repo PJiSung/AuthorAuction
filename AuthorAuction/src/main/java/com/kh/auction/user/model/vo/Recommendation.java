@@ -14,6 +14,7 @@ public class Recommendation {
 	private Date recRepDate;
 	private Date recCreateDate;
 	private String memId;
+	private String memName;
 	
 	public Recommendation() {}
 
@@ -112,12 +113,20 @@ public class Recommendation {
 		this.memId = memId;
 	}
           
+	public String getMemName() {
+		return memName;
+	}
+
+	public void setMemName(String memName) {
+		this.memName = memName;
+	}
+
 	@Override
 	public String toString() {
 		return "Recommendation [recNo=" + recNo + ", recTitle=" + recTitle + ", recContent=" + recContent
 				+ ", recStyle=" + recStyle + ", recStatus=" + recStatus + ", recReply=" + recReply + ", recAttachment="
 				+ recAttachment + ", recRepDate=" + recRepDate + ", recCreateDate=" + recCreateDate + ", memId=" + memId
-				+ "]";
+				+ ", memName=" + memName + "]";
 	}
 	     
 	

@@ -63,18 +63,20 @@ public class RecommendationController {
 	
 	// 그림추천 문의 등록
 	@PostMapping("insertRecommendation.re")
-	public String insertRecommendation(@ModelAttribute Recommendation r, HttpSession session, Model model,
+	public String insertRecommendation(@ModelAttribute Recommendation r, HttpSession session,
 			 						   @RequestParam(value = "file", required = false) ArrayList<MultipartFile> files) throws Exception {
 		
-		String memId = ((Member)session.getAttribute("loginUser")).getMemId();
+		Member m = ((Member)session.getAttribute("loginUser"));
+		r.setMemId(m.getMemId());
+		
+
 		// 첨부 파일 리스트를 담을 ArrayList를 생성
 		ArrayList<Attachment> list = new ArrayList<>();
-		r.setMemId(memId);
-		System.out.println(r);
-		
 		if(list != null) {
 			for(int i = 0; i < files.size(); i++) {
 				MultipartFile upload = files.get(i);
+				
+															//////////////////////////////
 				
 				if(!upload.getOriginalFilename().equals("")) {
 					// 파일 저장하고 저장된 파일정보 가져옴
@@ -89,11 +91,11 @@ public class RecommendationController {
 				}
 			}
 		}
-		
-		int result1 = rService.insertRecommendation(r);	// 정보 저장 리스트
-		System.out.println(result1);
-		System.out.println(files);
 		System.out.println(list);
+		int result1 = rService.insertRecommendation(r);	// 정보 저장 리스트
+		System.out.println(result1);												//////////////////////////////
+		System.out.println(files);													//////////////////////////////
+		System.out.println(list);													//////////////////////////////
 		if(!list.isEmpty()) {
 			for(Attachment a : list) {
 				a.setAttBno(r.getRecNo());

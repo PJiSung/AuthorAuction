@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,6 +45,7 @@
       <div class="contents-inner">
         <div class="contents-container container-md">
          <form action="insertRecommendation.re" method="post" enctype="multipart/form-data" id="recommendationForm">
+         <input type="hidden" name="recStyle" id="style">
           <div class="form-group">
             <div class="textset">
               <h2 class="textset-tit">문의하기</h2>
@@ -54,27 +56,29 @@
             </div>
             <div class="inputset inputset-lg inputset-label">
               <a class="inputset-tit">이름<span>*</span></a>
-              <a class="inputset-tit">"${ r.memName }"</a>
+              <c:forEach items="${list}" var="r">
+              	<a class="inputset-tit">${ r.memName }</a>
+              </c:forEach>
             </div>
             <div class="inputset inputset-lg inputset-label">
               <a class="inputset-tit">그림스타일<span>*</span></a>
               <div class="selectset selectset-round selectset-lg">
                 <button class="selectset-toggle btn" type="button">
-                  <span>전체</span>
+                  <span>추상화</span>
                 </button>
                 <ul class="selectset-list">
                   <li class="selectset-item">
-                    <button class="selectset-link btn" type="button" data-value="추상화">
+                    <button class="selectset-link btn" type="button" value="추상화">
                       <span>추상화</span>
                     </button>
                   </li>
                   <li class="selectset-item">
-                    <button class="selectset-link btn" type="button" data-value="정물화">
+                    <button class="selectset-link btn" type="button" value="정물화">
                       <span>정물화</span>
                     </button>
                   </li>
                   <li class="selectset-item">
-                    <button class="selectset-link btn" type="button" data-value="인물화">
+                    <button class="selectset-link btn" type="button" value="인물화">
                       <span>인물화</span>
                     </button>
                   </li>
@@ -85,7 +89,7 @@
               <label>
                 <h6 class="inputset-tit"> 문의내용<span>*</span>
                 </h6>
-                <textarea class="content" id="recContent" placeholder="문의 내용을 입력해주세요." required=""></textarea>
+                <textarea class="content" id="recContent" placeholder="문의 내용을 입력해주세요." name="recContent" required=""></textarea>
               </label>
             </div>
             <br>
@@ -143,6 +147,15 @@
 		document.getElementById('submitButton').addEventListener('click', () => {
 		    form.submit();
 		});
+		// 그림 스타일 선택
+		const selectedButtons = document.querySelectorAll('.selectset-link');
+		document.getElementById('style').value = '추상화';
+		
+		for(let i = 0; i < selectedButtons.length; i++){
+			selectedButtons[i].addEventListener('click', function() {
+				document.getElementById('style').value = this.value;
+			});
+		}
 	}
 </script>  
   
