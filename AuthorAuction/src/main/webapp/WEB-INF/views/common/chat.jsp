@@ -85,7 +85,7 @@
     color: black;
 }
 
-.close {
+.closeModal {
 	color: #aaa;
 	font-size: 16px;
 	font-weight: bold;
@@ -95,8 +95,8 @@
 	float:right;
 }
 
-.close:hover,
-.close:focus {
+.closeModal:hover,
+.closeModal:focus {
 	color: black;
 	text-decoration: none;
 	cursor: pointer;
@@ -573,8 +573,8 @@ const scrollToBottom = () =>{
 		  <div class="chatModal-content">
 		    <h3>채팅방에서 나가시겠습니까?</h3><br>
 		    <p>나가기를 하면 대화내용이 모두 삭제됩니다.</p><br>
-		    <input type="button" class="close del" value="확인" onclick="closeChatModal();closeChat()">
-		    <input type="button" class="close can" value="취소" onclick="closeChatModal()">
+		    <input type="button" class="closeModal del" value="확인" onclick="closeChatModal();closeChat()">
+		    <input type="button" class="closeModal can" value="취소" onclick="closeChatModal()">
 		  </div>
 	</div>
 	</div>
