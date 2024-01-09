@@ -162,6 +162,23 @@ public class RecommendationController {
 		}
 	}
 	
+	// 마이페이지 리스트
+	@GetMapping("recommendationList.adre")
+	public String recommendationList(Model model, @RequestParam(value="page", defaultValue="1")int page,
+									 @RequestParam("strDate")String strDate, @RequestParam("endDate")String endDate,
+									 HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String memId = loginUser.getMemId();
+		
+		int listCount = rService.getListCount();
+		int currentPage = page;
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Recommendation> rList = rService.selectRecommendationList(memId, pi);
+		
+	}
+	
 	
 	
 }

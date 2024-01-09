@@ -972,10 +972,7 @@ table tr {
 								</colgroup>
 								<thead class="thead-light thead-border-top">
 									<tr>
-										<th scope="col"><input id="checkset-b-1-1"
-											class="checkset-input input-fill" type="checkbox"
-											id="checkAll" name="checkAll" onclick="checkAll1()">
-										</th>
+										<th scope="col"><input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" id="checkAll" name="checkAll" onclick="checkAll1()"></th>
 										<th scope="col">회원아이디</th>
 										<th scope="col">작가명</th>
 										<th scope="col">작품명</th>

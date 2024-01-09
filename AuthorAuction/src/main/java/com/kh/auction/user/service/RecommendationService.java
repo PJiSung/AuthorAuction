@@ -16,5 +16,7 @@ public interface RecommendationService {
 	int insertRecommendation(Recommendation r);
 	// 그림추천 글 등록(첨부)	
 	int insertAttm(ArrayList<Attachment> list);
+	// 마이페이지
+	ArrayList<Recommendation> selectRecommendationList(String memId, PageInfo pi);
 
 }

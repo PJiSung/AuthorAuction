@@ -28,20 +28,25 @@
             <br><br>
             <div class="date-box">
               <div class="date">
+               <form action="recommendationList.adre" class="listFom">
                 <span><a>조회 기간</a></span>
                 <span>
-                  <input type="date" class="rec_startdate">
+                  <input type="date" class="rec_startdate" name="strDate">
                 </span>
                 <span>~</span>
                 <span>
-                  <input type="date" class="rec_enddate">
+                  <input type="date" class="rec_enddate" name="endDate">
                 </span>
                 <span><button class="search">검색</button></span>
                 <span><button class="cancel">초기화</button></span>
+               </form>
               </div>
             </div>
             <br><br>
           </div>
+          
+          <div><button class="recommendationEnroll" style="margin-bottom: 4rem;"><a href="recommendationEnroll.re" style="color:white;">문의하기</a></button></div>
+          
           <div class="tableset">
             <table class="tableset-table table">
               <colgroup>
@@ -56,7 +61,7 @@
               <thead class="thead-light thead-border-top">
                 <tr>
                   <th scope="col">
-                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
+                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" id="checkAll" name="checkAll" onclick="checkAll1()">
                   </th>
                   <th scope="col">제목</th>
                   <th scope="col">신청일자</th>
@@ -65,8 +70,8 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="tableset-mobile">
-                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" value="" checked="">
+                  <td class="tableset-mobile" onclick="javascript:event.stopPropagation();">
+                    <input id="checkset-b-1-1" class="checkset-input input-fill" type="checkbox" name="check" onclick="check1()">
                   </td>
                   <td class="tableset-tit tableset-order02">
                     <a href="javascript:void(0)">
@@ -136,7 +141,7 @@
                 </tr>
               </tbody>
             </table>
-            <input class="btnset btnset-lg" value="선택삭제" type="button">
+            <input class="btnset btnset-lg" value="선택삭제" type="button" id="deleteBtn();" name="deleteBtn" onclick="minus()">
           </div>
         </div>
         <br><br><br>
@@ -161,7 +166,8 @@
 						<c:param name="select" value="${ sc.select }"></c:param>
 						<c:param name="keyword" value="${ sc.keyword }"></c:param>
 						<c:param name="strDate" value="${ sc.strDate }"></c:param>
-						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+						<c:param name="endDat" value="${ sc.endDat }"></c:param>
+						<c:param name="status" value="${ sc.status }"></c:param>
 					</c:url>
 					<a class="pagiset-link pagiset-first" href="${ goFirst }"> <span
 						class="visually-hidden">처음</span>
@@ -169,11 +175,12 @@
 				</div>
 				<div class="pagiset-ctrl">
 					<c:url var="goBack" value="${ loc }">
-						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
 						<c:param name="select" value="${ sc.select }"></c:param>
 						<c:param name="keyword" value="${ sc.keyword }"></c:param>
 						<c:param name="strDate" value="${ sc.strDate }"></c:param>
-						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+						<c:param name="endDat" value="${ sc.endDat }"></c:param>
+						<c:param name="status" value="${ sc.status }"></c:param>
 					</c:url>
 					<a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
 						class="visually-hidden">이전</span>
@@ -183,11 +190,12 @@
 			<div class="pagiset-list">
 				<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 					<c:url var="goNum" value="${ loc }">
-						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="page" value="${ p }"></c:param>
 						<c:param name="select" value="${ sc.select }"></c:param>
 						<c:param name="keyword" value="${ sc.keyword }"></c:param>
 						<c:param name="strDate" value="${ sc.strDate }"></c:param>
-						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+						<c:param name="endDat" value="${ sc.endDat }"></c:param>
+						<c:param name="status" value="${ sc.status }"></c:param>
 					</c:url>
 					<c:choose>
 						<c:when test="${p eq pi.currentPage}">
@@ -212,15 +220,15 @@
 					</a>
 				</div>
 			</c:if>
-			
 			<c:if test="${ pi.currentPage < pi.maxPage }">
 				<div class="pagiset-ctrl">
 					<c:url var="goNext" value="${ loc }">
-						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
 						<c:param name="select" value="${ sc.select }"></c:param>
 						<c:param name="keyword" value="${ sc.keyword }"></c:param>
 						<c:param name="strDate" value="${ sc.strDate }"></c:param>
-						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+						<c:param name="endDat" value="${ sc.endDat }"></c:param>
+						<c:param name="status" value="${ sc.status }"></c:param>
 					</c:url>
 					<a class="pagiset-link pagiset-next" href="${ goNext }"> <span
 						class="visually-hidden">다음</span>
@@ -228,18 +236,19 @@
 				</div>
 				<div class="pagiset-ctrl">
 					<c:url var="goList" value="${ loc }">
-						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="page" value="${ pi.maxPage }"></c:param>
 						<c:param name="select" value="${ sc.select }"></c:param>
 						<c:param name="keyword" value="${ sc.keyword }"></c:param>
 						<c:param name="strDate" value="${ sc.strDate }"></c:param>
-						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+						<c:param name="endDat" value="${ sc.endDat }"></c:param>
+						<c:param name="status" value="${ sc.status }"></c:param>
 					</c:url>
 					<a class="pagiset-link pagiset-last" href="${ goList }"> <span
 						class="visually-hidden">마지막</span>
 					</a>
 				</div>
 			</c:if>
-		</nav>      
+		</nav>
      
       </div>
     </div>
