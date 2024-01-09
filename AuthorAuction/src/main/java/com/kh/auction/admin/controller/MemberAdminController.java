@@ -1,6 +1,8 @@
 package com.kh.auction.admin.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.auction.common.config.ChattingPagination;
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.member.service.MemberService;
 import com.kh.auction.user.model.vo.Inquiry;
@@ -28,7 +31,12 @@ public class MemberAdminController {
 	private String sortMember = null;
 	
 	@GetMapping("memberList.adme")
-	public String selectMemberList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam(value = "modalPage", defaultValue="1") int modalPage, Model model, HttpSession session, SearchMember sm, @RequestParam(value = "id", required = false) String id) throws Exception {
+	public String selectMemberList(@RequestParam(value="page", defaultValue="1") int page,
+								   @RequestParam(value = "modalPage", defaultValue="1") int modalPage,
+								   @RequestParam(value = "id", required = false) String id,
+								   @RequestParam(value ="chatStartDate", required = false) String chatStartDate,
+								   @RequestParam(value = "chatEndDate", required = false) String chatEndDate,
+								   Model model, HttpSession session, SearchMember sm) throws Exception {
 		
 		sm.convertEmptyToNull();
 		
@@ -37,26 +45,31 @@ public class MemberAdminController {
 		
 		ArrayList<Inquiry> iList = new ArrayList<>();
 		
-		int iListCount; 
-		int modalCurrentPage = modalPage; 
-		PageInfo iPi;
+		int iListCount = 0; 
+		int modalCurrentPage = 0; 
+		PageInfo iPi = new PageInfo();
 		
 		if(id != null) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("id", id);
+			map.put("startDate", chatStartDate);
+			map.put("endDate", chatEndDate);
 			m = mService.selectMember(id);
-		    iListCount = mService.getiListCount(id); 
-		    iPi = Pagination.getPageInfo(modalCurrentPage, iListCount, 10); 
-		    iList = mService.selectInquiryList(id, iPi);
+			
+			iListCount = mService.getiListCount(map); 
+			modalCurrentPage = modalPage;
+		    iPi = ChattingPagination.getPageInfo(modalCurrentPage, iListCount, 7); 
+		    iList = mService.selectInquiryList(map, iPi);
 		}
+		
 		int listCount = mService.getListCount(sm);
 		int currentPage = page;
-		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Member> list = mService.selectMemberList(sm, pi);
 		
 		if(list != null) {
-			
 			model.addAttribute("iList", iList);
-			//model.addAttribute("iPi", iPi);
+			model.addAttribute("iPi", iPi);
 			
 			model.addAttribute("total", listCount);
 			model.addAttribute("list", list);

@@ -117,6 +117,8 @@ tr .checkset {
 }
 
 .modal-content {
+	width: 27%;
+	height: 80%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -173,6 +175,64 @@ tr .checkset {
 
 #tab2Content{
 	display:none;
+}
+.chatSearch{
+	margin-top: 20px;
+	border: 1px solid black;
+	padding: 20px;
+}
+.chatSearch span{
+	margin: 0 20px; 
+}
+.chatSearch button[type=button]{
+	font-size: 18px;
+	padding: 0;
+	width: 55px;
+	height: 38px;
+	border-radius: 3px;
+}
+/* 문의 테이블 */
+#iList{
+	margin-top: 40px;
+	margin-bottom: 30px;
+}
+#iList table{
+	width: 100%;
+	line-height: 50px;
+}
+#iList table tr:first-child{
+	border-top: 1px solid black;
+	background-color: #f7f7fb;
+}
+#iList table tr:not(:first-child){
+	border-top: 1px solid #e5e5e5;
+}
+#iList table tr:not(:first-child):hover{
+	background: #dcdcdc;
+    cursor: pointer;
+}
+
+#iList input[type=date]{
+	height: 40px;
+	border: 1px solid #E0E0E0;
+	border-radius: 5px;
+}
+#iList input[type=date]:hover{
+	cursor: pointer;
+	border: 1px solid black;
+}
+
+#iList input[type=date]:focus{
+	outline: none;
+	border: 1px solid black;
+}
+
+#iList{
+	z-index: 2;
+}
+#chatPage{
+	padding-top: 0;
+	z-index: 1;
 }
 </style>
 <script>
@@ -454,18 +514,28 @@ const changeIsAdmin = (btn) =>{
 }
 
 const showModal = (value) =>{
+	let tab1 = document.getElementById('tab1Content');
+	let tab2 = document.getElementById('tab2Content');
 	let id = value.children[1].children[0].innerText;
-	
 	let url = window.location.href;
+	
 	url = !url.includes("?") ? "?id="+id : url += "&id="+id;
 	window.history.pushState({}, "Title", url);
+	
+	tab1.style.display = 'block';
+    tab2.style.display = 'none';
+    document.querySelector('.tab.tab1').classList.add('active');
+    document.querySelector('.tab.tab2').classList.remove('active');
 	
 	$("#tab1Content").load(location.href + " #tab1Content", function() {
 		let modal = document.getElementById('myModal');
 		modal.style.display = 'block';
 		document.body.style.overflow = 'hidden';
 	});
-	$("#iList").load(location.href + " #iList");
+		
+	$("#chatPage").load(location.href + " #chatPage", ()=>{
+		$("#iList").load(location.href + " #iList")
+	});
 }
 
 const closeModal = (value) =>{
@@ -512,7 +582,6 @@ const openTab = (tabName) =>{
         tab2.style.display = 'block';
         document.querySelector('.tab.tab1').classList.remove('active');
         document.querySelector('.tab.tab2').classList.add('active');
-        console.log("ㅇㅇㅇㅇ");
     }
 }
 
@@ -542,6 +611,41 @@ const submitBtn = (value) =>{
         error : data => console.log(data)
 	});
 	closeModal(value);
+}
+
+const chatPaging = (page) =>{
+	let url = window.location.href;
+	if(url.includes("&modalPage=")){
+		url = url.split("&modalPage=")[0] + "&modalPage="+page;
+	}else{
+		url += "&modalPage="+page;
+	}
+	window.history.pushState({}, "Title", url);
+	$("#iList").load(location.href + " #iList", ()=>{
+		$("#chatPage").load(location.href + " #chatPage");
+	})
+}
+
+const chatSearch = () =>{
+	let strDate = document.getElementsByName("startDate")[1];
+	let endDate = document.getElementsByName("endDate")[1];
+	
+	let url = window.location.href;
+	if(url.includes("&chatStartDate=")){
+		url = url.split("&chatStartDate=")[0] + "&chatStartDate="+strDate.value+"&chatEndDate="+endDate.value;
+	}else{
+		url += "&chatStartDate="+strDate.value+"&chatEndDate="+endDate.value;
+	}
+	window.history.pushState({}, "Title", url);
+	
+	$("#iList").load(location.href + " #iList", ()=>{
+		$("#chatPage").load(location.href + " #chatPage", ()=>{
+			strDate.value = "";
+			endDate.value = "";
+		});
+		
+	});
+	
 }
 </script>
 </head>
@@ -901,13 +1005,20 @@ const submitBtn = (value) =>{
 	
 	        <div id="tab2Content" class="tab-content">
 	            <h1>1:1 문의내역</h1>
+	            <div class="chatSearch">
+	            	기간
+	            	<span><input type="date" name="startDate"> ~ <input type="date" name="endDate"></span>
+	            	<button class="btnset btnset-lg btnset-line" type="button" onclick="chatSearch()">검색</button>
+	            </div>
 	            <div id="iList">
 	            <table>
 	            	<tr>
-	            		<td>번호</td>
-	            		<td>상담일</td>
-	            		<td>답변자</td>
+	            		<th>NO.</th>
+	            		<th>상담일</th>
+	            		<th>답변자</th>
 	            	</tr>
+	            
+	            <c:if test="${ iList ne '[]' }">
 	            <c:forEach items="${ iList }" var="i">
 	            	<tr>
 	            		<td>${ i.inqNo }</td>
@@ -915,8 +1026,81 @@ const submitBtn = (value) =>{
 	            		<td>${ i.adminId }</td>
 	            	</tr>
             	</c:forEach>
+	            </c:if>
+	            <c:if test="${ iList eq '[]' }">
+            		<tr>
+            			<td colspan="3" style="height:180px"><h2>채팅 내역이 없습니다.</h2></td>
+            		</tr>
+            	</c:if>
 	            </table>
 	            </div>
+				
+	            <nav id="chatPage" class="pagiset pagiset-line">
+				<c:if test="${ iList ne '[]' }">
+				<c:if test="${ iPi.currentPage <= 1 }">
+				   <div class="pagiset-ctrl">
+				      <a class="pagiset-link pagiset-first"> <span
+				         class="visually-hidden">처음</span>
+				      </a>
+				   </div>
+				   <div class="pagiset-ctrl">
+				      <a class="pagiset-link pagiset-prev"> <span
+				         class="visually-hidden">이전</span>
+				      </a>
+				   </div>
+				</c:if>
+				<c:if test="${ iPi.currentPage > 1 }">
+				   <div class="pagiset-ctrl">
+				      <a class="pagiset-link pagiset-first" href="javascript:void(0)" onclick="chatPaging(1)">
+				         <span class="visually-hidden">처음</span>
+				      </a>
+				   </div>
+				   <div class="pagiset-ctrl">
+				      <a class="pagiset-link pagiset-prev" href="javascript:void(0)" onclick="chatPaging(${ iPi.currentPage - 1 })"> <span
+				         class="visually-hidden">이전</span>
+				      </a>
+				   </div>
+				</c:if>
+				<div id="chat-pagiset-list" class="pagiset-list">
+				   <c:forEach begin="${ iPi.startPage }" end="${ iPi.endPage }"
+				      var="p">
+				      <c:choose>
+				         <c:when test="${p eq iPi.currentPage}">
+				            <a class="pagiset-link active-fill" href="javascript:void(0)" onclick="chatPaging(${p})">${ p }</a>
+				         </c:when>
+				         <c:otherwise>
+				            <a class="pagiset-link" href="javascript:void(0)" onclick="chatPaging(${p})">${ p }</a>
+				         </c:otherwise>
+				      </c:choose>
+				   </c:forEach>
+				</div>
+				
+				<c:if test="${ iPi.currentPage >= iPi.maxPage }">
+				   <div class="pagiset-ctrl">
+				      <a class="pagiset-link pagiset-next"> <span
+				         class="visually-hidden">다음</span>
+				      </a>
+				   </div>
+				   <div class="pagiset-ctrl">
+				      <a class="pagiset-link pagiset-last"> <span
+				         class="visually-hidden">마지막</span>
+				      </a>
+				   </div>
+				</c:if>
+				<c:if test="${ iPi.currentPage < iPi.maxPage }">
+				   <div class="pagiset-ctrl">
+				      <a class="pagiset-link pagiset-next" href="javascript:void(0)" onclick="chatPaging(${ iPi.currentPage + 1 })"> <span
+				         class="visually-hidden">다음</span>
+				      </a>
+				   </div>
+				   <div class="pagiset-ctrl">
+				      <a class="pagiset-link pagiset-last" href="javascript:void(0)" onclick="chatPaging(${ iPi.endPage })"> <span
+				         class="visually-hidden">마지막</span>
+				      </a>
+				   </div>
+				</c:if>
+			</c:if>
+			</nav>
 	        </div>
 		        
 		    </div>

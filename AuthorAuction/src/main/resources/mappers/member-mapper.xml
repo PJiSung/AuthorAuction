@@ -208,14 +208,33 @@
 	
 	<select id="getiListCount">
 		SELECT COUNT(*)
-		FROM INQUIRTY
+		FROM INQUIRY
 		WHERE MEM_ID = #{id}
+		<if test="startDate != '' and endDate == ''">
+			AND INQ_DATE <![CDATA[ >= ]]> #{startDate}
+		</if>
+		<if test="startDate == '' and endDate != ''">
+			AND INQ_DATE <![CDATA[ <= ]]> #{endDate}
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND INQ_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
 	</select>
 	
 	<select id="selectInquiryList">
 		SELECT *
-		FROM INQUIRY
+		FROM INQUIRY 
 		WHERE MEM_ID = #{id}
+		<if test="startDate != '' and endDate == ''">
+			AND INQ_DATE <![CDATA[ >= ]]> #{startDate}
+		</if>
+		<if test="startDate == '' and endDate != ''">
+			AND INQ_DATE <![CDATA[ <= ]]> #{endDate}
+		</if>
+		<if test="startDate != null and endDate != null">
+			AND INQ_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
+		ORDER BY INQ_NO DESC
 	</select>
 	
 </mapper>

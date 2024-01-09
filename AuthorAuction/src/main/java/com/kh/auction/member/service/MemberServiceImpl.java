@@ -178,13 +178,17 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int getiListCount(String id) {
-		return mDao.getiListCount(id);
+	public int getiListCount(HashMap<String, Object> map) {
+		return mDao.getiListCount(map);
 	}
 
 	@Override
-	public ArrayList<Inquiry> selectInquiryList(String id, PageInfo iPi) {
-		return null;
+	public ArrayList<Inquiry> selectInquiryList(HashMap<String, Object> map, PageInfo iPi) {
+		int offset = (iPi.getCurrentPage() -1)*iPi.getBoardLimit();
+		int limit = iPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+	
+		return mDao.selectInquiryList(map, rowBounds);
 	}
 	
 }

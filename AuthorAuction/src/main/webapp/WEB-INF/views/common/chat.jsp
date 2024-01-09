@@ -135,7 +135,7 @@
 	margin-left: 10px;
 	z-index: 9999;
 }
-img{
+.chatWrap img{
 	width: 50px;
 	height: 50px;
 }

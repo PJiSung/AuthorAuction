@@ -64,5 +64,7 @@ public interface MemberDAO {
 
 	ArrayList<Inquiry> selectInquiryList(String id);
 
-	int getiListCount(String id);
+	int getiListCount(HashMap<String, Object> map);
+
+	ArrayList<Inquiry> selectInquiryList(HashMap<String, Object> map, RowBounds rowBounds);
 }
