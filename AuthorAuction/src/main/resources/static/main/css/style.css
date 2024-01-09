@@ -155,8 +155,8 @@
 .action .swiper-button-prev { left: auto; right: calc(100% + 4rem); }
 .action .swiper-button-next { left: calc(100% + 4rem); right: auto; }
 .action .swiper-button-prev::after,.action .swiper-button-next::after { content: ''; display: inline-block; width: 2.4rem; height: 2.4rem; background-repeat: no-repeat; background-position: center; background-size: contain; }
-.action .swiper-button-prev:after { background-image: url("../main/icons/ico_btnset_arrow_right_black.svg"); transform: rotate(180deg); }
-.action .swiper-button-next:after { background-image: url("../main/icons/ico_btnset_arrow_right_black.svg"); }
+.action .swiper-button-prev:after { background-image: url("../icons/ico_btnset_arrow_right_black.svg"); transform: rotate(180deg); }
+.action .swiper-button-next:after { background-image: url("../icons/ico_btnset_arrow_right_black.svg"); }
 .action .swiper-pagination { width: 100%; top: auto; bottom: 0; background-color: #e9e9e9; border-radius: 1rem; overflow: hidden; }
 .action .swiper-pagination-progressbar-fill { background-color: var(--line-color3); border-radius: 1rem; }
 @media (max-width: 992px) {
@@ -178,8 +178,8 @@
 .product .swiper-button-prev { left: auto; right: calc(100% + 4rem); }
 .product .swiper-button-next { left: calc(100% + 4rem); right: auto; }
 .product .swiper-button-prev::after,.product .swiper-button-next::after { content: ''; display: inline-block; width: 2.4rem; height: 2.4rem; background-repeat: no-repeat; background-position: center; background-size: contain; }
-.product .swiper-button-prev:after { background-image: url("../main/icons/ico_btnset_arrow_right_black.svg"); transform: rotate(180deg); }
-.product .swiper-button-next:after { background-image: url("../main/icons/ico_btnset_arrow_right_black.svg"); }
+.product .swiper-button-prev:after { background-image: url("../icons/ico_btnset_arrow_right_black.svg"); transform: rotate(180deg); }
+.product .swiper-button-next:after { background-image: url("../icons/ico_btnset_arrow_right_black.svg"); }
 .product .swiper-pagination { width: 100%; top: auto; bottom: 0; background-color: #e9e9e9; border-radius: 1rem; overflow: hidden; }
 .product .swiper-pagination-progressbar-fill { background-color: var(--line-color3); border-radius: 1rem; }
 @media (max-width: 992px) {

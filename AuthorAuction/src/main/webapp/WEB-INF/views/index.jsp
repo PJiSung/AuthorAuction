@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="main/css/template.css">
 <link rel="stylesheet" href="main/css/common.css">
 <link rel="stylesheet" href="main/css/main.css">
-<link rel="stylesheet" href="main/css/style.css?ver=1">
+<link rel="stylesheet" href="main/css/style.css">
 <title>AUTHOR AUCTION</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
