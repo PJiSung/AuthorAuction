@@ -44,7 +44,7 @@
     <div class="basic-N24" data-bid="HD2cLwXMhgk">
       <div class="contents-inner">
         <div class="contents-container container-md">
-         <form action="insertRecommendation.re" method="post" enctype="multipart/form-data" id="recommendationForm">
+         <form action="insertRecommendation.re" method="POST" enctype="multipart/form-data" id="recommendationForm">
          <input type="hidden" name="recStyle" id="style">
           <div class="form-group">
             <div class="textset">
@@ -56,8 +56,8 @@
             </div>
             <div class="inputset inputset-lg inputset-label">
               <a class="inputset-tit">이름<span>*</span></a>
-              <c:forEach items="${list}" var="r">
-              	<a class="inputset-tit">${ r.memName }</a>
+              <c:forEach items="${list}" var="m">
+              	<a class="inputset-tit">${loginUser.memName}</a>
               </c:forEach>
             </div>
             <div class="inputset inputset-lg inputset-label">
@@ -156,6 +156,7 @@
 				document.getElementById('style').value = this.value;
 			});
 		}
+		
 	}
 </script>  
   

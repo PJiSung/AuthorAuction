@@ -19,11 +19,10 @@
 			select REC_SEQ.nextval from dual
 		</selectKey>
 		insert into recommendation
-		values (#{recNo}, #{recTitle}, #{recContent}, #{recStyle}, default, #{recReply}, 
-				#{recAttachment}, sysdate, sysdate, #{memId})
+		values (#{recNo}, #{recTitle}, #{recContent}, #{recStyle}, default, null, sysdate, #{memId})
 	</insert>
 	
-	<insert id="insertAttm">													<!-- 문의 등록 -->
+	<insert id="insertAttm">													<!-- 문의(첨부) 등록 -->
 		insert all
 		<foreach collection="list" item="item">
 			into attachment

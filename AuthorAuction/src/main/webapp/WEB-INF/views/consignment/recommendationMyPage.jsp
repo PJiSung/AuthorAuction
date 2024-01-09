@@ -8,22 +8,16 @@
   <meta http-equiv="imagetoolbar" content="no">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
-  <meta name="title" content="웹사이트">
-  <meta name="description" content="웹사이트입니다.">
-  <meta name="keywords" content="키워드,키워드,키워드">
-  <meta property="og:title" content="웹사이트">
-  <meta property="og:description" content="웹사이트입니다">
-  <meta property="og:image" content="https://웹사이트/images/opengraph.png">
-  <meta property="og:url" content="https://웹사이트">
-  <title>추천 마이페이지 | 침대</title>
-  <link rel="stylesheet" href="../resources/css/setting.css">
-  <link rel="stylesheet" href="../resources/css/plugin.css">
-  <link rel="stylesheet" href="../resources/css/template.css">
-  <link rel="stylesheet" href="../resources/css/common.css">
-  <link rel="stylesheet" href="../resources/css/style.css">
+  <title>그림 추천 마이페이지</title>
+  <link rel="stylesheet" href="consignment/css/setting.css">
+  <link rel="stylesheet" href="consignment/css/plugin.css">
+  <link rel="stylesheet" href="consignment/css/template.css">
+  <link rel="stylesheet" href="consignment/css/common.css">
+  <link rel="stylesheet" href="consignment/css/style.css">
 </head>
 
 <body>
+<jsp:include page="../common/header.jsp"/>
   <main class="th-layout-main ">
     <!-- [S]hooms-N48 -->
     <div class="hooms-N48" data-bid="kTLqC36ddS">
@@ -146,41 +140,117 @@
           </div>
         </div>
         <br><br><br>
-        <nav class="pagiset pagiset-line">
-          <div class="pagiset-ctrl">
-            <a class="pagiset-link pagiset-first" href="javascript:void(0)">
-              <span class="visually-hidden">처음</span>
-            </a>
-          </div>
-          <div class="pagiset-ctrl">
-            <a class="pagiset-link pagiset-prev" href="javascript:void(0)">
-              <span class="visually-hidden">이전</span>
-            </a>
-          </div>
-          <div class="pagiset-list">
-            <a class="pagiset-link active-fill" href="javascript:void(0)">1</a>
-            <a class="pagiset-link" href="javascript:void(0)">2</a>
-            <a class="pagiset-link" href="javascript:void(0)">3</a>
-          </div>
-          <div class="pagiset-ctrl">
-            <a class="pagiset-link pagiset-next" href="javascript:void(0)">
-              <span class="visually-hidden">다음</span>
-            </a>
-          </div>
-          <div class="pagiset-ctrl">
-            <a class="pagiset-link pagiset-last" href="javascript:void(0)">
-              <span class="visually-hidden">마지막</span>
-            </a>
-          </div>
-        </nav>
+     
+		<nav class="pagiset pagiset-line" id="pagiset-list">
+			<c:if test="${ pi.currentPage <= 1 }">
+				<div class="pagiset-ctrl">
+					<a class="pagiset-link pagiset-first"> <span
+						class="visually-hidden">처음</span>
+					</a>
+				</div>
+				<div class="pagiset-ctrl">
+					<a class="pagiset-link pagiset-prev"> <span
+						class="visually-hidden">이전</span>
+					</a>
+				</div>
+			</c:if>
+			<c:if test="${ pi.currentPage > 1 }">
+				<div class="pagiset-ctrl">
+					<c:url var="goFirst" value="${ loc }">
+						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="select" value="${ sc.select }"></c:param>
+						<c:param name="keyword" value="${ sc.keyword }"></c:param>
+						<c:param name="strDate" value="${ sc.strDate }"></c:param>
+						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+					</c:url>
+					<a class="pagiset-link pagiset-first" href="${ goFirst }"> <span
+						class="visually-hidden">처음</span>
+					</a>
+				</div>
+				<div class="pagiset-ctrl">
+					<c:url var="goBack" value="${ loc }">
+						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="select" value="${ sc.select }"></c:param>
+						<c:param name="keyword" value="${ sc.keyword }"></c:param>
+						<c:param name="strDate" value="${ sc.strDate }"></c:param>
+						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+					</c:url>
+					<a class="pagiset-link pagiset-prev" href="${ goBack }"> <span
+						class="visually-hidden">이전</span>
+					</a>
+				</div>
+			</c:if>
+			<div class="pagiset-list">
+				<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+					<c:url var="goNum" value="${ loc }">
+						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="select" value="${ sc.select }"></c:param>
+						<c:param name="keyword" value="${ sc.keyword }"></c:param>
+						<c:param name="strDate" value="${ sc.strDate }"></c:param>
+						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+					</c:url>
+					<c:choose>
+						<c:when test="${p eq pi.currentPage}">
+							<a class="pagiset-link active-fill" href="${ goNum }">${ p }</a>
+						</c:when>
+						<c:otherwise>
+							<a class="pagiset-link" href="${ goNum }">${ p }</a>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</div>
+
+			<c:if test="${ pi.currentPage >= pi.maxPage }">
+				<div class="pagiset-ctrl">
+					<a class="pagiset-link pagiset-next"> <span
+						class="visually-hidden">다음</span>
+					</a>
+				</div>
+				<div class="pagiset-ctrl">
+					<a class="pagiset-link pagiset-last"> <span
+						class="visually-hidden">마지막</span>
+					</a>
+				</div>
+			</c:if>
+			
+			<c:if test="${ pi.currentPage < pi.maxPage }">
+				<div class="pagiset-ctrl">
+					<c:url var="goNext" value="${ loc }">
+						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="select" value="${ sc.select }"></c:param>
+						<c:param name="keyword" value="${ sc.keyword }"></c:param>
+						<c:param name="strDate" value="${ sc.strDate }"></c:param>
+						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+					</c:url>
+					<a class="pagiset-link pagiset-next" href="${ goNext }"> <span
+						class="visually-hidden">다음</span>
+					</a>
+				</div>
+				<div class="pagiset-ctrl">
+					<c:url var="goList" value="${ loc }">
+						<c:param name="page" value="${ pi.startPage }"></c:param>
+						<c:param name="select" value="${ sc.select }"></c:param>
+						<c:param name="keyword" value="${ sc.keyword }"></c:param>
+						<c:param name="strDate" value="${ sc.strDate }"></c:param>
+						<c:param name="endDate" value="${ sc.endDat }"></c:param>
+					</c:url>
+					<a class="pagiset-link pagiset-last" href="${ goList }"> <span
+						class="visually-hidden">마지막</span>
+					</a>
+				</div>
+			</c:if>
+		</nav>      
+     
       </div>
     </div>
     <!-- [E]hooms-N48 -->
   </main>
-  <script src="../resources/js/setting.js"></script>
-  <script src="../resources/js/plugin.js"></script>
-  <script src="../resources/js/template.js"></script>
-  <script src="../resources/js/common.js"></script>
-  <script src="../resources/js/script.js"></script>
+<jsp:include page="../common/footer.jsp"/>  
+
+  <script src="consignment/js/setting.js"></script>
+  <script src="consignment/js/plugin.js"></script>
+  <script src="consignment/js/template.js"></script>
+  <script src="consignment/js/common.js"></script>
+  <script src="consignment/js/script.js"></script>
 </body>
 </html>

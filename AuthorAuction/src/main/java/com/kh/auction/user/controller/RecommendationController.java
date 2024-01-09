@@ -68,15 +68,13 @@ public class RecommendationController {
 		
 		Member m = ((Member)session.getAttribute("loginUser"));
 		r.setMemId(m.getMemId());
-		
+		r.setMemName(m.getMemName());
 
 		// 첨부 파일 리스트를 담을 ArrayList를 생성
 		ArrayList<Attachment> list = new ArrayList<>();
 		if(list != null) {
 			for(int i = 0; i < files.size(); i++) {
 				MultipartFile upload = files.get(i);
-				
-															//////////////////////////////
 				
 				if(!upload.getOriginalFilename().equals("")) {
 					// 파일 저장하고 저장된 파일정보 가져옴
@@ -91,11 +89,10 @@ public class RecommendationController {
 				}
 			}
 		}
-		System.out.println(list);
 		int result1 = rService.insertRecommendation(r);	// 정보 저장 리스트
-		System.out.println(result1);												//////////////////////////////
-		System.out.println(files);													//////////////////////////////
-		System.out.println(list);													//////////////////////////////
+		
+		System.out.println(r);
+		
 		if(!list.isEmpty()) {
 			for(Attachment a : list) {
 				a.setAttBno(r.getRecNo());
