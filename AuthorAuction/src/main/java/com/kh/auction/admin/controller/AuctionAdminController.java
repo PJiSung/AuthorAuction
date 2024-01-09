@@ -39,13 +39,13 @@ public class AuctionAdminController {
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("aList", auctionList);
-		model.addAttribute("total", auctionList.size());
+		model.addAttribute("total", allOngingAuctionNum);
 		
 		return "/auction/adminInquiry";
 	}
 	
 	@GetMapping("search.adac")
-	public String searchAuction(@RequestParam(value="searchType") String search, @RequestParam("content") String content,
+	public String searchAuction(@RequestParam(value="search") String search, @RequestParam("content") String content,
 								@RequestParam(value="scheduled", required=false) String scheduled,
 								@RequestParam(value="ongoing", required=false) String ongoing,
 								@RequestParam(value="end", required=false) String end,
