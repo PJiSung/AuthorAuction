@@ -49,14 +49,14 @@ public class AuctionController {
 		ArrayList<Auction> auctionList = aService.getAllAuction(pi);
 	
 		model.addAttribute("pi",pi);
-		model.addAttribute("total", auctionList.size());
+		model.addAttribute("total", ongoingAuctionNum);
 		model.addAttribute("aList", auctionList);
 		  
 		return "/auction/auctionList";
 	}
 	
 	@GetMapping("auctionDetail.ac")
-	public String moveToAuctionDetail(@RequestParam("page") int page, @RequestParam("aucNo") int aucNo, Model model) { 
+	public String moveToAuctionDetail(@RequestParam(value="page", defaultValue="1") int page, @RequestParam("aucNo") int aucNo, Model model) { 
 		
 		//경매 들어가기전에 현재 보유금액을 들고옴
 		int memBalance = mService.login((Member)model.getAttribute("loginUser")).getMemBalance();
@@ -210,7 +210,41 @@ public class AuctionController {
 	
 	
 	@GetMapping("myInterest.ac") //관심페이지로 이동
-	public String moveToMyInterest(@RequestParam(value="page", defaultValue="1") int currentPage, Model model,HttpServletRequest request,@RequestParam(value="type", required=false) String type) {
+	public String moveToMyInterest(@RequestParam(value="page", defaultValue="1") int currentPage, Model model,HttpServletRequest request) {
+		
+		String id = null;
+		Member m = ((Member)model.getAttribute("loginUser"));
+		
+		HashMap<String, String> interestHm = new HashMap<>();
+		HashMap<String, String> listCountHm = new HashMap<>();
+		
+		if(m != null) {
+			id = m.getMemId();
+			listCountHm.put("id", id);
+			interestHm.put("id", id);
+		}
+		
+		//내 관심 경매의 개수를 가져옴 
+		int myInterestNum = aService.getAllInterestBidNum(listCountHm);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, myInterestNum, 10);
+		
+		
+		
+		//아이디로 내 관심 목록 들고옴
+		ArrayList<Auction> aList = aService.getMyInterestList(interestHm, pi);
+		
+		model.addAttribute("aList", aList);
+		model.addAttribute("pi", pi);
+		
+		return "/auction/likeList"; // 일반 요청에 대한 응답 페이지
+	}
+	
+	//
+	
+	@ResponseBody
+	@GetMapping("myInterestChoose.ac") //관심페이지로 이동
+	public String moveToMyInterestAll(@RequestParam(value="page", defaultValue="1") int currentPage, Model model,HttpServletRequest request,@RequestParam("type") String type) {
 		
 		String id = null;
 		Member m = ((Member)model.getAttribute("loginUser"));
@@ -233,16 +267,20 @@ public class AuctionController {
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, myInterestNum, 5);
 		
-		
-		
 		//아이디로 내 관심 목록 들고옴
 		ArrayList<Auction> aList = aService.getMyInterestList(interestHm, pi);
 		
 		model.addAttribute("aList", aList);
 		model.addAttribute("pi", pi);
 		
-		return "/auction/likeList"; // 일반 요청에 대한 응답 페이지
+		return "success"; // 일반 요청에 대한 응답 페이지
 	}
+	
+	
+	
+	
+	
+	
 	
 	@ResponseBody //내 관심 목록중 
 	@GetMapping("myInterestEnd.ac")

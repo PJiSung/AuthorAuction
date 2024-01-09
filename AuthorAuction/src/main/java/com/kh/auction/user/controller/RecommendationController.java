@@ -40,56 +40,60 @@ public class RecommendationController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 6);
 		ArrayList<Recommendation> list = rService.selectRecommendationList(pi);
 		
-		System.out.println(list);
-		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String memId = (loginUser != null) ? loginUser.getMemId() : null;
 		
-		if(list != null) {
+		if(loginUser != null && list != null) {
 			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
-
+				
 			return "recommendation/recommendationList";
 		} else {
-			throw new Exception("그림추천 목록 조회 실패");
+			throw new Exception("그림추천 목록 조회를 실패하였습니다.");
 		}
 		
 	}
 	
 	// 그림추천 문의 등록 페이지로
 	@GetMapping("recommendationEnroll.re")
-	public String moveToRecommendationEnroll() {
-		return "recommendation/recEnroll";
+	public String moveToRecommendationEnroll(HttpSession session) {
+		
+		return "recommendation/recommendationEnroll";
 	}
 	
 	// 그림추천 문의 등록
 	@PostMapping("insertRecommendation.re")
 	public String insertRecommendation(@ModelAttribute Recommendation r, HttpSession session, Model model,
 			 						   @RequestParam(value = "file", required = false) ArrayList<MultipartFile> files) throws Exception {
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String memId = (loginUser != null) ? loginUser.getMemId() : null;
 		
+		String memId = ((Member)session.getAttribute("loginUser")).getMemId();
 		// 첨부 파일 리스트를 담을 ArrayList를 생성
 		ArrayList<Attachment> list = new ArrayList<>();
+		r.setMemId(memId);
+		System.out.println(r);
+		
 		if(list != null) {
 			for(int i = 0; i < files.size(); i++) {
 				MultipartFile upload = files.get(i);
 				
 				if(!upload.getOriginalFilename().equals("")) {
 					// 파일 저장하고 저장된 파일정보 가져옴
-					String rename = saveFile(upload, i);
+					String rename = saveFile(upload);
 					if(rename != null) {
 						Attachment a = new Attachment();
 						a.setAttRename(rename);
 						a.setAttCategory(3);	// 그림추천 게시판
-						a.setAttFno(i);			// 썸네일	
+						a.setAttFno(i);			// 썸네일(0)	
 						list.add(a);
 					}
 				}
 			}
 		}
-		int result1 = rService.insertRecommendation(r);	// 정보 저장 리스트
 		
+		int result1 = rService.insertRecommendation(r);	// 정보 저장 리스트
+		System.out.println(result1);
+		System.out.println(files);
+		System.out.println(list);
 		if(!list.isEmpty()) {
 			for(Attachment a : list) {
 				a.setAttBno(r.getRecNo());
@@ -106,14 +110,14 @@ public class RecommendationController {
 			}
 		} else {
 			if(result1 > 0) {
-				return "redirect: recommendationList.re";
+				return "redirect:recommendationList.re";
 			} else { 
 				throw new Exception("그림추천 문의 게시글 등록을 실패하였습니다.");
 			}
 		}
 	}
 
-	private String saveFile(MultipartFile upload, int i) {
+	private String saveFile(MultipartFile upload) {
 		String root = "C:\\";
 		String savePath = root + "\\uploadFiles";
 		
@@ -129,16 +133,11 @@ public class RecommendationController {
 		int ranNum = (int)(Math.random() * 100000);
 		
 		String originFileName = upload.getOriginalFilename();
-		String[] forNum = originFileName.split("\\.");
-		String newName = forNum[0] + "." + i + "." + forNum[1];
-		
-		String renameFileName = sdf.format(time) + ranNum + newName.substring(originFileName.lastIndexOf("."));
+		String renameFileName = sdf.format(time) + ranNum + originFileName.substring(originFileName.lastIndexOf("."));
 		
 		// rename된 파일 저장소에 저장
 		String renamePath = folder + "\\" + renameFileName; // 이름 변경
-
 //		String renamePath = folder + File.separator + renameFileName;	// 맥
-
 		
 		try {
 			upload.transferTo(new File(renamePath));
@@ -151,14 +150,14 @@ public class RecommendationController {
 		return renameFileName;
 	}
 
-	private void deleteFile(String attRename) {
+	private void deleteFile(String fileName) {
 		String root = "C:\\";
 		String savePath = root + "\\uploadFiles";
 		
 //		String savePath = "/Users/kimgahyun/uploadFiles";				// 맥
 //		File f = new File(savePath + File.separator + fileName);		// 맥
 		
-		File f = new File(savePath + "\\" + attRename.split("localhost/")[1]);
+		File f = new File(savePath + "\\" + fileName);
 		if(f.exists()) {
 			f.delete();
 		}

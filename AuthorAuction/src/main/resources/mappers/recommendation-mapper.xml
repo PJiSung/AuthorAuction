@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.auction.user.dao.RecommendationDAO">
+<mapper namespace="com.kh.auction.user.dao.RecommendationDAO">					<!-- 문의 리스트 -->
 	<select id="getListCount" resultType="_int">
 		select count(*)
 		from recommendation
 		where REC_STATUS = 'Y'
 	</select>
 	
-	<select id="selectRecommendationList" resultType="Recommendation">
+	<select id="selectRecommendationList" resultType="Recommendation">			<!-- 문의 리스트 -->
 		select *
 		from recommendation
 		where REC_STATUS = 'Y' 
 		order by REC_CREATE_DATE desc
 	</select>
 	
-	<insert id="insertRecommendation" useGeneratedKeys="true">
+	<insert id="insertRecommendation" useGeneratedKeys="true">					<!-- 문의 등록 -->
 		<selectKey order="BEFORE" resultType="_int" keyProperty="recNo">
 			select REC_SEQ.nextval from dual
 		</selectKey>
@@ -23,7 +23,7 @@
 				#{recAttachment}, sysdate, sysdate, #{memId})
 	</insert>
 	
-	<insert id="insertAttm">
+	<insert id="insertAttm">													<!-- 문의 등록 -->
 		insert all
 		<foreach collection="list" item="item">
 			into attachment
