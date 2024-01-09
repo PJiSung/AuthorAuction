@@ -14,7 +14,6 @@ background-color: #eee;
 cursor:pointer;
 }
 
-
 </style>
 </head>
 <body>
@@ -26,7 +25,6 @@ cursor:pointer;
 
 <main>
 	<div style = "display:flex;">
-	
 	<div style = "width: 10%; background-color: #444; text-align:center; ">
 		<h1>관리자 페이지</h1>
 		<ul>
@@ -37,15 +35,15 @@ cursor:pointer;
 		</ul>
 	
 	</div>
-		<div style = "height: 120vh; width: 90%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+		<div style = "height: 120vh; width: 90%;  display:flex; align-items:center; justify-content:center;">
 		
 		
-			<div style = "border: 1px solid green; width: 70%; height: 90%;">
+			<div style = " width: 70%; height: 90%;">
 					<div style = "height: 10%; display: flex; align-items:center;"><h1>미술품 조회</h1></div>	
 						<form action = "artsadmin.ar" method = "get">	
 					<div style = "width: 80%; border: 1px solid black; margin: 0 auto; height: 30vh" >
 					
-							<div style = "display:flex; align-items:center; height: 20%; border: 1px solid red;">
+							<div style = "display:flex; align-items:center; height: 20%;">
 								<div  style = "display:flex; width: 15%; align-items:center; justify-content:center;">
 									<h3>검색어</h3>
 								</div>
@@ -95,7 +93,7 @@ cursor:pointer;
 								<div  style = "display:flex;  width: 15%;  align-items:center; justify-content:center;">
 									<h3>크기</h3>
 								</div>
-								<div  style = " width: 40%; border: 1px solid red; height: 100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+								<div  style = " width: 40%;  height: 100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
 										<input type = "text" name = "minWidth" class = "searchinput" placeholder = "가로 최소" style = "width: 80%; text-align:center;">
 										<br>
 										<input type = "text" name = "minHeight" class = "searchinput" placeholder = "세로 최소" style = "width: 80%; text-align:center;">
@@ -103,7 +101,7 @@ cursor:pointer;
 								<div  style = "display:flex;  width: 5%;  align-items:center; justify-content:center;">
 										<h3>~</h3>
 								</div>
-								<div  style = " width: 40%; border: 1px solid red; height: 100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+								<div  style = " width: 40%;  height: 100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
 										<input type = "text" name = "maxWidth" class = "searchinput" placeholder = "가로 최대" style = "width: 80%; text-align:center;">
 										<br>
 										<input type = "text" name = "maxHeight" class = "searchinput" placeholder = "세로 최대" style = "width: 80%; text-align:center;">
@@ -116,63 +114,63 @@ cursor:pointer;
 					</div>
 						</form>
 						
-				<div style = " overflow: scroll; height: 60%; ">
-					<div style = "display:flex; justify-content:center; align-items:center; height: 10%; border-bottom: 1px solid #999; border-top: 1px solid #999; width: 80%; margin: 0 auto; margin-top: 5%;"><h3>검색결과</h3></div>
-					<div style = "display:flex; justify-content:right; align-items:center; height: 10%; border-bottom: 1px solid #999; border-top: 1px solid #999; width: 80%; margin: 0 auto;">총 &nbsp;<span style = "font-weight: bold;">${plistsize}</span>&nbsp; 검색결과</div>
+				<div style = " overflow: auto; height: 60%; ">
+					<div style = "display:flex; justify-content:center; align-items:center; height: 10%;  border-top: 1px solid #999; width: 80%; margin: 0 auto; margin-top: 5%;"><h3>검색결과</h3></div>
+					<div style = "display:flex; justify-content:right; align-items:center; height: 10%;  border-top: 1px solid #999; width: 80%; margin: 0 auto;">총 &nbsp;<span style = "font-weight: bold;">${plistsize}</span>&nbsp; 검색결과</div>
 					<c:if test = "${plistsize eq 0}">
 					<div style = "display: flex;justify-content:center; align-items:center; height: 50%;"><h1>검색 결과 없음</h1></div>
 					</c:if>
 					<c:if test = "${plistsize != 0 }">
 					
-						<div style = "border: 1px solid red; display:flex; align-items:center;">
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">번호</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">이미지</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">작품명</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">작가명</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">재료</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">가로</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">세로</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">등록일</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">가격</div>
-							<div style = "border: 1px solid red; width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">재고</div>
+						<div style = " display:flex; align-items:center; border-top: 1px solid #999;">
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">번호</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">이미지</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">작품명</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">작가명</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">재료</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">가로</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">세로</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">등록일</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">가격</div>
+							<div style = " width: 10%; display:flex; align-items:center; justify-content:center; font-weight: bold; font-size: 20px;">재고</div>
 						</div>
 						<c:forEach items = "${plist}" var = "p">
-								<div style = "height:25%; border: 1px solid red; display:flex; align-items:center;" class = "pldiv">
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+								<div style = "height:25%;  display:flex; align-items:center;" class = "pldiv">
+									<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
 										${p.proNo}
 									</div>
 									<c:forEach items = "${alist}" var= "a">
 										<c:if test = "${a.attBno eq p.proNo }">
 											<input type = "hidden" value = "${a.attRename}" class = "attrename">
 												<c:if test = "${a.attFno eq 1}">
-											<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+											<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
 											<img class="cardset-img" src="/sunwoo/proimages/${a.attRename}" style = "width:90%; height: 90%;" alt="카드 이미지">
 											</div>
 											</c:if>
 										</c:if>
 									</c:forEach>
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+									<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
 										${p.proName}
 									</div>
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+									<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
 										${p.proWriter}
 									</div>
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+									<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
 										${p.proMaterial}
 									</div>
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
-										${p.proWidth}<small>&nbsp; cm</small>
+									<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
+										${p.proWidth} cm
 									</div>
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
-										${p.proHeight}<small>&nbsp; cm</small>
+									<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
+										${p.proHeight} cm
 									</div>
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+									<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
 										${p.proDate}
 									</div>
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
-										<span class = "pprice">${p.proPrice}</span><small>원</small>
+									<div style ="width: 10%; height: 100%; display:flex; align-items:center; justify-content:center;" class = "pprice">
+										${p.proPrice} 원
 									</div>	
-									<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
+									<div style ="width: 10%; height: 100%;  display:flex; align-items:center; justify-content:center;">
 										${p.proAmount}
 									</div>	
 <!-- 							 <div class="cursor" style = "background-color: black; color:white;  position:absolute; -->
@@ -208,7 +206,7 @@ cursor:pointer;
 	background-color: rgba(0, 0, 0, 0.4); display: none;">
 	
 	<div style = "width: 1200px;
-	height: 800px;
+	height:700px;
 	padding: 30px 30px;
 	margin: 0 auto;
 	border: 1px solid #777;
@@ -221,16 +219,20 @@ cursor:pointer;
 	cursor: pointer;" onclick = "popadd('off')">&times;</span>
 			<div style = "border: 1px solid red; display:flex; height: 10%;align-items:center; justify-content:center; "><h1>상세조회</h1></div>
 			
-			<div style = "border:1px solid red; margin-top: 5%; display:flex; height: 80%;" id = "infoalldiv">
-				
-						   
-				
-				<div style = "width: 50%; border: 1px solid green;">
-										sasdasad
-				</div>
-				<span style = "position: absolute; left: 17%; top: 55%;" class = "pandn">이전 </span>
-				<span style = "position: absolute; left: 47%; top: 55%;" class = "pandn">다음 </span>
+			<div style = " margin-top: 5%; display:flex; height: 80%;" id = "infoalldiv">
+				<span style = "position: absolute; left: 20.5%; top: 55%;"  class = "pandn" id = "previous"><img src = "/sunwoo/icons/prear.png" style = "width: 10%; cursor:pointer;" ></span>
+				<span style = "position: absolute; left: 47%; top: 55%;" class = "pandn" id = "next"><img src = "/sunwoo/icons/nextar.png" style = "width: 10%; cursor:pointer" > </span>
 			
+				<div style = "width: 50%; display:flex; height: 100%;align-items:center; justify-content:center; flex-direction:column;">
+					<span>작품번호</span><span style = "margin-bottom: 1%;"><input type = "text" class = "infoproduct" readonly></span>
+					<span>작품명</span><span style = "margin-bottom: 1%;"><input type = "text" class = "infoproduct" readonly></span>
+					<span>작가</span><span style = "margin-bottom: 1%;"><input type = "text" class = "infoproduct" readonly></span>
+					<span>재료</span><span style = "margin-bottom: 1%;"><input type = "text" class = "infoproduct" readonly></span>
+					<span>가로</span><span style = "margin-bottom: 1%;"><input type = "text" class = "infoproduct" readonly></span>
+					<span>세로</span><span style = "margin-bottom: 1%;"><input type = "text" class = "infoproduct" readonly></span>
+					<span>가격</span><span style = "margin-bottom: 1%;"><input type = "text" class = "infoproduct" readonly></span>
+					<span>재고</span><span style = "margin-bottom: 1%;"><input type = "text" class = "infoproduct" readonly></span>		
+				</div>
 			</div>
 				
 	</div>
@@ -313,7 +315,8 @@ cursor:pointer;
 
 
 
-
+var imglist = [];
+var imgindex;
 
 
 //팝업 여는 함수
@@ -326,6 +329,8 @@ function popadd(condition){
 			document.getElementsByClassName('sns_share')[0].style.display = "none";
 			
 			 document.getElementById('infodiv').remove();
+			 imglist =[];
+			 imgindex =0;
 				
 		}
 		
@@ -334,13 +339,12 @@ function popadd(condition){
 	
 	
 	
-
+//캐러셀 
 for(pl of document.getElementsByClassName('pldiv')){
 	
 	pl.addEventListener('click', function(){
 		
-		var imglist = [];
-		var imgindex;
+		
 		popadd('on');
 		
 		 var newDiv = document.createElement("div");
@@ -366,54 +370,89 @@ for(pl of document.getElementsByClassName('pldiv')){
 		           img.id = 'cell';
 		           
 		           imglist.push(img);
-		          
 		        	
 			};
+				
 			
 			 document.getElementById('infodiv').appendChild(imglist[0]);
 			 imgindex=0;
 			 
-			for( pn of document.getElementsByClassName('pandn')){
-				
-				pn.addEventListener('click',function(){
-				
-						switch(this.innerText){
-						
-						case '다음': 
-							if(imgindex<imglist.length-1){
-								document.getElementById('cell').remove();
-								imgindex = imgindex+1;
-								 document.getElementById('infodiv').appendChild(imglist[imgindex]);
-									console.log(imgindex);
-							}
-							break;
-							
-						case '이전': 
-							if(imgindex>0){
-								document.getElementById('cell').remove();
-								imgindex = imgindex-1;
-								 document.getElementById('infodiv').appendChild(imglist[imgindex]);
-								 console.log(imgindex);
-							}
-							
-							break;
-							
-						}
-					
-				});
-				
-			}
-			
-										
+		
 										
 	});	
 	
 
 }
+
+for( pn of document.getElementsByClassName('pandn')){
 	
+	pn.addEventListener('click',function(){
+			switch(this.id){
+			
+			case 'next': 
+				if(imgindex<imglist.length-1){
+					document.getElementById('cell').remove();
+					imgindex = imgindex+1;
+					 document.getElementById('infodiv').appendChild(imglist[imgindex]);
+				}
+				break;
+				
+			case 'previous': 
+				if(imgindex>0){
+					document.getElementById('cell').remove();
+					imgindex = imgindex-1;
+					 document.getElementById('infodiv').appendChild(imglist[imgindex]);
+					
+				}
+				
+				break;
+				
+			}
+		
+	});
 	
+}
+
+
+
+</script>
+
+
+<script>
+
 	
 
+
+	
+	for(pl of document.getElementsByClassName('pldiv')){
+		
+		pl.addEventListener('click', function(){
+			
+			var pls = this.children;
+			
+			for(info of document.querySelectorAll('.infoproduct')){
+				
+				console.log(pls[0].innerText);	
+				console.log(pls[1].innerText);	
+				console.log(pls[2].innerText);	
+				console.log(pls[3].innerText);	
+				console.log(pls[4].innerText);	
+				console.log(pls[5].innerText);	
+				console.log(pls[6].innerText);	
+				console.log(pls[7].innerText);	
+				console.log(pls[8].innerText);	
+				console.log(pls[9].innerText);	
+				console.log(pls[10].innerText);	
+				console.log(pls[11].innerText);	
+				console.log(pls[12].innerText);	
+				
+				
+			}
+			
+			
+			
+		});	
+	}		
 
 
 </script>
