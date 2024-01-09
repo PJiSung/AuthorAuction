@@ -130,6 +130,7 @@ public class MemberController {
 		String phone = new String(decodedBytes, StandardCharsets.UTF_8);
 		m.setMemPhone(phone);
 		m.setMemPwd(bcrypt.encode(m.getMemPwd()));
+		m.setMemFileName("member/images/defaultProfile.svg");
 		int result1 = mService.insertMemeber(m);
 		
 		Address a = new Address();
@@ -139,9 +140,7 @@ public class MemberController {
 		a.setAddPhone(m.getMemPhone());
 		a.setAddDefault("Y");
 		a.setMemId(m.getMemId());
-		System.out.println(a);
 		int result2 = mService.insertFirstAddress(a);
-		System.out.println(result2);
 		
 		if (result1 > 0 && result2 > 0) {
 			return "member/enrollComplete";

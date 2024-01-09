@@ -22,92 +22,92 @@
 <link rel="stylesheet" href="member/css/common.css">
 <link rel="stylesheet" href="member/css/style.css">
 <script>
-	window.onload = () =>{
-		checkAllSpan();
-		subCheckAllSpan();
-	}
+window.onload = () =>{
+	checkAllSpan();
+	subCheckAllSpan();
+}
 
-	const checkAll = () =>{
-		const cboxs = document.querySelectorAll("input[type=checkbox]");
-		for(let i=1; i<cboxs.length; i++){
-			cboxs[i].checked = cboxs[0].checked;
-		}
+const checkAll = () =>{
+	const cboxs = document.querySelectorAll("input[type=checkbox]");
+	for(let i=1; i<cboxs.length; i++){
+		cboxs[i].checked = cboxs[0].checked;
 	}
-	
-	const checkAllSpan = () =>{
-		let span = document.querySelector(".form-all-check span");
-		span.addEventListener("click", function(){
-			let radio = document.querySelectorAll("input[type=checkbox]")[0];
+}
+
+const checkAllSpan = () =>{
+	let span = document.querySelector(".form-all-check span");
+	span.addEventListener("click", function(){
+		let radio = document.querySelectorAll("input[type=checkbox]")[0];
+		if(radio.checked){
+			radio.check = false;
+		}else if(!radio.checked){
+			radio.check = true;
+		}
+		checkAll();
+	});
+}
+
+const checkSelect = () =>{
+	const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[0];
+	const cboxs = document.querySelectorAll("input[name='agree']");
+	const checkCboxs = document.querySelectorAll("input[name='agree']:checked");
+	if(cboxs.length == checkCboxs.length){
+		checkAllcBox.checked = true;
+	}else{
+		checkAllcBox.checked = false;
+	}
+};
+
+const subCheckAll = () =>{
+	const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[3];
+	const cboxs = document.querySelectorAll("input[name='subCbox']");
+	for(let i=0; i<cboxs.length; i++){
+		cboxs[i].checked = checkAllcBox.checked;
+	}
+}
+
+const subCheckSelect = () =>{
+	const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[3];
+	const cboxs = document.querySelectorAll("input[name='subCbox']");
+	const checkCboxs = document.querySelectorAll("input[name='subCbox']:checked");
+	if(cboxs.length == checkCboxs.length){
+		checkAllcBox.checked = true;
+		checkSelect();
+	}else{
+		checkAllcBox.checked = false;
+		checkSelect();
+	}
+};
+
+const subCheckAllSpan = () =>{
+	let spans = document.querySelectorAll(".radio-group span");
+	for(let i=0; i<spans.length; i++){
+		spans[i].addEventListener("click", function(){
+			let radio = document.querySelectorAll(".radio-group input[type=checkbox]")[i];
 			if(radio.checked){
-				radio.check = false;
+				radio.checked = false;
 			}else if(!radio.checked){
-				radio.check = true;
+				radio.checked = true;
 			}
-			checkAll();
+			subCheckSelect();
 		});
 	}
-	
-	const checkSelect = () =>{
-		const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[0];
-		const cboxs = document.querySelectorAll("input[name='agree']");
-		const checkCboxs = document.querySelectorAll("input[name='agree']:checked");
-		if(cboxs.length == checkCboxs.length){
-			checkAllcBox.checked = true;
-		}else{
-			checkAllcBox.checked = false;
-		}
-	};
-	
-	const subCheckAll = () =>{
-		const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[3];
-		const cboxs = document.querySelectorAll("input[name='subCbox']");
-		for(let i=0; i<cboxs.length; i++){
-			cboxs[i].checked = checkAllcBox.checked;
-		}
+}
+
+const checkFalse = () =>{
+	const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[0];
+	checkAllcBox.checked = false;
+	checkAll();
+}
+
+const checkAgree = () =>{
+	const cboxs = document.querySelectorAll("input[name='agree']");
+	if(cboxs[0].checked && cboxs[1].checked){
+		location.href="enroll?phone=${phone}";
+	}else{
+		alert("서비스를 이용하시려면 약관에 동의하셔야 합니다.")
 	}
-	
-	const subCheckSelect = () =>{
-		const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[3];
-		const cboxs = document.querySelectorAll("input[name='subCbox']");
-		const checkCboxs = document.querySelectorAll("input[name='subCbox']:checked");
-		if(cboxs.length == checkCboxs.length){
-			checkAllcBox.checked = true;
-			checkSelect();
-		}else{
-			checkAllcBox.checked = false;
-			checkSelect();
-		}
-	};
-	
-	const subCheckAllSpan = () =>{
-		let spans = document.querySelectorAll(".radio-group span");
-		for(let i=0; i<spans.length; i++){
-			spans[i].addEventListener("click", function(){
-				let radio = document.querySelectorAll(".radio-group input[type=checkbox]")[i];
-				if(radio.checked){
-					radio.checked = false;
-				}else if(!radio.checked){
-					radio.checked = true;
-				}
-				subCheckSelect();
-			});
-		}
-	}
-	
-	const checkFalse = () =>{
-		const checkAllcBox = document.querySelectorAll("input[type=checkbox]")[0];
-		checkAllcBox.checked = false;
-		checkAll();
-	}
-	
-	const checkAgree = () =>{
-		const cboxs = document.querySelectorAll("input[name='agree']");
-		if(cboxs[0].checked && cboxs[1].checked){
-			location.href="enroll?phone=${phone}";
-		}else{
-			alert("서비스를 이용하시려면 약관에 동의하셔야 합니다.")
-		}
-	}
+}
 	
 </script>
 </head>

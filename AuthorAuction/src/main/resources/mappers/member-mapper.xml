@@ -200,4 +200,22 @@
 		WHERE MEM_ID = #{memId}
 	</update>
 	
+	<select id="selectImg">
+		SELECT MEM_FILENAME
+		FROM MEMBER
+		WHERE MEM_ID = #{id}
+	</select>
+	
+	<select id="getiListCount">
+		SELECT COUNT(*)
+		FROM INQUIRTY
+		WHERE MEM_ID = #{id}
+	</select>
+	
+	<select id="selectInquiryList">
+		SELECT *
+		FROM INQUIRY
+		WHERE MEM_ID = #{id}
+	</select>
+	
 </mapper>

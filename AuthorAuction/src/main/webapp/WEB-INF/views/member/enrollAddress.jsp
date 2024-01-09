@@ -95,7 +95,6 @@ const checkCbox = () =>{
 }
 
 const submitBtn = () =>{
-	
 	const form = document.getElementById('addressForm');
 	if (!form.checkValidity()) {
 	    alert('모든 필수 입력 필드를 작성해주세요.');

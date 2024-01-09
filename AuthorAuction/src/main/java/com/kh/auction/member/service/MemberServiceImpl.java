@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.auction.member.dao.MemberDAO;
 import com.kh.auction.user.model.vo.Address;
+import com.kh.auction.user.model.vo.Inquiry;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.SearchMember;
@@ -164,6 +165,26 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int updateMemberByAdmin(Member m) {
 		return mDao.updateMemberByAdmin(m);
+	}
+
+	@Override
+	public String selectImg(String id) {
+		return mDao.selectImg(id);
+	}
+
+	@Override
+	public ArrayList<Inquiry> selectInquiryList(String id) {
+		return mDao.selectInquiryList(id);
+	}
+
+	@Override
+	public int getiListCount(String id) {
+		return mDao.getiListCount(id);
+	}
+
+	@Override
+	public ArrayList<Inquiry> selectInquiryList(String id, PageInfo iPi) {
+		return null;
 	}
 	
 }

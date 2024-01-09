@@ -58,26 +58,28 @@
 	font-size: 30px;
 }
 .profile, .info, .withdrawal{
-	width: 45%;
+	width: 35%;
 	margin: 80px auto;
     border: 1px solid black;
     border-radius: 5px;
     padding: 20px;
 }
 .address{
-	width: 45%;
+	width: 35%;
 	margin: 80px auto 0;
 }
 .profile{
     height: 200px;
 }
+.profile td:first-child {
+	width: 25% !important;
+}
 .profile img{
-	width: 130px;
-	height: 130px;	
+	width: 120px;
+	height: 120px;	
 }
 .profile table{
 	margin-top: 10px;
-	line-height: 35px;
 }
 .info{
 	margin-top: -65px;
@@ -87,7 +89,7 @@
 	line-height: 50px;
 }
 .info table tr td:first-child{
-	width: 150px;
+	width: 25% !important;
 }
 .withdrawal{
 	margin-top: -65px;
@@ -347,7 +349,7 @@ const tabs = () =>{
 
 const enrollAddress = () =>{
 	let endNo = document.getElementById("endNo").value;
-	if(endNo == 4){
+	if(endNo > 4){
 		alert("배송지는 5개이상 등록할 수 없습니다.");
 	}else{
 		location.href='enrollAddress';
@@ -791,7 +793,7 @@ const showModal = () =>{
 	let changeBtn = document.getElementById('changeBtn');
 	let deleteBtn = document.getElementById('deleteBtn');
 	modal.style.display = 'block';
-	if (imgSrc == "") {
+	if (imgSrc == "member/images/defaultProfile.svg") {
 	    deleteBtn.style.display = 'none';
 	} else {
 		deleteBtn.style.display = 'block';
@@ -881,15 +883,9 @@ const closeModal = (value) =>{
 					<td>
 					<div class="imgDiv">
 					    <input type="hidden" id="imgSrc" value="${ loginUser.memFileName }">
-						<c:if test="${ loginUser.memFileName eq null }">
-							<img src="member/images/defaultProfile.svg">
-						</c:if>
-						<c:if test="${ loginUser.memFileName ne null }">
-							<img src="${ loginUser.memFileName }">
-						</c:if>
+						<img src="${ loginUser.memFileName }">
 					</div>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					</td>
+ 					</td>
 					<td>${ loginUser.memId }<br><h3><input type="text" value="${ loginUser.memNickName }"></h3></td> 			
 	    		</tr>
 	    	</table>
@@ -975,7 +971,6 @@ const closeModal = (value) =>{
 	    		ⓘ 배송지는 최대 5개까지 등록하실 수 있습니다.
 	    	</div>
 	    	</div>
-	    	
 	    </div>
 	    <br>
 	    <div class="enrollAdd">

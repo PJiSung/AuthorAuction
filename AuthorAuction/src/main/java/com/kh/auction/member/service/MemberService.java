@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.auction.user.model.vo.Address;
+import com.kh.auction.user.model.vo.Inquiry;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.SearchMember;
@@ -55,4 +56,12 @@ public interface MemberService {
 	Member selectMember(String id);
 
 	int updateMemberByAdmin(Member m);
+
+	String selectImg(String id);
+
+	ArrayList<Inquiry> selectInquiryList(String id);
+
+	int getiListCount(String id);
+
+	ArrayList<Inquiry> selectInquiryList(String id, PageInfo iPi);
 }

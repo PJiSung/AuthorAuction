@@ -1,7 +1,6 @@
 package com.kh.auction.admin.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.member.service.MemberService;
+import com.kh.auction.user.model.vo.Inquiry;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.SearchMember;
@@ -28,16 +28,25 @@ public class MemberAdminController {
 	private String sortMember = null;
 	
 	@GetMapping("memberList.adme")
-	public String selectMemberList(@RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, SearchMember sm, @RequestParam(value = "id", required = false) String id) throws Exception {
+	public String selectMemberList(@RequestParam(value="page", defaultValue="1") int page, @RequestParam(value = "modalPage", defaultValue="1") int modalPage, Model model, HttpSession session, SearchMember sm, @RequestParam(value = "id", required = false) String id) throws Exception {
 		
 		sm.convertEmptyToNull();
 		
 		sortMember = sm.getStatus();
 		Member m = new Member();
+		
+		ArrayList<Inquiry> iList = new ArrayList<>();
+		
+		int iListCount; 
+		int modalCurrentPage = modalPage; 
+		PageInfo iPi;
+		
 		if(id != null) {
 			m = mService.selectMember(id);
+		    iListCount = mService.getiListCount(id); 
+		    iPi = Pagination.getPageInfo(modalCurrentPage, iListCount, 10); 
+		    iList = mService.selectInquiryList(id, iPi);
 		}
-		
 		int listCount = mService.getListCount(sm);
 		int currentPage = page;
 		
@@ -45,8 +54,12 @@ public class MemberAdminController {
 		ArrayList<Member> list = mService.selectMemberList(sm, pi);
 		
 		if(list != null) {
-			model.addAttribute("list", list);
+			
+			model.addAttribute("iList", iList);
+			//model.addAttribute("iPi", iPi);
+			
 			model.addAttribute("total", listCount);
+			model.addAttribute("list", list);
 			model.addAttribute("pi", pi);
 			model.addAttribute("sm", sm);
 			model.addAttribute("status", sortMember);

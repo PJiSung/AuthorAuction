@@ -52,7 +52,7 @@
 }
 
 .chatModal {
-	z-index: 1000;
+	z-index: 10000;
 	display: none;
 	position: fixed;
 	left: 680px;
@@ -125,14 +125,19 @@
     padding: 0;
 }
 
+
 .chatWrap .chat .icon {
-    position: relative;
-    overflow: hidden;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #eee;
-    margin-left: 10px;
+	display: relative;
+	overflow: hidden;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-left: 10px;
+	z-index: 9999;
+}
+img{
+	width: 50px;
+	height: 50px;
 }
 
 .chatWrap .chat .icon i {
@@ -155,8 +160,8 @@
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: perspective(800px) rotateX(10deg);
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 /* 상대 채팅 */
@@ -164,14 +169,13 @@
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
-    padding: 10px;
     margin-top: 20px;
     font-size: 13px;
     border-radius: 5px;
     left: -90px;
 }
 .chatWrap .ch1 .userId{
-	margin-left: 20px;
+	margin-left: 5px;
 	margin-top: -5px;
 }
 
@@ -183,12 +187,12 @@
 }
 
 .chatWrap .ch1 .textbox { 
-    margin-left: 20px;
+    margin-left: 35px;
     background-color: #F2F2F2;
 }
 
 .chatWrap .ch1 .textbox::before {
-    left: -15px;
+    left: -12px;
     content: "◀";
     color: #F2F2F2;
 }
@@ -197,18 +201,17 @@
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
-    padding: 10px;
     margin-top: 20px;
     font-size: 13px;
     border-radius: 5px;
     left: -90px;
 }
 .chatWrap .ch1Admin .userId{
-	margin-left: 20px;
+	margin-left: 5px;
 	margin-top: -5px;
 }
 .chatWrap .ch1Admin .textbox{ 
-	margin-left: 60px;
+	margin-left: 75px;
 	background-color: #F2F2F2;
 }
 .chatWrap .ch1Admin .textbox::before {
@@ -223,7 +226,6 @@
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
-    padding: 10px;
     margin-top: 20px;
     font-size: 13px;
     border-radius: 5px;
@@ -255,7 +257,6 @@
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
-    padding: 10px;
     margin-top: 20px;
     font-size: 13px;
     border-radius: 5px;
@@ -351,6 +352,7 @@
 let ws;
 let isAdmin = '${loginUser.memIsAdmin}';
 let sId;
+let profileImg = null; 
 $(document).ready(function(){
 	setInterval(waiting, 1000);
 	document.getElementById("roomNumber").value = 1;
@@ -371,7 +373,9 @@ function wsEvt() {
 	}
 	ws.onmessage = function(data) {
 		var msg = data.data;
-		console.log(msg);
+		
+		
+		
 		if (msg != null && msg.trim() != '') {
 			var d = JSON.parse(msg);
 			if (d.type == "getId") {
@@ -380,51 +384,66 @@ function wsEvt() {
 					$("#sessionId").val(si);
 				}
 			} else if (d.type == "message") {
-				let mainDiv = document.getElementById("chating");
-				let chatDiv = document.createElement("div");
-				let textDiv = document.createElement("div");
-				textDiv.classList.add("textbox");
 				
-				if (d.sessionId == $("#sessionId").val()) { // 나
-					if(sId != d.sessionId){
-						chatDiv.classList.add("chat", "ch2");
-					}else{
-						chatDiv.classList.add("chat", "ch4");
-					}
-				} else { //상대방
-					
-					if(sId != d.sessionId){
-						if(isAdmin == 'Y'){
-							chatDiv.classList.add("chat", "ch1Admin");
+				const createChat = (d, profileImg) =>{
+					let mainDiv = document.getElementById("chating");
+					let chatDiv = document.createElement("div");
+					let textDiv = document.createElement("div");
+					textDiv.classList.add("textbox");
+					if (d.sessionId == $("#sessionId").val()) { // 나
+						if(sId != d.sessionId){
+							chatDiv.classList.add("chat", "ch2");
 						}else{
-							chatDiv.classList.add("chat", "ch1");
+							chatDiv.classList.add("chat", "ch4");
 						}
-						let iconDiv = document.createElement("div");
-						iconDiv.classList.add("icon");
+					} else { //상대방
 						
-						let iTag = document.createElement("i");
-						iTag.classList.add("fa-solid", "fa-user");
-						iconDiv.append(iTag);		
-						
-						let idDiv = document.createElement("div");
-						idDiv.classList.add("userId");
-						idDiv.innerHTML = d.userName;
-						
-						chatDiv.append(iconDiv);
-						chatDiv.append(idDiv);
-					}else{
-						if(isAdmin == 'Y'){
-							chatDiv.classList.add("chat", "ch3Admin");
+						if(sId != d.sessionId){
+							if(isAdmin == 'Y'){
+								chatDiv.classList.add("chat", "ch1Admin");
+							}else{
+								chatDiv.classList.add("chat", "ch1");
+							}
+							let iconDiv = document.createElement("div");
+							iconDiv.classList.add("icon");
+							iconDiv.innerHTML = "<img src='"+profileImg+"'>"
+							
+							let idDiv = document.createElement("div");
+							idDiv.classList.add("userId");
+							idDiv.innerHTML = d.userName;
+							
+							chatDiv.append(iconDiv);
+							chatDiv.append(idDiv);
 						}else{
-							chatDiv.classList.add("chat", "ch3");
+							if(isAdmin == 'Y'){
+								chatDiv.classList.add("chat", "ch3Admin");
+							}else{
+								chatDiv.classList.add("chat", "ch3");
+							}
 						}
+						
 					}
-				}
 					textDiv.innerHTML = d.msg;	
 					chatDiv.append(textDiv);
 					mainDiv.append(chatDiv);
 					sId = d.sessionId; 
 					scrollToBottom();
+				}
+				
+				if(profileImg == null && d.sessionId != $("#sessionId").val()){
+					$.ajax({
+						type: 'post',
+				 		url: 'selectImg',
+				 		data: {id: d.userName},
+				 		success: (data) =>{
+				 			profileImg = data;
+				 			createChat(d, profileImg);
+				 		},
+				 		error: data => console.log(data)
+				 	});	
+				}else{
+					createChat(d, profileImg);
+				}
 				
 			} else if (d.type == "notification" && isAdmin == "Y"){
 				document.getElementById("sendBtn").disabled = false;

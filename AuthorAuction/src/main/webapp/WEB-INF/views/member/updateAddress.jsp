@@ -133,7 +133,7 @@ const submitBtn = () =>{
 					<div class="form-wrap">
 						<div class="bloomcity-N10" data-bid="DDLQevsBR2">
 							<div class="form-header">
-								<h4 class="form-tit">배송지 등록</h4>
+								<h4 class="form-tit">배송지 수정</h4>
 							</div>
 						</div>
 						<form action="updateAddress" method="post" id="addressForm">

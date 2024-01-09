@@ -143,6 +143,7 @@ tr .checkset {
     background-color: white;
     border-bottom: none;
 }
+
 #tab1Content table tr td{
 	height: 56px;
 	border:1px solid white;
@@ -158,7 +159,6 @@ tr .checkset {
 	text-indent: 20px;
 	text-align: left;
 }
-
 /* 주소 */
 #tab1Content table table tr td{
 	border:1px solid white;
@@ -171,6 +171,9 @@ tr .checkset {
 	width: 50%;
 }
 
+#tab2Content{
+	display:none;
+}
 </style>
 <script>
 window.onload = () =>{
@@ -462,8 +465,7 @@ const showModal = (value) =>{
 		modal.style.display = 'block';
 		document.body.style.overflow = 'hidden';
 	});
-	
-	
+	$("#iList").load(location.href + " #iList");
 }
 
 const closeModal = (value) =>{
@@ -510,6 +512,7 @@ const openTab = (tabName) =>{
         tab2.style.display = 'block';
         document.querySelector('.tab.tab1').classList.remove('active');
         document.querySelector('.tab.tab2').classList.add('active');
+        console.log("ㅇㅇㅇㅇ");
     }
 }
 
@@ -824,9 +827,8 @@ const submitBtn = (value) =>{
 	      </div>
       </div>
     </div>
-    
     <div id="myModal" class="modal">
-	    <div class="modal-content">
+	    <div class="modal-content" id="">
 	        <div class="tabs">
 	            <div class="tab tab1 active" onclick="openTab('tab1')">회원정보</div>
 	            <div class="tab tab2" onclick="openTab('tab2')">1:1상담</div>
@@ -897,21 +899,24 @@ const submitBtn = (value) =>{
 	            </table>
 	        </div>
 	
-	        <div id="tab2Content" class="tab-content" style="display: none;">
+	        <div id="tab2Content" class="tab-content">
 	            <h1>1:1 문의내역</h1>
-	            <div></div>
+	            <div id="iList">
 	            <table>
 	            	<tr>
 	            		<td>번호</td>
 	            		<td>상담일</td>
 	            		<td>답변자</td>
 	            	</tr>
+	            <c:forEach items="${ iList }" var="i">
 	            	<tr>
-	            		<td></td>
-	            		<td></td>
-	            		<td></td>
+	            		<td>${ i.inqNo }</td>
+	            		<td>${ i.inqDate }</td>
+	            		<td>${ i.adminId }</td>
 	            	</tr>
+            	</c:forEach>
 	            </table>
+	            </div>
 	        </div>
 		        
 		    </div>
@@ -919,7 +924,7 @@ const submitBtn = (value) =>{
     
 <jsp:include page="../common/footer.jsp"/>
     <!-- [E]hooms-N36 -->
-  </main>
+ </main>
 <script src="member/js/setting2.js"></script>
 <script src="member/js/plugin.js"></script>
 <script src="member/js/template.js"></script>
