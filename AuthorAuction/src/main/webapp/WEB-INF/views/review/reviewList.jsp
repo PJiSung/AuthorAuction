@@ -294,7 +294,6 @@ body.modal-open {
  }
  
  .reviewDetail .contents-container{
- 	padding: 10px;
  }
 
 .modal {
@@ -784,6 +783,46 @@ body.modal-open {
 	
 <script type="text/javascript">
 
+const loadReviewDetail = () =>{
+    const getSysdate = () => new Date();
+	const getTimeAgo = (repModifyDate) => {
+	    const seconds = Math.floor((getSysdate() - repModifyDate) / 1000);
+	    const interval = { '년': 31536000, '월': 2592000, '주': 604800, '일': 86400, '시간': 3600, '분': 60, '초': 1 };
+
+	    for (let i in interval) {
+	        const num = Math.floor(seconds / interval[i]);
+	        if (num >= 1) {
+	            return num + i + '전';
+	        }
+	    }
+	    return '방금 전';
+	};
+	
+	const repModifyDates = document.querySelectorAll('#repModifyDate');
+	for (let i = 0; i < repModifyDates.length; i++) {
+	    const repModifyDateValue = repModifyDates[i].value;
+	    const repModifyDate = new Date(repModifyDateValue);
+
+	    const timeAgoDiv = repModifyDates[i].closest('.selectReplyDiv').querySelector('.reviewDetailDivs.timeAgo');
+	    timeAgoDiv.innerText = getTimeAgo(repModifyDate);
+	}
+	
+	const newBadge = (repCreateDate) => {
+	    const timeDifference = getSysdate() - repCreateDate;
+	    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+	    return daysDifference <= 3 ? 'NEW' : '';
+	};
+	
+	const repCreateDates = document.querySelectorAll('#repCreateDate');
+	for (let i = 0; i < repCreateDates.length; i++) {
+	    const repCreateDateValue = repCreateDates[i].value;
+	    const repCreateDate = new Date(repCreateDateValue);
+
+	    const newBadgeDiv = repCreateDates[i].closest('.selectReplyDiv').querySelector('.newbadge');
+	    newBadgeDiv.innerText = newBadge(repCreateDate);
+	}
+}
+
 window.onload = () =>{
 	const selectedButs = document.querySelectorAll('.selectset-link');
 	document.getElementById('selectedCat').value = '전체';
@@ -821,6 +860,8 @@ window.onload = () =>{
 		lastetSort.classList.add('active');
 	}
 	
+	loadReviewDetail();
+	
 	document.getElementById('goWriteReviewButton').addEventListener('click', () =>{
 		if( '${loginUser}' != '' ){
 			if( '${oList}' != '[]'){
@@ -839,6 +880,7 @@ window.onload = () =>{
 	const cardsetDiv = document.getElementsByClassName('cardset cardset-shopping');
 	for(const card of cardsetDiv){
 		const revNo = card.querySelector('#reviewNo').value;
+		const memId = card.querySelector('#memId').value;
 	    revNos.push(revNo);
 	    
 		card.addEventListener('click', function(){
@@ -867,44 +909,7 @@ window.onload = () =>{
 			        };
 			    }
 				
-			    const getSysdate = () => new Date();
-				const getTimeAgo = (repModifyDate) => {
-				    const seconds = Math.floor((getSysdate() - repModifyDate) / 1000);
-				    const interval = { '년': 31536000, '월': 2592000, '주': 604800, '일': 86400, '시간': 3600, '분': 60, '초': 1 };
-
-				    for (let i in interval) {
-				        const num = Math.floor(seconds / interval[i]);
-				        if (num >= 1) {
-				            return num + i + '전';
-				        }
-				    }
-				    return '방금 전';
-				};
-				
-				const repModifyDates = document.querySelectorAll('#repModifyDate');
-				for (let i = 0; i < repModifyDates.length; i++) {
-				    const repModifyDateValue = repModifyDates[i].value;
-				    const repModifyDate = new Date(repModifyDateValue);
-
-				    const timeAgoDiv = repModifyDates[i].closest('.selectReplyDiv').querySelector('.reviewDetailDivs.timeAgo');
-				    timeAgoDiv.innerText = getTimeAgo(repModifyDate);
-				}
-				
-				const newBadge = (repCreateDate) => {
-				    const timeDifference = getSysdate() - repCreateDate;
-				    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-				    return daysDifference <= 3 ? 'NEW' : '';
-				};
-				
-				const repCreateDates = document.querySelectorAll('#repCreateDate');
-				for (let i = 0; i < repCreateDates.length; i++) {
-				    const repCreateDateValue = repCreateDates[i].value;
-				    const repCreateDate = new Date(repCreateDateValue);
-
-				    const newBadgeDiv = repCreateDates[i].closest('.selectReplyDiv').querySelector('.newbadge');
-				    newBadgeDiv.innerText = newBadge(repCreateDate);
-				}
-				
+			    loadReviewDetail();
 			});
 			
 		});
@@ -916,6 +921,7 @@ window.onload = () =>{
 	    }
 	});
 }
+
 
 //상세보기 모달
 const showModal = (value) =>{
@@ -1032,9 +1038,12 @@ const submitReply = () =>{
 			success: (data) =>{
 				if(data == 'success'){
 					console.log(data);
-					$("#ReplyListDiv").load(location.href + " #ReplyListDiv");
+					$("#ReplyListDiv").load(location.href + " #ReplyListDiv",()=>{
+						loadReviewDetail();
+					});
 					$("#reviewReplyBut").load(location.href + " #reviewReplyBut");
 					document.getElementById('replyContent').value='';
+					
 				}
 			},
 			error: data => console.log(data)
@@ -1059,6 +1068,7 @@ const updateReply = () =>{
     
     repContent.parentNode.replaceChild(newTextarea, repContent);
     
+    
     if(replyUpBut.innerText == '완료'){
     	replyUpBut.onclick = () =>{
 	    	const newRepContent = document.querySelector('.newRepTextarea').value.trim();
@@ -1070,12 +1080,21 @@ const updateReply = () =>{
 				success: (data) =>{
 					if(data == 'success'){
 						console.log(data);
-						$("#ReplyListDiv").load(location.href + " #ReplyListDiv");
+						$("#ReplyListDiv").load(location.href + " #ReplyListDiv",()=>{
+						});
 					}
 				},
 				error: data => console.log(data)
 			})
 	    }
+    }
+    
+    const replyUpButs = document.querySelectorAll('#replyUpBut');
+    for(let i = 0; i < replyUpButs.length; i++){
+    	replyBut = replyUpButs[i];
+    	if(replyBut.innerText == '수정'){
+    		replyBut.disabled = true;
+    	}
     }
 }
 
@@ -1127,7 +1146,6 @@ const goAnotherReview = (value) =>{
 	let modal = document.getElementById('myModal');
 	modal.style.display = 'block';
 }
-
 </script> 
 
 	<jsp:include page="../common/footer.jsp" />

@@ -278,11 +278,13 @@ public class ReviewController {
 	
 	@PostMapping("goUpdateReview.rv")
 	public String goUpdateReview(@RequestParam("revNo") int revNo,
-								 @RequestParam("page") int page, Model model,
+								 @RequestParam(value="page", defaultValue="1") int page, Model model,
 								 HttpSession session) {
 		
 		Review r = rService.selectReview(revNo);
+		System.out.println(revNo);
 		ArrayList<Attachment> list = rService.selectAttmList(revNo);
+		System.out.println(list);
 		
 		model.addAttribute("r", r);
 		model.addAttribute("list", list);
@@ -468,19 +470,26 @@ public class ReviewController {
 	@GetMapping("myReviewList.rv")
 	public String goMyReviewList(HttpSession session, Model model,
 								 @RequestParam(value = "revNo", required = false) Integer revNo,
-								 @RequestParam(value="page", defaultValue="1") int page) {
+								 @RequestParam(value="page", defaultValue="1") int page,
+								 @RequestParam(value="listType", defaultValue = "reviewList") String listType) {
 		String memId = ((Member)session.getAttribute("loginUser")).getMemId();
 		
-		int revListCount = rService.getMyReviewListCount(memId);
-		PageInfo pi = Pagination.getPageInfo(page, revListCount, 5);
-		ArrayList<Review> rList = rService.selectMyReviewList(memId, pi);
 		ArrayList<Review> allRlist = rService.selectReviewAllList();
 		ArrayList<Attachment> aList = rService.selectAttmList(null);
 		ArrayList<HashMap<String, Object>> lList = rService.reviewLikeList();
 		
+		ArrayList<Review> rList = new ArrayList<Review>();
+		ArrayList<Reply> pList = new ArrayList<Reply>();
+		
+		PageInfo revPi = new PageInfo();
+		PageInfo repPi = new PageInfo();
+		int revListCount = rService.getMyReviewListCount(memId);
+		revPi = Pagination.getPageInfo(page, revListCount, 5);
+		rList = rService.selectMyReviewList(memId, revPi);
+		
 		int repListCount = rService.getMyReplyListCount(memId);
-		PageInfo pPi = Pagination.getPageInfo(page, repListCount, 5);
-		ArrayList<Reply> pList = rService.selectMyReplyList(memId, pPi);
+		repPi = Pagination.getPageInfo(page, repListCount, 5);
+		pList = rService.selectMyReplyList(memId, repPi);
 		
 		Review review = new Review();
 		ArrayList<Reply> replyList = new ArrayList<Reply>();
@@ -490,8 +499,10 @@ public class ReviewController {
 		}
 		
 		if(rList != null) {
-			model.addAttribute("rPi", pi);
-			model.addAttribute("pPi", pPi);
+			model.addAttribute("revListCount", revListCount);
+			model.addAttribute("repListCount", repListCount);
+			model.addAttribute("revPi", revPi);
+			model.addAttribute("repPi", repPi);
 			model.addAttribute("rList", rList);
 			model.addAttribute("allRlist", allRlist);
 			model.addAttribute("aList", aList);
