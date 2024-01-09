@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -410,37 +410,37 @@ table tr {
 	 	const modalContent = document.getElementById("modal_h3");
    		
 	 	function selectStartBtnEvent() {
-	        if (dateInput[5].value != '') {
-	            if (new Date(dateInput[5].value + " 23:59:59") > new Date(datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay + " 00:00:00") && new Date(datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay + " 00:00:00") > new Date()) {
+	        if (dateInput[10].value != '') {
+	            if (new Date(dateInput[10].value + " 23:59:59") > new Date(document.getElementById("yearPlace").innerText + "-" + document.getElementById("monthPlace").innerText + "-" + targetDay + " 00:00:00") && new Date(document.getElementById("yearPlace").innerText + "-" + document.getElementById("monthPlace").innerText + "-" + targetDay + " 00:00:00") > new Date()) {
 	            	switch(true){
-	            	case parseInt(datePlace[30].innerText) < 10 :
-	            		dateInput[4].value = datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay;
+	            	case parseInt(document.getElementById("monthPlace").innerText) < 10 :
+	            		dateInput[9].value = document.getElementById("yearPlace").innerText + "-" + document.getElementById("monthPlace").innerText + "-" + targetDay;
 	            		break;
 	            	default:
-	            		dateInput[4].value = datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay;
+	            		dateInput[9].value = document.getElementById("yearPlace").innerText + "-" + document.getElementById("monthPlace").innerText + "-" + targetDay;
 	            		break;
 	            	}
 	                startCalendar.style.display = 'none';
-	            }else if(areDatesEqual(new Date(), new Date(datePlace[31].innerText + "-" + datePlace[32].innerText + "-" + targetDay))){
+	            }else if(areDatesEqual(new Date(), new Date(document.getElementById("yearPlaceEnd").innerText + "-" + document.getElementById("monthPlaceEnd").innerText + "-" + targetDay))){
 	            	modalContent.innerText = '금일은 시작일로 지정하실 수 없습니다';
 	                modal.style.display = 'block';
 	            }else{
 	            	modalContent.innerText = '시작일을 종료일보다 후일로 설정할 수 없습니다';
 	                modal.style.display = 'block';
 	            }
-	        }else if (new Date(datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay + "T00:00:00") < new Date()) {
+	        }else if (new Date(document.getElementById("yearPlace").innerText + "-" + document.getElementById("monthPlace").innerText + "-" + targetDay + "T00:00:00") < new Date()) {
 	        	modalContent.innerText = '시작일을 금일보다 이전으로 설정할 수 없습니다';
                 modal.style.display = 'block';
-	        }else if(areDatesEqual(new Date(), new Date(datePlace[31].innerText + "-" + datePlace[32].innerText + "-" + targetDay))){
+	        }else if(areDatesEqual(new Date(), new Date(document.getElementById("yearPlaceEnd").innerText + "-" + document.getElementById("monthPlaceEnd").innerText + "-" + targetDay))){
 	        	modalContent.innerText = '금일은 시작일로 지정하실 수 없습니다';
                 modal.style.display = 'block';
 	        }else {
 	        	switch(true){
             	case parseInt(datePlace[30].innerText) < 10 :
-            		dateInput[4].value = datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay;
+            		dateInput[9].value = document.getElementById("yearPlace").innerText + "-" + document.getElementById("monthPlace").innerText + "-" + targetDay;
             		break;
             	default:
-            		dateInput[4].value = datePlace[29].innerText + "-" + datePlace[30].innerText + "-" + targetDay;
+            		dateInput[9].value = document.getElementById("yearPlace").innerText + "-" + document.getElementById("monthPlace").innerText + "-" + targetDay;
             		break;
             	}
 	        	startCalendar.style.display = 'none';
@@ -462,11 +462,11 @@ table tr {
 	 	const modalContent = document.getElementById("modal_h3");
    		
 	 	function selectEndBtnEvent(){
-   			if(dateInput[4].value != ''){
-	    		if(new Date(dateInput[4].value + " 00:00:00") < new Date(datePlace[31].innerText + "-" + datePlace[32].innerText + "-" + targetDay + " 23:59:59")){
-					dateInput[5].value = datePlace[31].innerText + "-" + datePlace[32].innerText + "-" + targetDay;
+   			if(dateInput[9].value != ''){
+	    		if(new Date(dateInput[9].value + " 00:00:00") < new Date(document.getElementById("yearPlaceEnd").innerText + "-" + document.getElementById("monthPlaceEnd").innerText + "-" + targetDay + " 23:59:59")){
+					dateInput[10].value = document.getElementById("yearPlaceEnd").innerText + "-" + document.getElementById("monthPlaceEnd").innerText + "-" + targetDay;
 					endCalendar.style.display = 'none';
-				}else if(areDatesEqual(new Date(), new Date(datePlace[31].innerText + "-" + datePlace[32].innerText + "-" + targetDay))){
+				}else if(areDatesEqual(new Date(), new Date(document.getElementById("yearPlaceEnd").innerText + "-" + document.getElementById("monthPlaceEnd").innerText + "-" + targetDay))){
     				modalContent.innerText = '금일은 종료일로 지정하실 수 없습니다';
 		            modal.style.display = 'block';
     			}else{
@@ -474,11 +474,11 @@ table tr {
 	                modal.style.display = 'block';
 				}
    			}else{
-   				if(areDatesEqual(new Date(), new Date(datePlace[31].innerText + "-" + datePlace[32].innerText + "-" + targetDay))){
+   				if(areDatesEqual(new Date(), new Date(document.getElementById("yearPlaceEnd").innerText + "-" + document.getElementById("monthPlaceEnd").innerText + "-" + targetDay))){
    					modalContent.innerText = '금일은 종료일로 지정하실 수 없습니다';
 	            	modal.style.display = 'block';
    				}else{
-   					dateInput[5].value = datePlace[31].innerText + "-" + datePlace[32].innerText + "-" + targetDay;
+   					dateInput[10].value = document.getElementById("yearPlaceEnd").innerText + "-" + document.getElementById("monthPlaceEnd").innerText + "-" + targetDay;
 					endCalendar.style.display = 'none';
    				}
    			}
@@ -690,6 +690,8 @@ table tr {
 	
 	
 	const openEnrollModal = (data) =>{
+		console.log(document.querySelectorAll("input"));
+		console.log(document.querySelectorAll("span"));
 		const $data = $(data);
     	const $enrollModal = $(".modal_overlay").eq(0);
     	const ajaxConProduct = document.getElementById("ajaxConProduct");
@@ -1171,3 +1173,4 @@ table tr {
 	<script src="consignment/js/script.js"></script>
 </body>
 </html>
+
