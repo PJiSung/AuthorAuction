@@ -22,7 +22,7 @@
 	<jsp:include page="../common/header.jsp" />
 
 	<div id="content-allOver-cover" style="width: 100%; height: 100%;">
-		<div id="divine" style="width: 100%; height: 100%;">
+		<div id="divine" style="width: 100%; height: 100%; min-height: 950px;">
 			<div id="headline" style="width: 70%; margin: auto;">
 				<div
 					style="width: 100%; margin-top: 5%; margin-bottom: 5%; font-size: x-large; font-weight: 1000;">참여 
@@ -51,6 +51,12 @@
 					<div style="width: 14%;">진행 상황</div>
 				</div>
 
+				<c:if test="${ empty myBidList }">
+					<div class="auction" style="width: 100%; height: 100px; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
+						<h1>조회 가능한 데이터가 없습니다</h1>
+					</div>
+				</c:if>
+					
 				<c:forEach items="${ myBidList }" var="myBidList">
 					<div class="auction" onclick="moveToAuction('${ myBidList.aucNo }');"
 						style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
@@ -161,27 +167,6 @@
 		<input type="hidden" value="${ myBidList.aucFinishPrice }" class="aucNowPrice">
 		<input type="hidden" value="${ myBidList.aucFinishDate}" class="aucFinishDate">
 	</c:forEach>
-
-	<br>
-	<br>
-	<br> 
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-
-
-
-
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
@@ -200,9 +185,9 @@
             	
             	
             	 if(new Date(document.querySelectorAll("input[class='aucFinishDate']")[i].value) > new Date()){
-            		 document.querySelectorAll("div[class='auctionStatus']")[i].innerText = '진행';
+            		 document.querySelectorAll("div[class='auctionStatus']")[i].innerText = '진행 경매';
                  }else{
-                	 document.querySelectorAll("div[class='auctionStatus']")[i].innerText = '종료';
+                	 document.querySelectorAll("div[class='auctionStatus']")[i].innerText = '종료 경매';
                  }
             }
         }

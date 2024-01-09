@@ -24,16 +24,16 @@
 				<div id="btnPlace" style="width: 100%;">
 					<div class="seeWhich"
 						style="background: gray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						onclick="allAuction();">전체 보기</div>
+						onclick="chooseAuction('all');">전체 보기</div>
 					<div class="seeWhich"
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						id="scheduled" onclick="scheduledAuction();">예정 경매</div>
+						id="scheduled" onclick="chooseAuction('scheduled');">예정 경매</div>
 					<div class="seeWhich"
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						id="ongoing" onclick="ongoingAuction();">진행 경매</div>
+						id="ongoing" onclick="chooseAuction('ongoing');">진행 경매</div>
 					<div class="seeWhich"
 						style="background: lightgray; width: 9%; display: inline-block; text-align: center; padding: 1%;"
-						id="end" onclick="endAuction();">종료 경매</div>
+						id="end" onclick="chooseAuction('end');">종료 경매</div>
 				</div>
 				<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px black solid; border-bottom: 1px black solid;">
 					<div
@@ -60,6 +60,7 @@
 
 				<%-- ${ aList } --%>
 				<c:forEach items="${ aList }" var="auction">
+					<div id="new">
 					<div class="auction" onclick="moveAuction(${auction.aucNo});" style="width: 100%; height: 100%; border-bottom: 1px black solid; display: flex; align-items: center; justify-content: center; text-align: center;">
 						<div class="checkZone" style="width: 14%; display: inline-block; height: 100px; padding-top: 2%;">
 							<input type="checkbox" class="eachCheck" onclick="eachCheckForAll();">
@@ -78,7 +79,11 @@
 
 						<c:set var="startDateVar" value="${auction.aucStartDate}" />
 						<c:set var="endDateVar" value="${auction.aucFinishDate}" />
-
+						<c:set var="now" value="<%=new java.util.Date()%>" />
+						<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" var="today" />
+						
+						
+						
 						<%
 						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -88,25 +93,26 @@
 						pageContext.setAttribute("startDate", dateFormat.format(startDate));
 						pageContext.setAttribute("endDate", dateFormat.format(endDate));
 						%>
-
+						
 						<c:choose>
-							<c:when test="${today.before(startDate)}">
+							<c:when test="${today < startDate}">
 								<div style="width: 14%; display: inline-block; height: 100px; padding-top: auto;">
 									진행 상황 : 예정 경매<br> 시작 금액 : <fmt:formatNumber value="${ auction.aucStartPrice }"/> 원
 								</div>
 							</c:when>
-							<c:when test="${today.after(endDate)}">
+							<c:when test="${today > endDate}">
 								<div style="width: 14%; display: inline-block; height: 100px; padding-top: 1.5%;">
 									진행 상황 : 종료 경매<br> 낙찰 금액 : <fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원
 								</div>
 							</c:when>
-							<c:otherwise>
+							<c:when test="${ today <= endDate and today >= startDate }">
 								<div
 									style="width: 14%; display: inline-block; height: 100px; padding-top: 1.5%;">
 									진행 상황 : 진행 경매<br> 입찰 금액 : <fmt:formatNumber value="${ auction.aucFinishPrice }"/> 원
 								</div>
-							</c:otherwise>
+							</c:when>
 						</c:choose>
+					</div>
 					</div>
 				</c:forEach>
 				<div id="deleteBtnPlace"
@@ -266,16 +272,17 @@
 		}
 			
 		
-		const allAuction = () =>{
+		const chooseAuction = (data) =>{
 			seeWhich();
+			console.log(data);
 			/* $({
-				url:'myInterest.ac',
+				url:'myInterestChoose.ac',
 				type:'get',
-				data:{type:'all'},
+				data:{type:data},
 				success: data => {
 					if(data == 'success'){
 						console.log(data)
-						$("#divine").load(location.href + " #divine");
+						$("#new").load(location.href + " #new");
 						$("#paging").load(location.href + " #paging");
 					}
 				},
