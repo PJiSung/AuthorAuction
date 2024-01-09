@@ -56,7 +56,7 @@ public class RecommendationController {
 	
 	// 그림추천 문의 등록 페이지로
 	@GetMapping("recommendationEnroll.re")
-	public String moveToRecommendationEnroll(HttpSession session) {
+	public String moveToRecommendationEnroll() {
 		
 		return "recommendation/recommendationEnroll";
 	}

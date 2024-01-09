@@ -20,7 +20,19 @@
 .textset-desc{margin-bottom: 5rem;}
 .btnset{float: right; margin-bottom: 3rem;}
 </style>
-
+  
+<script>
+window.onload = ()=>{
+	document.getElementById('recommendationEnroll').addEventListener('click', () =>{
+		if('${loginUser}' != ''){
+			location.href='recommendationEnroll.re';
+		} else {
+			alert('로그인 후 이용해주세요.');
+		}
+	})
+	
+}
+</script>
 </head>
 
 <body>
@@ -138,18 +150,6 @@
     <!-- [E]basic-N54 -->
   </main>
   
-<script>
-window.onload = ()=>{
-	document.getElementById('recommendationEnroll').addEventListener('click', () =>{
-		if('${loginUser}' != ''){
-			location.href='recommendationEnroll.re';
-		} else {
-			alert('로그인 후 이용해주세요.');
-		}
-	})
-	
-}
-</script>  
   
   
  <jsp:include page="../common/footer.jsp"/>

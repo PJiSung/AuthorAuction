@@ -30,7 +30,7 @@
     </div>
     <!-- [E]hooms-N58 -->
     <!-- [S]hooms-N39 -->
-    <form action="conInsert.co" method="post" enctype="multipart/form-data" id="attmForm">
+    <form action="conInsert.co" method="post" enctype="multipart/form-data" id="attmForm" >
 	    <div class="hooms-N39" data-bid="uqLqcFv4LT" id=""">
 	      <div class="contents-inner">
 	        <div class="contents-container container-md">
@@ -112,7 +112,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="1">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
+	                          <input type="file" class="fileset-input" name="file" style="width: 83%;"  accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -126,7 +126,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="2">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" required accept="image/*">
+	                          <input type="file" class="fileset-input" name="file" style="width: 83%;"  accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -140,7 +140,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="3">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" name="file" required accept="image/*">
+	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" name="file"  accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -154,7 +154,7 @@
 	                      <div class="fileset-body">
 	                        <div class="fileset-group" data-order="5">
 	                          <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" name="file" required accept="image/*">
+	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" name="file"  accept="image/*">
 	                          <button class="fileset-cancel"></button>
 	                        </div>
 	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
@@ -167,7 +167,7 @@
 	                
 	                
 	                <div class="contents-sign">
-	                  <button class="btnset modalset-btn" id="submitAttm">등록하기</button>
+	                  <button type="button" class="btnset modalset-btn" id="submitAttm">등록하기</button>
 	                </div>
 	                <div id="modalSet1" class="modalset">
 	                  <div class="modal-header">
@@ -209,14 +209,27 @@
 			if(isEmpty){
 				$('#modalChoice').modal('show');
 			} else{
-				form.submit();
+				
 			}
 		});
-		
-		document.getElementById('moveBoard').addEventListener('click', () =>{
-			form.submit();
-		})
-		
+
+	    document.getElementById('moveBoard').addEventListener('click', (event) => {
+	        const files = document.getElementsByName('file');
+	        let selectedFileCount = 0;
+
+	        // 선택된 파일 갯수	
+	        for (const f of files) {
+	            if (f.files && f.files.length > 0) {
+	                selectedFileCount += 1;
+	            }
+	        }
+	        // 4개 미만이면 땡	
+	        if (selectedFileCount < 4) {
+	            alert('사진은 반드시 4개를 선택해주세요.');
+	        } else {
+	        	form.submit();
+	        }
+	    });
 	</script>
 
 

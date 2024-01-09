@@ -10,7 +10,7 @@
 <meta http-equiv="imagetoolbar" content="no">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
-<title>관리자 위탁 내역 | 침대</title>
+<title>관리자 위탁 내역</title>
 <link rel="stylesheet" href="consignment/css/setting.css">
 <link rel="stylesheet" href="consignment/css/plugin.css">
 <link rel="stylesheet" href="consignment/css/template.css">
@@ -19,6 +19,10 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <style type="text/css">
+.tableset tr:hover{
+   background: #dcdcdc;
+   cursor: pointer;
+}
 table {
 	width: 100%;
 }
