@@ -143,6 +143,7 @@ cursor:pointer;
 									</div>
 									<c:forEach items = "${alist}" var= "a">
 										<c:if test = "${a.attBno eq p.proNo }">
+											<input type = "hidden" value = "${a.attRename}" class = "attrename">
 												<c:if test = "${a.attFno eq 1}">
 											<div style ="width: 10%; height: 100%; border: 1px solid red; display:flex; align-items:center; justify-content:center;">
 											<img class="cardset-img" src="/sunwoo/proimages/${a.attRename}" style = "width:90%; height: 90%;" alt="카드 이미지">
@@ -204,7 +205,7 @@ cursor:pointer;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);">
+	background-color: rgba(0, 0, 0, 0.4); display: none;">
 	
 	<div style = "width: 1200px;
 	height: 800px;
@@ -218,9 +219,20 @@ cursor:pointer;
 	color: #777;
 	font-size: 25px;
 	cursor: pointer;" onclick = "popadd('off')">&times;</span>
-	
-		
-		
+			<div style = "border: 1px solid red; display:flex; height: 10%;align-items:center; justify-content:center; "><h1>상세조회</h1></div>
+			
+			<div style = "border:1px solid red; margin-top: 5%; display:flex; height: 80%;" id = "infoalldiv">
+				
+						   
+				
+				<div style = "width: 50%; border: 1px solid green;">
+										sasdasad
+				</div>
+				<span style = "position: absolute; left: 17%; top: 55%;" class = "pandn">이전 </span>
+				<span style = "position: absolute; left: 47%; top: 55%;" class = "pandn">다음 </span>
+			
+			</div>
+				
 	</div>
 	
 </div>	
@@ -299,6 +311,12 @@ cursor:pointer;
 
 <script>
 
+
+
+
+
+
+//팝업 여는 함수
 function popadd(condition){
 		
 		if(condition == 'on'){
@@ -306,9 +324,95 @@ function popadd(condition){
 			
 		}else{
 			document.getElementsByClassName('sns_share')[0].style.display = "none";
+			
+			 document.getElementById('infodiv').remove();
+				
 		}
 		
 	}
+	
+	
+	
+	
+
+for(pl of document.getElementsByClassName('pldiv')){
+	
+	pl.addEventListener('click', function(){
+		
+		var imglist = [];
+		var imgindex;
+		popadd('on');
+		
+		 var newDiv = document.createElement("div");
+		 
+		 newDiv.id = 'infodiv';
+		 newDiv.style.diplay = 'flex';
+		 newDiv.style.alignItems = 'center';
+		 newDiv.style.justifyContent = 'center';
+		 newDiv.style.width = '50%';
+		 newDiv.style.height = '100%';
+		 newDiv.style.border = '1px solid red';
+		 newDiv.style.overflow = 'hidden';
+		 newDiv.style.justifyContent = 'center';
+		 document.getElementById('infoalldiv').prepend(newDiv);
+		
+			for(att of this.querySelectorAll('.attrename')){
+				
+					
+				   let img = new Image();
+		           img.src = '/sunwoo/proimages/' + att.value;
+		           img.style.width = "100%";
+		           img.style.height = "100%";
+		           img.id = 'cell';
+		           
+		           imglist.push(img);
+		          
+		        	
+			};
+			
+			 document.getElementById('infodiv').appendChild(imglist[0]);
+			 imgindex=0;
+			 
+			for( pn of document.getElementsByClassName('pandn')){
+				
+				pn.addEventListener('click',function(){
+				
+						switch(this.innerText){
+						
+						case '다음': 
+							if(imgindex<imglist.length-1){
+								document.getElementById('cell').remove();
+								imgindex = imgindex+1;
+								 document.getElementById('infodiv').appendChild(imglist[imgindex]);
+									console.log(imgindex);
+							}
+							break;
+							
+						case '이전': 
+							if(imgindex>0){
+								document.getElementById('cell').remove();
+								imgindex = imgindex-1;
+								 document.getElementById('infodiv').appendChild(imglist[imgindex]);
+								 console.log(imgindex);
+							}
+							
+							break;
+							
+						}
+					
+				});
+				
+			}
+			
+										
+										
+	});	
+	
+
+}
+	
+	
+	
 
 
 
