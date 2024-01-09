@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Chating</title>
 <style>
-* {
+.chatContainer {
 	margin: 0;
 	padding: 0;
 }
@@ -55,9 +55,8 @@
 	z-index: 1000;
 	display: none;
 	position: fixed;
-	z-index: 1 !important;
-	left: 34%;
-	top: 0;
+	left: 680px;
+	top: 40px;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
@@ -150,12 +149,14 @@
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
-    padding: 10px;
+    padding: 7px;
     margin-top: 7px;
     font-size: 13px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: perspective(800px) rotateX(10deg);
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 /* 상대 채팅 */
@@ -211,11 +212,29 @@
 	background-color: #F2F2F2;
 }
 .chatWrap .ch1Admin .textbox::before {
-    left: -15px;
+    left: -12px;
     content: "◀";
     color: #F2F2F2;
 }
 /*                        */
+
+/* 어드민 상대방 채팅 */
+.chatWrap .ch3Admin .textbox {
+    position: relative;
+    display: inline-block;
+    max-width: calc(100% - 70px);
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+.chatWrap .ch3Admin .textbox{ 
+	margin-left: 75px; 
+    margin-top: 7px;
+    background-color: #f2f2f2;
+}
+/*                        */
+
 .chatWrap .ch2 {
     flex-direction: row-reverse;
 }
@@ -226,7 +245,7 @@
 }
 
 .chatWrap .ch2 .textbox::before {
-    right: -15px; 
+    right: -12px; 
     content: "▶";
     color: #ffeb33;
 }
@@ -266,6 +285,7 @@
 	border-bottom-left-radius: 5px;
 	border-top:none;
 	border-left:none;
+	background: white;
 }
 #yourMsg textarea{
 	font-size: 16px;
@@ -307,14 +327,14 @@
 
 .btn-chat{
 	position: fixed;
-	top: 800px;
+	top: 780px;
 	right: 100px;
 }
 
 .waitingCount{
 	position: absolute;
-	left:40px;
-	top:65px;
+	left: 52px;
+	top: 40px;
 	background-color: black;
 	width: 20px;
 	height: 20px;
@@ -394,7 +414,7 @@ function wsEvt() {
 						chatDiv.append(idDiv);
 					}else{
 						if(isAdmin == 'Y'){
-							chatDiv.classList.add("chat", "ch3");
+							chatDiv.classList.add("chat", "ch3Admin");
 						}else{
 							chatDiv.classList.add("chat", "ch3");
 						}
@@ -463,14 +483,14 @@ const sendMessage = () =>{
 const openChat = () =>{
 	let login = "${loginUser}";
 	let waiting = document.getElementById("waiting");
+	console.log(waiting);
 	if(login == ""){
 		alert("로그인후에 진행해주세요");
-	}else if(isAdmin == 'Y' && waiting.value == 0)
+	}else if(isAdmin == 'Y' && waiting.innerText == 0)
 		alert("대기중인 고객이 없습니다.");
 	else{
 		$("#chatContainer").toggle();
 		document.getElementById("openChatting").style.display="none";
-		document.getElementById("waiting").style.display="none";
 		wsOpen();
 	}
 }
@@ -533,7 +553,7 @@ const scrollToBottom = () =>{
 	
 		<input type="hidden" name="userName" id="userName" value="${loginUser.memId}">
 		<input type="hidden" id="sessionId" value="">
-		<input type="text" id="roomNumber" value="${roomNumber}">
+		<input type="hidden" id="roomNumber" value="${roomNumber}">
 		
 		<div class="chatingHeader">
 			<span class="center">&nbsp;&nbsp;&nbsp;&nbsp;AuthorAuction&nbsp;상담문의</span><span class="right closeBtn" onclick="showChatModal()">X&nbsp;</span>
