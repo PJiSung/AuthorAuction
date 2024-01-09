@@ -466,10 +466,12 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 			if(tds[beforeIndex].parentNode != target){
 				tds[beforeIndex].innerHTML = beforeData;
 			}
+			beforeIndex = null;
 		}else if(beforeIndex != null){
 			if(beforeIndex != null){
 				tds[beforeIndex].innerHTML = beforeData;
 			}
+			beforeIndex = null;
 		}
 		
 		//모달
@@ -680,6 +682,7 @@ let tds = document.querySelectorAll(".myInfo tr td:last-child");
 			}
 		},{capture: true});
 	}
+	beforeIndex = null;
 }
 
 authNum = 0;
@@ -720,6 +723,7 @@ const sendAuthNo = (value) =>{
 			});
 		}
 	}
+	beforeIndex = null;
 }
 
 const checkNum1 = (value) =>{
@@ -745,6 +749,7 @@ const checkNum1 = (value) =>{
 		alert("인증번호가 일치하지않습니다");
 		inputNum.focus();
 	}
+	beforeIndex = null;
 }
 
 const checkNum2 = (value) =>{
@@ -770,6 +775,7 @@ const checkNum2 = (value) =>{
 		alert("인증번호가 일치하지않습니다");
 		inputNum.focus();
 	}
+	beforeIndex = null;
 }
 
 const changeMemImg = () =>{
@@ -837,6 +843,7 @@ const closeModal = (value) =>{
               error : data => console.log(data)
           });
       }
+	beforeIndex = null;
 }
 
 </script>

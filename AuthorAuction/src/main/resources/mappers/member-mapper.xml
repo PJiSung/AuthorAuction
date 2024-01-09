@@ -63,7 +63,7 @@
 	<select id="selectAddressList">
 		SELECT *
 		FROM ADDRESS
-		WHERE MEM_ID = #{id} AND ADD_STATUS = 'Y'
+		WHERE MEM_ID = #{id} AND ADD_STATUS = 'Y' AND ADD_DEFAULT IN ('Y','N')
 		ORDER BY ADD_DEFAULT DESC,
         ADD_NO DESC
 	</select>

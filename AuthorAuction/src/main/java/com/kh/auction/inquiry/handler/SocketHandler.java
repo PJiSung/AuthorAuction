@@ -111,7 +111,6 @@ public class SocketHandler extends TextWebSocketHandler {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("소켓접속");
 		super.afterConnectionEstablished(session);
 		boolean flag = false;
 		boolean checkRoom = false;
@@ -179,7 +178,6 @@ public class SocketHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception { // 소켓 종료
-		System.out.println("소켓종료");
 		int index = 0;
 		String url = session.getUri().toString();
 		String roomNumber = (url.split("/chating/")[1]).split("/isAdmin/")[0]; // 방번호 체크
