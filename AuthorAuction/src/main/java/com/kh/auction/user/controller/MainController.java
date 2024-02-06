@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kh.auction.common.config.Pagination;
 import com.kh.auction.inquiry.handler.SocketHandler;
+import com.kh.auction.member.controller.MemberController;
 import com.kh.auction.user.model.vo.Member;
 import com.kh.auction.user.model.vo.PageInfo;
 import com.kh.auction.user.model.vo.Product;
@@ -28,6 +30,10 @@ import com.kh.auction.user.model.vo.SearchArt;
 import com.kh.auction.user.service.MainService;
 
 import jakarta.servlet.http.HttpSession;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
 public class MainController {
@@ -199,9 +205,35 @@ public class MainController {
 		return "common/searchArt";
 	}
 	
-	@GetMapping("myPage")
-	public String myPageSide() {
-		return "common/myPageSide";
+	@GetMapping("checkAdmin")
+	@ResponseBody
+	public void checkAdmin() {
+		System.out.println("socket = "+SocketHandler.waiting);
+		System.out.println("loginAdmin = "+MemberController.loginAdmin.size());
+		if(SocketHandler.waiting > MemberController.loginAdmin.size()) {
+			ArrayList<Message> mList = new ArrayList<>();
+			ArrayList<String> adminList = mService.selectAdminList(MemberController.loginAdmin);
+			
+			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
+			
+			
+			for(int i=0; i<adminList.size(); i++) {
+				Message message = new Message();
+				message.setFrom("01068938300");
+				message.setTo(adminList.get(i));
+				message.setText("[Author Auction] 고객 상담요청이 있습니다.");
+				mList.add(message);
+			}
+
+			try {
+			  messageService.send(mList);
+			} catch (NurigoMessageNotReceivedException exception) {
+			  System.out.println(exception.getFailedMessageList());
+			  System.out.println(exception.getMessage());
+			} catch (Exception exception) {
+			  System.out.println(exception.getMessage());
+			}
+		}
 	}
 	
 }

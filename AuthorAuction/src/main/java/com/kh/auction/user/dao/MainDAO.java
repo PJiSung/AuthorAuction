@@ -3,6 +3,7 @@ package com.kh.auction.user.dao;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.kh.auction.user.model.vo.Attachment;
 import com.kh.auction.user.model.vo.Inquiry;
@@ -22,4 +23,6 @@ public interface MainDAO {
 	ArrayList<Attachment> selectTopOrderAttm();
 
 	ArrayList<Attachment> selectTopAuction();
+
+	ArrayList<String> selectAdminList(@Param("loginAdmin") ArrayList<String> loginAdmin);
 }

@@ -46,4 +46,8 @@ public class MainServiceImpl implements MainService{
 		return mDao.selectTopAuction();
 	}
 
+	@Override
+	public ArrayList<String> selectAdminList(ArrayList<String> loginAdmin) {
+		return mDao.selectAdminList(loginAdmin);
+	}
 }

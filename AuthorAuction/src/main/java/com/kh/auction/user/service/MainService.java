@@ -19,4 +19,6 @@ public interface MainService {
 	ArrayList<Attachment> selectTopOrderAttm();
 
 	ArrayList<Attachment> selectTopAuction();
+
+	ArrayList<String> selectAdminList(ArrayList<String> loginAdmin);
 }
