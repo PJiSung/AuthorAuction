@@ -38,21 +38,11 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 @Controller
 public class MainController {
 	
-	//@Autowired
-	//MemberService mService;
-	
 	@Autowired
 	MainService mService;
 	
 	@GetMapping(value = "/")
 	public String main(@RequestParam(value = "keyword", required = false) String keyword, Model model, HttpSession session) {
-		
-		//장바구니 갯수
-//		String id = null;
-//		if(session.getAttribute("loginUser") != null) {
-//			id = ((Member)session.getAttribute("loginUser")).getMemId();
-//			model.addAttribute("count", mService.getWishCount(id));
-//		}
 		
 		StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
 		StringBuilder sb = new StringBuilder();
@@ -221,7 +211,7 @@ public class MainController {
 				Message message = new Message();
 				message.setFrom("01068938300");
 				message.setTo(adminList.get(i));
-				message.setText("[Author Auction] 고객 상담요청이 있습니다.");
+				message.setText("[Author Auction] "+SocketHandler.waiting+"명의 고객 상담요청이 있습니다.");
 				mList.add(message);
 			}
 

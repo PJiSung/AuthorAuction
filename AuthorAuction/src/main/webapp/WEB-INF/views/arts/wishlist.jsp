@@ -284,20 +284,20 @@ input[type="checkbox"] {
   function selectAmountChange(proNo,wisAmount,proPrice,data){
 	  	
 		  $.ajax({
-			    url: 'updatewishamount.ar',
-			    type: 'GET',
-			    data: {
-			    	memId: '${loginid}',
-			    	proNo: proNo,
-			    	wisAmount: wisAmount
-			    },
-			    success: function onData (msg) {
-			        data.parentElement.nextElementSibling.children[0].innerText = (wisAmount*proPrice).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
-			    },
-			    error: function onError (error) {
-			        console.error(error);
-			    }
-			});
+		    url: 'updatewishamount.ar',
+		    type: 'GET',
+		    data: {
+		    	memId: '${loginid}',
+		    	proNo: proNo,
+		    	wisAmount: wisAmount
+		    },
+		    success: function onData (msg) {
+		        data.parentElement.nextElementSibling.children[0].innerText = (wisAmount*proPrice).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+		    },
+		    error: function onError (error) {
+		        console.error(error);
+		    }
+		});
 	  
   }
   </script>

@@ -16,7 +16,8 @@ public class LoginSessionListener implements HttpSessionListener {
 	public void sessionDestroyed(HttpSessionEvent se) {
 		HttpSession session = se.getSession();
 		Member loginUser = ((Member)session.getAttribute("loginUser"));
-		if(loginUser.getMemIsAdmin().equals("Y")) MemberController.loginAdmin.remove(MemberController.loginAdmin.indexOf(loginUser.getMemId()));
-		System.out.println(MemberController.loginAdmin);
+		if(loginUser != null) {
+			if(loginUser.getMemIsAdmin().equals("Y")) MemberController.loginAdmin.remove(MemberController.loginAdmin.indexOf(loginUser.getMemId()));
+		}
 	}
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -615,11 +616,12 @@ border-bottom: 1px solid #eee;
 	
 		
 		
-		<c:forEach items = "${alist}" var = "addr">
+		<c:forEach items = "${alist}" var = "addr" varStatus="status">
 			<div style = "height: 30%;" class = "${addr.addDefault eq 'Y' ? 'deadd' : 'nodeadd'}">
+				<input type="hidden" value="${ addr.addNo }">
 				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 배송지 명   </div>${addr.addName}</div>
 				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 수신인</div>	${addr.addRecipient}</div>	
-				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 주소</div>${addr.addAddress}</div>	
+				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 주소</div> ${fn:replace(addr.addAddress,'@',' ')}</div>	
 				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 수신인 번호</div> ${addr.addPhone}</div>	
 				<div style = "display:flex; justify-content:right; align-items:center; height: 30%; "><button onclick = "choiceaddress('${addr.addAddress}','${addr.addNo}')" style = "border: none; width: 10%; color:white; background-color: black;">선택</button></div>	
 			</div>
@@ -632,7 +634,7 @@ border-bottom: 1px solid #eee;
 			<div style = " height: 30%;" class  = "nodeadd">
 				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 배송지 명   </div>${ao.addName}</div>
 				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 수신인</div>${ao.addRecipient}</div>	
-				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 주소</div>${ao.addAddress}</div>	
+				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 주소</div>${fn:replace(ao.addAddress,'@',' ')}</div>	
 				<div style = "display:flex; align-items:center;"><div style = "font-weight: bold; display:flex; align-itmes:center; justify-content:center; width: 30%;  "> 수신인 번호</div>${ao.addPhone}</div>	
 				<div style = "display:flex; justify-content:right; align-items:center; height: 30%; "><button onclick = "choiceaddress('${ao.addAddress}','${ao.addNo}')" style = "border: none; width: 10%; color:white; background-color: black;">선택</button></div>	
 			</div>
@@ -747,20 +749,31 @@ border-bottom: 1px solid #eee;
 	var ordererinfo = document.getElementsByClassName('ordererinfo');
 	function checkequalordered(value){
 		
+		let addNoInput = document.getElementById("addNoinput"); 
+		let firstAddNo = document.getElementsByClassName("deadd")[0].children[0].value;
+		let address = "${ loginUser.memAddress }"
 		
 		if(value.checked == true){
 			
 			deliveryinfo[0].value = ordererinfo[0].value;
+			deliveryinfo[1].value = address.split("@")[0];
+			deliveryinfo[2].value = address.split("@")[1];
+			deliveryinfo[3].value = address.split("@")[2]+" "+address.split("@")[3];
 			deliveryinfo[4].value = ordererinfo[1].value;
 			deliveryinfo[5].value = ordererinfo[2].value;
 			deliveryinfo[6].value = ordererinfo[3].value;
+			addNoInput.value = firstAddNo;
 			
 			
 		}else{
 			deliveryinfo[0].value = '';
+			deliveryinfo[1].value = "";
+			deliveryinfo[2].value = "";
+			deliveryinfo[3].value = "";
 			deliveryinfo[4].options[0].selected = true;
 			deliveryinfo[5].value = '';
 			deliveryinfo[6].value = '';
+			addNoInput.value = "";
 			
 		}
 }
@@ -1259,8 +1272,8 @@ var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
 	document.getElementsByClassName('deliveryinfo')[2].value = addaddress;
 	document.getElementsByClassName('deliveryinfo')[3].value = adddetailaddress;
 	
-	  document.getElementById("sample6_detailAddress").readOnly = true;
-	  document.getElementById("addNoinput").value = addNo;
+	document.getElementById("sample6_detailAddress").readOnly = true;
+	document.getElementById("addNoinput").value = addNo;
 	  
     
 }
@@ -1274,13 +1287,12 @@ var newPoint = parseInt(Math.round((originalPoint/10)) * 10);
 	const ordererphone = '${loginUser.memPhone}';
 	const ordereremail = '${loginUser.memEmail}';
 
-	document.getElementsByClassName('ordererinfo')[1].value = 	ordererphone.split('-')[0];
-	document.getElementsByClassName('ordererinfo')[2].value = 	ordererphone.split('-')[1];
-	document.getElementsByClassName('ordererinfo')[3].value = 	ordererphone.split('-')[2];
-	document.getElementsByClassName('ordererinfo')[4].value = 	ordereremail.split('@')[0];
-	document.getElementsByClassName('ordererinfo')[5].value = 	ordereremail.split('@')[1];
-
-
+	document.getElementsByClassName('ordererinfo')[1].value = ordererphone.substring(0,3);
+	document.getElementsByClassName('ordererinfo')[2].value = ordererphone.substring(3,7);
+	document.getElementsByClassName('ordererinfo')[3].value = ordererphone.substring(7,13);
+	document.getElementsByClassName('ordererinfo')[4].value = ordereremail.split('@')[0];
+	document.getElementsByClassName('ordererinfo')[5].value = ordereremail.split('@')[1];
+	
 </script>
 
 

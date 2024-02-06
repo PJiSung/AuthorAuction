@@ -325,7 +325,7 @@ public class ArtsController {
 		
 		
 		
-		
+		session.setAttribute("cartCount", 0);
 		model.addAttribute("orderNo", order.getOrdNo());
 		model.addAttribute("OrdSumPrice", order.getOrdCaPrice());
 		model.addAttribute("ordPoPrice", order.getOrdPoPrice());
@@ -513,9 +513,7 @@ public class ArtsController {
 		}
 		
 		
-		
-		
-		
+		session.setAttribute("cartCount", 0);
 		model.addAttribute("orderNo", order.getOrdNo());
 		model.addAttribute("OrdSumPrice", order.getOrdCaPrice());
 		model.addAttribute("ordPoPrice", order.getOrdPoPrice());
