@@ -45,4 +45,16 @@
 		FETCH FIRST 5 ROWS ONLY
 	</select>
 	
+	<select id="selectAdminList">
+		SELECT MEM_PHONE
+		FROM MEMBER
+		WHERE MEM_ISADMIN = 'Y'
+		<if test="not loginAdmin.isEmpty()">
+		 AND MEM_ID NOT IN
+		<foreach item="item" collection="loginAdmin" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		</if>
+	</select>
+	
 </mapper>

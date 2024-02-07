@@ -51,6 +51,8 @@ public class MemberController {
 	
 	private ArrayList<Address> kakaoAlist = new ArrayList<>();
 	private Member kakaoMinfo = new Member();
+	
+	public static ArrayList<String> loginAdmin = new ArrayList<>();
 
 	@GetMapping("loginView")
 	public String loginView() {
@@ -111,6 +113,10 @@ public class MemberController {
 		if (loginUser != null) {
 			if (bcrypt.matches(m.getMemPwd(), loginUser.getMemPwd())) {
 				logger.info(loginUser.getMemId());
+				if(loginUser.getMemIsAdmin().equals("Y")) {
+					System.out.println(loginUser.getMemId());
+					loginAdmin.add(loginUser.getMemId());
+				}
 				session.setAttribute("loginUser", loginUser);
 				session.setAttribute("cartCount", mService.getWishCount(m.getMemId()));
 				return "redirect:/";
@@ -515,6 +521,12 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	@GetMapping("webCloseLogout")
+	@ResponseBody
+	public void webCloseLogout(HttpSession session) {
+		session.invalidate();
 	}
 	
 	@PostMapping("updateMemImg")

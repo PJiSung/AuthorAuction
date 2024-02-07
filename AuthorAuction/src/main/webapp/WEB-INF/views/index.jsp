@@ -79,8 +79,14 @@ window.onload = () =>{
 	recSearch();
 	aucHover();
 }
+
+window.addEventListener("unload",()=>{
+	$.ajax({
+ 		url: 'webCloseLogout'
+ 	});
+});
+
 const searchArts = (value) =>{
-	console.log(value);
 	let url = window.location.href;
 	if(!url.includes("?keyword=")){
 		url += "?keyword="+value;

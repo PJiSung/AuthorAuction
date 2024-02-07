@@ -379,7 +379,11 @@ function wsOpen() {
 }
 function wsEvt() {
 	ws.onopen = function(data) {
-		
+		if(isAdmin == "N"){
+			$.ajax({
+		 		url: 'checkAdmin'
+		 	});
+		}
 	}
 	ws.onclose = function(data){
 		

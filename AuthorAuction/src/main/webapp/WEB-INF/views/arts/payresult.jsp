@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +76,7 @@ ul,li,ol{
 				</div>
 				<div style = "display:flex; height: 15%; align-items:center; width: 60%;  margin: 0 auto;">
 					<div style = "display:flex; align-items:center; height: 100%; width: 30%; justify-content: center;"><h4>배송 주소</h4></div>
-					<div style = "display:flex; align-items:center; height: 100%; width: 70%; justify-content: center;">${address}</div>
+					<div style = "display:flex; align-items:center; height: 100%; width: 70%; justify-content: center;">${fn:replace(address, '@', ' ')}</div>
 				</div>
 				<div style = "border-top: 1px solid #aaa; height: 55%; display:flex; align-items:center;">
 					<div style = "height: 100%; width: 40%; display:flex; align-items: center; justify-content: center;">
