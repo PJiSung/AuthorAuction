@@ -198,20 +198,17 @@ public class MainController {
 	@GetMapping("checkAdmin")
 	@ResponseBody
 	public void checkAdmin() {
-		System.out.println("socket = "+SocketHandler.waiting);
-		System.out.println("loginAdmin = "+MemberController.loginAdmin.size());
 		if(SocketHandler.waiting > MemberController.loginAdmin.size()) {
 			ArrayList<Message> mList = new ArrayList<>();
 			ArrayList<String> adminList = mService.selectAdminList(MemberController.loginAdmin);
 			
 			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
 			
-			
 			for(int i=0; i<adminList.size(); i++) {
 				Message message = new Message();
 				message.setFrom("01068938300");
 				message.setTo(adminList.get(i));
-				message.setText("[Author Auction] "+SocketHandler.waiting+"명의 고객 상담요청이 있습니다.");
+				message.setText("[Author Auction] "+SocketHandler.waiting+"명의 고객상담 요청이 있습니다.");
 				mList.add(message);
 			}
 
@@ -226,4 +223,40 @@ public class MainController {
 		}
 	}
 	
+	@GetMapping(value = "headerSearch", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String headerSearch() {
+		StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
+		StringBuilder sb = new StringBuilder();
+		ArrayList<SearchArt> list = new ArrayList<>();
+		try { 
+			urlBuilder.append("/" + URLEncoder.encode("69675a456f7374613930796c565365","UTF-8") );
+			urlBuilder.append("/" + URLEncoder.encode("json","UTF-8") ); /*요청파일타입 (xml,xmlf,xls,json) */
+			urlBuilder.append("/" + URLEncoder.encode("SemaPsgudInfoKorInfo","UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
+			urlBuilder.append("/" + URLEncoder.encode("1","UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
+			urlBuilder.append("/" + URLEncoder.encode("100","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
+			URL url = new URL(urlBuilder.toString());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Content-type", "application/json");
+			BufferedReader rd;
+			
+			// 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
+			if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+			String line;
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+			rd.close();
+			conn.disconnect();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
 }

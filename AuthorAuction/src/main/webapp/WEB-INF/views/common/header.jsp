@@ -37,45 +37,84 @@
 
 $(document).ready(function(){
    recSearch();
+   artsList();
 });
 
+let artsAllList;
+const artsList = () =>{
+	$.ajax({
+	  url: "headerSearch",
+	  success: (data) =>{
+		  artsAllList = data.SemaPsgudInfoKorInfo.row;
+	  },
+	  error: data => console.log(data)
+	});
+}
+
+let trs;
 const searchArts = (value) =>{
-   let url = window.location.href;
-   if(!url.includes("?") && !url.includes("headkeyword=")){
-      url += "?headKeyword="+value;
-   }else if(url.includes("&headKeyword=")){
-      url = url.split("&headKeyword=")[0] + "&headKeyword="+value;
-   }else{
-      url = url.split("?headKeyword=")[0] + "?headKeyword="+value;
-   }
-   
-   window.history.pushState({}, "Title", url);
-   $("#search-results").load(location.href + " #search-results");
+	let artsSearchList = [];
+	let table = document.getElementsByClassName("searchTable")[0];
+	table.innerText = "";
+	if(value != ""){
+		for(let i=0; i<artsAllList.length; i++){
+			if(artsAllList[i].prdct_nm_korean.includes(value) || artsAllList[i].writr_nm.includes(value)){
+				artsSearchList.push(artsAllList[i]);
+			}
+		}		
+	}
+	
+	for(const a of artsSearchList){
+		const tr = document.createElement('tr');
+		tr.addEventListener("click", function() {
+		    searchArtDetail(a.writr_nm);
+		});
+		
+		const artImgTd = document.createElement('td');
+		artImgTd.style.width = '17%';
+		
+		const artImgDiv = document.createElement('div');
+		artImgDiv.classList = 'searchImg';
+		
+		artImgDiv.innerHTML = '<img alt="검색 사진" src="'+a.main_image+'">'
+		
+		/* const artImg = document.createElement('img');
+		artImg.src = a.main_image;
+		artImgDiv.append(artImg); */
+		
+		artImgTd.append(artImgDiv);
+		
+		const artNameEn = document.createElement('td');
+		artNameEn.style.width = '53%';
+		artNameEn.innerText = a.prdct_nm_eng;
+		
+		const writerName = document.createElement('td');
+		writerName.style.width = '30%';
+		writerName.innerText = a.writr_nm;
+		
+		tr.append(artImgTd);
+		tr.append(artNameEn);
+		tr.append(writerName);
+		
+		table.append(tr);
+	}
+	
+	trs = document.getElementsByClassName("artsTr");
 }
 
 const recSearch = () =>{
    let as = document.querySelectorAll(".recoTable a");
    for(let i = 0; i<as.length; i++){
       as[i].addEventListener("click", function(){
-         location.href = "searchArts?headKeyword="+this.innerText;
+         location.href = "searchArts?keyword="+this.innerText;
       })
    }
 }
+
 const searchArtDetail = (id) =>{
-   location.href = "searchArts?keyword="+id;
+	location.href = "searchArts?keyword="+id;
 }
 
-
-window.onpopstate = function() { 
-   let url = window.location.href;
-   if(url.includes("?headKeyword=")){
-      url = url.split("?headKeyword=")[0]
-   }else if(url.includes("&headKeyword=")){
-      url = url.split("&headKeyword=")[0]
-   }
-   
-   window.history.pushState({}, "Title", url);
-}
 </script>
 </head>
 <body>
@@ -280,21 +319,6 @@ window.onpopstate = function() {
               <div id="search-results">
                  <div class="searchDiv" id="searchDiv">
                  <table class="searchTable" style="table-layout: fixed; width: 93%;">
-                 <c:forEach items="${ searchAlist }" var="l">
-                    <tr onclick="searchArtDetail(this.id)" id="${ l.artNameEn }">
-                       <td style="width: 17%;">
-                          <div class="searchImg">
-                             <img alt="검색 사진" src="${ l.artImg }">
-                          </div>
-                       </td>
-                       <td style="width: 53%;">
-                          ${ l.artNameEn }
-                       </td>
-                       <td style="width: 30%;">
-                          ${ l.writerName }
-                       </td>
-                    </tr>
-                    </c:forEach>
                  </table>
                  </div>
                  
