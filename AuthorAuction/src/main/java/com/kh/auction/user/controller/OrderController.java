@@ -107,7 +107,7 @@ public class OrderController {
 								  @RequestParam(value="page", defaultValue="1") int page, Model model, 
 								  HttpSession session) {
 		
-		HashMap<String, String> map = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String id = null;
@@ -127,10 +127,14 @@ public class OrderController {
 		int listCount = oService.getSearchListCount(map);
 		
 		PageInfo pi = Pagination.getPageInfo(page, listCount, 9);
+		
 		ArrayList<HashMap<String, Object>> list = oService.searchOrderList(map, pi);
 		ArrayList<Attachment> aList = oService.selectAttmList();
 		
 		ArrayList<HashMap<String, Object>> oList = oService.selectMyOrderAllList(id);
+		
+		System.out.println(list);
+		
 		int[] ordStatusCount = new int[4];
 		for(HashMap<String, Object> o : oList) {
 			String ordStatus = (String) o.get("ordStatus");
@@ -156,6 +160,7 @@ public class OrderController {
 				return "order/myOrderList";
 			} else {
 				model.addAttribute("pi", pi);
+				model.addAttribute("ordStatusCount", ordStatusCount);
 				return "order/myOrderList";
 			}
 		} else {
