@@ -205,11 +205,13 @@
 .reviewDetail .reviewContentPre {
 	padding: 8px;
 	min-height: 150px;
+	max-width: 100%;
 	font-weight: 400;
 	font-family: var(--ff);
 	font-size: 1.5rem;
 	color: #14161a;
 	box-sizing: content-box;
+	white-space: pre-wrap;
 }
 
 .reviewDetail #productWriter{

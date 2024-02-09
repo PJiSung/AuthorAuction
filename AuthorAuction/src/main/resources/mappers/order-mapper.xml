@@ -10,7 +10,7 @@
 	<select id="selectOrderList" resultType="Order">
 		select *
 		from orders
-		order by ord_no desc
+		order by ord_date desc
 	</select>
 	
 	<select id="selectAdmOrder" resultType="map">
@@ -54,7 +54,7 @@
 					  join product p on od.pro_no = p.pro_no
 		where od.pro_no = (select min(pro_no) from order_detail where ord_no = o.ord_no)
 			  and mem_id = #{id}
-		order by o.ord_no desc
+		order by o.ord_date desc
 	</select>
 	
 	<select id="selectMyOrderAllList" resultMap="selectMyOrderList">
@@ -68,7 +68,7 @@
 					  join product p on od.pro_no = p.pro_no
 		where od.pro_no = (select min(pro_no) from order_detail where ord_no = o.ord_no)
 			  and mem_id = #{id}
-		order by o.ord_no desc
+		order by o.ord_date desc
 	</select>
 	
 	<resultMap id="selectMyOrderList" type="map">

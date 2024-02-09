@@ -119,7 +119,7 @@
 	          </div>
 	          <div class="contents-group">
 	            <div class="contents-group-top">
-	              <textarea class="reviewContent" name="revContent" placeholder="리뷰 내용을 입력해주세요." required>​</textarea>
+	              <textarea class="reviewContent" name="revContent" placeholder="리뷰 내용을 입력해주세요." required="required"></textarea>
 	            </div>
 	            <div class="contents-group-bottom">
 	              <div class="contents-date">
@@ -174,15 +174,16 @@
   			});
   		}
   		
-  		console.log(document.getElementById('selectedPro').value);
-  		
   	    const writeForm = document.getElementById("writeReviewForm");
+  	  	const reviewContent = document.getElementsByClassName('reviewContent')[0];
   	  	
   	  	document.getElementById("submitButton").addEventListener("click", () => {
-  	  		if(document.getElementById('selectedPro').value != ''){
-	  	  		writeForm.submit();
-  	  		} else{
-  	  			alert('리뷰 등록할 상품을 선택해주세요.');
+  	  		if(document.getElementById('selectedPro').value == ''){
+  	  			alert('리뷰를 등록할 상품을 선택해주세요.');
+  	  		} else if(reviewContent.value == ''){
+  	  			alert('리뷰 내용을 입력해주세요.');
+  	  		} else {
+  	  			writeForm.submit();
   	  		}
   	    });
   	  	

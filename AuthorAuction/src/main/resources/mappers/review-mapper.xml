@@ -121,7 +121,7 @@
 		<if test="selectedSort != null">
 		    <choose>
 		        <when test="selectedSort == 'latest'">
-		            order by rev_modify_date desc
+		            order by rev_create_date desc
 		        </when>
 		        <when test="selectedSort == 'recommend'">
 		            order by rev_like desc
