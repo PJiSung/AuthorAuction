@@ -434,7 +434,7 @@
 				<p>정말로 주문을 취소하시겠습니까?</p>
 			</div>
 			<div class="modal-footer">
-				<a class="btnset btnset-confirm" id="canConfirmButton">삭제</a>
+				<a class="btnset btnset-confirm" id="canConfirmButton" style="cursor: pointer;">확인</a>
 				<button type="button" class="btnset btnset-ghost modal-close" id="delCelButton" style="border: 1px solid;">취소</button>
 			</div>
 		</div>

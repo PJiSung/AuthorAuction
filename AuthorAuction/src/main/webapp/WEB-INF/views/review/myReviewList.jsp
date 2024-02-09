@@ -101,6 +101,8 @@
 	font-size: 1.5rem;
 	color: #14161a;
 	box-sizing: content-box;
+	white-space: pre-wrap;
+	max-width: 100%;
 }
 
 .reviewDetail #productWriter{
