@@ -44,67 +44,67 @@ public class MainController {
 	@GetMapping(value = "/")
 	public String main(@RequestParam(value = "keyword", required = false) String keyword, Model model, HttpSession session) {
 		
-		StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
-		StringBuilder sb = new StringBuilder();
-		ArrayList<SearchArt> list = new ArrayList<>();
-		try {
-			urlBuilder.append("/" +  URLEncoder.encode("69675a456f7374613930796c565365","UTF-8") );
-			urlBuilder.append("/" +  URLEncoder.encode("json","UTF-8") ); /*요청파일타입 (xml,xmlf,xls,json) */
-			urlBuilder.append("/" + URLEncoder.encode("SemaPsgudInfoKorInfo","UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
-			urlBuilder.append("/" + URLEncoder.encode("1","UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
-			urlBuilder.append("/" + URLEncoder.encode("100","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
-			URL url = new URL(urlBuilder.toString());
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Content-type", "application/json");
-			BufferedReader rd;
-			
-			// 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
-			if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			} else {
-				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-			}
-			String line;
-			while ((line = rd.readLine()) != null) {
-				sb.append(line);
-			}
-			rd.close();
-			conn.disconnect();
-			
-			JsonObject data = (JsonObject) JsonParser.parseString(sb.toString());
-			JsonObject SemaPsgudInfoEngInfo = data.getAsJsonObject().get("SemaPsgudInfoKorInfo").getAsJsonObject();
-			JsonArray rows = SemaPsgudInfoEngInfo.getAsJsonObject().get("row").getAsJsonArray();
-			
-			if(keyword == null || keyword.equals("")) {
-				list = null;
-			} else {
-				for(JsonElement row : rows) {
-					JsonObject addressObject = row.getAsJsonObject();
-					
-					String artNameEn = addressObject.get("prdct_nm_eng").getAsString();
-					String artNameKo = addressObject.get("prdct_nm_korean").getAsString();
-					String writerName = addressObject.get("writr_nm").getAsString();
-					String materials = addressObject.get("matrl_technic").getAsString();
-					String standard = addressObject.get("prdct_stndrd").getAsString();
-					String artImg = addressObject.get("main_image").getAsString();
-					String year = addressObject.get("mnfct_year").getAsString();
-					
-					
-					if(writerName.contains(keyword) || artNameEn.contains(keyword)) {
-						list.add(new SearchArt(artNameEn, artNameKo, writerName, materials, standard, artImg, year));
-					}
-				}
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
+//		StringBuilder sb = new StringBuilder();
+//		ArrayList<SearchArt> list = new ArrayList<>();
+//		try {
+//			urlBuilder.append("/" +  URLEncoder.encode("69675a456f7374613930796c565365","UTF-8") );
+//			urlBuilder.append("/" +  URLEncoder.encode("json","UTF-8") ); /*요청파일타입 (xml,xmlf,xls,json) */
+//			urlBuilder.append("/" + URLEncoder.encode("SemaPsgudInfoKorInfo","UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
+//			urlBuilder.append("/" + URLEncoder.encode("1","UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
+//			urlBuilder.append("/" + URLEncoder.encode("100","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
+//			URL url = new URL(urlBuilder.toString());
+//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//			conn.setRequestMethod("GET");
+//			conn.setRequestProperty("Content-type", "application/json");
+//			BufferedReader rd;
+//			
+//			// 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
+//			if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+//				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			} else {
+//				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+//			}
+//			String line;
+//			while ((line = rd.readLine()) != null) {
+//				sb.append(line);
+//			}
+//			rd.close();
+//			conn.disconnect();
+//			
+//			JsonObject data = (JsonObject) JsonParser.parseString(sb.toString());
+//			JsonObject SemaPsgudInfoEngInfo = data.getAsJsonObject().get("SemaPsgudInfoKorInfo").getAsJsonObject();
+//			JsonArray rows = SemaPsgudInfoEngInfo.getAsJsonObject().get("row").getAsJsonArray();
+//			
+//			if(keyword == null || keyword.equals("")) {
+//				list = null;
+//			} else {
+//				for(JsonElement row : rows) {
+//					JsonObject addressObject = row.getAsJsonObject();
+//					
+//					String artNameEn = addressObject.get("prdct_nm_eng").getAsString();
+//					String artNameKo = addressObject.get("prdct_nm_korean").getAsString();
+//					String writerName = addressObject.get("writr_nm").getAsString();
+//					String materials = addressObject.get("matrl_technic").getAsString();
+//					String standard = addressObject.get("prdct_stndrd").getAsString();
+//					String artImg = addressObject.get("main_image").getAsString();
+//					String year = addressObject.get("mnfct_year").getAsString();
+//					
+//					
+//					if(writerName.contains(keyword) || artNameEn.contains(keyword)) {
+//						list.add(new SearchArt(artNameEn, artNameKo, writerName, materials, standard, artImg, year));
+//					}
+//				}
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		model.addAttribute("aList", mService.selectTopAuction());
 		model.addAttribute("pList", mService.selectTopOrder()); // 인기상품 리스트
 		model.addAttribute("pAttmList", mService.selectTopOrderAttm()); // 인기상품사진 리스트
-		model.addAttribute("list", list); // 미술품 검색 리스트
+//		model.addAttribute("list", list); // 미술품 검색 리스트
 		return "index";
 	}
 	
@@ -223,40 +223,40 @@ public class MainController {
 		}
 	}
 	
-	@GetMapping(value = "headerSearch", produces="application/json; charset=UTF-8")
-	@ResponseBody
-	public String headerSearch() {
-		StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
-		StringBuilder sb = new StringBuilder();
-		ArrayList<SearchArt> list = new ArrayList<>();
-		try { 
-			urlBuilder.append("/" + URLEncoder.encode("69675a456f7374613930796c565365","UTF-8") );
-			urlBuilder.append("/" + URLEncoder.encode("json","UTF-8") ); /*요청파일타입 (xml,xmlf,xls,json) */
-			urlBuilder.append("/" + URLEncoder.encode("SemaPsgudInfoKorInfo","UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
-			urlBuilder.append("/" + URLEncoder.encode("1","UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
-			urlBuilder.append("/" + URLEncoder.encode("100","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
-			URL url = new URL(urlBuilder.toString());
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Content-type", "application/json");
-			BufferedReader rd;
-			
-			// 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
-			if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			} else {
-				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-			}
-			String line;
-			while ((line = rd.readLine()) != null) {
-				sb.append(line);
-			}
-			rd.close();
-			conn.disconnect();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return sb.toString();
-	}
+//	@GetMapping(value = "headerSearch", produces="application/json; charset=UTF-8")
+//	@ResponseBody
+//	public String headerSearch() {
+//		StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
+//		StringBuilder sb = new StringBuilder();
+//		ArrayList<SearchArt> list = new ArrayList<>();
+//		try { 
+//			urlBuilder.append("/" + URLEncoder.encode("69675a456f7374613930796c565365","UTF-8") );
+//			urlBuilder.append("/" + URLEncoder.encode("json","UTF-8") ); /*요청파일타입 (xml,xmlf,xls,json) */
+//			urlBuilder.append("/" + URLEncoder.encode("SemaPsgudInfoKorInfo","UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
+//			urlBuilder.append("/" + URLEncoder.encode("1","UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
+//			urlBuilder.append("/" + URLEncoder.encode("100","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
+//			URL url = new URL(urlBuilder.toString());
+//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//			conn.setRequestMethod("GET");
+//			conn.setRequestProperty("Content-type", "application/json");
+//			BufferedReader rd;
+//			
+//			// 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
+//			if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+//				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			} else {
+//				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+//			}
+//			String line;
+//			while ((line = rd.readLine()) != null) {
+//				sb.append(line);
+//			}
+//			rd.close();
+//			conn.disconnect();
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return sb.toString();
+//	}
 }

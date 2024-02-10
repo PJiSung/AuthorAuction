@@ -126,14 +126,12 @@ public class OrderController {
 		
 		int listCount = oService.getSearchListCount(map);
 		
-		PageInfo pi = Pagination.getPageInfo(page, listCount, 9);
+		PageInfo pi = Pagination.getPageInfo(page, listCount, 8);
 		
 		ArrayList<HashMap<String, Object>> list = oService.searchOrderList(map, pi);
 		ArrayList<Attachment> aList = oService.selectAttmList();
 		
 		ArrayList<HashMap<String, Object>> oList = oService.selectMyOrderAllList(id);
-		
-		System.out.println(list);
 		
 		int[] ordStatusCount = new int[4];
 		for(HashMap<String, Object> o : oList) {

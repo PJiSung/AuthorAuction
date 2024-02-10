@@ -211,7 +211,6 @@
           <div id="myPage-orderListDiv">
           	<form id="myOrderListForm" onsubmit="searchOrder()">
           	<input type="hidden" id="ordCategory" name="category">
-          	<input type="hidden" name="page" value="${ pi.currentPage }">
           	<div class="contents-search">
 	            <p class="contents-result"> 전체<span> ${ listCount }</span>개 </p>
 	            <div class="selectDateDiv">

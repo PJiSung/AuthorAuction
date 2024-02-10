@@ -1,10 +1,9 @@
 package com.kh.auction.common.config;
 
-import javax.servlet.annotation.WebListener;
-
 import com.kh.auction.member.controller.MemberController;
 import com.kh.auction.user.model.vo.Member;
 
+import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
