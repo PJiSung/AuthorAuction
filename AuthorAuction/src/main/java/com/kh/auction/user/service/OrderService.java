@@ -28,26 +28,14 @@ public interface OrderService {
 
 	ArrayList<HashMap<String, Object>> selectMyOrderAllList(String id);
 
-	int getSearchListCount(HashMap<String, String> map);
+	int getSearchListCount(HashMap<String, Object> map);
 
-	ArrayList<HashMap<String, Object>> searchOrderList(HashMap<String, String> map, PageInfo pi);
+	ArrayList<HashMap<String, Object>> searchOrderList(HashMap<String, Object> map, PageInfo pi);
 
 	int getSearchAdmListCount(HashMap<String, Object> map);
 
 	ArrayList<Order> searchAdmOrderList(HashMap<String, Object> map, PageInfo pi);
 
 	ArrayList<Attachment> selectAttmList();
-
-
-
-
-	
-
-
-
-	
-	
-
-	
 
 }

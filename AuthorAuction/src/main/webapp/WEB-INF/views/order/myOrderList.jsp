@@ -277,11 +277,11 @@
 		              <tbody>
 		                <c:forEach items="${ list }" var="o">
 		                	<form id="cancelOrderForm">
-		                		<input type="hidden" value="${ o.ordNo }" name="ordNo">
 				                <tr class="orderTableTr" onclick="selectOrderDetail(event, this)">
 				                  <td class="tableset-mobile">
 				                  	${ o.ordNo }
 				                  	<input type="hidden" value="${ o.proNo }" id="proNo">
+				                  	<input type="hidden" value="${ o.ordNo }" id="ordNo">
 				                  </td>
 				                  <td class="tableset-proImg">
 				                  	<c:forEach items="${ aList }" var="a">
@@ -416,30 +416,27 @@
 					<p>정확한 검색어 인지 확인하시고 다시 검색해 주세요.</p>
 				</div>
 	          </c:if>
-	          
-			
-			
           </div>
         </div>
       </div>
     </div>
   </main>
   
-  <div class="conModal">
-		<div id="modalSet1" class="modalset">
-			<div class="modal-header">
-				<h6 class="modal-title">CANCEL</h6>
-			</div>
-			<div class="modal-body">
-				<p>정말로 주문을 취소하시겠습니까?</p>
-			</div>
-			<div class="modal-footer">
-				<a class="btnset btnset-confirm" id="canConfirmButton" style="cursor: pointer;">확인</a>
-				<button type="button" class="btnset btnset-ghost modal-close" id="delCelButton" style="border: 1px solid;">취소</button>
-			</div>
+ <div class="conModal">
+	<div id="modalSet1" class="modalset">
+		<div class="modal-header">
+			<h6 class="modal-title">CANCEL</h6>
 		</div>
-		<div class="modalset-dim"></div>
+		<div class="modal-body">
+			<p>정말로 주문을 취소하시겠습니까?</p>
+		</div>
+		<div class="modal-footer">
+			<a class="btnset btnset-confirm" id="canConfirmButton" style="cursor: pointer;">확인</a>
+			<button type="button" class="btnset btnset-ghost modal-close" id="delCelButton" style="border: 1px solid;">취소</button>
+		</div>
 	</div>
+	<div class="modalset-dim"></div>
+ </div>
 	
 <script type="text/javascript">
 const showDelModal = () => {
@@ -456,16 +453,16 @@ const closeDelModal = () => {
     dim.style.display = 'none';
 };
 
-const cancelOrder = () =>{
+const cancelOrder = (ordNo) =>{
 	showDelModal();
+	
+	document.getElementById('canConfirmButton').addEventListener('click', ()=>{
+		const form = document.getElementById('cancelOrderForm');
+		form.action = "cancelOrder.od?ordNo=" + ordNo;
+		form.method = 'post';
+		form.submit();
+	});
 }
-
-document.getElementById('canConfirmButton').addEventListener('click', ()=>{
-	const form = document.getElementById('cancelOrderForm');
-	form.action = "cancelOrder.od";
-	form.method = 'post';
-	form.submit();
-});
 
 document.getElementById('delCelButton').addEventListener('click', () =>{
 	closeDelModal();
@@ -495,8 +492,6 @@ const searchOrder = () =>{
 	form.submit();
 }
 	
-
-
 for (let i = 0; i < selectedButs.length; i++) {
     const button = selectedButs[i];
 
@@ -525,14 +520,15 @@ const enterKey = (event) => {
 window.onload = () =>{
  	const orderTableTr = document.getElementsByClassName('orderTableTr');
 
-	for (const tr of orderTableTr) {
+	for(const tr of orderTableTr) {
 	    const ordDateVal = tr.querySelector('#orderTableHidden').value;
 	    const ordStatus = tr.querySelector('.tableset-progress').innerText;
 	    const ordDate = new Date(ordDateVal);
 	    const sysdate = new Date();
+	    const ordNo = tr.querySelector('#ordNo').value;
 	    
-	    if (sysdate - ordDate <= 24 * 60 * 60 * 1000 && ordStatus == '배송준비중') {
-	     tr.querySelector('.tableset-cancel').innerHTML = '<button class="cancelButton" type="button" onclick="cancelOrder()">취소</button>';
+	    if(sysdate - ordDate <= 24 * 60 * 60 * 1000 && ordStatus == '배송준비중') {
+	    	tr.querySelector('.tableset-cancel').innerHTML = '<button class="cancelButton" type="button" onclick="cancelOrder(' + ordNo + ')">취소</button>';
 	    }
 	}
 }
@@ -541,8 +537,8 @@ window.onload = () =>{
   
 </script>
   
-  <jsp:include page="../common/footer.jsp"/>
-  <script src="rs/myReviewList/js/setting.js"></script>
-  <script src="rs/myReviewList/js/script.js"></script>
+<jsp:include page="../common/footer.jsp"/>
+<script src="rs/myReviewList/js/setting.js"></script>
+<script src="rs/myReviewList/js/script.js"></script>
 </body>
 </html>

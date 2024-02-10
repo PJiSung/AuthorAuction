@@ -77,12 +77,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int getSearchListCount(HashMap<String, String> map) {
+	public int getSearchListCount(HashMap<String, Object> map) {
 		return oDAO.getSearchListCount(map);
 	}
 
 	@Override
-	public ArrayList<HashMap<String, Object>> searchOrderList(HashMap<String, String> map, PageInfo pi) {
+	public ArrayList<HashMap<String, Object>> searchOrderList(HashMap<String, Object> map, PageInfo pi) {
 		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
 		int limit = pi.getBoardLimit();
 		
@@ -110,13 +110,6 @@ public class OrderServiceImpl implements OrderService {
 	public ArrayList<Attachment> selectAttmList() {
 		return oDAO.selectAttmList();
 	}
-
-
-
-
-	
-
-	
 
 	
 }

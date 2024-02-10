@@ -32,9 +32,9 @@ public interface OrderDAO {
 
 	ArrayList<HashMap<String, Object>> selectMyOrderAllList(String id);
 
-	int getSearchListCount(HashMap<String, String> map);
+	int getSearchListCount(HashMap<String, Object> map);
 
-	ArrayList<HashMap<String, Object>> searchOrderList(HashMap<String, String> map, RowBounds rowBounds);
+	ArrayList<HashMap<String, Object>> searchOrderList(HashMap<String, Object> map, RowBounds rowBounds);
 
 	int getSearchAdmListCount(HashMap<String, Object> map);
 
