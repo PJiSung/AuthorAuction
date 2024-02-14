@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="consignment/css/common.css">
   <link rel="stylesheet" href="consignment/css/style.css">
 <style> 
+.fileset{margin-bottom: 10px;}
 .fileset-upload, .fileset-input{cursor:pointer;}
 #attmForm .contents-thumbimg:hover{
 	filter: brightness(75%);
@@ -387,9 +388,10 @@
 				<h2>작품 이미지</h2>
 	        </div>
 			<div class="dfoot" style="margin-bottom: 2rem;">
-				<div class="inputset inputset-lg inputset-label">
-					<label style="margin-left: 14rem;">
-			    <div>
+					
+				<div style="width: 80%; margin: auto;">
+					
+<!--  					
 					<div class="fileset fileset-lg fileset-label">
 						<label>
 							<div class="fileset-body">
@@ -403,7 +405,7 @@
 						</label>
 					</div>
 			        <br>
-			        
+		        
 			        <div class="fileset fileset-lg fileset-label">
 						<label>
 				            <div class="fileset-body">
@@ -417,7 +419,7 @@
 			          	</label>
 			        </div>
 			        <br>
-			        
+		        
 			        <div class="fileset fileset-lg fileset-label">
 						<label>
 							<div class="fileset-body">
@@ -431,7 +433,7 @@
 						</label>
 			        </div>
 			        <br>
-          
+         
 					<div class="fileset fileset-lg fileset-label">
 						<label>
 							<div class="fileset-body">
@@ -445,7 +447,66 @@
 						</label>
 					</div>
 					<br>
-	                  
+-->
+
+
+		     		<div class="fileset fileset-lg fileset-label">
+		     			<!-- <label> -->
+		                	<div class="fileset-body">
+		                    	<div class="fileset-group">
+		            				<p style="display: inline-block; width: 15%; text-align: center;">앞면</p>
+		                      		<input type="file" class="fileset-input" style="width: 83%;" name="file" accept="image/*">
+		                      		<button class="fileset-cancel"></button>
+		                    	</div>
+		                    	<span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span>
+		                  	</div>
+		            	<!-- </label> -->	      	
+		            </div> 
+		               
+		     		<div class="fileset fileset-lg fileset-label">
+		     			<!-- <label> -->
+		                	<div class="fileset-body">
+		                    	<div class="fileset-group">
+		            				<p style="display: inline-block; width: 15%; text-align: center;">뒷면</p>
+		                      		<input type="file" class="fileset-input" style="width: 83%;" name="file" accept="image/*">
+		                      		<button class="fileset-cancel"></button>
+		                    	</div>
+		                    	<span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span>
+		                  	</div>
+		            	<!-- </label> -->	      	
+		            </div>    
+		            
+		     		<div class="fileset fileset-lg fileset-label">
+		     			<!-- <label> -->
+		                	<div class="fileset-body">
+		                    	<div class="fileset-group">
+		            				<p style="display: inline-block; width: 15%; text-align: center;">서명</p>
+		                      		<input type="file" class="fileset-input" style="width: 83%;" name="file" accept="image/*">
+		                      		<button class="fileset-cancel"></button>
+		                    	</div>
+		                    	<span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span>
+		                  	</div>
+		            	<!-- </label> -->	      	
+		            </div>    
+		            
+		     		<div class="fileset fileset-lg fileset-label">
+		     			<!-- <label> -->
+		                	<div class="fileset-body">
+		                    	<div class="fileset-group">
+		            				<p style="display: inline-block; width: 15%; text-align: center;">상세사진</p>
+		                      		<input type="file" class="fileset-input" style="width: 83%;" name="file" accept="image/*">
+		                      		<button class="fileset-cancel"></button>
+		                    	</div>
+		                    	<span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span>
+		                  	</div>
+		            	<!-- </label> -->	      	
+		            </div>    
+		         	             
+	             
+	             
+	             
+	            </div>   
+	               
 	                 <!-- 여기가 이미지 뜨는 곳 -->
 					<div class="originPic">
 						<div class="contents-container container-md">
@@ -527,10 +588,6 @@
 					</div>
 					
 					
-	              	</label>
-	              <a style="display: inline-block; width: 15%; text-align: center;"></a>
-	            </div><a style="display: inline-block; width: 15%; text-align: center;">
-	            </a>
 	          </div>
 	        </div>
 	      </form>

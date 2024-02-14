@@ -89,7 +89,7 @@
  .hooms-N39 .checkset .checkset-input+.checkset-label { width: 2rem; height: 2rem; }
  .hooms-N39 .checkset .checkset-input.input-fill+.checkset-label::before { font-size: 2rem; }
  .hooms-N39 .checkset-text { font-size: 1.4rem; }
- .hooms-N39 .contents-sign { margin-top: 4rem; }
+ .hooms-N39 .contents-sign { margin-top: 2rem; }
  .hooms-N39 .contents-sign .btnset { min-width: 23rem; height: 3.6rem; }
  .hooms-N39 .modalset { width: calc(100% - 4.8rem); padding: 4rem 2rem; }
  .hooms-N39 .modal-footer { width: 100%; margin-top: 2rem; }
