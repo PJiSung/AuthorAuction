@@ -60,6 +60,7 @@
  .btnset2:hover{
   color:white;
 }
+.fileset{margin-bottom: 10px;}
 </style>  
  </head>
  
@@ -150,98 +151,157 @@
 	            <h2>작품 이미지</h2>
 	          </div>
 	          <div class="dfoot" style="margin-bottom: 2rem;">
-	            <div class="inputset inputset-lg inputset-label">
-	              <label style="margin-left: 14rem;">
-	                <div>
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group" data-order="1">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;"  accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
+
+				<div style="width: 80%; margin: auto;">
+
+<!-- 
+                <div class="fileset fileset-lg fileset-label">
+                  <label>
+                    <div class="fileset-body">
+                      <div class="fileset-group" data-order="1">
+                        <a style="display: inline-block; width: 15%; text-align: center;">앞면</a>
+                        <input type="file" class="fileset-input" name="file" style="width: 83%;"  accept="image/*">
+                        <button class="fileset-cancel"></button>
+                      </div>
+                      <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
+                    </div>
+                  </label>
+                </div>
+                <br>
 	                  
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group" data-order="2">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;"  accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
+                <div class="fileset fileset-lg fileset-label">
+                  <label>
+                    <div class="fileset-body">
+                      <div class="fileset-group" data-order="2">
+                        <a style="display: inline-block; width: 15%; text-align: center;">뒷면	</a>
+                        <input type="file" class="fileset-input" name="file" style="width: 83%;"  accept="image/*">
+                        <button class="fileset-cancel"></button>
+                      </div>
+                      <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
+                    </div>
+                  </label>
+                </div>
+                <br>
 	                  
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group" data-order="3">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" name="file"  accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
+                <div class="fileset fileset-lg fileset-label">
+                  <label>
+                    <div class="fileset-body">
+                      <div class="fileset-group" data-order="3">
+                        <a style="display: inline-block; width: 15%; text-align: center;">서명</a>
+                        <input type="file" class="fileset-input" name="file" style="width: 83%;" name="file"  accept="image/*">
+                        <button class="fileset-cancel"></button>
+                      </div>
+                      <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
+                    </div>
+                  </label>
+                </div>
+                <br>
+                
+                <div class="fileset fileset-lg fileset-label">
+                  <label>
+                    <div class="fileset-body">
+                      <div class="fileset-group" data-order="5">
+                        <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
+                        <input type="file" class="fileset-input" name="file" style="width: 83%;" name="file"  accept="image/*">
+                        <button class="fileset-cancel"></button>
+                      </div>
+                      <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
+                    </div>
+                  </label>
+                </div>
+                <br>
+ -->	         
+	         
+	         
+	         
+	     		<div class="fileset fileset-lg fileset-label">
+	     			<!-- <label> -->
+	                	<div class="fileset-body">
+	                    	<div class="fileset-group">
+	            				<p style="display: inline-block; width: 15%; text-align: center;">앞면</p>
+	                      		<input type="file" class="fileset-input" style="width: 83%;" name="file" accept="image/*">
+	                      		<button class="fileset-cancel"></button>
+	                    	</div>
+	                    	<span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span>
+	                  	</div>
+	            	<!-- </label> -->	      	
+	            </div> 
+	               
+	     		<div class="fileset fileset-lg fileset-label">
+	     			<!-- <label> -->
+	                	<div class="fileset-body">
+	                    	<div class="fileset-group">
+	            				<p style="display: inline-block; width: 15%; text-align: center;">뒷면</p>
+	                      		<input type="file" class="fileset-input" style="width: 83%;" name="file" accept="image/*">
+	                      		<button class="fileset-cancel"></button>
+	                    	</div>
+	                    	<span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span>
+	                  	</div>
+	            	<!-- </label> -->	      	
+	            </div>    
+	            
+	     		<div class="fileset fileset-lg fileset-label">
+	     			<!-- <label> -->
+	                	<div class="fileset-body">
+	                    	<div class="fileset-group">
+	            				<p style="display: inline-block; width: 15%; text-align: center;">서명</p>
+	                      		<input type="file" class="fileset-input" style="width: 83%;" name="file" accept="image/*">
+	                      		<button class="fileset-cancel"></button>
+	                    	</div>
+	                    	<span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span>
+	                  	</div>
+	            	<!-- </label> -->	      	
+	            </div>    
+	            
+	     		<div class="fileset fileset-lg fileset-label">
+	     			<!-- <label> -->
+	                	<div class="fileset-body">
+	                    	<div class="fileset-group">
+	            				<p style="display: inline-block; width: 15%; text-align: center;">상세사진</p>
+	                      		<input type="file" class="fileset-input" style="width: 83%;" name="file" accept="image/*">
+	                      		<button class="fileset-cancel"></button>
+	                    	</div>
+	                    	<span class="btnset btnset-line btnset-lg fileset-upload">첨부하기</span>
+	                  	</div>
+	            	<!-- </label> -->	      	
+	            </div>    
+	         
+	         
+	         
+	         
 	                  
-	                  <div class="fileset fileset-lg fileset-label">
-	                    <label>
-	                      <div class="fileset-body">
-	                        <div class="fileset-group" data-order="5">
-	                          <a style="display: inline-block; width: 15%; text-align: center;">상세사진</a>
-	                          <input type="file" class="fileset-input" name="file" style="width: 83%;" name="file"  accept="image/*">
-	                          <button class="fileset-cancel"></button>
-	                        </div>
-	                        <span class="btnset btnset-line btnset-lg fileset-upload">파일 첨부하기</span>
-	                      </div>
-	                    </label>
-	                  </div>
-	                  <br>
-	                  
-	                </div>
 	                
-	                
-	                <div class="contents-sign">
-	                  <button type="button" class="btnset modalset-btn2" id="submitAttm" onclick="showModal()">등록하기</button>
-	                </div>
-	                
-					<div id="myModal" class="modal">
-					  <div class="modal-content">
-					    <span class="close" onclick="closeModal()">&times;</span>
-					    <main class="th-layout-main ">
-							<div class="bloomcity-N10" data-bid="DDLQevsBR2">
-								<div class="content-container">
-									<div class="form-wrap">
-										<div class="form-header">
-											<h3 class="form-tit" style="text-align:center; font-size: 30px; margin-bottom: 2rem;">문의사항 등록</h3>
-										</div>
-										<div class="form-body">
-											<p>성공적으로 문의를 등록했습니다. <br> 빠른 시간내로 답변을 드리도록 하겠습니다.</p>
-											<div class="btn-box" style="text-align: center;">
-												<a class="btnset2 btnset-lg btnset-rect" href="javascript:void(0)" id="submitBtn" onclick="submitBtn()" style="text-align: center; margin-top: 1rem; margin-bottom: 2rem;">확인</a>
-											</div>
+				</div>	                
+	               
+				<div id="myModal" class="modal">
+				  <div class="modal-content">
+				    <span class="close" onclick="closeModal()">&times;</span>
+				    <main class="th-layout-main ">
+						<div class="bloomcity-N10" data-bid="DDLQevsBR2">
+							<div class="content-container">
+								<div class="form-wrap">
+									<div class="form-header">
+										<h3 class="form-tit" style="text-align:center; font-size: 30px; margin-bottom: 2rem;">문의사항 등록</h3>
+									</div>
+									<div class="form-body">
+										<p>성공적으로 문의를 등록했습니다. <br> 빠른 시간내로 답변을 드리도록 하겠습니다.</p>
+										<div class="btn-box" style="text-align: center;">
+											<a class="btnset2 btnset-lg btnset-rect" href="javascript:void(0)" id="submitBtn" onclick="submitBtn()" style="text-align: center; margin-top: 1rem; margin-bottom: 2rem;">확인</a>
 										</div>
 									</div>
 								</div>
 							</div>
-						</main>
-					  </div>
-					</div>	                
-	              </label><a style="display: inline-block; width: 15%; text-align: center;">
-	              </a>
-	            </div><a style="display: inline-block; width: 15%; text-align: center;">
-	            </a>
+						</div>
+					</main>
+				  </div>
+				</div>	                
+	            
+	             <div class="contents-sign">
+	                  <button type="button" class="btnset modalset-btn2" id="submitAttm" onclick="showModal()">등록하기</button>
+	             </div>
+	                
+	            
+	            
 	          </div><a style="display: inline-block; width: 15%; text-align: center;">
 	          </a>
 	        </div><a style="display: inline-block; width: 15%; text-align: center;">
