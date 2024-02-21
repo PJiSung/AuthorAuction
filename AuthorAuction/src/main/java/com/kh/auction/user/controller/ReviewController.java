@@ -205,6 +205,7 @@ public class ReviewController {
 	public void deleteFile(String fileName) {
 		String root = "/home/ec2-user/project-resources/";
 	    String savePath = root + "images/";
+	    
 		
 //		File f = new File(savaPath + "\\" + fileName);
 		File f = new File(savePath + File.separator  + fileName);
