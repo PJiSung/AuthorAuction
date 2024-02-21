@@ -572,7 +572,7 @@ public class MemberController {
 	public String saveFile(MultipartFile file, String id) {
 //		String root = "C:\\";
 //		String savaPath = root + "\\uploadFiles";
-		String root = "home/ec2-user/project-resources/";
+		String root = "/home/ec2-user/project-resources/";
 		String savePath = root + "images/";
 		
 		File folder = new File(savePath);
@@ -594,7 +594,7 @@ public class MemberController {
 	}
 	 
 	public void deleteFile(String fileName) {
-		String root = "home/ec2-user/project-resources/";
+		String root = "/home/ec2-user/project-resources/";
 		String savePath = root + "images/";
 //		String root = "home\\ec-user\\project-resources\\";
 //		String savaPath = root + "\\images"; 
