@@ -570,8 +570,10 @@ public class MemberController {
 	}
 	
 	public String saveFile(MultipartFile file, String id) {
-		String root = "C:\\";
-		String savaPath = root + "\\uploadFiles";
+//		String root = "C:\\";
+//		String savaPath = root + "\\uploadFiles";
+		String root = "home\\ec-user\\project-resources\\";
+		String savaPath = root + "\\images";
 		
 		File folder = new File(savaPath);
 		if(!folder.exists()) {
@@ -590,10 +592,12 @@ public class MemberController {
 		}
 		return renameFileName;
 	}
-	
+	 
 	public void deleteFile(String fileName) {
-		String root = "C:\\";
-		String savaPath = root + "\\uploadFiles";
+//		String root = "C:\\";
+//		String savaPath = root + "\\uploadFiles";
+		String root = "home\\ec-user\\project-resources\\";
+		String savaPath = root + "\\images";
 		File f = new File(savaPath + "\\" + fileName);
 		if(f.exists()) {
 			f.delete();

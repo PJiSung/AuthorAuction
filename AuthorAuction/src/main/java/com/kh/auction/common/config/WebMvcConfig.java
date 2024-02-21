@@ -14,13 +14,13 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	//사진 파일 경로 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/**").addResourceLocations("file:///c:/uploadFiles/", "classpath:/static/");
-		
+		//registry.addResourceHandler("/**").addResourceLocations("file:///c:/uploadFiles/", "classpath:/static/");
+		registry.addResourceHandler("/**").addResourceLocations("file:///home/ec2-user/project-resources/images/", "classpath:/static/");
 		// 맥버전 제발 지우지 말아줘요ㅜㅜㅜㅜㅜ 	
 //		registry.addResourceHandler("/**").addResourceLocations("file:/Users/kimgahyun/uploadFiles/", "classpath:/static/");
 //		registry.addResourceHandler("/**").addResourceLocations("file:/Users/rosa/uploadFiles/", "classpath:/static/");
 	}
-	
+	 
 //	@Override
 //	public void addInterceptors(InterceptorRegistry registry) {
 //		registry.addInterceptor(new CheckAdminInterceptor()).addPathPatterns(".ad");
