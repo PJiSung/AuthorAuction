@@ -199,7 +199,7 @@ public class AuctionAdminController {
 	}
 	
 	public List<String> getLogData() throws IOException {
-        String logFilePath = "C:/logs/member/login.log";
+        String logFilePath = "/home/ec2-user/project-resources/member/login.log";
 
         return Files.readAllLines(Paths.get(logFilePath));
     }

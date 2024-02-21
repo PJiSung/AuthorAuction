@@ -952,7 +952,7 @@ const msg = () => {
             <form action="memberList.adme" id="searchMember">
             <div class="searchBox">
             <input type="hidden" name="isAdmin">
-            <input type="hidden" name="keyword">
+            <input type="hidden" name="keyword" value="MEM_ID">
               	<table>
               		<tr>
               			<td>회원등급</td>
