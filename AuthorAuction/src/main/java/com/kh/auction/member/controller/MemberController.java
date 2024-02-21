@@ -582,7 +582,7 @@ public class MemberController {
 		String originFileName = file.getOriginalFilename();
 		String renameFileName = id + originFileName.substring(originFileName.lastIndexOf("."));
 		
-		String renamePath = folder + "\\" + renameFileName;
+		String renamePath = savePath + renameFileName;
 		try {
 			file.transferTo(new File(renamePath));
 		} catch (IllegalStateException e) {
@@ -598,7 +598,7 @@ public class MemberController {
 		String savePath = root + "images/";
 //		String root = "home\\ec-user\\project-resources\\";
 //		String savaPath = root + "\\images"; 
-		File f = new File(savePath + "\\" + fileName);
+		File f = new File(savePath + fileName);
 		if(f.exists()) {
 			f.delete();
 		}
