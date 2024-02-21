@@ -139,9 +139,7 @@ public class ConsignmentController {
 		// rename된 파일 저장소에 저장
 //		String renamePath = folder + "\\" + renameFileName; // 이름 변경
 
-//		String renamePath = folder + File.separator + renameFileName;	// 맥
-
-		String renamePath = savePath + renameFileName;
+		String renamePath = folder + File.separator + renameFileName;	// 맥
 		
 		try {
 			upload.transferTo(new File(renamePath));
@@ -159,12 +157,12 @@ public class ConsignmentController {
 //		String savePath = root + "\\uploadFiles";
 		
 //		String savePath = "/Users/kimgahyun/uploadFiles";				// 맥
-//		File f = new File(savePath + File.separator + fileName);		// 맥
 		
 		String root = "/home/ec2-user/project-resources/";
 		String savePath = root + "images/";
 		
-		File f = new File(savePath + "\\" + fileName.split("localhost/")[1]);
+		File f = new File(savePath + File.separator + fileName);		// 맥
+//		File f = new File(savePath + "\\" + fileName.split("localhost/")[1]);
 		if (f.exists()) {
 			f.delete();
 		}
