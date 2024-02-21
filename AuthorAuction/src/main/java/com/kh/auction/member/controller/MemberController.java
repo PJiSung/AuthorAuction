@@ -114,7 +114,6 @@ public class MemberController {
 			if (bcrypt.matches(m.getMemPwd(), loginUser.getMemPwd())) {
 				logger.info(loginUser.getMemId());
 				if(loginUser.getMemIsAdmin().equals("Y")) {
-					System.out.println(loginUser.getMemId());
 					loginAdmin.add(loginUser.getMemId());
 				}
 				session.setAttribute("loginUser", loginUser);

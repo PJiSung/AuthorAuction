@@ -3,7 +3,7 @@
 
    <conversionRule conversionWord="color" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
       <!-- log 파일 경로 -->
-   <property name="LOG_PATH" value="C:/logs/member/"></property>
+   <property name="LOG_PATH" value="/home/ec2-user/project-resources/member"></property>
    
    <conversionRule conversionWord="color" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
    <appender name="myConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">

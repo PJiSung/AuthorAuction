@@ -246,14 +246,14 @@ public class SocketHandler extends TextWebSocketHandler {
 	}
 
 	private void createFile(String sessionid, String content, String customerId, String adminId) {
-		String root = "D:\\";
-		String savePath = root + "\\logs\\inquiry";
+		String root = "/home/ec2-user/project-resources/";
+		String savePath = root + "logs/inquiry/";
 		File folder = new File(savePath);
 		if (!folder.exists()) {
 			folder.mkdir();
 		}
 		String fileName = "chat-" + sessionid + ".log";
-		String fullPath = savePath + "\\" + fileName;
+		String fullPath = savePath + fileName;
 		File file = new File(fullPath);
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
 			writer.write(content);
