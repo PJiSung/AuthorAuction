@@ -578,7 +578,7 @@ public class MemberController {
 		File folder = new File(savePath);
 		if(!folder.exists()) {
 			folder.mkdirs();
-		}
+		}  
 		String originFileName = file.getOriginalFilename();
 		String renameFileName = id + originFileName.substring(originFileName.lastIndexOf("."));
 		
