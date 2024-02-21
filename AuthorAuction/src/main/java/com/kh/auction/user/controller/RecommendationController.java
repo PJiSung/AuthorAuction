@@ -145,7 +145,7 @@ public class RecommendationController {
 //		String savePath = "/Users/kimgahyun/uploadFiles"; 				// 맥
 
 		String root = "/home/ec2-user/project-resources/";
-	   String savePath = root + "images/";
+		String savePath = root + "images/";
 		
 		File folder = new File(savePath);
 		if (!folder.exists()) {
@@ -161,10 +161,8 @@ public class RecommendationController {
 
 		// rename된 파일 저장소에 저장
 //		String renamePath = folder + "\\" + renameFileName; // 이름 변경
-//		String renamePath = folder + File.separator + renameFileName;	// 맥
+		String renamePath = folder + File.separator + renameFileName;	// 맥
 		
-		String renamePath = savePath + renameFileName;
-
 		try {
 			upload.transferTo(new File(renamePath));
 		} catch (IllegalStateException e) {
@@ -181,12 +179,12 @@ public class RecommendationController {
 //		String savePath = root + "\\uploadFiles";
 
 //		String savePath = "/Users/kimgahyun/uploadFiles";				// 맥
-//		File f = new File(savePath + File.separator + fileName);		// 맥
 
 		String root = "/home/ec2-user/project-resources/";
 		String savePath = root + "images/";
 		
-		File f = new File(savePath + "\\" + fileName);
+//		File f = new File(savePath + "\\" + fileName);
+		File f = new File(savePath + File.separator + fileName);		// 맥
 		if (f.exists()) {
 			f.delete();
 		}
