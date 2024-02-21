@@ -142,8 +142,11 @@ public class RecommendationController {
 //		String root = "C:\\";
 //		String savePath = root + "\\uploadFiles";
 
-		String savePath = "/Users/kimgahyun/uploadFiles"; 				// 맥
+//		String savePath = "/Users/kimgahyun/uploadFiles"; 				// 맥
 
+		String root = "/home/ec2-user/project-resources/";
+	   String savePath = root + "images/";
+		
 		File folder = new File(savePath);
 		if (!folder.exists()) {
 			folder.mkdir();
@@ -158,7 +161,9 @@ public class RecommendationController {
 
 		// rename된 파일 저장소에 저장
 //		String renamePath = folder + "\\" + renameFileName; // 이름 변경
-		String renamePath = folder + File.separator + renameFileName;	// 맥
+//		String renamePath = folder + File.separator + renameFileName;	// 맥
+		
+		String renamePath = savePath + renameFileName;
 
 		try {
 			upload.transferTo(new File(renamePath));
@@ -175,10 +180,13 @@ public class RecommendationController {
 //		String root = "C:\\";
 //		String savePath = root + "\\uploadFiles";
 
-		String savePath = "/Users/kimgahyun/uploadFiles";				// 맥
-		File f = new File(savePath + File.separator + fileName);		// 맥
+//		String savePath = "/Users/kimgahyun/uploadFiles";				// 맥
+//		File f = new File(savePath + File.separator + fileName);		// 맥
 
-//		File f = new File(savePath + "\\" + fileName);
+		String root = "/home/ec2-user/project-resources/";
+		String savePath = root + "images/";
+		
+		File f = new File(savePath + "\\" + fileName);
 		if (f.exists()) {
 			f.delete();
 		}

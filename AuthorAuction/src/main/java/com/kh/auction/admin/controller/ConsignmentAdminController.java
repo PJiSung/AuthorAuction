@@ -34,7 +34,7 @@ public class ConsignmentAdminController {
 	@GetMapping("searchList.adco")
 	public String searchAdminConsignment(Model model, @RequestParam(value="page", defaultValue="1") int page, SearchConsignment sc) {
 		// keyword : 입력한 검색어 / select : select에서 가져오는 기준
-		System.out.println(sc);
+//		System.out.println(sc);
 		
 		sc.convertEmptyToNull();
 		
@@ -66,7 +66,6 @@ public class ConsignmentAdminController {
 	@GetMapping("selectUser.adco")
 	public String selectUser(@RequestParam("conNo")int conNo,						// 리스트에서 받아와서
 							 HttpSession session, Model model) {
-	
 	
 		String isAdmin = ((Member)session.getAttribute("loginUser")).getMemIsAdmin();
 		if(isAdmin.equals("Y")) {
