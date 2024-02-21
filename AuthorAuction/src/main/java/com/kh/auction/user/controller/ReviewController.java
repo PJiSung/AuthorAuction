@@ -174,13 +174,10 @@ public class ReviewController {
 	}
 	
 	public String saveFile(MultipartFile upload) {
-//		String root = "C:\\";
-//		String savaPath = root + "\\uploadFiles";
+		String root = "/home/ec2-user/project-resources/";
+	    	String savePath = root + "images/";
 		
-		String savaPath = "/Users/rosa/uploadFiles"; 
-		
-		
-		File folder = new File(savaPath);
+		File folder = new File(savePath);
 		if(!folder.exists()) {
 			folder.mkdirs();
 		}
@@ -206,13 +203,12 @@ public class ReviewController {
 	}
 	
 	public void deleteFile(String fileName) {
-//		String root = "C:\\";
-//		String savaPath = root + "\\uploadFiles";
-		
-		String savaPath = "/Users/rosa/uploadFiles"; 
+		String root = "/home/ec2-user/project-resources/";
+	    	String savePath = root + "images/";
+	    
 		
 //		File f = new File(savaPath + "\\" + fileName);
-		File f = new File(savaPath + File.separator  + fileName);
+		File f = new File(savePath + File.separator  + fileName);
 		if(f.exists()) {
 			f.delete();
 		}
