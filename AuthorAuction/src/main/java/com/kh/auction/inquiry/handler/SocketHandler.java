@@ -247,7 +247,7 @@ public class SocketHandler extends TextWebSocketHandler {
 
 	private void createFile(String sessionid, String content, String customerId, String adminId) {
 		String root = "/home/ec2-user/project-resources/";
-		String savePath = root + "logs/inquiry/";
+		String savePath = root + "inquiry/";
 		File folder = new File(savePath);
 		if (!folder.exists()) {
 			folder.mkdir();
