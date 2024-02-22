@@ -75,7 +75,7 @@ public class MemberAdminController {
 		if(inqNo != null) {
 			//채팅 내용
 		    String fileName = mService.selectInquiry(inqNo);
-		    BufferedReader reader = new BufferedReader(new FileReader("/home/ec2-user/project-resources/logs/inquiry/"+fileName));
+		    BufferedReader reader = new BufferedReader(new FileReader("/home/ec2-user/project-resources/inquiry/"+fileName));
 		    String str;
 		    while((str = reader.readLine()) != null) {
 		    	msg.add(str);
