@@ -54,7 +54,7 @@ public class MemberController {
 	
 	public static ArrayList<String> loginAdmin = new ArrayList<>();
 	
-	public static DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSZ3HKGBNWJRXTJ", "4MD0I6E2UXVCHYE0YXFOPEJM8K0NIFML", "https://api.solapi.com");
+	public static DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("", "", "");
 
 	@GetMapping("loginView")
 	public String loginView() {
