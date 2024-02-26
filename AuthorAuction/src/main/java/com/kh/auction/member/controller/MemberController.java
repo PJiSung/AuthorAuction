@@ -53,6 +53,8 @@ public class MemberController {
 	private Member kakaoMinfo = new Member();
 	
 	public static ArrayList<String> loginAdmin = new ArrayList<>();
+	
+	public static DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSZ3HKGBNWJRXTJ", "4MD0I6E2UXVCHYE0YXFOPEJM8K0NIFML", "https://api.solapi.com");
 
 	@GetMapping("loginView")
 	public String loginView() {
@@ -138,7 +140,6 @@ public class MemberController {
 	@GetMapping("authentication")
 	@ResponseBody
 	public int authentication(@RequestParam("phone") String phone) {
-		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
 		Message message = new Message();
 		message.setFrom("01068938300");
 		message.setTo(phone);
@@ -223,7 +224,6 @@ public class MemberController {
 		m.setMemPhone(arr[1]);
 		Member mem = mService.findMyInfo(m);
 		if (mem != null) {
-			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
 			Message message = new Message();
 			message.setFrom("01068938300");
 			message.setTo(m.getMemPhone());
@@ -296,7 +296,6 @@ public class MemberController {
 		m.setMemPhone(arr[1]);
 		Member mem = mService.findMyInfo(m);
 		if (mem != null) {
-			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
 			Message message = new Message();
 			message.setFrom("01068938300");
 			message.setTo(m.getMemPhone());

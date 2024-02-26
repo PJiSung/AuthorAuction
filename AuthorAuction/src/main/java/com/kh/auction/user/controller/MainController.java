@@ -202,8 +202,6 @@ public class MainController {
 			ArrayList<Message> mList = new ArrayList<>();
 			ArrayList<String> adminList = mService.selectAdminList(MemberController.loginAdmin);
 			
-			DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize("NCSOPALGYRIMP6MF", "CBCSVEVQREQII6WLGDMTWIOPM3DWASHL", "https://api.solapi.com");
-			
 			for(int i=0; i<adminList.size(); i++) {
 				Message message = new Message();
 				message.setFrom("01068938300");
@@ -213,7 +211,7 @@ public class MainController {
 			}
 
 			try {
-			  messageService.send(mList);
+			  MemberController.messageService.send(mList);
 			} catch (NurigoMessageNotReceivedException exception) {
 			  System.out.println(exception.getFailedMessageList());
 			  System.out.println(exception.getMessage());
